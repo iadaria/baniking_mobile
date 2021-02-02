@@ -6,6 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "clean": "watchman watch-del-all && rm yarn.lock && rm -rf node_modules && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/haste-map-* && yarn && yarn start --reset-cache",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -21,6 +22,7 @@
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^25.1.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
