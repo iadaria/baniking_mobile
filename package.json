@@ -7,12 +7,22 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "clean": "watchman watch-del-all && rm yarn.lock && rm -rf node_modules && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/haste-map-* && yarn && yarn start --reset-cache",
+    "res-cache": "react-native start --reset-cache && react-native cache clean --force",
+    "clean-build": "rm -rf ios/build android/app/build",
+    "reset": "react-native run-android -- --reset-cache",
+    "eject": "react-native eject",
+    "clean-project": "npx react-native-clean-project",
+    "pod-update": "yarn upgrade --latest && npx pod-install",
+    "pod": "npx pod-install",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/drawer": "^5.12.3",
+    "@react-navigation/native": "^5.9.2",
     "react": "16.13.1",
-    "react-native": "0.63.4"
+    "react-native": "0.63.4",
+    "react-native-global-props": "^1.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
