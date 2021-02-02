@@ -1,5 +1,5 @@
 import * as globalProps from 'react-native-global-props';
-import { fonts } from 'common/constants/fonts';
+import { fonts } from 'app/common/constants/fonts';
 
 const customTextProps = {
   style: {

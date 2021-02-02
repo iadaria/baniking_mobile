@@ -1,6 +1,6 @@
-import { fonts } from 'common/constants/fonts';
 import React from 'react';
 import { SafeAreaView, View, Text, StatusBar, StyleSheet } from 'react-native';
+import { fonts } from 'app/common/constants/fonts';
 
 const App = () => {
   return (

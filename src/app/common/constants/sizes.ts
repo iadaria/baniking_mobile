@@ -1,9 +1,10 @@
 export const sizes = {
   // global sizes
+  radius: 5,
+
+  padding: 5,
   /* base: 8,
   font: 3.65,
-  radius: 1,
-  padding: 5,
 
   // font sizes
   h1: 7,
