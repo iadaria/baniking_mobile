@@ -12,14 +12,26 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1908207226BC4C36B4D9DB25 /* Gilroy-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37A3A6E7FD834BB8A793DAFE /* Gilroy-LightItalic.ttf */; };
 		209FA3FC2AC56DBC52F47C48 /* libPods-baniking_mobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A498365F1EB92AF0FE8A1FB /* libPods-baniking_mobile-tvOS.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* baniking_mobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* baniking_mobileTests.m */; };
+		3C9E197B767147BAB58E37AD /* Gilroy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D71645C17A94A929E025999 /* Gilroy-Regular.ttf */; };
+		4CE24EFF9DCA45A1AEFAC061 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA7B1EE76EF84944BE4E2941 /* SFProText-Regular.ttf */; };
 		5263BE8885EA61752ADC4BA5 /* libPods-baniking_mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72CB56F8199606B03882D9AB /* libPods-baniking_mobile.a */; };
+		603EE456D04D4B1AB04C0E59 /* SFProDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 332ABF8E7D1D4E1483519965 /* SFProDisplay-Regular.ttf */; };
+		618DA80E2046469B8EBB49FD /* TrajanPro3-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DE914B12D794675AB56615E /* TrajanPro3-Regular.ttf */; };
+		6407C7AC47BF4C209553FC83 /* Gilroy-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47798E9FFEC04A66ACF6A531 /* Gilroy-SemiBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		89A810C566FF4618ADF20912 /* Gilroy-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5309708A224E4FB2952228EB /* Gilroy-Medium.ttf */; };
+		CBBC4F6558EB486AB0ACF45F /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85494C690E914DB092329EB4 /* SFProText-Semibold.ttf */; };
+		F0838FDDAB884183AC066E80 /* Gilroy-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FCB30AC681B848618008BA9F /* Gilroy-Light.ttf */; };
+		F200D1F77F494D4CABAC2A72 /* Gilroy-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43BA9EA155FD4ECE946068C0 /* Gilroy-Bold.ttf */; };
 		F74AD4DF0F5BD1CBE586B45A /* libPods-baniking_mobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8FBFD2CC0639FBFB200C53E /* libPods-baniking_mobile-tvOSTests.a */; };
+		F8145A78A610443E934562FF /* SegoeUI-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A69E287B0C9340DCA7DA25CA /* SegoeUI-Light.ttf */; };
+		FC72AF76ED3F43EC926BB706 /* Gilroy-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,18 +66,30 @@
 		1697C12449F0984D3D929217 /* libPods-baniking_mobile-baniking_mobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baniking_mobile-baniking_mobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* baniking_mobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "baniking_mobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* baniking_mobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "baniking_mobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		332ABF8E7D1D4E1483519965 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.ttf"; path = "../src/assets/fonts/SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		37A3A6E7FD834BB8A793DAFE /* Gilroy-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-LightItalic.ttf"; path = "../src/assets/fonts/Gilroy-LightItalic.ttf"; sourceTree = "<group>"; };
 		3859F21654756439BFDACA2D /* Pods-baniking_mobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOSTests/Pods-baniking_mobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D79979D1935CD481060D115 /* Pods-baniking_mobile-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOSTests/Pods-baniking_mobile-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		42CA758FD265DAA45271CEBE /* Pods-baniking_mobile-baniking_mobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-baniking_mobileTests.debug.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-baniking_mobileTests/Pods-baniking_mobile-baniking_mobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		43BA9EA155FD4ECE946068C0 /* Gilroy-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Bold.ttf"; path = "../src/assets/fonts/Gilroy-Bold.ttf"; sourceTree = "<group>"; };
+		47798E9FFEC04A66ACF6A531 /* Gilroy-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-SemiBold.ttf"; path = "../src/assets/fonts/Gilroy-SemiBold.ttf"; sourceTree = "<group>"; };
+		5309708A224E4FB2952228EB /* Gilroy-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Medium.ttf"; path = "../src/assets/fonts/Gilroy-Medium.ttf"; sourceTree = "<group>"; };
 		72CB56F8199606B03882D9AB /* libPods-baniking_mobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baniking_mobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73CC1C0D34363AC785D13BD5 /* Pods-baniking_mobile-baniking_mobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-baniking_mobileTests.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-baniking_mobileTests/Pods-baniking_mobile-baniking_mobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = baniking_mobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81FF2A15F331E2F6C3376919 /* Pods-baniking_mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile.debug.xcconfig"; path = "Target Support Files/Pods-baniking_mobile/Pods-baniking_mobile.debug.xcconfig"; sourceTree = "<group>"; };
+		85494C690E914DB092329EB4 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.ttf"; path = "../src/assets/fonts/SFProText-Semibold.ttf"; sourceTree = "<group>"; };
+		9D71645C17A94A929E025999 /* Gilroy-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Regular.ttf"; path = "../src/assets/fonts/Gilroy-Regular.ttf"; sourceTree = "<group>"; };
+		9DE914B12D794675AB56615E /* TrajanPro3-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TrajanPro3-Regular.ttf"; path = "../src/assets/fonts/TrajanPro3-Regular.ttf"; sourceTree = "<group>"; };
+		A69E287B0C9340DCA7DA25CA /* SegoeUI-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SegoeUI-Light.ttf"; path = "../src/assets/fonts/SegoeUI-Light.ttf"; sourceTree = "<group>"; };
 		A8FBFD2CC0639FBFB200C53E /* libPods-baniking_mobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baniking_mobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EFB28A7EFDC83A5BBBBD34 /* Pods-baniking_mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile/Pods-baniking_mobile.release.xcconfig"; sourceTree = "<group>"; };
 		BEA21BD416036AB7A9A87CDC /* Pods-baniking_mobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOS/Pods-baniking_mobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		EA7B1EE76EF84944BE4E2941 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Regular.ttf"; path = "../src/assets/fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-UltraLight.ttf"; path = "../src/assets/fonts/Gilroy-UltraLight.ttf"; sourceTree = "<group>"; };
+		FCB30AC681B848618008BA9F /* Gilroy-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Light.ttf"; path = "../src/assets/fonts/Gilroy-Light.ttf"; sourceTree = "<group>"; };
 		FE8E36B5F31233164C6AEA42 /* Pods-baniking_mobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOS/Pods-baniking_mobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,7 +172,6 @@
 				3859F21654756439BFDACA2D /* Pods-baniking_mobile-tvOSTests.debug.xcconfig */,
 				3D79979D1935CD481060D115 /* Pods-baniking_mobile-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -181,6 +204,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				1C8171FB52D18AF4626A8395 /* Pods */,
+				C5B06D7AF7B64782A9348A1D /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -196,6 +220,25 @@
 				2D02E4901E0B4A5D006451C7 /* baniking_mobile-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C5B06D7AF7B64782A9348A1D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43BA9EA155FD4ECE946068C0 /* Gilroy-Bold.ttf */,
+				FCB30AC681B848618008BA9F /* Gilroy-Light.ttf */,
+				37A3A6E7FD834BB8A793DAFE /* Gilroy-LightItalic.ttf */,
+				5309708A224E4FB2952228EB /* Gilroy-Medium.ttf */,
+				9D71645C17A94A929E025999 /* Gilroy-Regular.ttf */,
+				47798E9FFEC04A66ACF6A531 /* Gilroy-SemiBold.ttf */,
+				F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */,
+				A69E287B0C9340DCA7DA25CA /* SegoeUI-Light.ttf */,
+				332ABF8E7D1D4E1483519965 /* SFProDisplay-Regular.ttf */,
+				EA7B1EE76EF84944BE4E2941 /* SFProText-Regular.ttf */,
+				85494C690E914DB092329EB4 /* SFProText-Semibold.ttf */,
+				9DE914B12D794675AB56615E /* TrajanPro3-Regular.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,6 +385,18 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F200D1F77F494D4CABAC2A72 /* Gilroy-Bold.ttf in Resources */,
+				F0838FDDAB884183AC066E80 /* Gilroy-Light.ttf in Resources */,
+				1908207226BC4C36B4D9DB25 /* Gilroy-LightItalic.ttf in Resources */,
+				89A810C566FF4618ADF20912 /* Gilroy-Medium.ttf in Resources */,
+				3C9E197B767147BAB58E37AD /* Gilroy-Regular.ttf in Resources */,
+				6407C7AC47BF4C209553FC83 /* Gilroy-SemiBold.ttf in Resources */,
+				FC72AF76ED3F43EC926BB706 /* Gilroy-UltraLight.ttf in Resources */,
+				F8145A78A610443E934562FF /* SegoeUI-Light.ttf in Resources */,
+				603EE456D04D4B1AB04C0E59 /* SFProDisplay-Regular.ttf in Resources */,
+				4CE24EFF9DCA45A1AEFAC061 /* SFProText-Regular.ttf in Resources */,
+				CBBC4F6558EB486AB0ACF45F /* SFProText-Semibold.ttf in Resources */,
+				618DA80E2046469B8EBB49FD /* TrajanPro3-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

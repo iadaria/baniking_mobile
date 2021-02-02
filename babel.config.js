@@ -27,6 +27,8 @@ module.exports = {
           libs: './src/libs',
           i18n: './src/i18n',
           utils: './src/utils',
+          common: './src/common',
+          constants: './src/constants',
         },
       },
     ],

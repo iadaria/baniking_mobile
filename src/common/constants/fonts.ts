@@ -8,7 +8,7 @@ export const fonts = {
     lightUltra: 'Gilroy-UltraLight',
   },
   Trajan: {
-    regular: 'Trajan-Pro-3',
+    regular: 'TrajanPro3-Regular',
   },
   SeogoeUI: {
     light: 'SegoeUI-Light',
