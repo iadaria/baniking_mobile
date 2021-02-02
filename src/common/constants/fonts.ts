@@ -20,4 +20,28 @@ export const fonts = {
     regular: 'SFProText-Regular',
     semibold: 'SFProText-Semibold',
   },
+  /* h1: {
+    fontSize: wp(sizes.h1),
+  },
+  h2: {
+    fontSize: wp(sizes.h2),
+  },
+  h3: {
+    fontSize: wp(sizes.h3),
+  },
+  header: {
+    fontSize: wp(sizes.header),
+  },
+  title: {
+    fontSize: wp(sizes.title),
+  },
+  body: {
+    fontSize: wp(sizes.body),
+  },
+  caption: {
+    fontSize: wp(sizes.caption),
+  },
+  big: {
+    fontSize: wp(sizes.big),
+  }, */
 };
