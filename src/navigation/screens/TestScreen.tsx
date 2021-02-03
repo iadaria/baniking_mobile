@@ -5,7 +5,7 @@ import { TotalPointScores } from '~/assets';
 
 export default function TestScreen() {
   return (
-    <Block debug base>
+    <Block full base>
       <Text>Test</Text>
       <TotalPointScores />
     </Block>

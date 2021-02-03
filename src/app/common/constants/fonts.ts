@@ -1,3 +1,6 @@
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { sizes } from './sizes';
+
 export const fonts = {
   Gilroy: {
     bold: 'Gilroy-Bold',
@@ -20,10 +23,13 @@ export const fonts = {
     regular: 'SFProText-Regular',
     semibold: 'SFProText-Semibold',
   },
-  /* h1: {
+  base: {
+    fontSize: wp(sizes.font),
+  },
+  h1: {
     fontSize: wp(sizes.h1),
   },
-  h2: {
+  /* h2: {
     fontSize: wp(sizes.h2),
   },
   h3: {

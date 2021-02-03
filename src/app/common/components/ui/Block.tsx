@@ -249,3 +249,8 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
   // colors
   primary: { backgroundColor: colors.primary },
 });
+
+/* <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
+  <Text>Test</Text>
+  <TotalPointScores />
+</ImageBackground>; */

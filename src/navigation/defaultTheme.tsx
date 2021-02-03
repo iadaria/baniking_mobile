@@ -6,8 +6,13 @@ import { colors } from '~/app/common/constants';
 const { width } = Dimensions.get('window');
 
 export const defaultScreenOptions: StackNavigationOptions = {
+  // headerTransparent: true,
+  // headerShown: true,
   headerStyle: {
-    backgroundColor: colors.primary,
+    // backgroundColor: colors.primary,
+    //backgroundColor: 'transparent',
+    opacity: 1,
+    shadowColor: 'transparent', // delete the bottomBorder for IOS
   },
   // headerTintColor: colors.white,
   // headerTitleAlign: "center"
@@ -17,6 +22,8 @@ export const defaultTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
+    card: colors.primary,
+    primary: colors.primary,
     background: colors.primary,
   },
 };

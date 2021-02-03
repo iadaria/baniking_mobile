@@ -16,3 +16,8 @@ export const shadow = {
     },
   }),
 };
+
+export const debugStyle = {
+  borderWidth: 1,
+  borderColor: 'white',
+};

@@ -18,7 +18,11 @@ import { colors } from '~/app/common/constants';
 export default function AppNavigation() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
 
       <NavigationContainer theme={defaultTheme} ref={navigationRef}>
         <MainNavigator />

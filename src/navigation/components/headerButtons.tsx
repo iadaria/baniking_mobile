@@ -1,8 +1,8 @@
 import React from 'react';
-import {
-  StackHeaderLeftButtonProps,
-  // StackNavigationOptions,
-} from '@react-navigation/stack';
+// import {
+//   StackHeaderLeftButtonProps,
+//   // StackNavigationOptions,
+// } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Block } from '~/app/common/components/ui/Block';
 // import * as RootNavigate from '~/navigation/helpers/RootNavigation';
@@ -48,7 +48,7 @@ export const HeaderLeftClose = ({
   );
 };
 
-export const HeaderRightButton = (props: StackHeaderLeftButtonProps) => (
+export const HeaderRightButton = (/* props: StackHeaderLeftButtonProps */) => (
   <Block margin={[0, sizes.base, 0, 0]}>
     <TouchableOpacity onPress={() => console.log('menu button is clicked')}>
       <Notify fill={colors.disable} opacity={0.25} />

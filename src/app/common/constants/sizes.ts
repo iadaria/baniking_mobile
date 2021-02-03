@@ -5,11 +5,11 @@ export const sizes = {
   headerTop: 5.7, // 51:(896:100)
   footerBottom: 3.1, // 28:(896:100)
   base: 9.7, // 40.1:(414:100)
-  /*font: 3.65,
+  font: 3.65,
 
   // font sizes
-  h1: 7,
-  h2: 5,
+  h1: 3.1, // 24:(896:100)
+  /* h2: 5,
   h3: 4,
   big: 6,
   title: 4,
