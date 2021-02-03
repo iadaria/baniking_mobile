@@ -7,15 +7,9 @@ import {
 // import { useSelector } from 'react-redux';
 // import { IRootState } from '../../app/store/rootReducer';
 // import { IAuthState } from '../../features/auth/authReducer';
-// import BottomNavigator from './BottomNavigator';
-// import {
-//   // defaultScreenOptions,
-//   defaultTabScreenOptions,
-// } from '../defaultThemes';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../defaultTheme';
-import { Text } from 'react-native';
 import { Block } from '~/app/common/components/ui/Block';
 import {
   HeaderLeftClose,
@@ -23,6 +17,7 @@ import {
   HeaderRightButton,
 } from '~/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
+import { AppText } from '../../app/common/components/ui/AppText';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -34,7 +29,7 @@ export default function MainNavigator(): JSX.Element {
   // const { authenticated } = useSelector<IRootState>(
   //   (state) => state.auth,
   // ) as IAuthState;
-  const authenticated = false;
+  // const authenticated = false;
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -52,11 +47,9 @@ export default function MainNavigator(): JSX.Element {
       screenOptions={({ navigation }: IProps) => {
         return {
           ...defaultScreenOptions,
-          headerTitle: (props: StackHeaderTitleProps) => (
-            <Block debug>
-              <Text {...props} style={{ color: 'white' }}>
-                Test
-              </Text>
+          headerTitle: (/* props: StackHeaderTitleProps */) => (
+            <Block>
+              <AppText>35 752</AppText>
             </Block>
           ),
           headerLeft: (/* props: StackHeaderLeftButtonProps */) =>

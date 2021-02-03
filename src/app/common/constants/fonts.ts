@@ -10,6 +10,9 @@ export const fonts = {
     regular: 'Gilroy-Regular',
     lightUltra: 'Gilroy-UltraLight',
   },
+  Ubuntu: {
+    light: 'Ubuntu-Light',
+  },
   Trajan: {
     regular: 'TrajanPro3-Regular',
   },

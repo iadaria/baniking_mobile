@@ -2,27 +2,28 @@ import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { colors, fonts, sizes } from '~/app/common/constants';
+import { ITextStyleProps, IUiText } from '~/app/models/text';
 
-export function AppText(props: any) {
+export function AppText(props: IUiText) {
   const {
     h1,
-    h2,
-    h3,
-    title,
-    body,
-    header,
-    caption,
-    big,
-    // small,
     size,
     transform,
     align,
-    // styling
+    // font family
     regular,
+    medium,
     bold,
-    semibold,
+    ubuntu,
     weight,
     light,
+    lightItalic,
+    lightUltra,
+    trajan,
+    seogoeUI,
+    sfDisplay,
+    sfTextRegular,
+    sfTextSemibold,
     center,
     right,
     spacing, // letter-spacing
@@ -30,32 +31,18 @@ export function AppText(props: any) {
     capitalize,
     // colors
     color,
-    accent,
     primary,
     secondary,
-    // tertiary,
-    black,
+    // logo,
     white,
-    gray,
-    gray2,
     children,
     style,
-    disabled,
     ...otherProps
   } = props;
-
-  // console.log('*** children', children);
 
   const textStyles = [
     styles.text,
     h1 && styles.h1,
-    h2 && styles.h2,
-    h3 && styles.h3,
-    title && styles.title,
-    header && styles.header,
-    body && styles.body,
-    caption && styles.caption,
-    big && styles.big,
     // small && styles.small,
     size && { fontSize: size },
     transform && { textTransform: transform },
@@ -63,25 +50,33 @@ export function AppText(props: any) {
     height && { lineHeight: height },
     spacing && { letterSpacing: spacing },
     weight && { fontWeight: weight },
+    // font family
     regular && styles.regular,
     bold && styles.bold,
-    semibold && styles.semibold,
+    medium && styles.medium,
     light && styles.light,
+    lightItalic && styles.lightItalic,
+    lightUltra && styles.lightUltra,
+    ubuntu && styles.ubuntu,
+    trajan && styles.trajan,
+    seogoeUI && styles.seogoeUI,
+    sfDisplay && styles.sfDisplay,
+    sfTextRegular && styles.sfTextRegular,
+    sfTextSemibold && styles.sfTextSemibold,
+    // styles
     center && styles.center,
     right && styles.right,
+    // colors
     color && styles[color as keyof typeof styles],
     color && !styles[color as keyof typeof styles] && { color },
     // color shortcuts
-    accent && styles.accent,
+    // accent && styles.accent,
     primary && styles.primary,
     secondary && styles.secondary,
     // tertiary && styles.tertiary,
-    black && styles.black,
     white && styles.white,
-    gray && styles.gray,
-    gray2 && styles.gray2,
     style, // rewrite predefined styles
-    disabled && styles.gray,
+    // disabled && styles.disable,
   ];
 
   return (
@@ -93,46 +88,58 @@ export function AppText(props: any) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<ITextStyleProps>({
   // default style
   text: {
     fontSize: wp(sizes.font),
     color: colors.text,
   },
   // variations
+  regular: {
+    fontFamily: fonts.Gilroy.regular,
+  },
   bold: {
     // fontWeight: 'bold',
-    fontFamily: fonts.G
+    fontFamily: fonts.Gilroy.bold,
   },
-  black: {
-    fontFamily: 'Montserrat-Black',
+  medium: {
+    fontFamily: fonts.Gilroy.medium,
   },
   light: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: fonts.Gilroy.light,
   },
-  semibold: {
-    fontWeight: '500',
+  lightItalic: {
+    fontFamily: fonts.Gilroy.lightItalic,
+  },
+  lightUltra: {
+    fontFamily: fonts.Gilroy.lightUltra,
+    // fontWeight: '500',
+  },
+  ubuntu: {
+    fontFamily: fonts.Ubuntu.light,
+  },
+  trajan: {
+    fontFamily: fonts.Trajan.regular,
+  },
+  seogoeUI: {
+    fontFamily: fonts.SeogoeUI.light,
+  },
+  sfDisplay: {
+    fontFamily: fonts.SFProDisplay.regular,
+  },
+  sfTextRegular: {
+    fontFamily: fonts.SFProText.regular,
+  },
+  sfTextSemibold: {
+    fontFamily: fonts.SFProText.semibold,
   },
   // position
   center: { textAlign: 'center' },
   right: { textAlign: 'right' },
   // colors
-  // accent: { color: colors.accent },
   primary: { color: colors.primary },
   secondary: { color: colors.secondary },
-  // tertiary: { color: colors.tertiary },
-  // black: { color: colors.black },
   white: { color: colors.white },
-  /* gray: { color: colors.gray },
-  gray2: { color: colors.gray2 }, */
   // fonts
   h1: fonts.h1,
-  /* h2: fonts.h2,
-  h3: fonts.h3,
-  big: fonts.big,
-  title: fonts.title,
-  header: fonts.header,
-  body: fonts.body,
-  caption: fonts.caption, */
-  //small: fonts.small
 });

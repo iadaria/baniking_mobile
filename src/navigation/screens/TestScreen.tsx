@@ -1,13 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Block } from '~/app/common/components/ui/Block';
-import { TotalPointScores } from '~/assets';
+import { Block, AppText } from '~/app/common/components/ui';
 
 export default function TestScreen() {
   return (
     <Block full base>
-      <Text>Test</Text>
-      <TotalPointScores />
+      <AppText ubuntu>клуб жарких привилегий</AppText>
     </Block>
   );
 }

@@ -32,6 +32,7 @@
 		F74AD4DF0F5BD1CBE586B45A /* libPods-baniking_mobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8FBFD2CC0639FBFB200C53E /* libPods-baniking_mobile-tvOSTests.a */; };
 		F8145A78A610443E934562FF /* SegoeUI-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A69E287B0C9340DCA7DA25CA /* SegoeUI-Light.ttf */; };
 		FC72AF76ED3F43EC926BB706 /* Gilroy-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */; };
+		2E55F34C6A634864845580FC /* Ubuntu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2651789223984E4AB9064249 /* Ubuntu-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-UltraLight.ttf"; path = "../src/assets/fonts/Gilroy-UltraLight.ttf"; sourceTree = "<group>"; };
 		FCB30AC681B848618008BA9F /* Gilroy-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Light.ttf"; path = "../src/assets/fonts/Gilroy-Light.ttf"; sourceTree = "<group>"; };
 		FE8E36B5F31233164C6AEA42 /* Pods-baniking_mobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOS/Pods-baniking_mobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		2651789223984E4AB9064249 /* Ubuntu-Light.ttf */ = {isa = PBXFileReference; name = "Ubuntu-Light.ttf"; path = "../src/assets/fonts/Ubuntu-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +239,7 @@
 				EA7B1EE76EF84944BE4E2941 /* SFProText-Regular.ttf */,
 				85494C690E914DB092329EB4 /* SFProText-Semibold.ttf */,
 				9DE914B12D794675AB56615E /* TrajanPro3-Regular.ttf */,
+				2651789223984E4AB9064249 /* Ubuntu-Light.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				4CE24EFF9DCA45A1AEFAC061 /* SFProText-Regular.ttf in Resources */,
 				CBBC4F6558EB486AB0ACF45F /* SFProText-Semibold.ttf in Resources */,
 				618DA80E2046469B8EBB49FD /* TrajanPro3-Regular.ttf in Resources */,
+				2E55F34C6A634864845580FC /* Ubuntu-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

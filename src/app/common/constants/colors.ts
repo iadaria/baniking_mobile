@@ -4,7 +4,7 @@ export const colors = {
   tertiary: '#D9B384',
   title: '#F6F4F5',
   inputText: '#232738',
-
+  logo: '#786F6A',
   text: '#F6F4F5',
 
   enable: '#E7AE6F',

@@ -10,8 +10,8 @@ export const defaultScreenOptions: StackNavigationOptions = {
   // headerShown: true,
   headerStyle: {
     // backgroundColor: colors.primary,
-    //backgroundColor: 'transparent',
-    opacity: 1,
+    // backgroundColor: 'transparent',
+    // opacity: 1,
     shadowColor: 'transparent', // delete the bottomBorder for IOS
   },
   // headerTintColor: colors.white,
