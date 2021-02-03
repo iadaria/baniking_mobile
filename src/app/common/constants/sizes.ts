@@ -2,9 +2,10 @@ export const sizes = {
   // global sizes
   radius: 5,
 
-  padding: 5,
-  /* base: 8,
-  font: 3.65,
+  headerTop: 5.7, // 51:(896:100)
+  footerBottom: 3.1, // 28:(896:100)
+  base: 9.7, // 40.1:(414:100)
+  /*font: 3.65,
 
   // font sizes
   h1: 7,

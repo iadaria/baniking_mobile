@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+  <rect id="Rectangle_7162" data-name="Rectangle 7162" width="26" height="26" rx="5" fill="" opacity=""/>
+  <g id="notifications-bell-button" transform="translate(5.835 4.52)">
+    <g id="notifications-none" transform="translate(0)">
+      <path id="Path_44469" data-name="Path 44469" d="M45.458,16.96a1.7,1.7,0,0,0,1.7-1.7H43.762A1.7,1.7,0,0,0,45.458,16.96Zm5.512-5.088V7.208a5.457,5.457,0,0,0-4.24-5.342V1.272a1.272,1.272,0,0,0-2.544,0v.594a5.457,5.457,0,0,0-4.24,5.342v4.664l-1.7,1.7v.848H52.666v-.848Zm-1.7.848H41.642V7.208a3.816,3.816,0,1,1,7.632,0Z" transform="translate(-38.25)" fill="#171719"/>
+    </g>
+  </g>
+</svg>

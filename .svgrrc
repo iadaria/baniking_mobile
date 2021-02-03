@@ -1,0 +1,6 @@
+{
+	"replaceAttrValues": {
+	  "#263": "{fill}",
+	  "#f00": "{fillSecondary}",
+	}
+}

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
+import { Block } from '~/app/common/components/ui/Block';
 import { TotalPointScores } from '~/assets';
 
 export default function TestScreen() {
   return (
-    <View>
+    <Block debug base>
       <Text>Test</Text>
       <TotalPointScores />
-    </View>
+    </Block>
   );
 }

@@ -5,6 +5,9 @@ export const colors = {
   title: '#F6F4F5',
   inputText: '#232738',
 
+  enable: '#E7AE6F',
+  disable: '#AEAEAE',
+
   accent: '',
 
   buttonBeginning: '#F3F0EB',

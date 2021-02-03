@@ -1,5 +1,9 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackHeaderLeftButtonProps,
+  StackHeaderTitleProps,
+} from '@react-navigation/stack';
 // import { useSelector } from 'react-redux';
 // import { IRootState } from '../../app/store/rootReducer';
 // import { IAuthState } from '../../features/auth/authReducer';
@@ -11,6 +15,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import LoginNavigator from './LoginNavigator';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../defaultTheme';
+import { Text } from 'react-native';
+import { Block } from '~/app/common/components/ui/Block';
+import {
+  HeaderLeftButton,
+  HeaderRightButton,
+} from '~/navigation/components/headerButtons';
 
 export default function MainNavigator(): JSX.Element {
   // const { authenticated } = useSelector<IRootState>(
@@ -21,9 +31,23 @@ export default function MainNavigator(): JSX.Element {
   const Main = createStackNavigator();
   return (
     <Main.Navigator
-      screenOptions={defaultScreenOptions}
-      // initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}>
-    >
+      screenOptions={{
+        ...defaultScreenOptions,
+        headerTitle: (props: StackHeaderTitleProps) => (
+          <Block debug>
+            <Text {...props} style={{ color: 'white' }}>
+              Test
+            </Text>
+          </Block>
+        ),
+        headerLeft: (props: StackHeaderLeftButtonProps) => (
+          <HeaderLeftButton {...props} />
+        ),
+        headerRight: (props: StackHeaderLeftButtonProps) => (
+          <HeaderRightButton {...props} />
+        ),
+      }}>
+      {/* initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}> */}
       {/* <Main.Screen
         options={{ headerShown: false }}
         // options={defaultScreenOptions}

@@ -1,14 +1,17 @@
 import React from 'react';
 import { StyleSheet, Animated, View, StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {
   IBlockStyleProps,
   IUiBlock,
   IUiMargin,
   IUiPadding,
-} from '../../../models/ui';
-import { colors, sizes } from '@constants';
+} from '~/app/common/models/ui';
+import { colors, sizes } from '~/app/common/constants';
 
 export function Block(props: IUiBlock) {
   function handleMargins(): IUiMargin {
@@ -16,9 +19,9 @@ export function Block(props: IUiBlock) {
 
     if (typeof margin === 'number') {
       return {
-        marginTop: wp(margin),
+        marginTop: hp(margin),
         marginRight: wp(margin),
-        marginBottom: wp(margin),
+        marginBottom: hp(margin),
         marginLeft: wp(margin),
       };
     }
@@ -28,30 +31,30 @@ export function Block(props: IUiBlock) {
       switch (marginSize) {
         case 1:
           return {
-            marginTop: wp(margin[0]),
+            marginTop: hp(margin[0]),
             marginRight: wp(margin[0]),
-            marginBottom: wp(margin[0]),
+            marginBottom: hp(margin[0]),
             marginLeft: wp(margin[0]),
           };
         case 2:
           return {
-            marginTop: wp(margin[0]),
+            marginTop: hp(margin[0]),
             marginRight: wp(margin[1]),
-            marginBottom: wp(margin[0]),
+            marginBottom: hp(margin[0]),
             marginLeft: wp(margin[1]),
           };
         case 3:
           return {
-            marginTop: wp(margin[0]),
+            marginTop: hp(margin[0]),
             marginRight: wp(margin[1]),
-            marginBottom: wp(margin[2]),
+            marginBottom: hp(margin[2]),
             marginLeft: wp(margin[1]),
           };
         default:
           return {
-            marginTop: wp(margin[0]),
+            marginTop: hp(margin[0]),
             marginRight: wp(margin[1]),
-            marginBottom: wp(margin[2]),
+            marginBottom: hp(margin[2]),
             marginLeft: wp(margin[3]),
           };
       }
@@ -63,9 +66,9 @@ export function Block(props: IUiBlock) {
     const { padding } = props;
     if (typeof padding === 'number') {
       return {
-        paddingTop: wp(padding),
+        paddingTop: hp(padding),
         paddingRight: wp(padding),
-        paddingBottom: wp(padding),
+        paddingBottom: hp(padding),
         paddingLeft: wp(padding),
       };
     }
@@ -75,30 +78,30 @@ export function Block(props: IUiBlock) {
       switch (paddingSize) {
         case 1:
           return {
-            paddingTop: wp(padding[0]),
+            paddingTop: hp(padding[0]),
             paddingRight: wp(padding[0]),
-            paddingBottom: wp(padding[0]),
+            paddingBottom: hp(padding[0]),
             paddingLeft: wp(padding[0]),
           };
         case 2:
           return {
-            paddingTop: wp(padding[0]),
+            paddingTop: hp(padding[0]),
             paddingRight: wp(padding[1]),
-            paddingBottom: wp(padding[0]),
+            paddingBottom: hp(padding[0]),
             paddingLeft: wp(padding[1]),
           };
         case 3:
           return {
-            paddingTop: wp(padding[0]),
+            paddingTop: hp(padding[0]),
             paddingRight: wp(padding[1]),
-            paddingBottom: wp(padding[2]),
+            paddingBottom: hp(padding[2]),
             paddingLeft: wp(padding[1]),
           };
         default:
           return {
-            paddingTop: wp(padding[0]),
+            paddingTop: hp(padding[0]),
             paddingRight: wp(padding[1]),
-            paddingBottom: wp(padding[2]),
+            paddingBottom: hp(padding[2]),
             paddingLeft: wp(padding[3]),
           };
       }
@@ -143,7 +146,11 @@ export function Block(props: IUiBlock) {
     flex && { flex },
     debug && styles.debug,
     content && { flex: 0 }, // reset - disable flex
-    base && { padding: wp(sizes.padding) },
+    base && {
+      //paddingVertical: wp(sizes.base),
+      paddingHorizontal: wp(sizes.base),
+      // paddingBottom: hp(sizes.footerBottom),
+    },
     row && styles.row,
     column && styles.column,
     center && styles.center,
@@ -194,7 +201,7 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
     flex: 1, //borderWidth: 1, borderColor: 'red'
   },
   debug: {
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: 'red',
   },
   row: {
