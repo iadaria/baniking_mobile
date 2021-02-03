@@ -1,12 +1,13 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import TestScreen from '~/navigation/screens/TestScreen';
+import { drawerStyle } from '~/navigation/defaultTheme';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerStyle={drawerStyle}>
       <Drawer.Screen
         name="Test"
         component={TestScreen}
