@@ -10,7 +10,7 @@ import {
   IUiBlock,
   IUiMargin,
   IUiPadding,
-} from '~/app/common/models/ui';
+} from '~/app/common/models/block';
 import { colors, sizes } from '~/app/common/constants';
 
 export function Block(props: IUiBlock) {
