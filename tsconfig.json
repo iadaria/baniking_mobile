@@ -55,18 +55,13 @@
     /* Experimental Options */
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@app": ["./app"],
-      "@assets": ["./assets"],
-      "@i18n": ["./i18n"],
-      "@navigation": ["./navigation"],
-      "@components": ["./app/components"],
-      "@common": ["./app/common"],
-      "@store": ["./app/store"],
-      "@libs": ["./app/libs"],
-      "@utils": ["./app/utils"],
-    }
+      "@app/*": ["src/app/*/index", "src/app/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@constants": ["src/app/common/constants/index.ts"],
+      // "@app": ["./app"],
+    },
   },
   "exclude": [
     "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"

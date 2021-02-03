@@ -8,7 +8,7 @@ import {
   IUiMargin,
   IUiPadding,
 } from '../../../models/ui';
-import { colors, sizes } from 'app/common/constants';
+import { colors, sizes } from '@constants';
 
 export function Block(props: IUiBlock) {
   function handleMargins(): IUiMargin {
