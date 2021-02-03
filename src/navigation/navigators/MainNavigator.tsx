@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // } from '../defaultThemes';
 // import LoginNavigator from './LoginNavigator';
 import DrawerNavigator from './DrawerNavigator';
+import { defaultScreenOptions } from '../defaultTheme';
 
 export default function MainNavigator(): JSX.Element {
   // const { authenticated } = useSelector<IRootState>(
@@ -20,7 +21,8 @@ export default function MainNavigator(): JSX.Element {
   const Main = createStackNavigator();
   return (
     <Main.Navigator
-    // initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}>
+      screenOptions={defaultScreenOptions}
+      // initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}>
     >
       {/* <Main.Screen
         options={{ headerShown: false }}
