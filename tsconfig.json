@@ -59,7 +59,7 @@
     "paths": {
       "~/app/*": ["src/app/*/index", "src/app/*"],
       "~/navigation/*": ["src/navigation/*"],
-      // "@app": ["./app"],
+      "~/assets": ["src/assets/*"],
     },
   },
   "exclude": [
