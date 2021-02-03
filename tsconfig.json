@@ -57,8 +57,8 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "baseUrl": "./",
     "paths": {
-      "@app/*": ["src/app/*/index", "src/app/*"],
-      "@navigation/*": ["src/navigation/*"],
+      "~/app/*": ["src/app/*/index", "src/app/*"],
+      "~/navigation/*": ["src/navigation/*"],
       // "@app": ["./app"],
     },
   },
@@ -66,3 +66,4 @@
     "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
   ]
 }
+  
