@@ -18,7 +18,6 @@ module.exports = {
         ],
         alias: {
           '@app': './src/app',
-          '@constatns': './src/app/common/constants/index.ts',
           '@assets': './src/assets',
           '@i18n': './src/i18n',
           '@navigation': './src/navigation',

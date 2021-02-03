@@ -3,9 +3,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { colors } from '@constants';
 
 import MainNavigator from '@navigation/navigators/MainNavigator';
+import { colors } from '@app/common/constants';
 // import MainNavigator from 'navigation/navigators/MainNavigator';
 // import { colors } from 'app/common/constants';
 // import { colors } from 'app/common/constants';

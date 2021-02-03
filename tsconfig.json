@@ -59,7 +59,6 @@
     "paths": {
       "@app/*": ["src/app/*/index", "src/app/*"],
       "@navigation/*": ["src/navigation/*"],
-      "@constants": ["src/app/common/constants/index.ts"],
       // "@app": ["./app"],
     },
   },
