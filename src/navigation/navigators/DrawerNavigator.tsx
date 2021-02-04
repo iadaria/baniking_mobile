@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  createDrawerNavigator,
-  DrawerContentComponentProps,
-  DrawerContentOptions,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { drawerStyle } from '~/navigation/defaultTheme';
 import {
   ProfileNavigator,
@@ -16,10 +9,8 @@ import {
   SettingsNavigator,
   QrNavigator,
 } from '~/navigation/navigators';
-import { debugStyle } from '~/app/common/constants/app-styles';
 import { AppDrawerItem } from '../components/AppDrawerItem';
-import { AppLogoItem } from '../components/AppLogoItem';
-
+import { AppDrawerContent } from '../components/AppDrawerContent';
 
 interface ILabelProps {
   color: string;
@@ -27,25 +18,6 @@ interface ILabelProps {
 }
 
 const Drawer = createDrawerNavigator();
-
-function AppDrawerContent(
-  props: DrawerContentComponentProps<DrawerContentOptions>,
-) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItem
-        label={(props) => <AppLogoItem />}
-        onPress={() => alert('Link to help')}
-      />
-      <DrawerItemList {...props} />
-      <DrawerItem
-        // labelStyle={{ color: 'white' }}
-        label={(props) => <AppDrawerItem text="Выйти" {...props} />}
-        onPress={() => alert('Link to help')}
-      />
-    </DrawerContentScrollView>
-  );
-}
 
 export default function DrawerNavigator(/* { navigation, route } */) {
   return (
