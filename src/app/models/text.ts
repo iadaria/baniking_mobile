@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 export interface IUiText {
   h1?: boolean;
+  header?: boolean;
   size?: boolean;
   transform?: boolean;
   align?: boolean;
@@ -53,12 +54,5 @@ export interface ITextStyleProps {
   white: object;
   // fonts
   h1: object;
-}
-
-export interface IUiColor {
-  // accent?: string;
-  primary?: string;
-  secondary?: string;
-  tertiary?: string;
-  white?: string;
+  header: object;
 }

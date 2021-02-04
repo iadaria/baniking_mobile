@@ -6,10 +6,13 @@ import { ITextStyleProps, IUiText } from '~/app/models/text';
 
 export function AppText(props: IUiText) {
   const {
-    h1,
-    size,
+    // style
     transform,
     align,
+    //size
+    h1,
+    header,
+    size,
     // font family
     regular,
     medium,
@@ -43,6 +46,7 @@ export function AppText(props: IUiText) {
   const textStyles = [
     styles.text,
     h1 && styles.h1,
+    header && styles.header,
     // small && styles.small,
     size && { fontSize: size },
     transform && { textTransform: transform },
@@ -142,4 +146,5 @@ const styles = StyleSheet.create<ITextStyleProps>({
   white: { color: colors.white },
   // fonts
   h1: fonts.h1,
+  header: fonts.header,
 });

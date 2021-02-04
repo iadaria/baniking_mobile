@@ -1,11 +1,6 @@
 import React from 'react';
-// import {
-//   StackHeaderLeftButtonProps,
-//   // StackNavigationOptions,
-// } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Block } from '~/app/common/components/ui/Block';
-// import * as RootNavigate from '~/navigation/helpers/RootNavigation';
 import { MenuHumberger, Notify, CloseMenu } from '~/assets';
 import { colors, sizes } from '~/app/common/constants';
 

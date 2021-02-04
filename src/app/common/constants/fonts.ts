@@ -32,6 +32,9 @@ export const fonts = {
   h1: {
     fontSize: wp(sizes.h1),
   },
+  header: {
+    fontSize: wp(sizes.header),
+  },
   /* h2: {
     fontSize: wp(sizes.h2),
   },

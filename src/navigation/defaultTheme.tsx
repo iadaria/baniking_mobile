@@ -2,7 +2,6 @@ import { DefaultTheme } from '@react-navigation/native';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { Dimensions, StyleProp, ViewStyle } from 'react-native';
 import { colors } from '~/app/common/constants';
-
 const { width } = Dimensions.get('window');
 
 export const defaultScreenOptions: StackNavigationOptions = {

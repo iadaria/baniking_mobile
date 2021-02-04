@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   createStackNavigator,
-  StackHeaderTitleProps,
   StackNavigationProp,
 } from '@react-navigation/stack';
 // import { useSelector } from 'react-redux';
@@ -10,14 +9,13 @@ import {
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../defaultTheme';
-import { Block } from '~/app/common/components/ui/Block';
 import {
   HeaderLeftClose,
   HeaderLeftOpen,
   HeaderRightButton,
 } from '~/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
-import { AppText } from '../../app/common/components/ui/AppText';
+import AppHeaderTitle from '../components/AppHeaderTitle';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -48,9 +46,7 @@ export default function MainNavigator(): JSX.Element {
         return {
           ...defaultScreenOptions,
           headerTitle: (/* props: StackHeaderTitleProps */) => (
-            <Block>
-              <AppText>35 752</AppText>
-            </Block>
+            <AppHeaderTitle />
           ),
           headerLeft: (/* props: StackHeaderLeftButtonProps */) =>
             isDrawerOpen ? (

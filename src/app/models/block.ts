@@ -11,7 +11,7 @@ export interface IUiBlock {
   center?: boolean;
   middle?: boolean;
   left?: string;
-  right?: string;
+  right?: boolean;
   top?: string;
   bottom?: string;
   card?: boolean;
