@@ -12,6 +12,7 @@ export function AppText(props: IUiText) {
     //size
     h1,
     header,
+    logo,
     size,
     // font family
     regular,
@@ -47,8 +48,9 @@ export function AppText(props: IUiText) {
     styles.text,
     h1 && styles.h1,
     header && styles.header,
+    logo && styles.logo,
     // small && styles.small,
-    size && { fontSize: size },
+    size && { fontSize: wp(size) },
     transform && { textTransform: transform },
     align && { textAlign: align },
     height && { lineHeight: height },
@@ -147,4 +149,5 @@ const styles = StyleSheet.create<ITextStyleProps>({
   // fonts
   h1: fonts.h1,
   header: fonts.header,
+  logo: fonts.logo,
 });

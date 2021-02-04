@@ -1,9 +1,12 @@
 import { ReactNode } from 'react';
 
 export interface IUiText {
+  // size
   h1?: boolean;
   header?: boolean;
-  size?: boolean;
+  logo?: boolean;
+  size?: number;
+  // style
   transform?: boolean;
   align?: boolean;
   // font famil?: boolean;
@@ -55,4 +58,5 @@ export interface ITextStyleProps {
   // fonts
   h1: object;
   header: object;
+  logo: object;
 }

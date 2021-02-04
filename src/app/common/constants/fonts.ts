@@ -35,25 +35,7 @@ export const fonts = {
   header: {
     fontSize: wp(sizes.header),
   },
-  /* h2: {
-    fontSize: wp(sizes.h2),
+  logo: {
+    fontSize: wp(sizes.logo),
   },
-  h3: {
-    fontSize: wp(sizes.h3),
-  },
-  header: {
-    fontSize: wp(sizes.header),
-  },
-  title: {
-    fontSize: wp(sizes.title),
-  },
-  body: {
-    fontSize: wp(sizes.body),
-  },
-  caption: {
-    fontSize: wp(sizes.caption),
-  },
-  big: {
-    fontSize: wp(sizes.big),
-  }, */
 };

@@ -8,7 +8,6 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import { drawerStyle } from '~/navigation/defaultTheme';
-import { AppText, Block } from '~/app/common/components/ui';
 import {
   ProfileNavigator,
   BathesNavigator,
@@ -17,36 +16,30 @@ import {
   SettingsNavigator,
   QrNavigator,
 } from '~/navigation/navigators';
+import { debugStyle } from '~/app/common/constants/app-styles';
+import { AppDrawerItem } from '../components/AppDrawerItem';
+import { AppLogoItem } from '../components/AppLogoItem';
+
 
 interface ILabelProps {
-  color?: string;
+  color: string;
   focused: boolean;
-  text?: string;
 }
 
 const Drawer = createDrawerNavigator();
 
-function AppDrawerItem({ focused, text }: ILabelProps) {
-  return focused ? (
-    <Block style={{ alignSelf: 'flex-start' }}>
-      <AppText header>{text}</AppText>
-      <Block underline />
-    </Block>
-  ) : (
-    <AppText header lightUltra>
-      {text}
-    </AppText>
-  );
-}
-
-function CustomDrawerContent(
+function AppDrawerContent(
   props: DrawerContentComponentProps<DrawerContentOptions>,
 ) {
   return (
     <DrawerContentScrollView {...props}>
+      <DrawerItem
+        label={(props) => <AppLogoItem />}
+        onPress={() => alert('Link to help')}
+      />
       <DrawerItemList {...props} />
       <DrawerItem
-        labelStyle={{ color: 'white' }}
+        // labelStyle={{ color: 'white' }}
         label={(props) => <AppDrawerItem text="Выйти" {...props} />}
         onPress={() => alert('Link to help')}
       />
@@ -63,16 +56,13 @@ export default function DrawerNavigator(/* { navigation, route } */) {
       drawerContentOptions={{
         itemStyle: {
           // ...debugStyle,
-          // flex: 0,
-          // alignSelf: 'flex-start',
-          // backgroundColor: 'white',
         },
         inactiveTintColor: 'white',
         // activeTintColor: 'white',
         // activeBackgroundColor: 'blue',
       }}
       drawerStyle={drawerStyle}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      drawerContent={(props) => <AppDrawerContent {...props} />}>
       <Drawer.Screen
         name="ProfileTab"
         component={ProfileNavigator}
@@ -127,7 +117,6 @@ export default function DrawerNavigator(/* { navigation, route } */) {
           ),
         }}
       />
-      {/* <Drawer.Screen name="Article" component={Article} /> */}
     </Drawer.Navigator>
   );
 }
