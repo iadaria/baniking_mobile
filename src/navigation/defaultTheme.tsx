@@ -13,8 +13,8 @@ export const defaultScreenOptions: StackNavigationOptions = {
     // opacity: 1,
     shadowColor: 'transparent', // delete the bottomBorder for IOS
   },
+  headerTitleAlign: 'left', // for IOS to full widht
   // headerTintColor: colors.white,
-  // headerTitleAlign: "center"
 };
 
 export const defaultTheme = {

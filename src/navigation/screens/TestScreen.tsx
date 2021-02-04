@@ -1,10 +1,10 @@
 import React from 'react';
 import { Block, AppText } from '~/app/common/components/ui';
 
-export default function TestScreen() {
+export default function TestScreen({ navigation }: any) {
   return (
-    <Block full base>
-      <AppText ubuntu>клуб жарких привилегий</AppText>
+    <Block center middle full>
+      <AppText>Screen 1</AppText>
     </Block>
   );
 }

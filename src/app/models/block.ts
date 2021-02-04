@@ -10,7 +10,7 @@ export interface IUiBlock {
   column?: string;
   center?: boolean;
   middle?: boolean;
-  left?: string;
+  left?: boolean;
   right?: boolean;
   top?: string;
   bottom?: string;
@@ -23,6 +23,8 @@ export interface IUiBlock {
   margin?: number | number[];
   animated?: boolean;
   wrap?: boolean;
+  // custome style
+  underline?: boolean;
   style?: object;
   children?: ReactNode;
   [key: string]: any;
@@ -55,6 +57,9 @@ export interface IBlockStyleProps {
   top: object;
   bottom: object;
   shadow: object;
+
+  // custome styles
+  underline: object;
 
   primary: object;
   secondary?: object;

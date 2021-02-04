@@ -59,6 +59,7 @@
     "paths": {
       "~/app/*": ["src/app/*/index", "src/app/*"],
       "~/navigation/*": ["src/navigation/*"],
+      "~/navigation/navigators": ["src/navigation/navigators/index.ts"],
       "~/assets": ["src/assets/index.ts"],
     },
   },

@@ -132,8 +132,10 @@ export function Block(props: IUiBlock) {
     margin,
     animated,
     wrap,
-    primary,
     // colors
+    primary,
+    // custome styles
+    underline,
     // others
     style,
     children,
@@ -169,6 +171,8 @@ export function Block(props: IUiBlock) {
     // section && styles.section,
     color && styles[color as keyof typeof styles], // predefined styles for backgroundColor
     primary && styles.primary,
+    // custome styles
+    underline && styles.underline,
     // others
     style,
   ] as StyleProp<ViewStyle>;
@@ -239,6 +243,11 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
     elevation: 2,
   },
   // custome styles
+  underline: {
+    height: 1,
+    backgroundColor: colors.secondary,
+    bottom: -8,
+  },
   /* section: {
     backgroundColor: colors.section,
     marginTop: wp(0.2),

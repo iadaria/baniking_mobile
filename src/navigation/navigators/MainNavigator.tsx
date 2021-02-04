@@ -16,18 +16,16 @@ import {
 } from '~/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
+import { useIsDrawerOpen } from '@react-navigation/drawer';
 
 interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-export default function MainNavigator(): JSX.Element {
+export default function MainNavigator() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  // const { authenticated } = useSelector<IRootState>(
-  //   (state) => state.auth,
-  // ) as IAuthState;
-  // const authenticated = false;
+
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -45,22 +43,24 @@ export default function MainNavigator(): JSX.Element {
       screenOptions={({ navigation }: IProps) => {
         return {
           ...defaultScreenOptions,
-          headerTitle: (/* props: StackHeaderTitleProps */) => (
-            <AppHeaderTitle />
-          ),
-          headerLeft: (/* props: StackHeaderLeftButtonProps */) =>
-            isDrawerOpen ? (
+          headerTitle: () => <AppHeaderTitle />,
+          headerLeft: () => {
+            return isDrawerOpen ? (
               <HeaderLeftClose
                 onCloseDrawer={() => onCloseDrawer(navigation)}
               />
             ) : (
               <HeaderLeftOpen onOpenDrawer={() => onOpenDrawer(navigation)} />
-            ),
+            );
+          },
           headerRight: () => <HeaderRightButton />,
         };
       }}>
-      {/* initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}> */}
       <Main.Screen name="MainNavigator" component={DrawerNavigator} />
     </Main.Navigator>
   );
 }
+
+/* props: StackHeaderTitleProps */
+/* props: StackHeaderLeftButtonProps */
+/* initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}> */
