@@ -14,7 +14,8 @@ export const sizes = {
   label: 3.6, // 15
   tag: 3.3, // 13
   header: 4.25, // 18 - header, menu
-  logo: 5,
+  logo: 5, //13
+  caption: 3,
 
   /* h2: 5,
   h3: 4,

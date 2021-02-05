@@ -15,7 +15,7 @@ export function AppDrawerContent(
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem
-        label={(props) => <AppLogoItem />}
+        label={() => <AppLogoItem />}
         onPress={() => alert('Link to help')}
       />
       <DrawerItemList {...props} />

@@ -8,11 +8,17 @@ export function AppText(props: IUiText) {
   const {
     // style
     transform,
+    spacing, // letter-spacing
+    height, // line-height
+    // align
     align,
+    center,
+    right,
     //size
     h1,
     header,
     logo,
+    caption,
     size,
     // font family
     regular,
@@ -28,11 +34,6 @@ export function AppText(props: IUiText) {
     sfDisplay,
     sfTextRegular,
     sfTextSemibold,
-    center,
-    right,
-    spacing, // letter-spacing
-    height, // line-height
-    capitalize,
     // colors
     color,
     primary,
@@ -49,6 +50,7 @@ export function AppText(props: IUiText) {
     h1 && styles.h1,
     header && styles.header,
     logo && styles.logo,
+    caption && styles.caption,
     // small && styles.small,
     size && { fontSize: wp(size) },
     transform && { textTransform: transform },
@@ -87,9 +89,7 @@ export function AppText(props: IUiText) {
 
   return (
     <Text style={textStyles} {...otherProps}>
-      {capitalize && typeof children === 'string'
-        ? children.toUpperCase()
-        : children}
+      {children}
     </Text>
   );
 }
@@ -101,44 +101,18 @@ const styles = StyleSheet.create<ITextStyleProps>({
     color: colors.text,
   },
   // variations
-  regular: {
-    fontFamily: fonts.Gilroy.regular,
-  },
-  bold: {
-    // fontWeight: 'bold',
-    fontFamily: fonts.Gilroy.bold,
-  },
-  medium: {
-    fontFamily: fonts.Gilroy.medium,
-  },
-  light: {
-    fontFamily: fonts.Gilroy.light,
-  },
-  lightItalic: {
-    fontFamily: fonts.Gilroy.lightItalic,
-  },
-  lightUltra: {
-    fontFamily: fonts.Gilroy.lightUltra,
-    // fontWeight: '500',
-  },
-  ubuntu: {
-    fontFamily: fonts.Ubuntu.light,
-  },
-  trajan: {
-    fontFamily: fonts.Trajan.regular,
-  },
-  seogoeUI: {
-    fontFamily: fonts.SeogoeUI.light,
-  },
-  sfDisplay: {
-    fontFamily: fonts.SFProDisplay.regular,
-  },
-  sfTextRegular: {
-    fontFamily: fonts.SFProText.regular,
-  },
-  sfTextSemibold: {
-    fontFamily: fonts.SFProText.semibold,
-  },
+  regular: { fontFamily: fonts.Gilroy.regular },
+  bold: { fontFamily: fonts.Gilroy.bold },
+  medium: { fontFamily: fonts.Gilroy.medium },
+  light: { fontFamily: fonts.Gilroy.light },
+  lightItalic: { fontFamily: fonts.Gilroy.lightItalic },
+  lightUltra: { fontFamily: fonts.Gilroy.lightUltra },
+  ubuntu: { fontFamily: fonts.Ubuntu.light },
+  trajan: { fontFamily: fonts.Trajan.regular },
+  seogoeUI: { fontFamily: fonts.SeogoeUI.light },
+  sfDisplay: { fontFamily: fonts.SFProDisplay.regular },
+  sfTextRegular: { fontFamily: fonts.SFProText.regular },
+  sfTextSemibold: { fontFamily: fonts.SFProText.semibold },
   // position
   center: { textAlign: 'center' },
   right: { textAlign: 'right' },
@@ -150,4 +124,6 @@ const styles = StyleSheet.create<ITextStyleProps>({
   h1: fonts.h1,
   header: fonts.header,
   logo: fonts.logo,
+  caption: fonts.caption,
+  // styles
 });

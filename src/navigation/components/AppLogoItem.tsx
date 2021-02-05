@@ -1,17 +1,22 @@
 import React from 'react';
 import { AppText, Block } from '~/app/common/components/ui';
 import { MenuLogo } from '~/assets';
-import { colors } from '~/app/common/constants';
+import { colors, sizes } from '~/app/common/constants';
 
 export function AppLogoItem() {
   return (
-    <Block row debug>
+    <Block row center>
       <MenuLogo />
+      <Block margin={[0, sizes.between]} />
       <Block>
-        <AppText logo trajan capitalize>
+        <AppText style={{ bottom: -3 }} logo trajan transform="uppercase">
           Banya king
         </AppText>
-        <AppText color={colors.logo} size={3}>
+        <AppText
+          style={{ bottom: 3 }}
+          color={colors.logo}
+          caption
+          transform="lowercase">
           Клуб жарких привилегий
         </AppText>
       </Block>

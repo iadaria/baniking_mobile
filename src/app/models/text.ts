@@ -5,10 +5,8 @@ export interface IUiText {
   h1?: boolean;
   header?: boolean;
   logo?: boolean;
+  caption?: boolean;
   size?: number;
-  // style
-  transform?: boolean;
-  align?: boolean;
   // font famil?: boolean;
   regular?: boolean;
   medium?: boolean;
@@ -23,11 +21,14 @@ export interface IUiText {
   sfDisplay?: boolean;
   sfTextRegular?: boolean;
   sfTextSemibold?: boolean;
+  // align
+  // style
+  transform?: string;
+  align?: boolean;
   center?: boolean;
   right?: boolean;
   spacing?: boolean; // letter-spacin?: boolean;
   height?: boolean; // line-heigh?: boolean;
-  capitalize?: boolean;
   style?: object;
   children?: ReactNode;
   [key: string]: any;
@@ -59,4 +60,6 @@ export interface ITextStyleProps {
   h1: object;
   header: object;
   logo: object;
+  caption: object;
+  // styles
 }

@@ -3,10 +3,9 @@ import { StackNavigationOptions } from '@react-navigation/stack';
 import { Dimensions, StyleProp, ViewStyle } from 'react-native';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
+  // heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { colors } from '~/app/common/constants';
-import { debugStyle } from '~/app/common/constants/app-styles';
 import { sizes } from '../app/common/constants/sizes';
 
 const { width } = Dimensions.get('window');

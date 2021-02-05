@@ -38,4 +38,7 @@ export const fonts = {
   logo: {
     fontSize: wp(sizes.logo),
   },
+  caption: {
+    fontSize: wp(sizes.caption),
+  },
 };

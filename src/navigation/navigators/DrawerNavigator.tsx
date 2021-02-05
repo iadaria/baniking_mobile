@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { drawerStyle } from '~/navigation/defaultTheme';
 import {
   ProfileNavigator,
   BathesNavigator,
@@ -11,6 +10,7 @@ import {
 } from '~/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
+import { drawerStyle } from '~/navigation/defaultTheme';
 
 interface ILabelProps {
   color: string;
@@ -22,17 +22,6 @@ const Drawer = createDrawerNavigator();
 export default function DrawerNavigator(/* { navigation, route } */) {
   return (
     <Drawer.Navigator
-      /* screenOptions={{
-        headerShown: true,
-      }} */
-      drawerContentOptions={{
-        itemStyle: {
-          // ...debugStyle,
-        },
-        inactiveTintColor: 'white',
-        // activeTintColor: 'white',
-        // activeBackgroundColor: 'blue',
-      }}
       drawerStyle={drawerStyle}
       drawerContent={(props) => <AppDrawerContent {...props} />}>
       <Drawer.Screen

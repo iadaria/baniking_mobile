@@ -16,7 +16,6 @@ import {
 } from '~/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
-import { useIsDrawerOpen } from '@react-navigation/drawer';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -25,7 +24,6 @@ interface IProps {
 
 export default function MainNavigator() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -56,7 +54,18 @@ export default function MainNavigator() {
           headerRight: () => <HeaderRightButton />,
         };
       }}>
-      <Main.Screen name="MainNavigator" component={DrawerNavigator} />
+      <Main.Screen
+        name="MainNavigator"
+        listeners={{
+          transitionStart: (e) => {
+            console.log('transitionStart');
+          },
+          transitionEnd: (e) => {
+            console.log('transition end');
+          },
+        }}
+        component={DrawerNavigator}
+      />
     </Main.Navigator>
   );
 }
