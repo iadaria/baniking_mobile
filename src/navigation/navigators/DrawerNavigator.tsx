@@ -11,7 +11,6 @@ import {
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
 import { drawerItemStyle, drawerStyle } from '~/navigation/defaultTheme';
-import { appStyles } from '~/app/common/constants';
 
 interface ILabelProps {
   color: string;
