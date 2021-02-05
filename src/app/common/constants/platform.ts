@@ -43,4 +43,5 @@ export const screenHeight =
   windowHeight - headerHeight - bottomTabBarWithSpaceHeight;
 
 export const designWidth = 375;
+export const currentLanguage = 'ru-RU';
 export const stickyHeaderIndices = [0];

@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/drawer';
 import { AppLogoItem } from './AppLogoItem';
 import { AppDrawerItem } from './AppDrawerItem';
+import { Alert } from 'react-native';
 
 export function AppDrawerContent(
   props: DrawerContentComponentProps<DrawerContentOptions>,
@@ -16,12 +17,12 @@ export function AppDrawerContent(
     <DrawerContentScrollView {...props}>
       <DrawerItem
         label={() => <AppLogoItem />}
-        onPress={() => alert('Link to help')}
+        onPress={() => Alert.alert('Link to help')}
       />
       <DrawerItemList {...props} />
       <DrawerItem
         label={(props) => <AppDrawerItem text="Выйти" {...props} />}
-        onPress={() => alert('Link to help')}
+        onPress={() => Alert.alert('Link to help')}
       />
     </DrawerContentScrollView>
   );

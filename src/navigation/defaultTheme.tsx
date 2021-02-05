@@ -3,7 +3,7 @@ import { StackNavigationOptions } from '@react-navigation/stack';
 import { Dimensions, StyleProp, ViewStyle } from 'react-native';
 import {
   widthPercentageToDP as wp,
-  // heightPercentageToDP as hp,
+  heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { colors } from '~/app/common/constants';
 import { sizes } from '../app/common/constants/sizes';
@@ -34,7 +34,12 @@ export const defaultTheme = {
 };
 
 export const drawerStyle: StyleProp<ViewStyle> = {
-  backgroundColor: colors.primary,
   width,
+  paddingVertical: hp(sizes.base / 3),
   paddingHorizontal: wp(sizes.base - 3),
+  backgroundColor: colors.primary,
+};
+
+export const drawerItemStyle: StyleProp<ViewStyle> = {
+  marginBottom: hp(1.25),
 };

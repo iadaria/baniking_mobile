@@ -246,7 +246,7 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
   underline: {
     height: 1,
     backgroundColor: colors.secondary,
-    bottom: -8,
+    bottom: -7,
   },
   /* section: {
     backgroundColor: colors.section,

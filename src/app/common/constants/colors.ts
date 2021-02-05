@@ -7,7 +7,6 @@ export const colors = {
   logo: '#786F6A',
   text: '#F6F4F5',
 
-  enable: '#E7AE6F',
   disable: '#AEAEAE',
 
   accent: '',

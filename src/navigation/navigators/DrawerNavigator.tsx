@@ -10,7 +10,8 @@ import {
 } from '~/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
-import { drawerStyle } from '~/navigation/defaultTheme';
+import { drawerItemStyle, drawerStyle } from '~/navigation/defaultTheme';
+import { appStyles } from '~/app/common/constants';
 
 interface ILabelProps {
   color: string;
@@ -22,6 +23,9 @@ const Drawer = createDrawerNavigator();
 export default function DrawerNavigator(/* { navigation, route } */) {
   return (
     <Drawer.Navigator
+      drawerContentOptions={{
+        itemStyle: drawerItemStyle,
+      }}
       drawerStyle={drawerStyle}
       drawerContent={(props) => <AppDrawerContent {...props} />}>
       <Drawer.Screen
