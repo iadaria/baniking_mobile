@@ -11,6 +11,8 @@ import {
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
 import { appDrawerItemStyle, appDrawerStyle } from '../appDefaultTheme';
+import { useDispatch } from 'react-redux';
+import { closeDrawer } from '~/app/store/system/systemReducer';
 
 interface ILabelProps {
   color: string;
@@ -19,7 +21,8 @@ interface ILabelProps {
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNavigator(/* { navigation, route } */) {
+export default function DrawerNavigator({ navigation, route }: any) {
+
   return (
     <Drawer.Navigator
       drawerContentOptions={{

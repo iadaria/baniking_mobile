@@ -5,13 +5,13 @@ const OPEN_DRAWER = 'system/OPEN_DRAWER';
 const CLOSE_DRAWER = 'system/CLOSE_DRAWER';
 
 /***************** System actions **********************/
-export function openModal() {
+export function openDrawer() {
   return {
     type: OPEN_DRAWER,
   };
 }
 
-export function closeModal() {
+export function closeDrawer() {
   return {
     type: CLOSE_DRAWER,
   };
@@ -19,11 +19,11 @@ export function closeModal() {
 
 /***************** System reducer **********************/
 export interface ISystemState {
-  isOpenDrawer: boolean;
+  isDrawerOpen: boolean;
 }
 
 const initialState: ISystemState = {
-  isOpenDrawer: false,
+  isDrawerOpen: false,
 };
 
 export default function modalReducer(
@@ -34,13 +34,13 @@ export default function modalReducer(
     case OPEN_DRAWER:
       return {
         ...state,
-        isOpenDrawer: true,
+        isDrawerOpen: true,
       };
 
     case CLOSE_DRAWER:
       return {
         ...state,
-        isOpenDrawer: false,
+        isDrawerOpen: false,
       };
 
     default:

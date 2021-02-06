@@ -16,26 +16,37 @@ import {
 } from '~/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
+import { useDispatch, useSelector } from 'react-redux';
+import { openDrawer, closeDrawer } from '~/app/store/system/systemReducer';
+import { IRootState } from '~/app/store/rootReducer';
+import { ISystemState } from '../../app/store/system/systemReducer';
 
 interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
 }
 
+const Main = createStackNavigator();
+
 export default function MainNavigator() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  // const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const { isDrawerOpen } = useSelector<IRootState>(
+    (state) => state.system,
+  ) as ISystemState;
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
-    setIsDrawerOpen(true);
+    dispatch(openDrawer());
+    // setIsDrawerOpen(true);
   }
 
   function onCloseDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.closeDrawer());
-    setIsDrawerOpen(false);
+    // setIsDrawerOpen(false);
+    dispatch(closeDrawer());
   }
 
-  const Main = createStackNavigator();
   return (
     <Main.Navigator
       screenOptions={({ navigation }: IProps) => {
