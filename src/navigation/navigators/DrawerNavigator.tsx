@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
   ProfileNavigator,
@@ -10,7 +10,7 @@ import {
 } from '~/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
-import { drawerItemStyle, drawerStyle } from '~/navigation/defaultTheme';
+import { appDrawerItemStyle, appDrawerStyle } from '../appDefaultTheme';
 
 interface ILabelProps {
   color: string;
@@ -23,9 +23,9 @@ export default function DrawerNavigator(/* { navigation, route } */) {
   return (
     <Drawer.Navigator
       drawerContentOptions={{
-        itemStyle: drawerItemStyle,
+        itemStyle: appDrawerItemStyle,
       }}
-      drawerStyle={drawerStyle}
+      drawerStyle={appDrawerStyle}
       drawerContent={(props) => <AppDrawerContent {...props} />}>
       <Drawer.Screen
         name="ProfileTab"

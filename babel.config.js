@@ -21,6 +21,7 @@ module.exports = {
           '~/assets': './src/assets',
           '~/i18n': './src/i18n',
           '~/navigation': './src/navigation',
+          '~/initial': './src/initial-imports',
         },
       },
     ],

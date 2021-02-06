@@ -8,7 +8,7 @@ import {
 // import { IAuthState } from '../../features/auth/authReducer';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
-import { defaultScreenOptions } from '../defaultTheme';
+import { defaultScreenOptions } from '../appDefaultTheme';
 import {
   HeaderLeftClose,
   HeaderLeftOpen,
@@ -54,18 +54,7 @@ export default function MainNavigator() {
           headerRight: () => <HeaderRightButton />,
         };
       }}>
-      <Main.Screen
-        name="MainNavigator"
-        listeners={{
-          transitionStart: (e) => {
-            console.log('transitionStart');
-          },
-          transitionEnd: (e) => {
-            console.log('transition end');
-          },
-        }}
-        component={DrawerNavigator}
-      />
+      <Main.Screen name="DrawerNavigator" component={DrawerNavigator} />
     </Main.Navigator>
   );
 }

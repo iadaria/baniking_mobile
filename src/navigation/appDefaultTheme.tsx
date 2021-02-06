@@ -23,7 +23,7 @@ export const defaultScreenOptions: StackNavigationOptions = {
   // headerTintColor: colors.white,
 };
 
-export const defaultTheme = {
+export const appDefaultTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -33,13 +33,13 @@ export const defaultTheme = {
   },
 };
 
-export const drawerStyle: StyleProp<ViewStyle> = {
+export const appDrawerStyle: StyleProp<ViewStyle> = {
   width,
-  paddingVertical: hp(sizes.base / 3),
+  paddingVertical: hp(sizes.base / 3), // TODO depend on android version
   paddingHorizontal: wp(sizes.base - 3),
   backgroundColor: colors.primary,
 };
 
-export const drawerItemStyle: StyleProp<ViewStyle> = {
+export const appDrawerItemStyle: StyleProp<ViewStyle> = {
   marginBottom: hp(1.25),
 };

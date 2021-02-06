@@ -61,6 +61,8 @@
       "~/navigation/*": ["src/navigation/*"],
       "~/navigation/navigators": ["src/navigation/navigators/index.ts"],
       "~/assets": ["src/assets/index.ts"],
+      "~/initial/*": ["src/initial-imports/*"],
+      "~/initial": ["src/initial-imports/index.ts"],
     },
   },
   "exclude": [
