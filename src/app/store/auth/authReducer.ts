@@ -1,9 +1,14 @@
-/***************** Auth constants ********************/
-export const SIGN_IN_USER = 'auth/SIGN_IN_USER';
-export const SIGN_OUT_USER = 'auth/SIGN_OUT_USER';
-export const ENTER_CODE = 'auth/ENTER_CODE';
-export const RECOVERY_PASSWORD = 'auth/ENTER_CODE';
+import { IUser } from '~/app/models/user';
 
-/***************** Auth actions **********************/
+export interface IAuthState {
+  authenticated: boolean;
+  currentUser: IUser | null;
+  laoding: boolean;
+}
 
-/***************** Auth reducer **********************/
+const initialState = {
+  authenticated: false,
+  currentUser: null,
+  laoding: false,
+};
+
