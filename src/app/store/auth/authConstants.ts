@@ -1,4 +1,13 @@
-export const LOG_IN = 'auth/LOG_IN';
-export const SIGN_OUT_USER = 'auth/LOG_OUT';
+export const LOG_IN_WITH_EMAIL = 'auth/LOG_IN_WITH_EMAIL';
+export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
+export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';
+export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
+export const LOG_OUT = 'auth/LOG_OUT';
 export const ENTER_CODE = 'auth/ENTER_CODE';
 export const RECOVERY_PASSWORD = 'auth/RECOVERY_PASSWORD';
+export const SET_VERIFIED = 'auth/SET_VERIFIED';
+export const SET_ACCOUNT_TYPE = 'auth/SET_ACCOUNT_TYPE';
+export const ADD_STORAGE_CONTACT = 'auth/ADD_CONTACT';
+export const SET_LANGUAGE = 'auth/SET_LANGUAGE';
+export const SET_USER_DATA = 'auth/SET_USER_DATA';
+export const ASK_LOGOUT = 'auth/ASK_LOGOUT';

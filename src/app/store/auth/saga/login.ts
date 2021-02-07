@@ -1,7 +1,6 @@
-import { Saga } from 'redux-saga';
 import { ForkEffect, takeLatest } from 'redux-saga/effects';
 import { ILogInAction } from '../authActions';
-import { LOG_IN } from '../authConstants';
+import { LOG_IN_WITH_EMAIL, SOCIAL_LOGIN } from '../authConstants';
 
 interface IAction {
   type: string;
@@ -18,7 +17,7 @@ interface IResult {
 
 // const NOT_CONFIRMED = 'Registration not confirmed';
 
-function* logIn({
+function* logInWithEmail({
   payload: { login, password },
 }: IAction): Generator<ILogInAction, void, IResult> {
   try {
@@ -31,10 +30,18 @@ function* logIn({
   }
 }
 
+function* socialLogin({ payload: { provider } }: IAction) {
+  try {
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* listener(): Generator<
   ForkEffect<never>,
   void,
   unknown
 > {
-  yield takeLatest(LOG_IN, logIn);
+  yield takeLatest(LOG_IN_WITH_EMAIL, logInWithEmail);
+  yield takeLatest(SOCIAL_LOGIN, socialLogin);
 }

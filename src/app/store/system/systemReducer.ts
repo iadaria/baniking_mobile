@@ -1,10 +1,12 @@
-import { IAction } from '~/app/models/common';
-
 /***************** System constants ********************/
 const OPEN_DRAWER = 'system/OPEN_DRAWER';
 const CLOSE_DRAWER = 'system/CLOSE_DRAWER';
 
 /***************** System actions **********************/
+interface IAction {
+  type: string;
+}
+
 export function openDrawer() {
   return {
     type: OPEN_DRAWER,
@@ -26,9 +28,9 @@ const initialState: ISystemState = {
   isDrawerOpen: false,
 };
 
-export default function modalReducer(
+export default function systemReducer(
   state: ISystemState = initialState,
-  { type }: IAction = { type: '', payload: undefined },
+  { type }: IAction = { type: '' },
 ): ISystemState {
   switch (type) {
     case OPEN_DRAWER:

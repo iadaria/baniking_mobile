@@ -6,6 +6,7 @@ import { configuredReactotron } from '~/initial/reactotron';
 //   // persistReducer,
 // } from 'redux-persist';
 import rootReducer from './rootReducer';
+import rootSagas from './rootSaga';
 // import AsyncStorage from '@react-native-community/async-storage';
 
 // const persistConfig = {
@@ -33,4 +34,4 @@ export const store = createStore(rootReducer, enhancer);
 
 // export const persistor = persistStore(store);
 export default store;
-// sagaMiddleware.run(rootSagas);
+sagaMiddleware.run(rootSagas);
