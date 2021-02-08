@@ -18,6 +18,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* baniking_mobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* baniking_mobileTests.m */; };
+		2E55F34C6A634864845580FC /* Ubuntu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2651789223984E4AB9064249 /* Ubuntu-Light.ttf */; };
 		3C9E197B767147BAB58E37AD /* Gilroy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D71645C17A94A929E025999 /* Gilroy-Regular.ttf */; };
 		4CE24EFF9DCA45A1AEFAC061 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA7B1EE76EF84944BE4E2941 /* SFProText-Regular.ttf */; };
 		5263BE8885EA61752ADC4BA5 /* libPods-baniking_mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72CB56F8199606B03882D9AB /* libPods-baniking_mobile.a */; };
@@ -32,7 +33,6 @@
 		F74AD4DF0F5BD1CBE586B45A /* libPods-baniking_mobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8FBFD2CC0639FBFB200C53E /* libPods-baniking_mobile-tvOSTests.a */; };
 		F8145A78A610443E934562FF /* SegoeUI-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A69E287B0C9340DCA7DA25CA /* SegoeUI-Light.ttf */; };
 		FC72AF76ED3F43EC926BB706 /* Gilroy-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */; };
-		2E55F34C6A634864845580FC /* Ubuntu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2651789223984E4AB9064249 /* Ubuntu-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +65,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = baniking_mobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = baniking_mobile/main.m; sourceTree = "<group>"; };
 		1697C12449F0984D3D929217 /* libPods-baniking_mobile-baniking_mobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baniking_mobile-baniking_mobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2651789223984E4AB9064249 /* Ubuntu-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Ubuntu-Light.ttf"; path = "../src/assets/fonts/Ubuntu-Light.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* baniking_mobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "baniking_mobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* baniking_mobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "baniking_mobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		332ABF8E7D1D4E1483519965 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.ttf"; path = "../src/assets/fonts/SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		F3F7CD1BB7514A5D9D9EE1C3 /* Gilroy-UltraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-UltraLight.ttf"; path = "../src/assets/fonts/Gilroy-UltraLight.ttf"; sourceTree = "<group>"; };
 		FCB30AC681B848618008BA9F /* Gilroy-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gilroy-Light.ttf"; path = "../src/assets/fonts/Gilroy-Light.ttf"; sourceTree = "<group>"; };
 		FE8E36B5F31233164C6AEA42 /* Pods-baniking_mobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baniking_mobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-baniking_mobile-tvOS/Pods-baniking_mobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		2651789223984E4AB9064249 /* Ubuntu-Light.ttf */ = {isa = PBXFileReference; name = "Ubuntu-Light.ttf"; path = "../src/assets/fonts/Ubuntu-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -545,10 +545,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-baniking_mobile/Pods-baniking_mobile-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,10 +565,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-baniking_mobile-baniking_mobileTests/Pods-baniking_mobile-baniking_mobileTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
