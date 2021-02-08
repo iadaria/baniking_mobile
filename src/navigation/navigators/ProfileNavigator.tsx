@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import TestScreen from '~/navigation/screens/TestScreen';
-import LoginScreen from '../screens/auth/LoginScreen';
+import LoginScreen from '../screens/auth/container/LoginScreen';
 
 export default function ProfileNavigator(): JSX.Element {
   const Profile = createStackNavigator();

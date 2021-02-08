@@ -16,3 +16,16 @@ export interface IUserFormValues {
   username?: string;
   phone?: string;
 }
+
+/**
+ * Action for login user
+ *
+ * @field login? {string}
+ * @field password? {string}
+ * @field provider? {string}
+ */
+export interface ICredential {
+  login?: string;
+  password?: string;
+  provider?: string;
+}

@@ -1,19 +1,19 @@
 import { IUser } from '~/app/models/user';
 import * as constants from './authConstants';
+import { ICredential } from '~/app/models/user';
 /* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
   type: constants.ENTER_PIN,
   payload: { pincode, forBackupPhrase },
 }); */
 
-export interface ILogInAction {
-  login?: string;
-  password?: string;
-  provider?: string;
-}
-
-export const logIn = ({ login, password }: ILogInAction) => ({
-  type: constants.LOG_IN_WITH_EMAIL,
+export const emailLogin = ({ login, password }: ICredential) => ({
+  type: constants.EMAIL_LOGIN,
   payload: { login, password },
+});
+
+export const socialLogin = ({ provider }: ICredential) => ({
+  type: constants.SOCIAL_LOGIN,
+  payload: { provider },
 });
 
 export const setUserData = (data: IUser) => ({

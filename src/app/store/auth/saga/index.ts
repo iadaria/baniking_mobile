@@ -1,1 +1,2 @@
-export { default as login } from './login';
+export { default as socialLoginSaga } from './socialLogin';
+export { default as emailLoginSaga } from './emailLogin';

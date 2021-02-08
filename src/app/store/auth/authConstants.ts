@@ -1,7 +1,7 @@
-export const LOG_IN_WITH_EMAIL = 'auth/LOG_IN_WITH_EMAIL';
+export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
+export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
 export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';
-export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const LOG_OUT = 'auth/LOG_OUT';
 export const ENTER_CODE = 'auth/ENTER_CODE';
 export const RECOVERY_PASSWORD = 'auth/RECOVERY_PASSWORD';
