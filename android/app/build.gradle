@@ -134,6 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // manifestPlaceholders = [YANDEX_CLIENT_ID:"8ae51d5112d54b77ba33623a958e6d96"] // by Daria
     }
     splits {
         abi {
@@ -210,6 +211,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    // compile 'com.yandex.android:authsdk:2.0.0' // by Daria
 }
 
 // Run this once to be able to run the application with BUCK
