@@ -17,9 +17,9 @@ export function LoginScreen({ socialLogin }: IProps) {
     <Block base center debug>
       <AppText>Login</AppText>
       <GoogleSigninButton
-        // style={{ width: '100%', height: 48 }}
-        size={GoogleSigninButton.Size.Wide}
-        //color={GoogleSigninButton.Color.Dark}
+        // style={{ width: 48, height: 48 }}
+        size={GoogleSigninButton.Size.Icon}
+        color={GoogleSigninButton.Color.Light}
         onPress={() => {
           socialLogin({ provider: 'google' });
         }}
@@ -31,9 +31,15 @@ export function LoginScreen({ socialLogin }: IProps) {
         title="VK"
         onPress={async () => {
           const auth = await VKLogin.login(['friends', 'photos', 'email']);
-          console.log(auth.access_token);
+          console.log(auth);
         }}
       />
     </Block>
   );
 }
+
+/**
+ * VK - https://github.com/doomsower/react-native-vkontakte-login
+ * VK - https://github.com/doomsower/react-native-vkontakte-login/blob/master/docs/installation.md#android
+ * VK - https://vk.com/dev/android_sdk
+ */

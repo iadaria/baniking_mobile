@@ -30,6 +30,16 @@
 				<string>com.googleusercontent.apps.470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog</string>
 			</array>
 		</dict>
+		<dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>vk7755623</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>vk7755623</string>
+        </array>
+      </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -80,5 +90,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>VK_APP_ID</key>
+	<integer>7755623</integer>
 </dict>
 </plist>
