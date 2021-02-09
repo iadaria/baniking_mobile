@@ -4,6 +4,7 @@
 
 sandbox/
 
+*.hprof
 .node.md
 # Xcode
 #

@@ -16,7 +16,11 @@
     "pod-update": "yarn upgrade --latest && npx pod-install",
     "pod": "npx pod-install",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "other-clean": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-* && watchman watch-del-all",
+    "remove-android-build": "rm -rf android/build",
+    "android-clean": "cd android && ./gradlew build && cd ..",
+    "brew": "brew update && brew upgrade"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -25,8 +29,10 @@
     "@react-navigation/drawer": "^5.12.3",
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
+    "@types/react-native-fbsdk": "^3.0.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-fbsdk": "^3.0.0",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-global-props": "^1.1.5",
     "react-native-reanimated": "^1.13.2",
