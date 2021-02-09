@@ -6315,6 +6315,11 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
+react-native-vkontakte-login@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-vkontakte-login/-/react-native-vkontakte-login-1.0.1.tgz#0436fc235543d8f7c01c4a6570f1882df00b4e06"
+  integrity sha512-xZHuFBD97WodPk6b1fhDhV9TpNzVb0eO/uqpW9IUn7Y4Q/yPC4kvX/xpJrBGWS3NejX5HYniUdyZySA2bGyUBQ==
+
 react-native@0.63.4:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"

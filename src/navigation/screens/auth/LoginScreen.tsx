@@ -4,6 +4,8 @@ import { GoogleSigninButton } from '@react-native-community/google-signin';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import { ICredential } from '../../../app/models/user';
+import VKLogin from 'react-native-vkontakte-login';
+import { Button } from 'react-native';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -15,18 +17,22 @@ export function LoginScreen({ socialLogin }: IProps) {
     <Block base center debug>
       <AppText>Login</AppText>
       <GoogleSigninButton
-        style={{ width: '100%', height: 48 }}
+        // style={{ width: '100%', height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         //color={GoogleSigninButton.Color.Dark}
         onPress={() => {
           socialLogin({ provider: 'google' });
         }}
-        /*  socialLogin('google')
-            .then(() => {
-              console.log('success entered by Google');
-            })
-            .catch((error) => console.log('error', error))
-        } */
+      />
+
+      <Block margin={[0, 0, 3, 0]} />
+
+      <Button
+        title="VK"
+        onPress={async () => {
+          const auth = await VKLogin.login(['friends', 'photos', 'email']);
+          console.log(auth.access_token);
+        }}
       />
     </Block>
   );
