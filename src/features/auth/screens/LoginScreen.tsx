@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, AppText } from '~/app/common/components/ui';
+import { Block, AppText } from '~/src/app/common/components/ui';
 import { GoogleSigninButton } from '@react-native-community/google-signin';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';

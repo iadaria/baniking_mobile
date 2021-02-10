@@ -1,7 +1,7 @@
 import React from 'react';
-import { AppText, Block } from '~/app/common/components/ui';
-import { MenuLogo } from '~/assets';
-import { colors, sizes } from '~/app/common/constants';
+import { AppText, Block } from '~/src/app/common/components/ui';
+import { MenuLogo } from '~/src/assets';
+import { colors, sizes } from '~/src/app/common/constants';
 
 export function AppLogoItem() {
   return (

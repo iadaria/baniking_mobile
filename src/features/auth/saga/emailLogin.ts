@@ -1,6 +1,6 @@
 import { ForkEffect, takeLatest } from 'redux-saga/effects';
 import { EMAIL_LOGIN } from '../authConstants';
-import { ICredential } from '~/app/models/user';
+import { ICredential } from '~/src/app/models/user';
 
 interface IAction {
   type: string;

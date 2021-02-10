@@ -1,5 +1,5 @@
 import * as constants from './authConstants';
-import { IUser } from '~/app/models/user';
+import { IUser } from '~/src/app/models/user';
 
 interface IAction {
   type: string;

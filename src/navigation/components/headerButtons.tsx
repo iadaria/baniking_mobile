@@ -1,8 +1,8 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Block } from '~/app/common/components/ui/Block';
-import { MenuHumberger, Notify, CloseMenu } from '~/assets';
-import { colors, sizes } from '~/app/common/constants';
+import { Block } from '~/src/app/common/components/ui/Block';
+import { MenuHumberger, Notify, CloseMenu } from '~/src/assets';
+import { colors, sizes } from '~/src/app/common/constants';
 
 // interface IProps {
 //   navigation: StackNavigationProp<ParamListBase>;

@@ -1,6 +1,6 @@
-import { IUser } from '~/app/models/user';
+import { IUser } from '~/src/app/models/user';
 import * as constants from './authConstants';
-import { ICredential } from '~/app/models/user';
+import { ICredential } from '~/src/app/models/user';
 /* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
   type: constants.ENTER_PIN,
   payload: { pincode, forBackupPhrase },

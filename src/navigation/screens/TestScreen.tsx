@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, AppText } from '~/app/common/components/ui';
+import { Block, AppText } from '~/src/app/common/components/ui';
 
 export default function TestScreen({ navigation }: any) {
   return (

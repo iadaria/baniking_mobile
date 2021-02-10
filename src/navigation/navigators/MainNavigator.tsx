@@ -13,13 +13,13 @@ import {
   HeaderLeftClose,
   HeaderLeftOpen,
   HeaderRightButton,
-} from '~/navigation/components/headerButtons';
+} from '~/src/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { openDrawer, closeDrawer } from '~/app/store/system/systemReducer';
-import { IRootState } from '~/app/store/rootReducer';
-import { ISystemState } from '../../app/store/system/systemReducer';
+import { openDrawer, closeDrawer } from '~/src/app/store/system/systemReducer';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { ISystemState } from '~/src/app/store/system/systemReducer';
 
 interface IProps {
   route: Route<string, object | undefined>;

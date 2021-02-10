@@ -10,8 +10,8 @@ import {
   IUiBlock,
   IUiMargin,
   IUiPadding,
-} from '~/app/models/block';
-import { colors, sizes } from '~/app/common/constants';
+} from '~/src/app/models/block';
+import { colors, sizes } from '~/src/app/common/constants';
 
 export function Block(props: IUiBlock) {
   function handleMargins(): IUiMargin {

@@ -7,7 +7,7 @@ import {
   MeetingsNavigator,
   SettingsNavigator,
   QrNavigator,
-} from '~/navigation/navigators';
+} from '~/src/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
 import { appDrawerItemStyle, appDrawerStyle } from '../appDefaultTheme';

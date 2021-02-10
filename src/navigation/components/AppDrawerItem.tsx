@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppText, Block } from '~/app/common/components/ui';
+import { AppText, Block } from '~/src/app/common/components/ui';
 
 interface ILabelProps {
   color?: string;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AppText, Block } from '~/app/common/components/ui';
-import { TotalPointScores } from '~/assets';
-import { sizes } from '~/app/common/constants/sizes';
+import { AppText, Block } from '~/src/app/common/components/ui';
+import { TotalPointScores } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants/sizes';
 
 export default function AppHeaderTitle() {
   return (

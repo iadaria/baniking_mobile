@@ -1,5 +1,5 @@
 import React from 'react';
-import '~/initial';
+import '~/src/initial-imports';
 import AppNavigation from './src/navigation/AppNavigation';
 
 const App: () => React.ReactElement = () => {

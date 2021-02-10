@@ -1,6 +1,6 @@
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { ForkEffect, takeLatest } from 'redux-saga/effects';
-import { ICredential } from '~/app/models/user';
+import { ICredential } from '~/src/app/models/user';
 import { SOCIAL_LOGIN } from '../authConstants';
 
 /**

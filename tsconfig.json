@@ -57,12 +57,14 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "baseUrl": ".",
     "paths": {
-      "~/app/*": ["src/app/*/index", "src/app/*"],
-      "~/navigation/*": ["src/navigation/*"],
-      "~/navigation/navigators": ["src/navigation/navigators/index.ts"],
-      "~/assets": ["src/assets/index.ts"],
-      "~/initial/*": ["src/initial-imports/*"],
-      "~/initial": ["src/initial-imports/index.ts"],
+      "~/src/*": ["src/*"],
+      // "~/app/*": ["src/app/*/index", "src/app/*"],
+      // "~/navigation/*": ["src/navigation/*"],
+      // "~/navigation/navigators": ["src/navigation/navigators/index.ts"],
+      // "~/assets": ["src/assets/index.ts"],
+      // "~/initial/*": ["src/initial-imports/*"],
+      // "~/initial": ["src/initial-imports/index.ts"],
+      // "~/features/*": ["src/features/*"],
     },
   },
   "exclude": [

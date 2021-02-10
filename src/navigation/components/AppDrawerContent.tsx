@@ -4,12 +4,11 @@ import {
   DrawerContentOptions,
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList,
 } from '@react-navigation/drawer';
 import { AppLogoItem } from './AppLogoItem';
 import { AppDrawerItem } from './AppDrawerItem';
 import { Alert } from 'react-native';
-import { closeDrawer } from '~/app/store/system/systemReducer';
+import { closeDrawer } from '~/src/app/store/system/systemReducer';
 import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
 

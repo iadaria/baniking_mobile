@@ -5,8 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { colors } from '~/app/common/constants';
-import { sizes } from '../app/common/constants/sizes';
+import { colors, sizes } from '~/src/app/common/constants';
 
 const { width } = Dimensions.get('window');
 

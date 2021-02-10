@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { configuredReactotron } from '~/initial/reactotron';
+import { configuredReactotron } from '~/src/initial-imports/reactotron';
 // import {
 //   persistStore,
 //   // persistReducer,

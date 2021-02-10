@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { colors, fonts, sizes } from '~/app/common/constants';
-import { ITextStyleProps, IUiText } from '~/app/models/text';
+import { colors, fonts, sizes } from '~/src/app/common/constants';
+import { ITextStyleProps, IUiText } from '~/src/app/models/text';
 
 export function AppText(props: IUiText) {
   const {
