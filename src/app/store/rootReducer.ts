@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import systemReducer, { ISystemState } from './system/systemReducer';
-import authReducer, { IAuthState } from '~/src/features/auth/authReducer';
+import authReducer, { IAuthState } from '~/src/features/auth/store/authReducer';
 
 export interface IRootState {
   system: ISystemState;

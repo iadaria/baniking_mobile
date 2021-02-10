@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects';
-import * as auth from '~/src/features/auth/saga';
+import * as auth from '~/src/features/auth/store/saga';
 
 const getListeners = (...args) =>
   args.reduce(

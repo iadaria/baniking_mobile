@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 // import { IRootState } from '~/app/store/rootReducer';
 import { LoginScreen } from '../LoginScreen';
-import { socialLogin } from '~/src/features/auth/authActions';
+import { socialLogin } from '~/src/features/auth/store/authActions';
 
 const LoginContainer = connect(
   (/* state: IRootState */) => ({

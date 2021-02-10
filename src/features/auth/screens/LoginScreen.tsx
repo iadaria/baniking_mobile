@@ -3,7 +3,7 @@ import { Block, AppText } from '~/src/app/common/components/ui';
 import { GoogleSigninButton } from '@react-native-community/google-signin';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { ICredential } from '../../../app/models/user';
+import { ICredential } from '~/src/app/models/user';
 import VKLogin from 'react-native-vkontakte-login';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { Button } from 'react-native';
@@ -45,9 +45,11 @@ export function LoginScreen({ socialLogin }: IProps) {
           } else if (result.isCancelled) {
             console.log('login is cancelled.');
           } else {
-            AccessToken.getCurrentAccessToken().then((data) => {
-              console.log(data.accessToken.toString());
-            });
+            AccessToken.getCurrentAccessToken().then(
+              (data: AccessToken | null) => {
+                console.log(data?.accessToken.toString());
+              },
+            );
           }
         }}
         onLogoutFinished={() => console.log('logout.')}
@@ -55,4 +57,3 @@ export function LoginScreen({ socialLogin }: IProps) {
     </Block>
   );
 }
-
