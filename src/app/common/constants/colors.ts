@@ -1,3 +1,4 @@
+// convert color hex to rgb https://www.rapidtables.com/convert/color/hex-to-rgb.html
 export const colors = {
   primary: '#171719',
   secondary: '#E7AE6F',
@@ -11,6 +12,7 @@ export const colors = {
 
   input: {
     border: '#E5E5E5',
+    placeholder: '#7E7E7E',
   },
 
   accent: '',

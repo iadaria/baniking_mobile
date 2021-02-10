@@ -97,7 +97,7 @@ export function AppText(props: IUiText) {
 const styles = StyleSheet.create<ITextStyleProps>({
   // default style
   text: {
-    fontSize: wp(sizes.font),
+    fontSize: wp(sizes.font.base),
     color: colors.text,
   },
   // variations

@@ -28,18 +28,18 @@ export const fonts = {
     semibold: 'SFProText-Semibold',
   },
   base: {
-    fontSize: wp(sizes.font),
+    fontSize: wp(sizes.font.base),
   },
   h1: {
-    fontSize: wp(sizes.h1),
+    fontSize: wp(sizes.font.h1),
   },
   header: {
-    fontSize: wp(sizes.header),
+    fontSize: wp(sizes.font.header),
   },
   logo: {
-    fontSize: wp(sizes.logo),
+    fontSize: wp(sizes.font.logo),
   },
   caption: {
-    fontSize: wp(sizes.caption),
+    fontSize: wp(sizes.font.caption),
   },
 };

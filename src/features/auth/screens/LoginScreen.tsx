@@ -6,6 +6,8 @@ import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
 import { AppInput, Block } from '~/src/app/common/components/UI';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -13,11 +15,27 @@ interface IProps {
 }
 
 function LoginScreen({ socialLogin }: IProps) {
+  const behavior = Platform.OS === 'ios' ? 'padding' : 'height';
   return (
-    <Block base middle full color="white" debug>
-      <AppInput label="Имя" placeholder="Введите имя" />
-      <AppInput label="Фамилия" />
-    </Block>
+    <ScrollView>
+      <Block full middle white base flex={0.3}>
+        <AppInput label="Имя" placeholder="Введите имя" defaultValue="Антон" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Имя" placeholder="Введите имя" defaultValue="Антон" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Имя" placeholder="Введите имя" defaultValue="Антон" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Имя" placeholder="Введите имя" defaultValue="Антон" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Имя" placeholder="Введите имя" defaultValue="Антон" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+      </Block>
+    </ScrollView>
   );
 }
 

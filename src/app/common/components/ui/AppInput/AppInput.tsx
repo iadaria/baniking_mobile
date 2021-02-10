@@ -66,6 +66,7 @@ export function AppInput(props: IUiInput) {
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={isFocused ? undefined : placeholder}
+        placeholderTextColor="rgba(126, 126, 126, 0.3)"
         {...otherProps}
       />
       {/* {renderToggle()} */}
@@ -79,7 +80,7 @@ const styles = StyleSheet.create<IInputStyleProps>({
     borderWidth: 1, // StyleSheet.hairlineWidth,
     borderColor: colors.input.border,
     borderRadius: sizes.radius,
-    fontSize: wp(sizes.font),
+    fontSize: wp(sizes.font.base),
     color: colors.black,
     height: hp(sizes.input.hight),
     paddingHorizontal: wp(sizes.input.paddingHorizontal),

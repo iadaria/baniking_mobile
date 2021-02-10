@@ -23,22 +23,10 @@ export default function AppInputLabel(props: IProps) {
 
   // console.log('[AppInputLabel]', isFocused);
 
-  const labelWrapperStyle: StyleProp<ViewStyle> = [
-    styles.labelWrapper,
-    {
-      /* top: !isFocused ? hp(1.4) : -hp(1.4),
-      left: !isFocused ? wp(4) : wp(sizes.input.paddingHorizontal),
-      zIndex: !isFocused ? undefined : 2, */
-      top: -hp(1.4),
-      left: wp(sizes.input.paddingHorizontal),
-      zIndex: 2,
-    },
-  ];
-
   const labelStyle: StyleProp<TextStyle> = [
     styles.label,
     /* {
-      fontSize: !isFocused ? wp(sizes.label) : 14,
+      fontSize: !isFocused ? wp(sizes.font.label) : 14,
       color: !isFocused ? '#aaa' : '#000',
     }, */
   ];
@@ -46,7 +34,7 @@ export default function AppInputLabel(props: IProps) {
   return (
     <>
       {label ? (
-        <View style={labelWrapperStyle}>
+        <View style={styles.labelWrapper}>
           <Text style={labelStyle}>{label}</Text>
         </View>
       ) : null}
@@ -57,17 +45,19 @@ export default function AppInputLabel(props: IProps) {
 const styles = StyleSheet.create({
   labelWrapper: {
     position: 'absolute',
-    left: 0,
     alignSelf: 'flex-start',
+    top: -hp(sizes.input.labelTop),
+    left: wp(sizes.input.paddingHorizontal - sizes.input.labelPadding),
+    zIndex: 2,
     backgroundColor: colors.white,
     /* borderWidth: 0.5,
     borderColor: 'red', */
-    paddingHorizontal: wp(1),
+    paddingHorizontal: wp(sizes.input.labelPadding),
   },
   label: {
     fontFamily: fonts.Gilroy.semibold,
     fontSize: wp(sizes.input.label),
-    fontWeight: '700',
+    // fontWeight: '700',
     color: colors.black,
   },
 });
