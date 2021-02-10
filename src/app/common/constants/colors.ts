@@ -9,6 +9,10 @@ export const colors = {
 
   disable: '#AEAEAE',
 
+  input: {
+    border: '#E5E5E5',
+  },
+
   accent: '',
 
   buttonBeginning: '#F3F0EB',

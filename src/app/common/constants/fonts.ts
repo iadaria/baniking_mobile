@@ -9,6 +9,7 @@ export const fonts = {
     medium: 'Gilroy-Medium',
     regular: 'Gilroy-Regular',
     lightUltra: 'Gilroy-UltraLight',
+    semibold: 'Gilroy-SemiBold',
   },
   Ubuntu: {
     light: 'Ubuntu-Light',

@@ -134,6 +134,7 @@ export function Block(props: IUiBlock) {
     wrap,
     // colors
     primary,
+    white,
     // custome styles
     underline,
     // others
@@ -168,8 +169,10 @@ export function Block(props: IUiBlock) {
     space && { justifyContent: `space-${space}` },
     wrap && { flexWrap: 'wrap' },
     // colors
+    white && styles.white,
     // section && styles.section,
-    color && styles[color as keyof typeof styles], // predefined styles for backgroundColor
+    // color && styles[color as keyof typeof styles],
+    color && { backgroundColor: color },
     primary && styles.primary,
     // custome styles
     underline && styles.underline,
@@ -257,6 +260,7 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
 
   // colors
   primary: { backgroundColor: colors.primary },
+  white: { backgroundColor: colors.white },
 });
 
 /* <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>

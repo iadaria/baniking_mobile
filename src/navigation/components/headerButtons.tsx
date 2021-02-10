@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Block } from '~/src/app/common/components/ui/Block';
+import { Block } from '~/src/app/common/components/UI';
 import { MenuHumberger, Notify, CloseMenu } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
 

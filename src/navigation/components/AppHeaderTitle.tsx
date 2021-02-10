@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppText, Block } from '~/src/app/common/components/ui';
+import { AppText, Block } from '~/src/app/common/components/UI';
 import { TotalPointScores } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants/sizes';
 

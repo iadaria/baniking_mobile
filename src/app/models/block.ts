@@ -26,6 +26,8 @@ export interface IUiBlock {
   // custome style
   underline?: boolean;
   style?: object;
+  // colors
+  white?: boolean;
   children?: ReactNode;
   [key: string]: any;
 }
@@ -62,6 +64,7 @@ export interface IBlockStyleProps {
   underline: object;
 
   primary: object;
+  white: object;
   secondary?: object;
   tertiary?: object;
 }
