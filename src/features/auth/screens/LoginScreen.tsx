@@ -5,8 +5,9 @@ import { ICredential } from '~/src/app/models/user';
 // import SocialLogin from './components/SocialLogin';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
-import { AppInput, Block } from '~/src/app/common/components/UI';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { Platform, ScrollView } from 'react-native';
+import { AppButton } from '~/src/app/common/components/UI/AppButton';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 interface IProps {
@@ -27,22 +28,18 @@ function LoginScreen({ socialLogin }: IProps) {
         />
         <AppInput label="Фамилия" defaultValue="Сергеев" />
         <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
-        <AppInput label="Фамилия" defaultValue="Сергеев" />
-        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+
+        <AppButton>
+          <AppText center medium>
+            Восстановить
+          </AppText>
+        </AppButton>
+
+        <AppButton disabled={true}>
+          <AppText center medium disabled={true}>
+            Восстановить
+          </AppText>
+        </AppButton>
       </Block>
     </ScrollView>
   );

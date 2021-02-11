@@ -17,6 +17,11 @@ export const sizes = {
     labelPadding: 1.3,
   },
 
+  button: {
+    padding: 3.6,
+    radius: 9,
+  },
+
   // font sizes
   font: {
     base: 3.65, // 13-3.3 15-3.6 18-4.25 24-5.6

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleProp, StyleSheet, TextInput, TextStyle, TextInputProps } from 'react-native';
+import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
+import { TextProps } from 'react-native';
 
-export interface IUiText {
+export interface IUiText extends TextProps {
   // size
   h1?: boolean;
   header?: boolean;
@@ -22,6 +23,11 @@ export interface IUiText {
   sfTextRegular?: boolean;
   sfTextSemibold?: boolean;
   // align
+  // colors
+  disabled?: boolean;
+  white?: boolean;
+  primary?: boolean;
+  secondary?: boolean;
   // style
   transform?: string;
   align?: boolean;
@@ -31,7 +37,8 @@ export interface IUiText {
   height?: boolean; // line-heigh?: boolean;
   style?: object;
   children?: ReactNode;
-  [key: string]: any;
+  color?: string;
+  // [key: string]: any;
 }
 
 export interface ITextStyleProps {
@@ -56,6 +63,7 @@ export interface ITextStyleProps {
   primary: object;
   secondary: object;
   white: object;
+  disabled: object;
   // fonts
   h1: object;
   header: object;

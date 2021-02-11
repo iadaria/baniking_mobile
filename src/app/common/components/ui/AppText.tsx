@@ -38,6 +38,7 @@ export function AppText(props: IUiText) {
     color,
     primary,
     secondary,
+    disabled,
     // logo,
     white,
     children,
@@ -84,7 +85,7 @@ export function AppText(props: IUiText) {
     // tertiary && styles.tertiary,
     white && styles.white,
     style, // rewrite predefined styles
-    // disabled && styles.disable,
+    disabled && styles.disabled,
   ];
 
   return (
@@ -98,7 +99,7 @@ const styles = StyleSheet.create<ITextStyleProps>({
   // default style
   text: {
     fontSize: wp(sizes.font.base),
-    color: colors.text,
+    color: colors.text.base,
   },
   // variations
   regular: { fontFamily: fonts.Gilroy.regular },
@@ -120,6 +121,7 @@ const styles = StyleSheet.create<ITextStyleProps>({
   primary: { color: colors.primary },
   secondary: { color: colors.secondary },
   white: { color: colors.white },
+  disabled: { color: colors.text.disabled },
   // fonts
   h1: fonts.h1,
   header: fonts.header,
