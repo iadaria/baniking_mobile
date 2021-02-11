@@ -3,7 +3,7 @@ import { TextInputProps } from 'react-native';
 
 export interface IUiInput extends TextInputProps {
   label?: string;
-  error?: boolean;
+  error?: string;
   secure?: boolean;
   rightLabel?: JSX.Element;
   rightStyle?: object;

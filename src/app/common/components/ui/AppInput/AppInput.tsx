@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,6 +8,9 @@ import { IInputStyleProps, IUiInput } from '~/src/app/models/input';
 import { colors, sizes } from '~/src/app/common/constants';
 import { Block } from '../Block';
 import AppInputLabel from './AppInputLabel';
+import AppInputError from './AppInputError';
+
+// TODO separate properties for label and error components don't pass all props
 
 export function AppInput(props: IUiInput) {
   // const [toggleSecure, setToggleSecure] = useState(false);
@@ -36,9 +39,9 @@ export function AppInput(props: IUiInput) {
 
   // const isSecure = toggleSecure ? false : secure;
 
-  const inputStyles = [
+  const inputStyles: StyleProp<TextStyle> = [
     styles.input,
-    error && { borderColor: colors.accent },
+    !!error && { borderColor: colors.error },
     style,
     isFocused && { borderColor: colors.secondary },
   ];
@@ -57,7 +60,6 @@ export function AppInput(props: IUiInput) {
       <AppInputLabel {...props} isFocused={isFocused} />
       <TextInput
         style={inputStyles}
-        // defaultValue="Сергеев"
         // secureTextEntry={isSecure}
         autoCompleteType="off"
         autoCapitalize="none"
@@ -67,8 +69,10 @@ export function AppInput(props: IUiInput) {
         onBlur={handleBlur}
         placeholder={isFocused ? undefined : placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
+        underlineColorAndroid="transparent"
         {...otherProps}
       />
+      <AppInputError {...props} isFocused={isFocused} />
       {/* {renderToggle()} */}
       {/* {renderRight()} */}
     </Block>
@@ -106,20 +110,6 @@ const styles = StyleSheet.create<IInputStyleProps>({
 });
 
 /*
-function renderLabel(): JSX.Element {
-  const { label, error } = props;
-
-  return (
-    <Block>
-      {label ? (
-        <AppText gray2={!error} accent={error}>
-          {label}
-        </AppText>
-      ) : null}
-    </Block>
-  );
-}
-
 function renderToggle(): JSX.Element | null {
   const { secure, rightLabel } = props;
 

@@ -7,22 +7,24 @@ export const colors = {
   inputText: '#232738',
   logo: '#786F6A',
   text: '#F6F4F5',
+  caption: '#C4C4C4',
 
   disable: '#AEAEAE',
+
+  test: {},
 
   input: {
     border: '#E5E5E5',
     placeholder: '#7E7E7E',
   },
 
-  accent: '',
+  button: {},
 
   buttonBeginning: '#F3F0EB',
-
   borderBlack: '#2F2F33', // button
 
-  caption: '#C4C4C4',
-
+  accent: '',
+  error: 'rgb(176, 0, 32)',
   white: '#fff',
   black: '#000',
 };

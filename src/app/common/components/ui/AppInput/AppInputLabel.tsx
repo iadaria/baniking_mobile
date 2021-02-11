@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import { StyleProp, StyleSheet, Text, View, TextStyle } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,7 +12,7 @@ interface IProps extends IUiInput {
 }
 
 export default function AppInputLabel(props: IProps) {
-  const { label, error, isFocused } = props;
+  const { label /* error, isFocused  */ } = props;
 
   // console.log('[AppInputLabel]', isFocused);
 
