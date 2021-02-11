@@ -4,6 +4,7 @@ import { TextProps } from 'react-native';
 export interface IUiText extends TextProps {
   // size
   h1?: boolean;
+  h2?: boolean;
   header?: boolean;
   logo?: boolean;
   caption?: boolean;
@@ -12,6 +13,7 @@ export interface IUiText extends TextProps {
   regular?: boolean;
   medium?: boolean;
   bold?: boolean;
+  semibold?: boolean;
   ubuntu?: boolean;
   weight?: boolean;
   light?: boolean;
@@ -35,6 +37,7 @@ export interface IUiText extends TextProps {
   right?: boolean;
   spacing?: boolean; // letter-spacin?: boolean;
   height?: boolean; // line-heigh?: boolean;
+  necessary?: boolean;
   style?: object;
   children?: ReactNode;
   color?: string;
@@ -46,6 +49,7 @@ export interface ITextStyleProps {
   text: object;
   regular: object;
   bold: object;
+  semibold: object;
   medium: object;
   light: object;
   lightItalic: object;
@@ -66,6 +70,7 @@ export interface ITextStyleProps {
   disabled: object;
   // fonts
   h1: object;
+  h2: object;
   header: object;
   logo: object;
   caption: object;

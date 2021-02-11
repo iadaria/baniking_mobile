@@ -92,9 +92,9 @@ const styles = StyleSheet.create<IInputStyleProps>({
   toggle: {
     position: 'absolute',
     alignItems: 'flex-end',
-    width: sizes.base * 2,
-    height: sizes.base * 2,
-    top: sizes.base,
+    width: sizes.offset.base * 2,
+    height: sizes.offset.base * 2,
+    top: sizes.offset.base,
     right: 0,
   },
   labelWrapper: {

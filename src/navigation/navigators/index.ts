@@ -1,3 +1,4 @@
+// export { MainNavigator } from './MainNavigator';
 export { default as ProfileNavigator } from './ProfileNavigator';
 export { default as BathesNavigator } from './BathesNavigator';
 export { default as MeetingsNavigator } from './MeetingsNavigators';

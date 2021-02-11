@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderRadius: sizes.button.radius,
     padding: wp(sizes.button.padding),
 
-    // height: wp(sizes.base) * 1.2,
+    // height: wp(sizes.offset.base) * 1.2,
     // justifyContent: 'center',
     backgroundColor: colors.secondary,
     // marginVertical: wp(sizes.padding) / 3,

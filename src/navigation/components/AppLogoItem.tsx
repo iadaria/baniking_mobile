@@ -7,7 +7,7 @@ export function AppLogoItem() {
   return (
     <Block row center>
       <MenuLogo />
-      <Block margin={[0, sizes.between]} />
+      <Block margin={[0, sizes.offset.between]} />
       <Block>
         <AppText style={{ bottom: -3 }} logo trajan transform="uppercase">
           Banya king

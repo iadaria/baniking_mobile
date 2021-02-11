@@ -34,8 +34,8 @@ export const appDefaultTheme = {
 
 export const appDrawerStyle: StyleProp<ViewStyle> = {
   width,
-  paddingVertical: hp(sizes.base / 3), // TODO depend on android version
-  paddingHorizontal: wp(sizes.base - 3),
+  paddingVertical: hp(sizes.offset.base / 3), // TODO depend on android version
+  paddingHorizontal: wp(sizes.offset.base - 3),
   backgroundColor: colors.primary,
 };
 

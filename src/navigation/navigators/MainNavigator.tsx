@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   createStackNavigator,
   StackNavigationProp,
 } from '@react-navigation/stack';
-// import { useSelector } from 'react-redux';
-// import { IRootState } from '../../app/store/rootReducer';
-// import { IAuthState } from '../../features/auth/authReducer';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../appDefaultTheme';
@@ -16,41 +13,78 @@ import {
 } from '~/src/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
-import { useDispatch, useSelector } from 'react-redux';
-import { openDrawer, closeDrawer } from '~/src/app/store/system/systemReducer';
+import { connect } from 'react-redux';
+import {
+  openDrawer as openDrawerAction,
+  closeDrawer as closeDrawerAction,
+} from '~/src/app/store/system/systemReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { ISystemState } from '~/src/app/store/system/systemReducer';
+import AuthNavigator from '~/src/features/auth/AuthNavigator';
 
 interface IProps {
+  isDrawerOpen: boolean;
+  authenticated: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
+}
+
+interface IScreenOptionsProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
 }
 
+interface IAppScreenOptionsProps {
+  isDrawerOpen: boolean;
+  navigation: StackNavigationProp<ParamListBase>;
+  onCloseDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
+  onOpenDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
+}
+
 const Main = createStackNavigator();
 
-export default function MainNavigator() {
-  const dispatch = useDispatch();
-  // const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const { isDrawerOpen } = useSelector<IRootState>(
-    (state) => state.system,
-  ) as ISystemState;
+const appScreenOptions = ({
+  isDrawerOpen,
+  navigation,
+  onCloseDrawer,
+  onOpenDrawer,
+}: IAppScreenOptionsProps) => {
+  return {
+    ...defaultScreenOptions,
+    headerTitle: () => <AppHeaderTitle />,
+    headerLeft: () => {
+      return isDrawerOpen ? (
+        <HeaderLeftClose onCloseDrawer={() => onCloseDrawer(navigation)} />
+      ) : (
+        <HeaderLeftOpen onOpenDrawer={() => onOpenDrawer(navigation)} />
+      );
+    },
+    headerRight: () => <HeaderRightButton />,
+  };
+};
+
+function MainNavigatorContainer({
+  authenticated,
+  isDrawerOpen,
+  openDrawer,
+  closeDrawer,
+}: IProps) {
+  /* const { isDrawerOpen } = useSelector<IRootState>((state) => state.system) as ISystemState; */
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
-    dispatch(openDrawer());
-    // setIsDrawerOpen(true);
+    openDrawer();
   }
 
   function onCloseDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.closeDrawer());
-    // setIsDrawerOpen(false);
-    dispatch(closeDrawer());
+    closeDrawer();
   }
 
   return (
     <Main.Navigator
-      screenOptions={({ navigation }: IProps) => {
-        return {
+      initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}
+      /* screenOptions={({ navigation }: IScreenOptionsProps) =>
+      /*  return {
           ...defaultScreenOptions,
           headerTitle: () => <AppHeaderTitle />,
           headerLeft: () => {
@@ -64,11 +98,42 @@ export default function MainNavigator() {
           },
           headerRight: () => <HeaderRightButton />,
         };
-      }}>
-      <Main.Screen name="DrawerNavigator" component={DrawerNavigator} />
+      }}> */
+    >
+      <Main.Screen
+        options={{ headerShown: false }}
+        name="AuthNavigator"
+        component={AuthNavigator}
+      />
+      <Main.Screen
+        options={({ navigation }: IScreenOptionsProps) =>
+          appScreenOptions({
+            isDrawerOpen,
+            navigation,
+            onCloseDrawer,
+            onOpenDrawer,
+          })
+        }
+        name="DrawerNavigator"
+        component={DrawerNavigator}
+      />
     </Main.Navigator>
   );
 }
+
+//const MainNavigatorConnected = connect(
+export default connect(
+  (state: IRootState) => ({
+    isDrawerOpen: state.system.isDrawerOpen,
+    authenticated: state.auth.authenticated,
+  }),
+  {
+    openDrawer: openDrawerAction,
+    closeDrawer: closeDrawerAction,
+  },
+)(MainNavigatorContainer);
+
+// export { MainNavigatorConnected as MainNavigator };
 
 /* props: StackHeaderTitleProps */
 /* props: StackHeaderLeftButtonProps */

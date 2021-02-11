@@ -21,7 +21,7 @@ export const HeaderLeftOpen = ({
   onOpenDrawer: () => void;
 }) => {
   return (
-    <Block margin={[0, 0, 0, sizes.base]}>
+    <Block margin={[0, 0, 0, sizes.offset.base]}>
       <TouchableOpacity onPress={onOpenDrawer}>
         <MenuHumberger />
       </TouchableOpacity>
@@ -35,7 +35,7 @@ export const HeaderLeftClose = ({
   onCloseDrawer: () => void;
 }) => {
   return (
-    <Block margin={[0, 0, 0, sizes.base]}>
+    <Block margin={[0, 0, 0, sizes.offset.base]}>
       <TouchableOpacity onPress={onCloseDrawer}>
         <CloseMenu />
       </TouchableOpacity>
@@ -44,7 +44,7 @@ export const HeaderLeftClose = ({
 };
 
 export const HeaderRightButton = (/* props: StackHeaderLeftButtonProps */) => (
-  <Block margin={[0, sizes.base, 0, 0]}>
+  <Block margin={[0, sizes.offset.base, 0, 0]}>
     <TouchableOpacity onPress={() => console.log('menu button is clicked')}>
       <Notify fill={colors.disable} opacity={0.25} />
     </TouchableOpacity>

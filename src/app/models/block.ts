@@ -13,7 +13,7 @@ export interface IUiBlock {
   left?: boolean;
   right?: boolean;
   top?: string;
-  bottom?: string;
+  bottom?: boolean;
   card?: boolean;
   shadow?: boolean;
   color?: string;

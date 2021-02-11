@@ -16,6 +16,7 @@ export function AppText(props: IUiText) {
     right,
     //size
     h1,
+    h2,
     header,
     logo,
     caption,
@@ -24,6 +25,7 @@ export function AppText(props: IUiText) {
     regular,
     medium,
     bold,
+    semibold,
     ubuntu,
     weight,
     light,
@@ -49,6 +51,7 @@ export function AppText(props: IUiText) {
   const textStyles = [
     styles.text,
     h1 && styles.h1,
+    h2 && styles.h2,
     header && styles.header,
     logo && styles.logo,
     caption && styles.caption,
@@ -63,6 +66,7 @@ export function AppText(props: IUiText) {
     regular && styles.regular,
     bold && styles.bold,
     medium && styles.medium,
+    semibold && styles.sfTextSemibold,
     light && styles.light,
     lightItalic && styles.lightItalic,
     lightUltra && styles.lightUltra,
@@ -105,6 +109,7 @@ const styles = StyleSheet.create<ITextStyleProps>({
   regular: { fontFamily: fonts.Gilroy.regular },
   bold: { fontFamily: fonts.Gilroy.bold },
   medium: { fontFamily: fonts.Gilroy.medium },
+  semibold: { fontFamily: fonts.Gilroy.semibold },
   light: { fontFamily: fonts.Gilroy.light },
   lightItalic: { fontFamily: fonts.Gilroy.lightItalic },
   lightUltra: { fontFamily: fonts.Gilroy.lightUltra },
@@ -124,6 +129,7 @@ const styles = StyleSheet.create<ITextStyleProps>({
   disabled: { color: colors.text.disabled },
   // fonts
   h1: fonts.h1,
+  h2: fonts.h2,
   header: fonts.header,
   logo: fonts.logo,
   caption: fonts.caption,

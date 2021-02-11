@@ -7,9 +7,9 @@ export default function AppHeaderTitle() {
   return (
     <Block row center right>
       <AppText header>35 752</AppText>
-      <Block margin={[0, sizes.between]} />
+      <Block margin={[0, sizes.offset.between]} />
       <TotalPointScores />
-      <Block margin={[0, sizes.between]} />
+      <Block margin={[0, sizes.offset.between]} />
     </Block>
   );
 }
