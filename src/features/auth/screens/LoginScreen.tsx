@@ -18,13 +18,29 @@ function LoginScreen({ socialLogin }: IProps) {
   const behavior = Platform.OS === 'ios' ? 'padding' : 'height';
   return (
     <ScrollView>
-      <Block full middle white base flex={0.3}>
+      <Block full safe middle white base flex={0.3}>
         <AppInput
           label="Имя"
           placeholder="Введите имя"
           defaultValue="Антон"
           error="Внесено некорректное значение"
         />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
+        <AppInput label="Фамилия" defaultValue="Сергеев" />
+        <AppInput label="E-mail или телефон" placeholder="email@company.com" />
         <AppInput label="Фамилия" defaultValue="Сергеев" />
         <AppInput label="E-mail или телефон" placeholder="email@company.com" />
       </Block>

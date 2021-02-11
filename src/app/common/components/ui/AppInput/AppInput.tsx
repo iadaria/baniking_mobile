@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
+import { StyleProp, StyleSheet, TextInput, TextStyle, TextInputProps } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create<IInputStyleProps>({
     borderColor: colors.input.border,
     borderRadius: sizes.radius,
     fontSize: wp(sizes.font.base),
-    color: colors.black,
+    color: colors.input.text,
     height: hp(sizes.input.hight),
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
   },
