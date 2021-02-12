@@ -15,6 +15,7 @@ export interface IUiInput extends TextInputProps {
   // styles
   center?: boolean;
   style?: object;
+  mask?: string;
   // others
   children?: ReactNode;
   // [key: string]: any;

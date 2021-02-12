@@ -6,7 +6,7 @@ import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
 import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { AuthLogo, AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
@@ -25,6 +25,7 @@ function LoginScreen({ socialLogin }: IProps) {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
 
   return (
+    // <ScrollView style={styles.scrollView}>
     <Block full bottom debug>
       <Block center margin={[0, 0, sizes.logo.bottom]}>
         <AuthLogo />
@@ -57,15 +58,15 @@ function LoginScreen({ socialLogin }: IProps) {
           <NecessaryIcon style={{ marginHorizontal: 3 }} />
         </Block>
         <AppInput defaultValue="Andrey@mail.com" center />
-
+        {/* Phone */}
         <Block row middle center>
           <AppText primary semibold size={sizes.text.label}>
             Номер телефона
           </AppText>
           <NecessaryIcon style={{ marginHorizontal: 3 }} />
         </Block>
-        <AppInput defaultValue="+7" center />
-
+        <AppInput defaultValue="+7" center mask="+7 ([000]) [000] [00] [00]" />
+        {/* Accept */}
         <Block margin={[3, 0, 5]} row center>
           <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
             <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
@@ -89,7 +90,6 @@ function LoginScreen({ socialLogin }: IProps) {
             />
           </Block>
         </Block>
-
         <AppButton>
           <AppText center medium>
             Завершить регистрацию
@@ -98,6 +98,7 @@ function LoginScreen({ socialLogin }: IProps) {
         {/* End Form */}
       </Block>
     </Block>
+    // </ScrollView>
   );
 }
 
@@ -115,13 +116,16 @@ const LoginContainer = connect(
 export default LoginContainer;
 
 // <SocialLogin socialLogin={socialLogin} />
-/* <ScrollView style={{ borderWidth: 2, borderColor: 'green', position: 'absolute', bottom: 0 }}> */
 
 const styles = StyleSheet.create({
   form: {
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
   },
+  scrollView: {
+    borderWidth: 2,
+    borderColor: 'green',
+    position: 'absolute',
+    bottom: 0,
+  },
 });
-
-// <AppSwitch value={newsletter} onValueChange={setNewsletter} /> */

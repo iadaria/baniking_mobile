@@ -1613,6 +1613,14 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-text-input-mask@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native-text-input-mask/-/react-native-text-input-mask-0.7.5.tgz#0dff36337e253d9891851cfb3ba89fe50dc14c50"
+  integrity sha512-ppzwWOemQ9gSRWIX0dOqgaNzIAR1bjuv0HBluSqpkH2AMa00Z8QiA2E2+142lG9FtogSFyBrxK6jF7oqDP9ZzQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*":
   version "0.63.48"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.48.tgz#83ebffe2900b8dee7e420bad9d8d0efea86efe92"
@@ -6334,6 +6342,11 @@ react-native-svg@^12.1.0:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
+
+react-native-text-input-mask@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-text-input-mask/-/react-native-text-input-mask-2.0.1.tgz#d28602d2e6f2e5f0d860cc8a0bdc09d3180d861c"
+  integrity sha512-9n7JehpaJ1xf185RKdeHYRFAT6zv3vdf1gW3OYZ1kNSXthUVoOQw/MORC/ycYPhWCCdzdWQAp4Jx6JCZxLnwyw==
 
 react-native-vkontakte-login@^1.0.1:
   version "1.0.1"

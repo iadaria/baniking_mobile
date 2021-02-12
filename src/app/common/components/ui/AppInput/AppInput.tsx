@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import TextInputMask from 'react-native-text-input-mask';
 import { IInputStyleProps, IUiInput } from '~/src/app/models/input';
 import { colors, sizes } from '~/src/app/common/constants';
 import { Block } from '../Block';
@@ -34,6 +32,7 @@ export function AppInput(props: IUiInput) {
     error,
     // colors
     // styles
+    mask,
     center,
     style,
     ...otherProps
@@ -50,13 +49,27 @@ export function AppInput(props: IUiInput) {
   ];
   // const inputPaperStyles = [main && { selectionColor: colors.primary }, style];
 
-  const inputType = email
-    ? 'email-address'
-    : number
-    ? 'numeric'
-    : phone
-    ? 'phone-pad'
-    : 'default';
+  const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
+
+  if (mask) {
+    return (<Block margin={[sizes.input.top, 0]}>
+        <AppInputLabel {...props} isFocused={isFocused} />
+        <TextInputMask
+          style={inputStyles}
+          keyboardType="phone-pad"
+          mask={mask} //{'+7 ([000] [0000] [00] [00]'} //{'[999999].[99]'}
+          selectTextOnFocus={true}
+          // value={props.values.VALORFRETE}
+          // onChangeText={(val) => props.setValue({ VALORFRETE: val })}
+          // onBlur={() => props.setValue({ VALORFRETE: parseFloat(props.values.VALORFRETE).toFixed(2) })}
+
+        />
+        <AppInputError {...props} isFocused={isFocused} />
+        {/* {renderToggle()} */}
+        {/* {renderRight()} */}
+      </Block>
+    );
+  }
 
   return (
     <Block margin={[sizes.input.top, 0]}>
