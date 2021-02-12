@@ -8,4 +8,7 @@ export { default as AuthLogoLeft } from './images/svg/auth-logo-left.svg';
 export { default as AuthLogoRight } from './images/svg/auth-logo-right.svg';
 export { default as NecessaryIcon } from './images/svg/text-label-necessary.svg';
 export { default as SwitcherIcon } from './images/svg/switcher.svg';
-
+export { default as FacebookIcon } from './images/svg/facebook.svg';
+export { default as GoogleIcon } from './images/svg/google.svg';
+export { default as VkIcon } from './images/svg/vk.svg';
+export { default as YandexIcon } from './images/svg/yandex.svg';

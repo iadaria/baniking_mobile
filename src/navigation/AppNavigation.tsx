@@ -19,11 +19,7 @@ export default function AppNavigation() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <StatusBar
-          barStyle="light-content"
-          translucent
-          backgroundColor="transparent"
-        />
+        <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
         <NavigationContainer theme={appDefaultTheme} ref={navigationRef}>
           <MainNavigator />
         </NavigationContainer>
