@@ -5,21 +5,11 @@ import { ICredential } from '~/src/app/models/user';
 // import SocialLogin from './components/SocialLogin';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
-import {
-  AppInput,
-  AppOpenURL,
-  AppText,
-  Block,
-} from '~/src/app/common/components/UI';
-import { StyleSheet } from 'react-native';
+import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
-import {
-  AuthLogo,
-  AuthLogoLeft,
-  AuthLogoRight,
-  NecessaryIcon,
-} from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { AuthLogo, AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
+import { colors, sizes } from '~/src/app/common/constants';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 interface IProps {
@@ -32,7 +22,7 @@ const supportedURLTwo = 'https://yandex.ru';
 // const unsupportedURL = 'slack://open?team=123456';
 
 function LoginScreen({ socialLogin }: IProps) {
-  const [newsletter, setNewsletter] = React.useState(true);
+  const [isAccept, setIsAccept] = React.useState<boolean>(true);
 
   return (
     <Block full bottom debug>
@@ -77,17 +67,27 @@ function LoginScreen({ socialLogin }: IProps) {
         <AppInput defaultValue="+7" center />
 
         <Block margin={[3, 0, 5]} row center>
+          <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
+            <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
+          </TouchableOpacity>
           {/* Gelroy medium 14 */}
-          <AppText primary medium size={sizes.text.label}>
-            Я согласен с
-          </AppText>
-          <AppOpenURL
-            url={supportedURLOne}
-            title=" правилами сайта"
-            secondary
-            medium
-            size={sizes.text.label}
-          />
+          <Block row style={{ flexWrap: 'wrap' }} margin={[0, 0, 0, 2]}>
+            <AppText primary medium size={sizes.text.label}>
+              Я согласен с
+            </AppText>
+            <AppOpenURL url={supportedURLOne} title=" правилами сайта " secondary medium size={sizes.text.label} />
+            <AppText primary medium size={sizes.text.label}>
+              и
+            </AppText>
+            <AppOpenURL url={supportedURLOne} title=" политикой " secondary medium size={sizes.text.label} />
+            <AppOpenURL
+              url={supportedURLOne}
+              title="обработки персональных данных"
+              secondary
+              medium
+              size={sizes.text.label}
+            />
+          </Block>
         </Block>
 
         <AppButton>
@@ -115,9 +115,7 @@ const LoginContainer = connect(
 export default LoginContainer;
 
 // <SocialLogin socialLogin={socialLogin} />
-{
-  /* <ScrollView style={{ borderWidth: 2, borderColor: 'green', position: 'absolute', bottom: 0 }}> */
-}
+/* <ScrollView style={{ borderWidth: 2, borderColor: 'green', position: 'absolute', bottom: 0 }}> */
 
 const styles = StyleSheet.create({
   form: {
@@ -126,11 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-{
-  /* <AppButton disabled={true}>
-<AppText center medium disabled={true}>
-  Восстановить
-</AppText>
-</AppButton>
-<AppSwitch value={newsletter} onValueChange={setNewsletter} /> */
-}
+// <AppSwitch value={newsletter} onValueChange={setNewsletter} /> */

@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../appDefaultTheme';
-import {
-  HeaderLeftClose,
-  HeaderLeftOpen,
-  HeaderRightButton,
-} from '~/src/navigation/components/headerButtons';
+import { HeaderLeftClose, HeaderLeftOpen, HeaderRightButton } from '~/src/navigation/components/headerButtons';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
 import { connect } from 'react-redux';
@@ -42,12 +35,7 @@ interface IAppScreenOptionsProps {
 
 const Main = createStackNavigator();
 
-const appScreenOptions = ({
-  isDrawerOpen,
-  navigation,
-  onCloseDrawer,
-  onOpenDrawer,
-}: IAppScreenOptionsProps) => {
+const appScreenOptions = ({ isDrawerOpen, navigation, onCloseDrawer, onOpenDrawer }: IAppScreenOptionsProps) => {
   return {
     ...defaultScreenOptions,
     headerTitle: () => <AppHeaderTitle />,
@@ -62,12 +50,7 @@ const appScreenOptions = ({
   };
 };
 
-function MainNavigatorContainer({
-  authenticated,
-  isDrawerOpen,
-  openDrawer,
-  closeDrawer,
-}: IProps) {
+function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, closeDrawer }: IProps) {
   /* const { isDrawerOpen } = useSelector<IRootState>((state) => state.system) as ISystemState; */
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
@@ -100,11 +83,7 @@ function MainNavigatorContainer({
         };
       }}> */
     >
-      <Main.Screen
-        options={{ headerShown: false }}
-        name="AuthNavigator"
-        component={AuthNavigator}
-      />
+      <Main.Screen options={{ headerShown: false }} name="AuthNavigator" component={AuthNavigator} />
       <Main.Screen
         options={({ navigation }: IScreenOptionsProps) =>
           appScreenOptions({

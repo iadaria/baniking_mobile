@@ -7,3 +7,5 @@ export { default as AuthLogo } from './images/svg/auth-logo.svg';
 export { default as AuthLogoLeft } from './images/svg/auth-logo-left.svg';
 export { default as AuthLogoRight } from './images/svg/auth-logo-right.svg';
 export { default as NecessaryIcon } from './images/svg/text-label-necessary.svg';
+export { default as SwitcherIcon } from './images/svg/switcher.svg';
+

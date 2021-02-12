@@ -28,8 +28,10 @@ export function AppOpenURL({ url, title, ...others }: IProps) {
   // return <Button title={children} onPress={handlePress} />;
 
   return (
-    <TouchableOpacity onPress={handlePress}>
-      <AppText {...others}>{title}</AppText>
+    <TouchableOpacity onPress={handlePress} style={{ flexWrap: 'wrap' }}>
+      <AppText style={{ flexWrap: 'wrap' }} {...others}>
+        {title}
+      </AppText>
     </TouchableOpacity>
   );
 }
