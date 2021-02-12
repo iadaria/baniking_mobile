@@ -11,8 +11,11 @@ export interface IUiInput extends TextInputProps {
   email?: boolean;
   phone?: boolean;
   number?: boolean;
-  style?: object;
   placeholder?: string;
+  // styles
+  center?: boolean;
+  style?: object;
+  // others
   children?: ReactNode;
   // [key: string]: any;
 }
@@ -22,4 +25,6 @@ export interface IInputStyleProps {
   toggle: object;
   label: object;
   labelWrapper: object;
+  // styles
+  center: object;
 }

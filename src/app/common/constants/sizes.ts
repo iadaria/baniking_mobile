@@ -16,12 +16,17 @@ export const sizes = {
 
   input: {
     hight: 5.25,
+    top: 1.11, // 10:8,68
     paddingHorizontal: 4,
     between: 2.34, // 21
-    label: 3.15, //
+    label: 3.15, // text
     labelTop: 1.2,
     labelPadding: 1.3,
-    radiugs: 9, //3
+    radius: 3,
+    big: {
+      height: 6,
+      radius: 9,
+    },
   },
 
   text: {

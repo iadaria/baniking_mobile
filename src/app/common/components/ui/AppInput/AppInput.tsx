@@ -33,6 +33,8 @@ export function AppInput(props: IUiInput) {
     // secure,
     error,
     // colors
+    // styles
+    center,
     style,
     ...otherProps
   } = props;
@@ -42,6 +44,7 @@ export function AppInput(props: IUiInput) {
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
     !!error && { borderColor: colors.error },
+    center && styles.center,
     style,
     isFocused && { borderColor: colors.secondary },
   ];
@@ -56,7 +59,7 @@ export function AppInput(props: IUiInput) {
     : 'default';
 
   return (
-    <Block margin={[sizes.input.between / 2, 0]}>
+    <Block margin={[sizes.input.top, 0]}>
       <AppInputLabel {...props} isFocused={isFocused} />
       <TextInput
         style={inputStyles}
@@ -83,10 +86,10 @@ const styles = StyleSheet.create<IInputStyleProps>({
   input: {
     borderWidth: 1, // StyleSheet.hairlineWidth,
     borderColor: colors.input.border,
-    borderRadius: sizes.radius,
+    borderRadius: sizes.input.big.radius, // sizes.radius,
     fontSize: wp(sizes.font.base),
     color: colors.input.text,
-    height: hp(sizes.input.hight),
+    height: hp(sizes.input.big.height),
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
   },
   toggle: {
@@ -107,6 +110,7 @@ const styles = StyleSheet.create<IInputStyleProps>({
     paddingHorizontal: wp(1),
   },
   label: {},
+  center: { textAlign: 'center' },
 });
 
 /*

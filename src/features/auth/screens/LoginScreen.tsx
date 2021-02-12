@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
 import {
   AppInput,
-  AppSwitch,
+  AppOpenURL,
   AppText,
   Block,
 } from '~/src/app/common/components/UI';
@@ -17,7 +17,7 @@ import {
   AuthLogo,
   AuthLogoLeft,
   AuthLogoRight,
-  TextLabelNecessary,
+  NecessaryIcon,
 } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -27,6 +27,10 @@ interface IProps {
   socialLogin: ({ provider }: ICredential) => void;
 }
 
+const supportedURLOne = 'https://google.com';
+const supportedURLTwo = 'https://yandex.ru';
+// const unsupportedURL = 'slack://open?team=123456';
+
 function LoginScreen({ socialLogin }: IProps) {
   const [newsletter, setNewsletter] = React.useState(true);
 
@@ -35,7 +39,6 @@ function LoginScreen({ socialLogin }: IProps) {
       <Block center margin={[0, 0, sizes.logo.bottom]}>
         <AuthLogo />
       </Block>
-
       <Block style={styles.form} flex={0.9} full base white>
         {/* Registration header */}
         <Block margin={[0, 0, 2]} row middle center>
@@ -45,50 +48,60 @@ function LoginScreen({ socialLogin }: IProps) {
           </AppText>
           <AuthLogoRight />
         </Block>
-
         <Block row middle center>
           <AppText semibold primary size={sizes.text.label}>
             Фамилия
           </AppText>
-          <TextLabelNecessary style={{ marginHorizontal: 3 }} />
+          <NecessaryIcon style={{ marginHorizontal: 3 }} />
         </Block>
         <AppInput
           placeholder="Фамилия"
           defaultValue="Иванов"
+          center
           // error="Внесено некорректное значение"
         />
-
         <Block row middle center>
-          <AppText semibold primary size={sizes.text.label}>
+          <AppText primary semibold size={sizes.text.label}>
             Email
           </AppText>
-          <TextLabelNecessary style={{ marginHorizontal: 3 }} />
+          <NecessaryIcon style={{ marginHorizontal: 3 }} />
         </Block>
-        <AppInput defaultValue="Andrey@mail.com" />
+        <AppInput defaultValue="Andrey@mail.com" center />
 
         <Block row middle center>
-          <AppText semibold primary size={sizes.text.label}>
+          <AppText primary semibold size={sizes.text.label}>
             Номер телефона
           </AppText>
-          <TextLabelNecessary style={{ marginHorizontal: 3 }} />
+          <NecessaryIcon style={{ marginHorizontal: 3 }} />
         </Block>
-        <AppInput defaultValue="+7" />
+        <AppInput defaultValue="+7" center />
 
-        <AppText primary>
-          Я согласен с правилами сайта и политикой обработки персональных данных
-        </AppText>
-
-        <Block margin={[3, 0]}>
-          <AppButton>
-            <AppText center medium>
-              Завершить регистрацию
-            </AppText>
-          </AppButton>
+        <Block margin={[3, 0, 5]} row center>
+          {/* Gelroy medium 14 */}
+          <AppText primary medium size={sizes.text.label}>
+            Я согласен с
+          </AppText>
+          <AppOpenURL
+            url={supportedURLOne}
+            title=" правилами сайта"
+            secondary
+            medium
+            size={sizes.text.label}
+          />
         </Block>
+
+        <AppButton>
+          <AppText center medium>
+            Завершить регистрацию
+          </AppText>
+        </AppButton>
+        {/* End Form */}
       </Block>
     </Block>
   );
 }
+
+// color, fontFamily, align, size
 
 const LoginContainer = connect(
   (/* state: IRootState */) => ({
@@ -102,6 +115,9 @@ const LoginContainer = connect(
 export default LoginContainer;
 
 // <SocialLogin socialLogin={socialLogin} />
+{
+  /* <ScrollView style={{ borderWidth: 2, borderColor: 'green', position: 'absolute', bottom: 0 }}> */
+}
 
 const styles = StyleSheet.create({
   form: {

@@ -10,6 +10,7 @@ export function AppText(props: IUiText) {
     transform,
     spacing, // letter-spacing
     height, // line-height
+    necessary,
     // align
     align,
     center,
@@ -41,7 +42,6 @@ export function AppText(props: IUiText) {
     primary,
     secondary,
     disabled,
-    // logo,
     white,
     children,
     style,
