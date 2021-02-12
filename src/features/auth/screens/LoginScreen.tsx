@@ -40,7 +40,7 @@ function LoginScreen({ socialLogin }: IProps) {
           <AuthLogoRight />
         </Block>
         <Block row middle center>
-          <AppText semibold primary size={sizes.text.label}>
+          <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
             Фамилия
           </AppText>
           <NecessaryIcon style={{ marginHorizontal: 3 }} />
@@ -72,30 +72,37 @@ function LoginScreen({ socialLogin }: IProps) {
             <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
           </TouchableOpacity>
           {/* Gelroy medium 14 */}
-          <Block row style={{ flexWrap: 'wrap' }} margin={[0, 0, 0, 2]}>
+          <Block row wrap margin={[0, 0, 0, 2]}>
             <AppText primary medium size={sizes.text.label}>
               Я согласен с
             </AppText>
-            <AppOpenURL url={supportedURLOne} title=" правилами сайта " secondary medium size={sizes.text.label} />
+            <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
             <AppText primary medium size={sizes.text.label}>
               и
             </AppText>
-            <AppOpenURL url={supportedURLOne} title=" политикой " secondary medium size={sizes.text.label} />
+            <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
             <AppOpenURL
-              url={supportedURLOne}
-              title="обработки персональных данных"
               secondary
               medium
               size={sizes.text.label}
+              url={supportedURLOne}
+              title="обработки персональных данных"
             />
           </Block>
         </Block>
+        {/* Button */}
         <AppButton>
           <AppText center medium>
             Завершить регистрацию
           </AppText>
         </AppButton>
         {/* End Form */}
+      </Block>
+      {/* Social login block */}
+      <Block style={{ position: 'absolute', bottom: 0, width: '100%' }} debug>
+        <AppText caption medium center size={sizes.text.label + 0.1}>
+          Или войдите через социальные сети
+        </AppText>
       </Block>
     </Block>
     // </ScrollView>

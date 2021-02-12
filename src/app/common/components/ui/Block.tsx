@@ -1,16 +1,8 @@
 import React from 'react';
 import { StyleSheet, Animated, View, StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {
-  IBlockStyleProps,
-  IUiBlock,
-  IUiMargin,
-  IUiPadding,
-} from '~/src/app/models/block';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { IBlockStyleProps, IUiBlock, IUiMargin, IUiPadding } from '~/src/app/models/block';
 import { colors, sizes } from '~/src/app/common/constants';
 
 export function Block(props: IUiBlock) {
@@ -123,20 +115,21 @@ export function Block(props: IUiBlock) {
     right,
     top,
     bottom,
-    card,
-    shadow,
-    safe,
     color,
     space,
+    // offers
     padding,
     margin,
     animated,
+    // styles
     wrap,
     // colors
-    primary,
     white,
     // custome styles
     underline,
+    card,
+    shadow,
+    safe,
     // others
     style,
     children,
@@ -167,13 +160,12 @@ export function Block(props: IUiBlock) {
     card && styles.card,
     shadow && styles.shadow,
     space && { justifyContent: `space-${space}` },
-    wrap && { flexWrap: 'wrap' },
+    wrap && styles.wrap,
     // colors
     white && styles.white,
     // section && styles.section,
     // color && styles[color as keyof typeof styles],
     color && { backgroundColor: color },
-    primary && styles.primary,
     // custome styles
     underline && styles.underline,
     // others
@@ -238,6 +230,10 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
   bottom: {
     justifyContent: 'flex-end',
   },
+  wrap: {
+    flexWrap: 'wrap',
+  },
+  // custome styles
   shadow: {
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
@@ -251,13 +247,6 @@ export const styles = StyleSheet.create<IBlockStyleProps>({
     backgroundColor: colors.secondary,
     bottom: -7,
   },
-  /* section: {
-    backgroundColor: colors.section,
-    marginTop: wp(0.2),
-    padding: wp(sizes.padding),
-    justifyContent: 'space-between',
-  }, */
-
   // colors
   primary: { backgroundColor: colors.primary },
   white: { backgroundColor: colors.white },

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
+import { ViewProps, ViewStyle } from 'react-native';
 
-export interface IUiBlock {
+export interface IUiBlock extends ViewProps {
   full?: boolean;
   flex?: number;
   debug?: boolean;
@@ -25,11 +26,11 @@ export interface IUiBlock {
   wrap?: boolean;
   // custome style
   underline?: boolean;
-  style?: object;
+  style?: ViewStyle;
   // colors
   white?: boolean;
   children?: ReactNode;
-  [key: string]: any;
+  // [key: string]: any;
 }
 
 export interface IUiMargin {
@@ -59,6 +60,7 @@ export interface IBlockStyleProps {
   top: object;
   bottom: object;
   shadow: object;
+  wrap: object;
 
   // custome styles
   underline: object;

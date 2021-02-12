@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TextProps } from 'react-native';
+import { TextProps, TextStyle } from 'react-native';
 
 export interface IUiText extends TextProps {
   // size
@@ -35,10 +35,10 @@ export interface IUiText extends TextProps {
   align?: boolean;
   center?: boolean;
   right?: boolean;
-  spacing?: boolean; // letter-spacin?: boolean;
+  spacing?: number; // letter-spacin?: boolean;
   height?: boolean; // line-heigh?: boolean;
   necessary?: boolean;
-  style?: object;
+  style?: TextStyle;
   children?: ReactNode;
   color?: string;
   // [key: string]: any;

@@ -127,11 +127,11 @@ const styles = StyleSheet.create<ITextStyleProps>({
   secondary: { color: colors.secondary },
   white: { color: colors.white },
   disabled: { color: colors.text.disabled },
+  caption: { color: colors.caption },
   // fonts
   h1: fonts.h1,
   h2: fonts.h2,
   header: fonts.header,
   logo: fonts.logo,
-  caption: fonts.caption,
   // styles
 });

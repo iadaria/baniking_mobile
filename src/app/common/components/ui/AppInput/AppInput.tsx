@@ -40,7 +40,7 @@ export function AppInput(props: IUiInput) {
 
   // const isSecure = toggleSecure ? false : secure;
 
-  const inputStyles: StyleProp<TextStyle> = [
+  const inputStyles: StyleProp<TextStyle> | null | undefined = [
     styles.input,
     !!error && { borderColor: colors.error },
     center && styles.center,
@@ -52,17 +52,18 @@ export function AppInput(props: IUiInput) {
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
 
   if (mask) {
-    return (<Block margin={[sizes.input.top, 0]}>
+    return (
+      <Block margin={[sizes.input.top, 0]}>
         <AppInputLabel {...props} isFocused={isFocused} />
         <TextInputMask
           style={inputStyles}
           keyboardType="phone-pad"
           mask={mask} //{'+7 ([000] [0000] [00] [00]'} //{'[999999].[99]'}
           selectTextOnFocus={true}
+          {...otherProps}
           // value={props.values.VALORFRETE}
           // onChangeText={(val) => props.setValue({ VALORFRETE: val })}
           // onBlur={() => props.setValue({ VALORFRETE: parseFloat(props.values.VALORFRETE).toFixed(2) })}
-
         />
         <AppInputError {...props} isFocused={isFocused} />
         {/* {renderToggle()} */}

@@ -30,7 +30,7 @@ export const sizes = {
   },
 
   text: {
-    label: 3.15, // 14
+    label: 3.15 + 0.1, // 14
   },
 
   button: {

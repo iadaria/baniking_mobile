@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TextInputProps } from 'react-native';
+import { TextInputProps, TextStyle } from 'react-native';
 
 export interface IUiInput extends TextInputProps {
   label?: string;
@@ -14,7 +14,7 @@ export interface IUiInput extends TextInputProps {
   placeholder?: string;
   // styles
   center?: boolean;
-  style?: object;
+  style?: TextStyle;
   mask?: string;
   // others
   children?: ReactNode;
