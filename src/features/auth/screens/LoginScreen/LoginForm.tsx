@@ -1,15 +1,20 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { colors, sizes } from '~/src/app/common/constants';
-import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
+import { ICredential } from '~/src/app/models/user';
+import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
+import { IError } from './interfaces';
+import { FormikProps } from 'formik';
 
-const supportedURLOne = 'https://google.com';
-// const unsupportedURL = 'slack://open?team=123456';
-
-export default function LoginForm() {
+const LoginForm = (props: FormikProps<ICredential & IError>) => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
+
+  const { handleChange, handleBlur, handleSubmit, isSubmitting, isValid, dirty, errors, values } = props;
+  const isDisabledSubmit = !isValid || !dirty || isSubmitting;
+
+  console.log('*** errors ', errors);
 
   return (
     // <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -27,14 +32,26 @@ export default function LoginForm() {
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput /* defaultValue="Andrey@mail.com"  */ center />
+      <AppInput
+        value={values.login}
+        onChangeText={handleChange('login')}
+        onBlur={handleBlur('login')}
+        // error="Dasha"
+        center
+      />
       {/* Passoword  input */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Пароль
         </AppText>
       </Block>
-      <AppInput center />
+      <AppInput
+        value={values.password}
+        onChangeText={handleChange('password')}
+        onBlur={handleBlur('password')}
+        error={errors.password}
+        center
+      />
       {/* Accept */}
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
@@ -48,9 +65,9 @@ export default function LoginForm() {
         </Block>
       </Block>
       {/* Button */}
-      <AppButton>
-        <AppText center medium>
-          Авторизация
+      <AppButton disabled={isDisabledSubmit} onPress={handleSubmit}>
+        <AppText center medium disabled={isDisabledSubmit}>
+          Авторизироваться
         </AppText>
       </AppButton>
     </Block>
@@ -58,7 +75,7 @@ export default function LoginForm() {
   );
 }
 
-const styles = StyleSheet.create({});
+export default LoginForm;
 
 /* <KeyboardAvoidingView
     behavior="padding"

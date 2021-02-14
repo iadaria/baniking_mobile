@@ -10,7 +10,7 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
-import RegisterForm from './LoginForm';
+import LoginFormik from './LoginFormik';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 interface IProps {
@@ -30,7 +30,7 @@ function LoginContainer({ navigation }: IProps) {
         <AuthLogo />
       </Block>
       <Block style={styles.list} flex={0.83} full base white>
-        <RegisterForm />
+        <LoginFormik />
         {/* Social login block */}
         <Block margin={[5, 0, 3]} debug>
           <AppText caption medium center size={sizes.text.label + 0.1}>

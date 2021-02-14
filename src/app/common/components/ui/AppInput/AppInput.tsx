@@ -14,6 +14,8 @@ export function AppInput(props: IUiInput) {
   // const [toggleSecure, setToggleSecure] = useState(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
+  console.log('***** text input ', isFocused);
+
   function handleFocus() {
     setIsFocused(true);
   }
@@ -59,11 +61,16 @@ export function AppInput(props: IUiInput) {
           style={inputStyles}
           keyboardType="phone-pad"
           mask={mask} //{'+7 ([000] [0000] [00] [00]'} //{'[999999].[99]'}
-          selectTextOnFocus={true}
+          // selectTextOnFocus={true}
+          autoCompleteType="off"
+          autoCapitalize="none"
+          autoCorrect={false}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder={isFocused ? undefined : placeholder}
+          // placeholderTextColor="rgba(126,126,126, 0.3)"
+          //underlineColorAndroid="transparent"
           {...otherProps}
-          // value={props.values.VALORFRETE}
-          // onChangeText={(val) => props.setValue({ VALORFRETE: val })}
-          // onBlur={() => props.setValue({ VALORFRETE: parseFloat(props.values.VALORFRETE).toFixed(2) })}
         />
         <AppInputError {...props} isFocused={isFocused} />
         {/* {renderToggle()} */}

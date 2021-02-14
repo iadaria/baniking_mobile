@@ -1,6 +1,7 @@
 import { ForkEffect, takeLatest } from 'redux-saga/effects';
 import { EMAIL_LOGIN } from '../authConstants';
 import { ICredential } from '~/src/app/models/user';
+import { methods } from '~/src/app/api';
 
 interface IAction {
   type: string;
@@ -19,9 +20,10 @@ interface IResult {
 
 function* emailLoginSaga({
   payload: { login, password },
-}: IAction): Generator<ICredential, void, IResult> {
+}: IAction): Generator<Promise<ICredential>, void, IResult> {
   try {
-    // const { token } : IResult = yield methods.auth({ email: login, password});
+    const { token }: IResult = yield methods.login({ email: login, password }, null);
+    console.log('**** token *****', token);
     // yield put(setUserData({ token }));
     // yield put(logInSuccess());
     // RootNavigate.navigate('BottomNavigator', null);
@@ -30,10 +32,6 @@ function* emailLoginSaga({
   }
 }
 
-export default function* listener(): Generator<
-  ForkEffect<never>,
-  void,
-  unknown
-> {
+export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(EMAIL_LOGIN, emailLoginSaga);
 }

@@ -25,7 +25,9 @@ export interface IUserFormValues {
  * @field provider? {string}
  */
 export interface ICredential {
-  login?: string;
+  login: string;
+  email?: string;
+  phone?: string;
   password?: string;
   provider?: string;
 }
