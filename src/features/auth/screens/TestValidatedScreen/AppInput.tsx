@@ -4,9 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 // import TextInputMask from 'react-native-text-input-mask';
 import { IInputStyleProps, IUiInput } from '~/src/app/models/input';
 import { colors, sizes } from '~/src/app/common/constants';
-import { Block } from '../Block';
-import AppInputLabel from './AppInputLabel';
-import AppInputError from './AppInputError';
+import { Block } from '~/src/app/common/components/UI/Block';
 
 // TODO separate properties for label and error components don't pass all props
 
@@ -73,7 +71,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   if (mask) {
     return (
       <Block margin={[sizes.input.top, 0]}>
-        <AppInputLabel {...props} isFocused={isFocused} />
+        {/* <AppInputLabel {...props} isFocused={isFocused} /> */}
         {/* <TextInputMask
           style={inputStyles}
           keyboardType="phone-pad"
@@ -88,7 +86,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
           //underlineColorAndroid="transparent"
           {...otherProps}
         /> */}
-        <AppInputError {...props} isFocused={isFocused} isTouched={isTouched || props.touched} />
+        {/* <AppInputError {...props} isFocused={isFocused} isTouched={isTouched || props.touched} /> */}
         {/* {renderToggle()} */}
         {/* {renderRight()} */}
       </Block>
@@ -97,7 +95,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   return (
     <Block margin={[sizes.input.top, 0]}>
-      <AppInputLabel {...props} isFocused={isFocused} />
+      {/* <AppInputLabel {...props} isFocused={isFocused} /> */}
       <TextInput
         style={inputStyles}
         // secureTextEntry={isSecure}
@@ -112,7 +110,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         underlineColorAndroid="transparent"
         {...otherProps}
       />
-      <AppInputError {...props} isFocused={isFocused} isTouched={isTouched} />
+      {/* <AppInputError {...props} isFocused={isFocused} isTouched={isTouched} /> */}
       {/* {renderToggle()} */}
       {/* {renderRight()} */}
     </Block>

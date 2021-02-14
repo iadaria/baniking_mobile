@@ -1,10 +1,12 @@
 import React from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ITextInputProps } from '~/src/app/common/components/UI/AppInput/AppInput';
+// import { ITextInputProps } from '~/src/app/common/components/UI/AppInput/AppInput';
 import { ScrollView, LayoutChangeEvent } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
+import { IAppInputProps } from '../../../features/auth/screens/TestValidatedScreen/AppInput';
 
-interface IChild<T> extends JSX.Element, ITextInputProps<T> {}
+//interface IChild<T> extends JSX.Element, ITextInputProps<T> {}
+interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
 function ValidatedElements<T extends { [key: string]: IInput }>({
   children,
@@ -90,8 +92,10 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
+      console.log('***** App Input', child.type.name);
       if (isTextInput(child)) {
-        const { id }: ITextInputProps<T> = child.props;
+        // const { id }: ITextInputProps<T> = child.props;
+        const { id }: IAppInputProps<T> = child.props;
         return React.cloneElement(child, {
           onChangeText: (value: string) => handleInputChange({ id, value }),
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
