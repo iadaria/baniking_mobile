@@ -1,6 +1,6 @@
 import { IInput } from '~/src/app/models/validate';
 
-export const loginInputs: ILoginInputs = {
+export const defaultLoginInputs: ILoginInputs = {
   login: {
     type: 'generic',
     value: '',

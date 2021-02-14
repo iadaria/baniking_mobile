@@ -1,9 +1,8 @@
 import React from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-// import { ITextInputProps } from '~/src/app/common/components/UI/AppInput/AppInput';
 import { ScrollView, LayoutChangeEvent } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
-import { IAppInputProps } from '../../../features/auth/screens/TestValidatedScreen/AppInput';
+import { IAppInputProps } from '~/src/features/auth/screens/TestValidatedScreen/TestTextInput';
 
 //interface IChild<T> extends JSX.Element, ITextInputProps<T> {}
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
@@ -88,7 +87,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
   }
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
-  const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name); //child.type.name === 'AppButton';
+  const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {

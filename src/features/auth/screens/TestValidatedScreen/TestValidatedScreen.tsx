@@ -1,19 +1,15 @@
 import React from 'react';
 import { Button, StyleSheet, Text } from 'react-native';
-import { AppInput } from '~/src/app/common/components/UI/AppInput';
-// import { AppInput } from './AppInput';
-// import { AppInput } from '~/src/app/common/components/UI/AppInput';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { defaultInputsTwo } from './inputsTwo';
-// import { TestTextInput } from './components/TestTextInput';
+import { TestTextInput } from './TestTextInput';
+import { defaultLoginInputs } from '../contracts/loginInputs';
 
 export default function TestValidatedScreen() {
   return (
-    <ValidatedElements defaultInputs={defaultInputsTwo}>
-      <AppInput style={styles.input} label="First name" id="first_name" />
+    <ValidatedElements defaultInputs={defaultLoginInputs}>
+      <TestTextInput style={styles.input} label="First name" id="login" />
       <Text>Dasha</Text>
-      <AppInput style={styles.input} label="Last name" id="last_name" />
-      <AppInput style={styles.input} label="Password" id="password" />
+      <TestTextInput style={styles.input} label="Last name" id="password" />
       {/* <TestTextInput style={styles.input} label="Birthday month" id="birthday_month" />
       <TestTextInput style={styles.input} label="password" id="password" /> */}
       <Button color="green" title="Check all" onPress={() => {}} accessibilityLabel="HZ" />
