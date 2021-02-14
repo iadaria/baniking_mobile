@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import store from '~/src/app/store';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
-import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';

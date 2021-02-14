@@ -6,13 +6,15 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 interface IProps extends IUiInput {
   isFocused: boolean;
+  isTouched: boolean;
 }
 
 export default function AppInputError(props: IProps) {
-  const { error, isFocused } = props;
+  const { error, isFocused, isTouched } = props;
   return (
     <>
-      {error && !isFocused ? (
+      {/* {error && !isFocused ? ( */}
+      {error && !isFocused && isTouched ? (
         <View>
           <Text style={styles.error}>{error}</Text>
         </View>

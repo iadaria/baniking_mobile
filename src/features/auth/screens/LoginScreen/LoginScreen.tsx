@@ -5,13 +5,13 @@ import { ICredential } from '~/src/app/models/user';
 // import SocialLogin from './components/SocialLogin';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
-import LoginFormik from './LoginFormik';
 // import { ScrollView } from 'react-native-gesture-handler';
+import LoginForm from './LoginForm';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -30,7 +30,7 @@ function LoginContainer({ navigation }: IProps) {
         <AuthLogo />
       </Block>
       <Block style={styles.list} flex={0.83} full base white>
-        <LoginFormik />
+        <LoginForm />
         {/* Social login block */}
         <Block margin={[5, 0, 3]} debug>
           <AppText caption medium center size={sizes.text.label + 0.1}>

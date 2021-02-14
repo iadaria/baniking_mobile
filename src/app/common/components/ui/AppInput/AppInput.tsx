@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
+import { LayoutChangeEvent, StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import TextInputMask from 'react-native-text-input-mask';
+// import TextInputMask from 'react-native-text-input-mask';
 import { IInputStyleProps, IUiInput } from '~/src/app/models/input';
 import { colors, sizes } from '~/src/app/common/constants';
 import { Block } from '../Block';
@@ -10,17 +10,34 @@ import AppInputError from './AppInputError';
 
 // TODO separate properties for label and error components don't pass all props
 
-export function AppInput(props: IUiInput) {
+export interface ITextInputProps<T> extends IUiInput {
+  // id: keyof typeof defaultInputs;
+  id: keyof T;
+  error?: string;
+  label?: string;
+  touched: boolean;
+  onLayout?: (props: LayoutChangeEvent) => void;
+}
+
+// export function AppInput(props: IUiInput) {
+export function AppInput<T>(props: ITextInputProps<T>): JSX.Element {
   // const [toggleSecure, setToggleSecure] = useState(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isTouched, setIsTouched] = useState<boolean>(false);
 
-  console.log('***** text input ', isFocused);
+  React.useEffect(() => {
+    console.log(
+      `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}, focused=${isFocused}'`,
+    );
+  }, [props, isTouched, props.touched, isFocused]);
 
   function handleFocus() {
+    setIsTouched(false);
     setIsFocused(true);
   }
 
   function handleBlur() {
+    setIsTouched(!isTouched);
     setIsFocused(false);
   }
 
@@ -57,11 +74,10 @@ export function AppInput(props: IUiInput) {
     return (
       <Block margin={[sizes.input.top, 0]}>
         <AppInputLabel {...props} isFocused={isFocused} />
-        <TextInputMask
+        {/* <TextInputMask
           style={inputStyles}
           keyboardType="phone-pad"
           mask={mask} //{'+7 ([000] [0000] [00] [00]'} //{'[999999].[99]'}
-          // selectTextOnFocus={true}
           autoCompleteType="off"
           autoCapitalize="none"
           autoCorrect={false}
@@ -71,8 +87,8 @@ export function AppInput(props: IUiInput) {
           // placeholderTextColor="rgba(126,126,126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
-        />
-        <AppInputError {...props} isFocused={isFocused} />
+        /> */}
+        <AppInputError {...props} isFocused={isFocused} isTouched={isTouched || props.touched} />
         {/* {renderToggle()} */}
         {/* {renderRight()} */}
       </Block>
@@ -96,7 +112,7 @@ export function AppInput(props: IUiInput) {
         underlineColorAndroid="transparent"
         {...otherProps}
       />
-      <AppInputError {...props} isFocused={isFocused} />
+      <AppInputError {...props} isFocused={isFocused} isTouched={isTouched} />
       {/* {renderToggle()} */}
       {/* {renderRight()} */}
     </Block>
