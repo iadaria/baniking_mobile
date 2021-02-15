@@ -4,7 +4,8 @@ export interface IInput {
   type: keyof typeof validationDictionary;
   value: string | boolean;
   errorLabel?: string;
-  optional?: boolean;
+  optional?: boolean; // true - not validate, false/undefined - falidate
   yCoordinate?: number;
   touched?: boolean;
+  require: boolean; // for disable button
 }

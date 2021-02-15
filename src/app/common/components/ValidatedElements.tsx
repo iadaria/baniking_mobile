@@ -25,23 +25,34 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
 
   React.useEffect(() => {
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
-    let _isErrors = false;
+
+    let _isErrors = false; // предположим - ошибок нет
+    let whatError: string;
     Object.values(inputs).map(({ errorLabel }: IInput) => {
       if (errorLabel) {
+        // нашли первую ошибку
         setIsErrors(true);
         _isErrors = true;
+        whatError = errorLabel;
+        return;
       }
     });
 
-    let _isEmpty = true;
-    Object.values(inputs).map(({ value }: IInput) => {
-      if (value) {
-        _isEmpty = false;
+    let _allRequired = true; // предположим все требуемые поля заполнены
+    Object.values(inputs).map(({ value, require }: IInput) => {
+      if (require && !value) {
+        // нашли незаполненное важное поле
+        _allRequired = false;
+        return;
       }
     });
 
-    !_isErrors && !_isEmpty && setIsErrors(false);
-    console.log(`[ValidatedElements/searchErrors] isErrors = ${isErrors} isEmpty = ${_isEmpty} --------- `);
+    !_isErrors && _allRequired && setIsErrors(false);
+
+    console.log(
+      `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
+        ` allRequire = ${_allRequired} --------- `,
+    );
   }, [inputs]);
 
   /* const isEmpty = () => {
