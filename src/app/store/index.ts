@@ -22,12 +22,8 @@ const { reduxNativeDevTools } = global;
 const sagaMiddleware = createSagaMiddleware();
 const enhancer = compose(
   applyMiddleware(sagaMiddleware),
-  reduxNativeDevTools != null
-    ? reduxNativeDevTools({ name: 'baniking_mobile' })
-    : (nope) => nope,
-  configuredReactotron != null
-    ? configuredReactotron.createEnhancer()
-    : (nope: any) => nope,
+  reduxNativeDevTools != null ? reduxNativeDevTools({ name: 'baniking_mobile' }) : (nope) => nope,
+  configuredReactotron != null ? configuredReactotron.createEnhancer() : (nope: any) => nope,
 );
 
 export const store = createStore(rootReducer, enhancer);

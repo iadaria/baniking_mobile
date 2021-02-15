@@ -2,20 +2,38 @@ import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
+import { connect } from 'react-redux';
+import {
+  socialLogin as socialLoginAction,
+  emailLogin as emailLoginAction,
+} from '~/src/features/auth/store/authActions';
+import { ICredential } from '~/src/app/models/user';
 import { colors, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 
 interface IProps {
+  navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
+  socialLogin: ({ provider }: ICredential) => void;
+  emailLogin: ({ login, password }: ICredential) => void;
 }
 
-const LoginForm = ({ scrollViewRef }: IProps): JSX.Element => {
+const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
+  const [values, setValues] = React.useState({});
+
+  const handleEmailLogin = async () => {
+    console.log('values', values);
+    const { login, password } = values as ICredential;
+    await emailLogin({ login, password });
+  };
 
   return (
-    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef}>
+    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef} setValues={setValues}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
@@ -48,7 +66,7 @@ const LoginForm = ({ scrollViewRef }: IProps): JSX.Element => {
         </Block>
       </Block>
       {/* Button */}
-      <AppButton onPress={() => {}}>
+      <AppButton onPress={handleEmailLogin}>
         <AppText center medium>
           Авторизироваться
         </AppText>
@@ -57,12 +75,14 @@ const LoginForm = ({ scrollViewRef }: IProps): JSX.Element => {
   );
 };
 
-export default LoginForm;
+const LoginFormConnected = connect(
+  (/* state: IRootState */) => ({
+    //
+  }),
+  {
+    socialLogin: socialLoginAction,
+    emailLogin: emailLoginAction,
+  },
+)(LoginFormContainer);
 
-/* <KeyboardAvoidingView
-    behavior="padding"
-    keyboardVerticalOffset={Platform.select({
-      ios: () => 0,
-      android: () => -100,
-    })()}> */
-/* Registration header */
+export { LoginFormConnected as LoginForm };

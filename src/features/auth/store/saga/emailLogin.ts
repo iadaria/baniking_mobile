@@ -21,9 +21,10 @@ interface IResult {
 function* emailLoginSaga({
   payload: { login, password },
 }: IAction): Generator<Promise<ICredential>, void, IResult> {
+  console.log('!!!!! login');
   try {
     const { token }: IResult = yield methods.login({ email: login, password }, null);
-    console.log('**** token *****', token);
+    console.log('[emailLoginSaga] **** token *****', token);
     // yield put(setUserData({ token }));
     // yield put(logInSuccess());
     // RootNavigate.navigate('BottomNavigator', null);

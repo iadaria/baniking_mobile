@@ -1,11 +1,11 @@
 import * as constants from './authConstants';
 import { IUser } from '~/src/app/models/user';
 
-interface IAction {
+/* interface IAction {
   type: string;
   payload: IUser;
   errors?: string[];
-}
+} */
 
 export interface IAuthState {
   authenticated: boolean;

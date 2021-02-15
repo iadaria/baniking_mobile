@@ -12,21 +12,19 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
   children,
   defaultInputs,
   scrollView,
+  setValues,
 }: {
   children?: React.ReactNode;
-  scrollView?: React.RefObject<ScrollView>;
   defaultInputs: T;
+  scrollView?: React.RefObject<ScrollView>;
+  setValues: (values: {}) => void;
 }): JSX.Element {
   const [inputs, setInputs] = React.useState<T>(defaultInputs);
-  const [isErrors, setIsErrors] = React.useState<boolean>(false);
+  const [isErrors, setIsErrors] = React.useState<boolean>();
   const _scrollView = React.useRef<ScrollView>(null);
 
   React.useEffect(() => {
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
-    searchErrors();
-  }, [inputs]);
-
-  const searchErrors = React.useCallback(() => {
     let _isErrors = false;
     Object.values(inputs).map(({ errorLabel }: IInput) => {
       if (errorLabel) {
@@ -34,11 +32,28 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
         _isErrors = true;
       }
     });
-    !_isErrors && setIsErrors(false);
+
+    let _isEmpty = true;
+    Object.values(inputs).map(({ value }: IInput) => {
+      if (value) {
+        _isEmpty = false;
+      }
+    });
+
+    !_isErrors && !_isEmpty && setIsErrors(false);
+    console.log(`[ValidatedElements/searchErrors] isErrors = ${isErrors} isEmpty = ${_isEmpty} --------- `);
   }, [inputs]);
 
+  /* const isEmpty = () => {
+    Object.values(inputs).map(({ value }: IInput) => {
+      if (!!value) {
+        return false;
+      }
+    });
+    return true;
+  };
+ */
   function handleAllValidate(): T /* IInputs */ {
-    console.log('[handleAllValidate]');
     const updatedInputs = { ...inputs };
     for (const [key, input] of Object.entries(inputs)) {
       updatedInputs[key as keyof typeof inputs] = getValidatedInput({
@@ -89,6 +104,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
   }
 
   function handleSubmit() {
+    // Scroll to first input with error
     let firstInvalidCoordinate: number | null = null;
     const updatedInputs = handleAllValidate();
     firstInvalidCoordinate = getFirstInvalidInput(updatedInputs);
@@ -99,6 +115,13 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
         y: firstInvalidCoordinate,
         animated: true,
       });
+    } else {
+      // pass values to user
+      let values = {};
+      for (const [key, input] of Object.entries(inputs)) {
+        values = { ...values, [key]: input.value };
+      }
+      setValues(values);
     }
   }
 
@@ -107,7 +130,6 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
-      console.log('***** App Input', child.type.name);
       if (isTextInput(child)) {
         // const { id }: ITextInputProps<T> = child.props;
         const { id }: IAppInputProps<T> = child.props;
@@ -122,7 +144,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
       } else if (isButton(child)) {
         const { onPress } = child.props;
         return React.cloneElement(child, {
-          disabled: isErrors,
+          disabled: isErrors || isErrors === undefined,
           onPress: () => {
             handleSubmit();
             onPress();

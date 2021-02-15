@@ -1,30 +1,19 @@
 import React from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { ICredential } from '~/src/app/models/user';
 // import SocialLogin from './components/SocialLogin';
-import { connect } from 'react-redux';
-import { socialLogin } from '~/src/features/auth/store/authActions';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { LoginForm } from './LoginForm';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
-import LoginForm from './LoginForm';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  socialLogin: ({ provider }: ICredential) => void;
 }
 
-function LoginContainer({ navigation }: IProps) {
+export function LoginScreen({ navigation }: IProps) {
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   return (
@@ -42,7 +31,7 @@ function LoginContainer({ navigation }: IProps) {
         </Block>
         {/* Login Form */}
         <Block style={styles.list} full base white>
-          <LoginForm scrollViewRef={scrollViewRef} />
+          <LoginForm navigation={navigation} scrollViewRef={scrollViewRef} />
           {/*  Social login block */}
           <Block margin={[9, 0, 3]} debug>
             <AppText caption medium center size={sizes.text.label + 0.1}>
@@ -77,19 +66,7 @@ function LoginContainer({ navigation }: IProps) {
     </ScrollView>
   );
 }
-
 // color, fontFamily, align, size
-
-const LoginConnected = connect(
-  (/* state: IRootState */) => ({
-    //
-  }),
-  {
-    socialLogin: socialLogin,
-  },
-)(LoginContainer);
-
-export { LoginConnected as LoginScreen };
 
 // <SocialLogin socialLogin={socialLogin} />
 

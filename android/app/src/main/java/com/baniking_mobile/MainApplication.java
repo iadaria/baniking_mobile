@@ -3,6 +3,7 @@ package com.baniking_mobile;
 // import android.app.Application; // commented by daria
 import androidx.multidex.MultiDexApplication; // add by daria
 import android.content.Context;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
