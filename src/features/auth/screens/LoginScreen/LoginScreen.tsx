@@ -10,8 +10,9 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
-// import { ScrollView } from 'react-native-gesture-handler';
 import LoginForm from './LoginForm';
+import ValidatedElements from '~/src/app/common/components/ValidatedElements';
+import { defaultLoginInputs } from '../contracts/loginInputs';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -24,7 +25,6 @@ function LoginContainer({ navigation }: IProps) {
     //   style={styles.scrollView}
     //   keyboardShouldPersistTaps="handled"
     //   // contentContainerStyle={{ paddingVertical: wp(sizes.offset.base) }}
-    // >
     <Block full bottom debug>
       <Block center margin={[0, 0, sizes.logo.bottom]}>
         <AuthLogo />
@@ -62,7 +62,6 @@ function LoginContainer({ navigation }: IProps) {
         </Block>
       </Block>
     </Block>
-    // </ScrollView>
   );
 }
 

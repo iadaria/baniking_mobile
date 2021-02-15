@@ -7,10 +7,10 @@ import TestValidatedScreen from './screens/TestValidatedScreen/TestValidatedScre
 export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
-    <Auth.Navigator screenOptions={{ headerShown: false }}>
+    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
       <Auth.Screen name="TestValidatedScreen" component={TestValidatedScreen} />
-      <Auth.Screen name="ValidatedScreen" component={ValidatedScreen} />
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
+      <Auth.Screen name="ValidatedScreen" component={ValidatedScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />
     </Auth.Navigator>
   );

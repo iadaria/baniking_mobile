@@ -11,8 +11,6 @@ export default function TestValidatedScreen() {
       <Text>Dasha</Text>
       <AppInput id="email" email />
       <AppInput defaultValue="+7" center mask="+7 ([000]) [000] [00] [00]" id="phone" phone />
-      {/* <TestTextInput style={styles.input} label="Birthday month" id="birthday_month" />
-      <TestTextInput style={styles.input} label="password" id="password" /> */}
       <Button color="green" title="Check all" onPress={() => {}} accessibilityLabel="HZ" />
     </ValidatedElements>
   );
