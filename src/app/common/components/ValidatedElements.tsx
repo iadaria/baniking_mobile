@@ -55,15 +55,6 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
     );
   }, [inputs]);
 
-  /* const isEmpty = () => {
-    Object.values(inputs).map(({ value }: IInput) => {
-      if (!!value) {
-        return false;
-      }
-    });
-    return true;
-  };
- */
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
     for (const [key, input] of Object.entries(inputs)) {

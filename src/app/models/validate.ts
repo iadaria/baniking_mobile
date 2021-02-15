@@ -7,5 +7,5 @@ export interface IInput {
   optional?: boolean; // true - not validate, false/undefined - falidate
   yCoordinate?: number;
   touched?: boolean;
-  require: boolean; // for disable button
+  require?: boolean; // for disable button TODO require: boolean
 }

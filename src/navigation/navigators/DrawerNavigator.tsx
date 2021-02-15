@@ -20,7 +20,6 @@ interface ILabelProps {
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(/* { navigation, route }: any */) {
-
   return (
     <Drawer.Navigator
       drawerContentOptions={{
@@ -32,54 +31,42 @@ export default function DrawerNavigator(/* { navigation, route }: any */) {
         name="ProfileTab"
         component={ProfileNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="Личный кабинет" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Личный кабинет" {...props} />,
         }}
       />
       <Drawer.Screen
         name="BathesTab"
         component={BathesNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="Каталог бань" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Каталог бань" {...props} />,
         }}
       />
       <Drawer.Screen
         name="MeetingsTab"
         component={MeetingsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="Собрания" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Собрания" {...props} />,
         }}
       />
       <Drawer.Screen
         name="ReceiptsTab"
         component={ReceiptsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="Чеки" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Чеки" {...props} />,
         }}
       />
       <Drawer.Screen
         name="SettingsTab"
         component={SettingsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="Настройки" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Настройки" {...props} />,
         }}
       />
       <Drawer.Screen
         name="QrTab"
         component={QrNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => (
-            <AppDrawerItem text="QR" {...props} />
-          ),
+          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
         }}
       />
     </Drawer.Navigator>
