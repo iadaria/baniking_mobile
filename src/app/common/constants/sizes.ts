@@ -10,6 +10,10 @@ export const sizes = {
     between: 1.5, // 12
   },
 
+  flash: {
+    paddingVertical: 2.5,
+  },
+
   logo: {
     bottom: 2.8,
   },

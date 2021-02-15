@@ -14,6 +14,7 @@ import { ICredential } from '~/src/app/models/user';
 import { colors, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
+import { showMessage } from 'react-native-flash-message';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -25,6 +26,13 @@ interface IProps {
 const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [values, setValues] = React.useState({});
+
+  React.useEffect(() => {
+    showMessage({
+      message: 'Hellow',
+      type: 'warning',
+    });
+  }, []);
 
   const handleEmailLogin = async () => {
     console.log('values', values);

@@ -12,3 +12,5 @@ export { default as FacebookIcon } from './images/svg/facebook.svg';
 export { default as GoogleIcon } from './images/svg/google.svg';
 export { default as VkIcon } from './images/svg/vk.svg';
 export { default as YandexIcon } from './images/svg/yandex.svg';
+// png
+export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';

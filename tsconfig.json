@@ -59,6 +59,7 @@
     "paths": {
       "~/src/*": ["src/*"],
       // "~/app/*": ["src/app/*/index", "src/app/*"],
+      // "src/app/common/components/AppFlashMessage/index.ts", "src/app/common/components/ToastNotify/index.ts"
       // "~/navigation/*": ["src/navigation/*"],
       // "~/navigation/navigators": ["src/navigation/navigators/index.ts"],
       // "~/assets": ["src/assets/index.ts"],

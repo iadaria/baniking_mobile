@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
 import { appDefaultTheme } from './appDefaultTheme';
+import AppFlashMessage from '~/src/app/common/components/AppFlashMessage/AppFlashMessage';
 
 // import AppFlashMessage from '../app/common/components/AppFlashMessage';
 // import MainNavigator from './navigators/MainNavigator';
@@ -22,8 +23,8 @@ export default function AppNavigation() {
         <NavigationContainer theme={appDefaultTheme} ref={navigationRef}>
           <MainNavigator />
         </NavigationContainer>
-        {/* <ModalManager />
-        <AppFlashMessage /> */}
+        {/* <ModalManager /> */}
+        <AppFlashMessage />
       </SafeAreaProvider>
     </Provider>
   );
