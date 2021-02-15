@@ -15,6 +15,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 import { showMessage } from 'react-native-flash-message';
+import { useRefState } from '~/src/app/hooks/useRefState';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -25,23 +26,17 @@ interface IProps {
 
 const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
-  const [values, setValues] = React.useState({});
+  // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
+  // Use ref because don't need rendering component
+  const valuesRef = React.useRef<ICredential>({ login: '', password: '' });
 
-  React.useEffect(() => {
-    showMessage({
-      message: 'Hellow',
-      type: 'warning',
-    });
-  }, []);
-
-  const handleEmailLogin = async () => {
-    console.log('values', values);
-    const { login, password } = values as ICredential;
-    await emailLogin({ login, password });
+  const handleEmailLogin = () => {
+    console.log('values1', valuesRef.current);
+    emailLogin(valuesRef.current);
   };
 
   return (
-    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef} setValues={setValues}>
+    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef} valuesRef={valuesRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>

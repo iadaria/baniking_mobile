@@ -1,25 +1,27 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/input';
-// import { IAppInputProps } from './UI/AppInput/AppInput';
+// import { useRefState } from './useRefState';
 
-//interface IChild<T> extends JSX.Element, ITextInputProps<T> {}
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
-function ValidatedElements<T extends { [key: string]: IInput }>({
-  children,
-  defaultInputs,
-  scrollView,
-  setValues,
-}: {
+interface IProps<T, V> {
   children?: React.ReactNode;
   defaultInputs: T;
   scrollView?: React.RefObject<ScrollView>;
-  setValues: (values: {}) => void;
-}): JSX.Element {
+  valuesRef: MutableRefObject<V>;
+}
+
+function ValidatedElements<T extends { [key: string]: IInput }, V>({
+  children,
+  defaultInputs,
+  scrollView,
+  valuesRef,
+}: IProps<T, V>): JSX.Element {
   const [inputs, setInputs] = React.useState<T>(defaultInputs);
+  // const [inputs, inputsRef, setInputs] = useRefState<T>(defaultInputs);
   const [isErrors, setIsErrors] = React.useState<boolean>();
   const _scrollView = React.useRef<ScrollView>(null);
 
@@ -27,7 +29,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
-    let whatError: string;
+    let whatError: string | null = null;
     Object.values(inputs).map(({ errorLabel }: IInput) => {
       if (errorLabel) {
         // нашли первую ошибку
@@ -119,11 +121,14 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
       });
     } else {
       // pass values to user
-      let values = {};
-      for (const [key, input] of Object.entries(inputs)) {
-        values = { ...values, [key]: input.value };
+      let _values: V = {};
+      //for (const [key, input] of Object.entries(inputsRef.current)) {
+      for (const [key, input] of Object.entries(updatedInputs)) {
+        _values = { ..._values, [key]: input.value };
       }
-      setValues(values);
+      // ({ ...values, ..._values });
+      valuesRef.current = _values;
+      console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 
