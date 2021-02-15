@@ -2,7 +2,8 @@ import React from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
-import { IAppInputProps } from '~/src/features/auth/screens/TestValidatedScreen/TestTextInput';
+import { IAppInputProps } from '~/src/app/models/input';
+// import { IAppInputProps } from './UI/AppInput/AppInput';
 
 //interface IChild<T> extends JSX.Element, ITextInputProps<T> {}
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}

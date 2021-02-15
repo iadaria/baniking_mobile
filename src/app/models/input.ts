@@ -1,5 +1,13 @@
 import { ReactNode } from 'react';
-import { TextInputProps, TextStyle } from 'react-native';
+import { LayoutChangeEvent, TextInputProps, TextStyle } from 'react-native';
+
+export interface IAppInputProps<T> extends IUiInput {
+  id: keyof T; // id: keyof typeof defaultInputs;
+  error?: string;
+  label?: string;
+  touched?: boolean;
+  onLayout?: (props: LayoutChangeEvent) => void;
+}
 
 export interface IUiInput extends TextInputProps {
   label?: string;

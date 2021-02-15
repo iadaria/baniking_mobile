@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, TextStyle } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { IUiInput } from '~/src/app/models/input';
 import { colors, fonts, sizes } from '~/src/app/common/constants';
 
