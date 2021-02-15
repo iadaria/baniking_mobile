@@ -11,15 +11,30 @@ interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 function ValidatedElements<T extends { [key: string]: IInput }>({
   children,
   defaultInputs,
+  scrollView,
 }: {
   children?: React.ReactNode;
+  scrollView?: React.RefObject<ScrollView>;
   defaultInputs: T;
-}) {
+}): JSX.Element {
   const [inputs, setInputs] = React.useState<T>(defaultInputs);
-  const scrollView = React.useRef<ScrollView>(null);
+  const [isErrors, setIsErrors] = React.useState<boolean>(false);
+  const _scrollView = React.useRef<ScrollView>(null);
 
   React.useEffect(() => {
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
+    searchErrors();
+  }, [inputs]);
+
+  const searchErrors = React.useCallback(() => {
+    let _isErrors = false;
+    Object.values(inputs).map(({ errorLabel }: IInput) => {
+      if (errorLabel) {
+        setIsErrors(true);
+        _isErrors = true;
+      }
+    });
+    !_isErrors && setIsErrors(false);
   }, [inputs]);
 
   function handleAllValidate(): T /* IInputs */ {
@@ -79,7 +94,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
     firstInvalidCoordinate = getFirstInvalidInput(updatedInputs);
 
     if (firstInvalidCoordinate !== null) {
-      scrollView.current?.scrollTo({
+      scrollView?.current?.scrollTo({
         x: 0,
         y: firstInvalidCoordinate,
         animated: true,
@@ -107,6 +122,7 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
       } else if (isButton(child)) {
         const { onPress } = child.props;
         return React.cloneElement(child, {
+          disabled: isErrors,
           onPress: () => {
             handleSubmit();
             onPress();
@@ -117,7 +133,11 @@ function ValidatedElements<T extends { [key: string]: IInput }>({
     });
   }
 
-  return <ScrollView ref={scrollView}>{renderChildren()}</ScrollView>;
+  if (!scrollView) {
+    return <ScrollView ref={_scrollView}>{renderChildren()}</ScrollView>;
+  }
+
+  return <>{renderChildren()}</>;
 }
 
 export default ValidatedElements;

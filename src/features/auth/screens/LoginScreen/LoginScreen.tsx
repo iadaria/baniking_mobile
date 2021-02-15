@@ -7,12 +7,17 @@ import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
 import LoginForm from './LoginForm';
-import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { defaultLoginInputs } from '../contracts/loginInputs';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -20,48 +25,56 @@ interface IProps {
 }
 
 function LoginContainer({ navigation }: IProps) {
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
   return (
-    // <ScrollView
-    //   style={styles.scrollView}
-    //   keyboardShouldPersistTaps="handled"
-    //   // contentContainerStyle={{ paddingVertical: wp(sizes.offset.base) }}
-    <Block full bottom debug>
-      <Block center margin={[0, 0, sizes.logo.bottom]}>
-        <AuthLogo />
-      </Block>
-      <Block style={styles.list} flex={0.83} full base white>
-        <LoginForm />
-        {/* Social login block */}
-        <Block margin={[5, 0, 3]} debug>
-          <AppText caption medium center size={sizes.text.label + 0.1}>
-            Или войдите через социальные сети
-          </AppText>
-          <Block margin={[1.5, 0, 0]} row middle>
-            <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-              <FacebookIcon />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-              <GoogleIcon />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-              <VkIcon />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-              <YandexIcon />
+    <ScrollView
+      horizontal
+      ref={scrollViewRef}
+      style={styles.scrollView}
+      alwaysBounceHorizontal
+      // contentInsetAdjustmentBehavior="always"
+      contentContainerStyle={styles.scrollViewContainer}>
+      <Block full debug>
+        {/* Top log */}
+        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
+          <AuthLogo />
+        </Block>
+        {/* Login Form */}
+        <Block style={styles.list} full base white>
+          <LoginForm scrollViewRef={scrollViewRef} />
+          {/*  Social login block */}
+          <Block margin={[9, 0, 3]} debug>
+            <AppText caption medium center size={sizes.text.label + 0.1}>
+              Или войдите через социальные сети
+            </AppText>
+            <Block /* margin={[1.5, 0, 0]}  */ row middle>
+              <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+                <FacebookIcon />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+                <GoogleIcon />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+                <VkIcon />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+                <YandexIcon />
+              </TouchableOpacity>
+            </Block>
+          </Block>
+          {/*  Sign in  */}
+          <Block margin={[0, 0, 0]} row middle debug>
+            <AppText primary center>
+              Eще не зарегистрированы?
+            </AppText>
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+              <AppText secondary> Регистрация</AppText>
             </TouchableOpacity>
           </Block>
         </Block>
-        {/* Sign in */}
-        <Block /* margin={[0, 0, 1]} */ row middle debug>
-          <AppText primary center>
-            Eще не зарегистрированы?
-          </AppText>
-          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-            <AppText secondary> Регистрация</AppText>
-          </TouchableOpacity>
-        </Block>
       </Block>
-    </Block>
+    </ScrollView>
   );
 }
 
@@ -81,15 +94,17 @@ export { LoginConnected as LoginScreen };
 // <SocialLogin socialLogin={socialLogin} />
 
 const styles = StyleSheet.create({
+  scrollView: {
+    /* borderWidth: 2,
+    borderColor: 'green',
+    backgroundColor: 'red', */
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+  },
   list: {
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
-  },
-  scrollView: {
-    borderWidth: 2,
-    borderColor: 'green',
-    position: 'absolute',
-    bottom: 0,
   },
   bottom: {
     position: 'absolute',

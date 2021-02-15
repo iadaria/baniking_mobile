@@ -1,4 +1,18 @@
+const loginForm = {
+  login: {
+    presence: {
+      allowEmpty: false,
+      message: '^This is required',
+    },
+    length: {
+      minimum: 6,
+      message: '^Login must be at least 8 characters long',
+    },
+  },
+};
+
 export const validationDictionary = {
+  ...loginForm,
   bool: {
     inclusion: {
       within: [true],
@@ -25,6 +39,10 @@ export const validationDictionary = {
     },
     email: {
       message: '^Email address must be valid',
+    },
+    length: {
+      minimum: 8,
+      message: '^Email must be at least 8 characters long',
     },
   },
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
@@ -7,11 +7,15 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 
-const LoginForm = () => {
+interface IProps {
+  scrollViewRef?: React.RefObject<ScrollView>;
+}
+
+const LoginForm = ({ scrollViewRef }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
 
   return (
-    <ValidatedElements defaultInputs={defaultLoginInputs}>
+    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
@@ -25,13 +29,13 @@ const LoginForm = () => {
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput center id="login" />
+      <AppInput center id="login" placeholder="Введите e-mail" />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Пароль
         </AppText>
       </Block>
-      <AppInput center id="password" />
+      <AppInput center id="password" placeholder="Введите пароль" />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
           <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />

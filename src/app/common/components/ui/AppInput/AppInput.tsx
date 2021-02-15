@@ -72,7 +72,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
           autoCorrect={false}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          placeholder={isFocused ? undefined : placeholder}
+          placeholder={placeholder}
           // placeholderTextColor="rgba(126,126,126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
@@ -91,13 +91,14 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       <TextInput
         style={inputStyles}
         // secureTextEntry={isSecure}
+        // multiline={false}
         autoCompleteType="off"
         autoCapitalize="none"
         autoCorrect={false}
         keyboardType={inputType}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        placeholder={isFocused ? undefined : placeholder}
+        placeholder={placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
         underlineColorAndroid="transparent"
         {...otherProps}
