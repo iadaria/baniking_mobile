@@ -1,17 +1,16 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, TextStyle } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { IUiInput } from '~/src/app/models/input';
+// import { IUiInput } from '~/src/app/models/ui';
 import { colors, fonts, sizes } from '~/src/app/common/constants';
 
-interface IProps extends IUiInput {
+interface IProps /*  extends IUiInput */ {
+  label: string;
   isFocused: boolean;
 }
 
 export default function AppInputLabel(props: IProps) {
   const { label /* error, isFocused  */ } = props;
-
-  // console.log('[AppInputLabel]', isFocused);
 
   const labelStyle: StyleProp<TextStyle> = [
     styles.label,
@@ -22,13 +21,9 @@ export default function AppInputLabel(props: IProps) {
   ];
 
   return (
-    <>
-      {label ? (
-        <View style={styles.labelWrapper}>
-          <Text style={labelStyle}>{label}</Text>
-        </View>
-      ) : null}
-    </>
+    <View style={styles.labelWrapper}>
+      <Text style={labelStyle}>{label}</Text>
+    </View>
   );
 }
 
@@ -40,8 +35,6 @@ const styles = StyleSheet.create({
     left: wp(sizes.input.paddingHorizontal - sizes.input.labelPadding),
     zIndex: 2,
     backgroundColor: colors.white,
-    /* borderWidth: 0.5,
-    borderColor: 'red', */
     paddingHorizontal: wp(sizes.input.labelPadding),
   },
   label: {

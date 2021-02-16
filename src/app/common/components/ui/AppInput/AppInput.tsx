@@ -9,9 +9,20 @@ import AppInputError from './AppInputError';
 import AppInputLabel from './AppInputLabel';
 import { styles } from './styles';
 
+export interface IAppInputStates {
+  isTouched: boolean;
+  isFocused: boolean;
+  isVirgin: boolean;
+}
+
 export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
-  const [isTouched, setIsTouched] = React.useState(false);
-  const [isFocused, setIsFocused] = React.useState(false);
+  const [states, setStates] = React.useState<IAppInputStates>({
+    isTouched: false,
+    isFocused: false,
+    isVirgin: true,
+  });
+  /* const [isTouched, setIsTouched] = React.useState(false);
+    const [isFocused, setIsFocused] = React.useState(false); */
   const {
     //system
     onLayout,
@@ -31,30 +42,48 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   } = props;
 
   React.useEffect(() => {
+    // если уже был выходи из поля или проверялось кнопкой-все
+    console.log('[AppInput/useEffect/virgin]***');
+    if (!!props.touched || states.isTouched) {
+      setStates({
+        ...states,
+        isVirgin: false,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.touched, states.isTouched]);
+
+  React.useEffect(() => {
     console.log(
-      `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}, focused=${isFocused}'`,
+      `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
     );
-  }, [props, isTouched, props.touched, isFocused]);
+  }, [props, props.touched, states]);
 
   const inputStyles: StyleProp<TextStyle> | null | undefined = [
     styles.input,
     !!error && { borderColor: colors.error },
     center && styles.center,
     style,
-    isFocused && { borderColor: colors.secondary },
+    states.isFocused && { borderColor: colors.secondary },
   ];
 
   // const inputPaperStyles = [main && { selectionColor: colors.primary }, style];
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
 
   function handleBlur() {
-    setIsTouched(!isTouched);
-    setIsFocused(false);
+    setStates({
+      ...states,
+      isTouched: !states.isTouched,
+      isFocused: false,
+    });
   }
 
   function handleFocus() {
-    setIsTouched(false);
-    setIsFocused(true);
+    setStates({
+      ...states,
+      isTouched: false,
+      isFocused: true,
+    });
   }
 
   let inputStylesMask: ReactNative.StyleProp<ReactNative.TextStyle> = inputStyles;
@@ -62,31 +91,33 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   if (mask) {
     return (
       <Block margin={[sizes.input.top, 0]}>
-        <AppInputLabel {...props} isFocused={isFocused} />
+        {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         <TextInputMask
           style={inputStylesMask}
           keyboardType="phone-pad"
-          mask={mask} //{'+7 ([000] [0000] [00] [00]'} //{'[999999].[99]'}
+          mask={mask}
           autoCompleteType="off"
           autoCapitalize="none"
           autoCorrect={false}
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
-          // placeholderTextColor="rgba(126,126,126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
         />
-        <AppInputError {...props} isFocused={isFocused} isTouched={isTouched || props.touched!} />
-        {/* {renderToggle()} */}
-        {/* {renderRight()} */}
+        <AppInputError
+          error={props.error}
+          isFocused={states.isFocused}
+          isTouched={props.touched || states.isTouched}
+          {...props}
+        />
       </Block>
     );
   }
 
   return (
     <Block onLayout={onLayout} margin={[sizes.input.top, 0]}>
-      <AppInputLabel {...props} isFocused={isFocused} />
+      {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
       {/* {renderLabel()} */}
       <TextInput
         style={inputStyles}
@@ -103,7 +134,14 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         underlineColorAndroid="transparent"
         {...otherProps}
       />
-      <AppInputError {...props} isFocused={isFocused} isTouched={props.touched || isTouched} />
+      <AppInputError
+        error={props.error}
+        isFocused={states.isFocused}
+        isTouched={props.touched || states.isTouched}
+        isVirgin={states.isVirgin}
+        // isFirstTouched={!!props.touched && !isTouched}
+        {...props}
+      />
     </Block>
   );
 }
