@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { IUiButton } from '~/src/app/models/button';
+import { IUiButton } from '~/src/app/models/ui';
 import { colors, sizes } from '../../constants';
 
 export function AppButton(props: IUiButton) {

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Alert, Linking, TouchableOpacity } from 'react-native';
-import { IUiText } from '~/src/app/models/text';
+import { IUiText } from '~/src/app/models/ui';
 import { AppText } from './AppText';
-import { Block } from './Block';
 
 interface IProps extends IUiText {
   color?: string;

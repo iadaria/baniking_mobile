@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Platform, View } from 'react-native';
-import { IUiSwitch } from '../../../models/switch';
+import { IUiSwitch } from '~/src/app/models/ui';
 import { colors } from '~/src/app/common/constants';
 
 const GRAY_COLOR = 'rgba(168, 182, 200, 0.30)';

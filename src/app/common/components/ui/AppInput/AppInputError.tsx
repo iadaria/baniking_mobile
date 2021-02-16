@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { IUiInput } from '~/src/app/models/input';
+import { IUiInput } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 

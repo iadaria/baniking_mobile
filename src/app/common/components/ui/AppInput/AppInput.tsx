@@ -4,7 +4,7 @@ import { StyleProp, TextInput, TextStyle } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { Block } from '~/src/app/common/components/UI/Block';
 import { colors, sizes } from '~/src/app/common/constants';
-import { IAppInputProps } from '~/src/app/models/input';
+import { IAppInputProps } from '~/src/app/models/ui';
 import AppInputError from './AppInputError';
 import AppInputLabel from './AppInputLabel';
 import { styles } from './styles';

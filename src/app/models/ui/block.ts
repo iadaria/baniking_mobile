@@ -80,7 +80,7 @@ export interface IUiColor {
   white?: string;
 }
 
-export interface IUiInput {
+/* export interface IUiInput {
   label?: string;
   error?: boolean;
   secure?: boolean;
@@ -94,3 +94,4 @@ export interface IUiInput {
   children?: ReactNode;
   [key: string]: any;
 }
+ */

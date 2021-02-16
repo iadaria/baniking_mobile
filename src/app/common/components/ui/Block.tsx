@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Animated, View, StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { IBlockStyleProps, IUiBlock, IUiMargin, IUiPadding } from '~/src/app/models/block';
+import { IBlockStyleProps, IUiBlock, IUiMargin, IUiPadding } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 
 export function Block(props: IUiBlock) {

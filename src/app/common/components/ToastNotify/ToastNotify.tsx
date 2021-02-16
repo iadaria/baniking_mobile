@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { closeWhiteCircle } from '~/src/assets';
-import { Block } from '~/src/app/common/components/UI';
+import { Block, AppText } from '~/src/app/common/components/UI';
 
 import styles from './styles';
 import { colors, sizes } from '~/src/app/common/constants';
@@ -47,7 +47,7 @@ export function InfoError({ onClick, message }: Props) {
         <Text style={[styles.message, styles.errorText]}>{message.message}</Text>
         <TouchableOpacity style={newStyle.OK} onPress={onClick}>
           {/* <Image style={styles.closeImg} source={closeWhiteCircle} /> */}
-          <Text>OK</Text>
+          <AppText center>OK</AppText>
         </TouchableOpacity>
       </Block>
     </TouchableOpacity>
@@ -60,6 +60,7 @@ const newStyle = StyleSheet.create({
     borderRadius: 8,
   },
   OK: {
+    width: '70%',
     borderWidth: 1,
     borderColor: 'white',
     padding: 3,
