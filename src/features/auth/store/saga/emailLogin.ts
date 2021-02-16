@@ -31,7 +31,7 @@ function* emailLoginSaga({
         email: ['Введите email'],
         password: ['Неверный пароль'],
         device_name: ['Девайся обязатлеьное поле'],
-      }
+      },
     };
     throw response;
     // const { token }: IResult = yield methods.login({ email: login, password }, null);
@@ -43,9 +43,13 @@ function* emailLoginSaga({
     let [errors, message] = getErrorStrings(e);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
+    if (errorMessage.includes('The given data was invalid')) {
+      errorMessage = 'Введены неверный логин и пароль';
+    }
+
     // console.log(`error/[catch] message = ${message}\n`, JSON.stringify(errors, null, 4));
-    console.log(`error/[catch] message = ${message}\n`);
-    console.log(errors);
+    // console.log(`error/[catch] message = ${message}\n`);
+    // console.log(errorMessage);
 
     showMessage({
       message: `${errorMessage}`,

@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { closeWhiteCircle } from '~/src/assets';
+import { Block } from '~/src/app/common/components/UI';
 
 import styles from './styles';
+import { colors, sizes } from '~/src/app/common/constants';
 
 interface Props {
   message: {
@@ -35,12 +37,33 @@ export function InfoError({ onClick, message }: Props) {
         // if (typeof message.onPress !== 'undefined') { message.onPress(); }
         onClick();
       }}>
-      <View style={[styles.container, styles.error]}>
+      {/* <View style={[styles.container, styles.error]}> */}
+      <Block
+        style={newStyle.container}
+        center
+        margin={[3, sizes.offset.base, 0]}
+        padding={[2, 1]}
+        color={colors.error}>
         <Text style={[styles.message, styles.errorText]}>{message.message}</Text>
-        <TouchableOpacity onPress={onClick}>
-          <Image style={styles.closeImg} source={closeWhiteCircle} />
+        <TouchableOpacity style={newStyle.OK} onPress={onClick}>
+          {/* <Image style={styles.closeImg} source={closeWhiteCircle} /> */}
+          <Text>OK</Text>
         </TouchableOpacity>
-      </View>
+      </Block>
     </TouchableOpacity>
   );
 }
+
+const newStyle = StyleSheet.create({
+  container: {
+    // height: hp(5.5),
+    borderRadius: 8,
+  },
+  OK: {
+    borderWidth: 1,
+    borderColor: 'white',
+    padding: 3,
+    borderRadius: 3,
+    marginTop: 10,
+  },
+});

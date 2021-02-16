@@ -8,8 +8,8 @@ export default function AppFlashMessage() {
   return (
     <FlashMessage
       position={{ top: statusBarHeight, left: 0, right: 0 }}
-      // autoHide={false}
-      duration={4000}
+      autoHide={false}
+      // duration={4000}
       animated={false}
       // animationDuration={500}
       hideOnPress
