@@ -3,11 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 let reactotron;
 if (__DEV__) {
   const Reactotron = require('reactotron-react-native').default;
-  const {
-    trackGlobalErrors,
-    openInEditor,
-    networking,
-  } = require('reactotron-react-native');
+  const { trackGlobalErrors, openInEditor, networking } = require('reactotron-react-native');
   const { reactotronRedux } = require('reactotron-redux');
   const sagaPlugin = require('reactotron-redux-saga');
   reactotron = Reactotron.configure({

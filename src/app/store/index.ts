@@ -1,21 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { configuredReactotron } from '~/src/initial-imports/reactotron';
-// import {
-//   persistStore,
-//   // persistReducer,
-// } from 'redux-persist';
 import rootReducer from './rootReducer';
 import rootSagas from './rootSaga';
-// import AsyncStorage from '@react-native-community/async-storage';
-
-// const persistConfig = {
-//   key: 'root',
-//   storage: AsyncStorage,
-//   blacklist: [],
-// };
-
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const { reduxNativeDevTools } = global;
 
