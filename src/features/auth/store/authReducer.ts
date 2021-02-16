@@ -1,5 +1,5 @@
 import * as constants from './authConstants';
-import { IUser } from '~/src/app/models/user';
+import { IUserAuth } from '~/src/app/models/user';
 
 /* interface IAction {
   type: string;
@@ -9,7 +9,7 @@ import { IUser } from '~/src/app/models/user';
 
 export interface IAuthState {
   authenticated: boolean;
-  currentUser: IUser | null;
+  currentUser: IUserAuth | null;
   loading: boolean;
   errors?: string[] | null;
 }

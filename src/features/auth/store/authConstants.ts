@@ -11,3 +11,5 @@ export const ADD_STORAGE_CONTACT = 'auth/ADD_CONTACT';
 export const SET_LANGUAGE = 'auth/SET_LANGUAGE';
 export const SET_USER_DATA = 'auth/SET_USER_DATA';
 export const ASK_LOGOUT = 'auth/ASK_LOGOUT';
+export const CHANGE_PASSWORD = 'auth/CHANGE_PASSWORD';
+export const CONFIRM_PASSWORD = 'auth/CONFIRM_PASSWORD';

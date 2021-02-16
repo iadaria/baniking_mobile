@@ -1,4 +1,4 @@
-import { IUser } from '~/src/app/models/user';
+import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
 import { ICredential } from '~/src/app/models/user';
 /* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
@@ -16,7 +16,7 @@ export const socialLogin = ({ provider }: ICredential) => ({
   payload: { provider },
 });
 
-export const setUserData = (data: IUser) => ({
+export const setUserData = (data: IUserAuth) => ({
   type: constants.SET_USER_DATA,
   payload: data,
 });
@@ -25,3 +25,11 @@ export const recoveryPassword = ({ email }: { email: string }) => ({
   type: constants.RECOVERY_PASSWORD,
   payload: { email },
 });
+
+/* export const changePassword = (payload: ChangePassword) => ({
+  type: constants.CHANGE_PASSWORD, payload,
+});
+
+export const confirmPassword = (payload: ConfirmPassword) => ({
+  type: constants.CONFIRM_PASSWORD, payload,
+}); */

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { colors, fonts, sizes } from '~/src/app/common/constants';
-import { ITextStyleProps, IUiText } from '~/src/app/models/text';
+import { ITextStyleProps, IUiText } from '~/src/app/models/ui';
 
 export function AppText(props: IUiText) {
   const {
@@ -10,7 +10,7 @@ export function AppText(props: IUiText) {
     transform,
     spacing, // letter-spacing
     height, // line-height
-    necessary,
+    // necessary,
     // align
     align,
     center,

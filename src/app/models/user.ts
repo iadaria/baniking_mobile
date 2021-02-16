@@ -31,3 +31,24 @@ export interface ICredential {
   password?: string;
   provider?: string;
 }
+
+export interface IUserAuth {
+  name: string;
+  email?: string;
+  role: 'user' | 'manager';
+  token: string;
+}
+
+export interface IUserPersist {
+  email: string;
+  phone: string;
+  avatar: string;
+  role: 'user' | 'manager';
+}
+
+export interface ISocialAccount {
+  provider: 'google' | 'vk' | 'yandex' | 'facebook';
+  access_token: string;
+  uid: string;
+  photoURL: string;
+}
