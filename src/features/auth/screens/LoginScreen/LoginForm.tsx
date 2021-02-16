@@ -14,8 +14,6 @@ import { ICredential } from '~/src/app/models/user';
 import { colors, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
-import { showMessage } from 'react-native-flash-message';
-import { useRefState } from '~/src/app/hooks/useRefState';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;

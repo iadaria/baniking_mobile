@@ -1,11 +1,42 @@
-export const getErrorStrings = (error: any): [Array<string>, string] => {
+/**
+ * Action for login user
+ *
+ * @field message {string}
+ * @field errors: { [key: string]: string[] }
+ */
+export interface IResponseError {
+  message: string;
+  errors: {
+    [key: string]: string[];
+  };
+}
+
+export const getErrorStrings = (error: IResponseError): [Array<string>, string] => {
   const errors: string[] = [];
   let firstErrorMsg = '';
 
   if (!error) {
     return [errors, firstErrorMsg];
   }
-  if (error.local) {
+
+  // login
+  /* const response = {
+    message: 'The given data was invalid.',
+    errors: {
+      email: ['Введите email'],
+      password: ['Неверный пароль'],
+      device_name: ['Девайся обязатлеьное поле'],
+    },
+  }; */
+
+  firstErrorMsg = error?.message;
+
+  if (error?.errors) {
+    const values = Object.values(error.errors);
+    values.map((_error: string[]) => errors.push(..._error));
+  }
+
+  /* if (error.local) {
     return [[''], error.local];
   }
   if (!error.data) {
@@ -34,7 +65,7 @@ export const getErrorStrings = (error: any): [Array<string>, string] => {
     if (element.param) {
       errors.push(element.param);
     }
-  });
+  }); */
 
   return [errors, firstErrorMsg];
 };

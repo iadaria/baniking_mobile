@@ -20,10 +20,8 @@ interface IResult {
 
 GoogleSignin.configure({
   //vscopes: ['https://www.googleapis.com/auth/drive.readonly'],
-  androidClientId:
-    '470928467143-adpnffml8vnpov7scado54vbup9usg39.apps.googleusercontent.com',
-  iosClientId:
-    '470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog.apps.googleusercontent.com',
+  androidClientId: '470928467143-adpnffml8vnpov7scado54vbup9usg39.apps.googleusercontent.com',
+  iosClientId: '470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog.apps.googleusercontent.com',
   // offlineAccess: true,
 });
 
@@ -44,10 +42,6 @@ function* socialLoginSaga({ payload: { provider } }: IAction) {
   }
 }
 
-export default function* listener(): Generator<
-  ForkEffect<never>,
-  void,
-  unknown
-> {
+export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(SOCIAL_LOGIN, socialLoginSaga);
 }

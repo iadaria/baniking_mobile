@@ -9,14 +9,19 @@ interface IProps extends IUiInput {
   isTouched: boolean;
 }
 
+/** Как только пользователь начал исправлять значение, красная подсветка поля исчезает,
+ * и цвет текста ошибки меняется на черный.Текст ошибки пропадает по потере фокуса и больше
+ * не появляется, если поле заново получает фокус.
+ */
+
 export default function AppInputError(props: IProps) {
   const { error, isFocused, isTouched } = props;
+  const errorColor = { color: isFocused ? colors.primary : colors.error };
   return (
     <>
-      {/* {error && !isFocused ? ( */}
-      {error && !isFocused && isTouched ? (
+      {error /* && !isFocused */ && (isTouched || isFocused) ? (
         <View>
-          <Text style={styles.error}>{error}</Text>
+          <Text style={[styles.error, errorColor]}>{error}</Text>
         </View>
       ) : null}
     </>
