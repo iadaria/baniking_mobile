@@ -32,18 +32,24 @@ export interface ICredential {
   provider?: string;
 }
 
+export enum Role {
+  User,
+  Manager,
+}
+
 export interface IUserAuth {
   name: string;
   email?: string;
-  role: 'user' | 'manager';
+  role: Role;
   token: string;
 }
 
 export interface IUserPersist {
+  token: string;
   email: string;
   phone: string;
   avatar: string;
-  role: 'user' | 'manager';
+  role: Role;
 }
 
 export interface ISocialAccount {

@@ -1,6 +1,6 @@
+import { ICredential } from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
-import { ICredential } from '~/src/app/models/user';
 /* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
   type: constants.ENTER_PIN,
   payload: { pincode, forBackupPhrase },
@@ -16,7 +16,7 @@ export const socialLogin = ({ provider }: ICredential) => ({
   payload: { provider },
 });
 
-export const setUserData = (data: IUserAuth) => ({
+export const setAuthUserData = (data: Partial<IUserAuth>) => ({
   type: constants.SET_USER_DATA,
   payload: data,
 });

@@ -3,8 +3,8 @@ import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import systemReducer, { ISystemState } from './system/systemReducer';
 import authReducer, { IAuthState } from '~/src/features/auth/store/authReducer';
-import profileReducer, { IProfileState } from '~/src/features/profiles/profileReducer';
-import { default as appPersistrReducer, IPersistState } from '~/src/features/persist/persistReducer';
+import profileReducer, { IProfileState } from '~/src/features/profiles/store/profileReducer';
+import { default as appPersistrReducer, IPersistState } from '~/src/features/persist/store/persistReducer';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 const persistConfig = {

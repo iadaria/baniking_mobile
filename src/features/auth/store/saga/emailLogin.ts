@@ -1,9 +1,17 @@
-import { ForkEffect, takeLatest } from 'redux-saga/effects';
+import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import { EMAIL_LOGIN } from '../authConstants';
 import { ICredential } from '~/src/app/models/user';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showMessage } from 'react-native-flash-message';
+import { setPersistUserData } from '~/src/features/persist/store/persistActions';
+import { setAuthUserData } from '~/src/features/auth/store/authActions';
+
+// any - what we pass to call
+// second - what we return: void or string(return "done")
+// third - what return call
+
+// const NOT_CONFIRMED = 'Registration not confirmed';
 
 interface IAction {
   type: string;
@@ -14,18 +22,12 @@ interface IResult {
   token: string;
 }
 
-// any - what we pass to call
-// second - what we return: void or string(return "done")
-// third - what return call
-
-// const NOT_CONFIRMED = 'Registration not confirmed';
-
 function* emailLoginSaga({
   payload: { login, password },
-}: IAction): Generator<Promise<ICredential>, void, IResult> {
-  console.log('!!!!! login with values', { login, password });
+}: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    const response = {
+    // For test
+    /* const response = {
       message: 'The given data was invalid.',
       errors: {
         email: ['Введите email'],
@@ -33,10 +35,10 @@ function* emailLoginSaga({
         device_name: ['Девайся обязатлеьное поле'],
       },
     };
-    throw response;
-    // const { token }: IResult = yield methods.login({ email: login, password }, null);
-    // console.log('[emailLoginSaga] **** token *****', token);
-    // yield put(setUserData({ token }));
+    throw response; */
+    const { token }: IResult = yield methods.login({ email: login, password }, null);
+    yield put(setPersistUserData({ email: login, token }));
+    yield put(setAuthUserData({ email: login, token }));
     // yield put(logInSuccess());
     // RootNavigate.navigate('BottomNavigator', null);
   } catch (e) {

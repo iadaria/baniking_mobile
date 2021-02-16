@@ -1,4 +1,4 @@
-import { ISocialAccount } from '~/src/app/models/user';
+import { ISocialAccount, Role } from '~/src/app/models/user';
 import * as constants from './persistConstants';
 
 // TOOD SET USER PROVIDER DATE
@@ -16,7 +16,7 @@ interface IUser {
   userId: string;
   avatar: string;
   verified: boolean;
-  role: 'user' | 'manager';
+  role: Role;
   accounts: ISocialAccount[];
   // contact?:
   // contactsAllowed: boolean;
@@ -36,7 +36,7 @@ const initialState: IPersistState = {
     userId: '',
     avatar: '',
     verified: false,
-    role: 'user',
+    role: Role.User,
     accounts: [],
   },
 };

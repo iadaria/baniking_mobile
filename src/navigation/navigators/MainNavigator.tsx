@@ -13,6 +13,7 @@ import {
 } from '~/src/app/store/system/systemReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
+import { UnauthScreen } from '~/src/features/auth/screens';
 
 interface IProps {
   isDrawerOpen: boolean;
@@ -94,7 +95,7 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
           })
         }
         name="DrawerNavigator"
-        component={DrawerNavigator}
+        component={authenticated ? DrawerNavigator : UnauthScreen}
       />
     </Main.Navigator>
   );

@@ -11,7 +11,7 @@ export const setLanguage = ({ language }: { language: string }) => ({
   payload: { language },
 });
 
-export const setUserData = (data: IUserPersist) => ({
+export const setPersistUserData = (data: Partial<IUserPersist>) => ({
   type: constants.SET_USER_DATA,
   payload: data,
 });
