@@ -14,6 +14,7 @@ import {
 import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
 import { UnauthScreen } from '~/src/features/auth/screens';
+import { ProfileScreen } from '~/src/features/profiles/screens';
 
 interface IProps {
   isDrawerOpen: boolean;
@@ -65,25 +66,9 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
   }
 
   return (
-    <Main.Navigator
-      initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}
-      /* screenOptions={({ navigation }: IScreenOptionsProps) =>
-      /*  return {
-          ...defaultScreenOptions,
-          headerTitle: () => <AppHeaderTitle />,
-          headerLeft: () => {
-            return isDrawerOpen ? (
-              <HeaderLeftClose
-                onCloseDrawer={() => onCloseDrawer(navigation)}
-              />
-            ) : (
-              <HeaderLeftOpen onOpenDrawer={() => onOpenDrawer(navigation)} />
-            );
-          },
-          headerRight: () => <HeaderRightButton />,
-        };
-      }}> */
-    >
+    // <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
+    <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'ProfileScreen'}>
+      <Main.Screen options={{ headerShown: true }} name="ProfileScreen" component={ProfileScreen} />
       <Main.Screen options={{ headerShown: false }} name="AuthNavigator" component={AuthNavigator} />
       <Main.Screen
         options={({ navigation }: IScreenOptionsProps) =>
@@ -118,3 +103,20 @@ export default connect(
 /* props: StackHeaderTitleProps */
 /* props: StackHeaderLeftButtonProps */
 /* initialRouteName={authenticated ? 'MainNavigator' : 'LoginNavigator'}> */
+
+/* screenOptions={({ navigation }: IScreenOptionsProps) =>
+      /*  return {
+          ...defaultScreenOptions,
+          headerTitle: () => <AppHeaderTitle />,
+          headerLeft: () => {
+            return isDrawerOpen ? (
+              <HeaderLeftClose
+                onCloseDrawer={() => onCloseDrawer(navigation)}
+              />
+            ) : (
+              <HeaderLeftOpen onOpenDrawer={() => onOpenDrawer(navigation)} />
+            );
+          },
+          headerRight: () => <HeaderRightButton />,
+        };
+      }}> */

@@ -6,9 +6,6 @@ import appPersistReducer, { IPersistState } from '~/src/features/persist/store/a
 import AsyncStorage from '@react-native-community/async-storage';
 import { persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/lib/persistReducer';
-// import persistReducer, { PersistPartial } from 'redux-persist/es/persistReducer';
-//import { appPersistReducer, IPersistState } from '~/src/features/persist/store/appPersistReducer';
-//import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 const persistConfig = {
   key: 'persist',
@@ -27,9 +24,9 @@ const rootReducer = combineReducers<IRootState>({
   auth: authReducer,
   profile: profileReducer,
   persist: persistReducer(persistConfig, appPersistReducer),
-  // persist: persistReducer(persistConfig, appPersistReducer),
 });
 
 // Middleware: Redux Persist Persisted Reducer
 // export const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export default rootReducer;

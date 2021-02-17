@@ -53,4 +53,8 @@ export const sizes = {
     logo: 5, //13
     caption: 3,
   },
+
+  profile: {
+    name: 7,
+  },
 };

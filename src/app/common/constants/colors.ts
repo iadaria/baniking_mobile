@@ -15,6 +15,11 @@ export const colors = {
     disabled: '#BEBEBE',
   },
 
+  progress: {
+    base: '#252527',
+    disable: '#717171',
+  },
+
   input: {
     text: '#232738',
     border: '#E5E5E5',
@@ -25,6 +30,10 @@ export const colors = {
     disable: 'rgba(233,233,233,0.5)',
   },
 
+  profile: {
+    name: '#F5C97D',
+  },
+
   buttonBeginning: '#F3F0EB',
   borderBlack: '#2F2F33', // button
 
@@ -32,4 +41,6 @@ export const colors = {
   error: 'rgb(176, 0, 32)',
   white: '#fff',
   black: '#000',
+
+  divider: '#252527',
 };

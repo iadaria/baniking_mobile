@@ -36,7 +36,7 @@ export interface IUiText extends TextProps {
   center?: boolean;
   right?: boolean;
   spacing?: number; // letter-spacin?: boolean;
-  height?: boolean; // line-heigh?: boolean;
+  height?: number; // line-heigh?: boolean;
   necessary?: boolean;
   style?: TextStyle;
   children?: ReactNode;
