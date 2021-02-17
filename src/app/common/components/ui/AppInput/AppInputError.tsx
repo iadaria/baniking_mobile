@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-// import { IUiInput } from '~/src/app/models/ui';
+import { IUiInput } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
@@ -21,10 +21,10 @@ export default function AppInputError(props: IProps) {
   const { error, isFocused, isTouched, isVirgin, id } = props;
   const errorColor = { color: isFocused ? colors.primary : colors.error };
 
-  console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
+  // console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
   // Не показывать ошибку если это первый вводй и поля еще ниразу не touched
   if (!!error && isVirgin && isFocused) {
-    console.log(`[AppInputError/if: error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
+    // console.log(`[AppInputError/if: error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
     return null;
   }
 

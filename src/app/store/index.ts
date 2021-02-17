@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 import { configuredReactotron } from '~/src/initial-imports/reactotron';
 import rootReducer from './rootReducer';
@@ -13,8 +15,19 @@ const enhancer = compose(
   configuredReactotron != null ? configuredReactotron.createEnhancer() : (nope: any) => nope,
 );
 
-export const store = createStore(rootReducer, enhancer);
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['persist'],
+};
 
-// export const persistor = persistStore(store);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// export const store = createStore(rootReducer, enhancer);
+export const store = createStore(persistedReducer, enhancer);
+
+// Middleware: Redux Persist Persister
+export const persistor = persistStore(store);
+
 export default store;
 sagaMiddleware.run(rootSagas);

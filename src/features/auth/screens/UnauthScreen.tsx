@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { IAuthState } from '~/src/features/auth/store/authReducer';
 import { useSelector } from 'react-redux';
 import routes from '~/src/navigation/helpers/routes';
+import { Text } from 'react-native';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -17,5 +18,5 @@ export const UnauthScreen: React.FC<IProps> = ({ navigation }) => {
     navigation.navigate(routes.drawerNavigator.ProfileTab);
   }
 
-  return <>You are not authorized</>;
+  return <Text>You are not authorized</Text>;
 };

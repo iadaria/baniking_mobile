@@ -1,5 +1,5 @@
 import { IUserPersist } from '~/src/app/models/user';
-import * as constants from './persistConstants';
+import * as constants from './appPersistConstants';
 
 export const setAccountType = ({ accountType }: { accountType: string }) => ({
   type: constants.SET_ACCOUNT_TYPE,

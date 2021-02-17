@@ -1,11 +1,13 @@
 import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
-import { EMAIL_LOGIN } from '../authConstants';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import routes from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showMessage } from 'react-native-flash-message';
-import { setPersistUserData } from '~/src/features/persist/store/persistActions';
+import { setPersistUserData } from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
+import { EMAIL_LOGIN } from '../authConstants';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -23,7 +25,7 @@ interface IResult {
 }
 
 function* emailLoginSaga({
-  payload: { login, password },
+  payload: { login, password, device },
 }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
     // For test
@@ -36,12 +38,14 @@ function* emailLoginSaga({
       },
     };
     throw response; */
-    const { token }: IResult = yield methods.login({ email: login, password }, null);
+    // const { token }: IResult = yield methods.login({ email: login, password, device }, null);
+    const token = 'ljljlj';
     yield put(setPersistUserData({ email: login, token }));
     yield put(setAuthUserData({ email: login, token }));
     // yield put(logInSuccess());
-    // RootNavigate.navigate('BottomNavigator', null);
+    RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
+    console.log(JSON.stringify(e, null, 4));
     let [errors, message] = getErrorStrings(e);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 

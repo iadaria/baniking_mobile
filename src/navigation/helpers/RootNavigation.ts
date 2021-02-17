@@ -20,3 +20,7 @@ export function resetRoot(name: string) {
 export function goBack() {
   navigationRef.current?.goBack();
 }
+
+/* export function toTop() {
+  navigationRef.current?.popToTop();
+} */

@@ -1,5 +1,5 @@
 import { ISocialAccount, Role } from '~/src/app/models/user';
-import * as constants from './persistConstants';
+import * as constants from './appPersistConstants';
 
 // TOOD SET USER PROVIDER DATE
 
@@ -41,7 +41,7 @@ const initialState: IPersistState = {
   },
 };
 
-export default function persistReducer(
+export default function appPersistReducer(
   state: IPersistState = initialState,
   { type, payload }: any = { type: '', payload: undefined },
 ): IPersistState {
@@ -69,6 +69,7 @@ export default function persistReducer(
       return {
         ...state,
         currentUser: {
+          ...state.currentUser,
           name: payload.name,
           email: payload.email,
           phone: payload.phone,

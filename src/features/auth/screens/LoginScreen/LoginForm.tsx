@@ -30,7 +30,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin
 
   const handleEmailLogin = () => {
     console.log('values1', valuesRef.current);
-    emailLogin(valuesRef.current);
+    emailLogin({ ...valuesRef.current, device: 'test_device' });
   };
 
   return (

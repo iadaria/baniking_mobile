@@ -2,14 +2,6 @@ export default {
   navigators: {
     DrawerNavigator: 'DrawerNavigator',
     AuthNavigator: 'AuthNavigator',
-    /* BathesNavigator: 'BathesNavigator',
-    InvitesToConsulatNavigator: 'InvitesToConsulatNavigator',
-    MeetingsNavigator: 'MeetingsNavigator',
-    MyPatriciansNavigator: 'MyPatriciansNavigator',
-    ProfileNavigator: 'ProfileNavigator',
-    QrNavigator: 'QrNavigator',
-    ReceiptsNavigator: 'RecieptsNavigator',
-    SettingsNavigator: 'SettingsNavigator', */
   },
   drawerNavigator: {
     ProfileTab: 'ProfileTab',
@@ -24,7 +16,7 @@ export default {
     RegisterScreen: 'RegisterScreen',
   },
   profileTab: {
-    firstScreen: 'FirstScreen',
+    ProfileScreen: 'ProfileScreen',
   },
   bathesTab: {
     firstScreen: 'FirstScreen',

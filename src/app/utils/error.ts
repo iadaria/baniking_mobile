@@ -5,9 +5,11 @@
  * @field errors: { [key: string]: string[] }
  */
 export interface IResponseError {
-  message: string;
-  errors: {
-    [key: string]: string[];
+  data: {
+    message: string;
+    errors: {
+      [key: string]: string[];
+    };
   };
 }
 
@@ -29,10 +31,10 @@ export const getErrorStrings = (error: IResponseError): [Array<string>, string] 
     },
   }; */
 
-  firstErrorMsg = error?.message;
+  firstErrorMsg = error.data?.message;
 
-  if (error?.errors) {
-    const values = Object.values(error.errors);
+  if (error.data?.errors) {
+    const values = Object.values(error.data.errors);
     values.map((_error: string[]) => errors.push(..._error));
   }
 

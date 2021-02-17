@@ -13,7 +13,7 @@ export interface IUserFormValues {
   email: string;
   passsword: string;
   displayName?: string;
-  username?: string;
+  username: string;
   phone?: string;
 }
 
@@ -23,13 +23,15 @@ export interface IUserFormValues {
  * @field login? {string}
  * @field password? {string}
  * @field provider? {string}
+ * @field device {string}
  */
 export interface ICredential {
   login: string;
-  email?: string;
-  phone?: string;
-  password?: string;
-  provider?: string;
+  email: string;
+  phone: string;
+  password: string;
+  provider: string;
+  device: string;
 }
 
 export enum Role {
