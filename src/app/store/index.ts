@@ -15,16 +15,9 @@ const enhancer = compose(
   configuredReactotron != null ? configuredReactotron.createEnhancer() : (nope: any) => nope,
 );
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['persist'],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = createStore(rootReducer, enhancer);
-export const store = createStore(persistedReducer, enhancer);
+// const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
+export const store = createStore(rootReducer, enhancer);
+// export const store = createStore(persistedReducer, enhancer);
 
 // Middleware: Redux Persist Persister
 export const persistor = persistStore(store);
