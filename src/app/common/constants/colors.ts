@@ -18,6 +18,7 @@ export const colors = {
   progress: {
     base: '#252527',
     disable: '#717171',
+    caption: '#D9B384',
   },
 
   input: {

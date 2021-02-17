@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { colors } from '../../constants';
 import { AppText } from './AppText';
@@ -11,36 +11,58 @@ enum Step {
   Disable,
 }
 
-const Caption = (props) => {
-  const { color } = props;
+enum Level {
+  Praetor = 'Претор',
+  Magister = 'Магистр',
+  Consul = 'Консул',
+  Emperor = 'Император',
+}
+
+interface ICaptionProps {
+  level: Level;
+  discaunt: number;
+  color: string;
+}
+
+const Caption = ({ level, discaunt, color }: ICaptionProps) => {
   return (
-    <Block {...props} style={styles.caption} debug>
-      <AppText trajan center size={2.5}>
-        ПРЕТОР
+    <Block style={styles.caption}>
+      <AppText trajan center size={2.5} color={color} transform="uppercase">
+        {level}
       </AppText>
-      <AppText center size={3.5}>
-        5%
+      <AppText style={{ marginTop: 4 }} medium center size={3.5} color={color}>
+        {discaunt}%
       </AppText>
-      <AppText center size={3}>
-        скидка
+      <AppText center size={3} color={color} transform="lowercase">
+        Скидка
       </AppText>
     </Block>
   );
 };
 
-const ProgressBar = (props) => {
-  const { bgcolor, completed } = props;
+interface IProgressBarProps {
+  completed: number;
+}
 
-  const steps = [
-    { completed: 0, step: Step.Achived },
-    { completed: 33.3, step: Step.Current },
-    { completed: 66.66, step: Step.Disable },
-    { completed: 100, step: Step.Disable },
+interface IStep {
+  discaunt: number;
+  progress: number;
+  step: Step;
+  level: Level;
+}
+
+const ProgressBar = (props: IProgressBarProps) => {
+  const { completed } = props;
+
+  const steps: IStep[] = [
+    { progress: 0, discaunt: 5, step: Step.Achived, level: Level.Praetor },
+    { progress: 33.3, discaunt: 10, step: Step.Current, level: Level.Magister },
+    { progress: 66.66, discaunt: 25, step: Step.Disable, level: Level.Consul },
+    { progress: 100, discaunt: 35, step: Step.Disable, level: Level.Emperor },
   ];
 
   const completedStyle = {
     width: `${completed}%`,
-    backgroundColor: bgcolor,
   };
 
   return (
@@ -49,27 +71,20 @@ const ProgressBar = (props) => {
         {/* <Text style={styles.labelStyles}>{`${completed}%`}</Text> */}
       </View>
       <Block style={styles.steps} row>
-        {steps.map(({ completed, step }, index: number) => {
+        {steps.map(({ progress, discaunt, step, level }: IStep, index: number) => {
           const offer = index === 0 ? 0 : 70 / 3 - 4;
-          const color = {
-            borderColor: [Step.Achived, Step.Current].includes(step) ? colors.secondary : colors.progress.disable,
-          };
+          const color = [Step.Achived, Step.Current].includes(step) ? colors.secondary : colors.progress.disable;
+          const captionColor = step === Step.Current ? colors.progress.caption : colors.progress.disable;
+
           return (
-            <Block key={`key-${completed}`} style={styles.step} margin={[0, 0, 0, offer]}>
-              <Block style={[styles.achievedStep, color]} />
+            <Block key={`key-${progress}`} style={styles.step} margin={[0, 0, 0, offer]}>
+              <Block style={[styles.achievedStep, { borderColor: color }]} />
               {step === Step.Current && <Block style={styles.currentStep} />}
-              <Caption style={{ color }} />
+              <Caption color={captionColor} level={level} discaunt={discaunt} />
             </Block>
           );
         })}
       </Block>
-
-      {/*
-          <Block style={styles.step} debug>
-            <Block style={styles.achievedStep} />
-            <Block style={styles.currentStep} />
-          </Block>
-        */}
     </View>
   );
 };
@@ -86,8 +101,8 @@ const styles = StyleSheet.create({
   },
   fillerStyles: {
     height: '100%',
-    // borderRadius: 'inherit',
     textAlign: 'center',
+    backgroundColor: colors.secondary,
   },
   steps: {
     position: 'absolute',

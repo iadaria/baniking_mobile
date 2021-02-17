@@ -1,25 +1,26 @@
 import React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { AppText, Block, Divider } from '~/src/app/common/components/UI';
+import { AppOpenURL, AppText, Block, Divider } from '~/src/app/common/components/UI';
 import { colors, sizes } from '~/src/app/common/constants';
-import { AuthLogoLeft, AuthLogoRight, userImg } from '~/src/assets';
+import { AuthLogoLeft, AuthLogoRight, ColumnIcon, userImg } from '~/src/assets';
 import ProgressBar from '../../../app/common/components/UI/AppProgress';
 
 const SIZE_AVATAR = 20;
 
 export function ProfileScreen() {
   return (
-    <Block full base debug>
+    <Block full base>
       <AppText h1>Личный кабинет</AppText>
-      <Block margin={[7, 0, 12]} middle debug>
+      {/* Name & Avatar block */}
+      <Block flex={0.8} /* margin={[7, 0, 12]}  */ middle>
         <Block margin={[0, 0, 2]} style={styles.avatarBorder}>
           <Image style={styles.avatar} source={userImg} />
         </Block>
-        <AppText center trajan secondary size={sizes.profile.name} style={{ color: 'green' }}>
+        <AppText center trajan size={sizes.profile.name} color={colors.profile.name}>
           Андрей
         </AppText>
-        <AppText center trajan secondary size={sizes.profile.name} height={30}>
+        <AppText center trajan size={sizes.profile.name} color={colors.profile.name} height={30}>
           Немиров
         </AppText>
         <Block margin={[1, 0]} row middle center>
@@ -30,16 +31,31 @@ export function ProfileScreen() {
           <AuthLogoRight />
         </Block>
       </Block>
-      {/* Progress step */}
+      {/* Progress step  block */}
       <Divider />
-      <Block middle debug>
+      <Block middle>
         <AppText center>Статус</AppText>
         <Block margin={[3, 0]}>
-          <ProgressBar completed={33.33} bgcolor={colors.secondary} />
+          <ProgressBar completed={33.33} />
         </Block>
       </Block>
-      <Block margin={[7, 0]}>
-        <AppText center>еще 10 собраний до следующего уровня</AppText>
+      {/* Metting header block */}
+      <Block margin={[7, 0, 0]} row middle>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('naviation to 10 mettings');
+          }}>
+          <AppText center light secondary>
+            {'еще 10 собраний '}
+          </AppText>
+        </TouchableOpacity>
+        <AppText center light>
+          до следующего уровня
+        </AppText>
+      </Block>
+      {/* Column block */}
+      <Block flex={0.2} center bottom>
+        <ColumnIcon />
       </Block>
     </Block>
   );
