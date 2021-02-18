@@ -26,6 +26,11 @@ export const recoveryPassword = ({ email }: { email: string }) => ({
   payload: { email },
 });
 
+export const authFail = <I extends {}>(errors: Array<I> = []) => ({
+  type: constants.AUTH_FAIL,
+  payload: { errors },
+});
+
 /* export const changePassword = (payload: ChangePassword) => ({
   type: constants.CHANGE_PASSWORD, payload,
 });

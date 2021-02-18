@@ -39,6 +39,20 @@ export default function authReducer(
         loading: true,
         errors: null,
       };
+
+    case constants.AUTH_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
+      };
+
+    case constants.RECOVERY_PASSWORD:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
+      };
     case constants.SOCIAL_LOGIN:
       return {
         ...state,
