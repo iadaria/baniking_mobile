@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { TouchableOpacityProps } from 'react-native';
+import { ReactNode, RefObject } from 'react';
+import { TouchableOpacityProps, TouchableOpacity } from 'react-native';
 
 export interface IUiButton extends TouchableOpacityProps {
   opacity?: number;
@@ -9,5 +9,6 @@ export interface IUiButton extends TouchableOpacityProps {
   // colors
   white?: boolean;
   children?: ReactNode;
+  newRef?: RefObject<TouchableOpacity>;
   //[key: string]: any;
 }

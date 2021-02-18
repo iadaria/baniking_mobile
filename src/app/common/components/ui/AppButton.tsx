@@ -13,6 +13,7 @@ export function AppButton(props: IUiButton) {
     children,
     // property of Button
     disabled = false,
+    newRef,
     ...other
   } = props;
 
@@ -20,16 +21,16 @@ export function AppButton(props: IUiButton) {
     styles.button,
     shadow && styles.shadow,
     color && styles[color as keyof typeof styles], // predefined styles colors for backgroundColor
-    color &&
-      !styles[color as keyof typeof styles] && { backgroundColor: color }, // custom backgroundColor
+    color && !styles[color as keyof typeof styles] && { backgroundColor: color }, // custom backgroundColor
     disabled && styles.disabled,
     // yellow && styles.yellow,
   ];
 
   return (
     <TouchableOpacity
+      ref={newRef}
       disabled={disabled}
-      style={buttonStyles}
+      style={[buttonStyles, style]}
       activeOpacity={disabled ? 1 : opacity || 0.8}
       {...other}>
       {children}

@@ -1,3 +1,25 @@
+import validatejs from 'validate.js';
+
+const registerForm = {
+  name: {
+    presence: {
+      allowEmpty: false,
+      message: '^This is required',
+    },
+    format: {
+      pattern: /^[A-Z][a-z][А-Я][а-я]*$/,
+    },
+    length: {
+      minimum: 2,
+      message: function (value: any, attribute, validatorOptions, attributes, globalOptions) {
+        return validatejs.format('^%{name} must be at least 2 characters long', {
+          name: value,
+        });
+      },
+    },
+  },
+};
+
 const loginForm = {
   login: {
     presence: {
@@ -12,6 +34,7 @@ const loginForm = {
 };
 
 export const validationDictionary = {
+  ...registerForm,
   ...loginForm,
   bool: {
     inclusion: {

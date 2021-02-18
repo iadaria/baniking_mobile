@@ -38,6 +38,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     mask,
     center,
     style,
+    newRef,
     ...otherProps
   } = props;
 
@@ -120,6 +121,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
       {/* {renderLabel()} */}
       <TextInput
+        ref={newRef}
         style={inputStyles}
         // secureTextEntry={isSecure}
         // multiline={false}

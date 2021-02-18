@@ -1,8 +1,8 @@
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, useRef, useState, RefObject } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ScrollView, LayoutChangeEvent } from 'react-native';
+import { ScrollView, LayoutChangeEvent, TextInput, Button, TouchableOpacity } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
-import { IAppInputProps } from '~/src/app/models/input';
+import { IAppInputProps } from '~/src/app/models/ui';
 // import { useRefState } from './useRefState';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
@@ -20,10 +20,12 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   scrollView,
   valuesRef,
 }: IProps<T, V>): JSX.Element {
-  const [inputs, setInputs] = React.useState<T>(defaultInputs);
   // const [inputs, inputsRef, setInputs] = useRefState<T>(defaultInputs);
-  const [isErrors, setIsErrors] = React.useState<boolean>();
-  const _scrollView = React.useRef<ScrollView>(null);
+  const [inputs, setInputs] = useState<T>(defaultInputs);
+  const [isErrors, setIsErrors] = useState<boolean>();
+  const _scrollView = useRef<ScrollView>(null);
+  const inputRefs: RefObject<TextInput>[] = [];
+  const buttonRef = useRef<TouchableOpacity>();
 
   React.useEffect(() => {
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
@@ -50,11 +52,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
 
     !_isErrors && _allRequired && setIsErrors(false);
-
     console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
 
   function handleAllValidate(): T /* IInputs */ {
@@ -121,7 +123,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       });
     } else {
       // pass values to user
-      let _values: V = {};
+      let _values: V = {} as V;
       //for (const [key, input] of Object.entries(inputsRef.current)) {
       for (const [key, input] of Object.entries(updatedInputs)) {
         _values = { ..._values, [key]: input.value };
@@ -130,6 +132,29 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       valuesRef.current = _values;
       console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
+    handleClean();
+    handleAllValidate();
+  }
+
+  function handleClean() {
+    // Clear text inputs
+    let clearInputs = inputs;
+    inputRefs.map((inputRef: RefObject<TextInput>) => inputRef.current?.clear());
+    for (const key of Object.keys(inputs)) {
+      clearInputs = {
+        ...clearInputs,
+        [key]: {
+          type: inputs[key].type,
+          value: '',
+          touched: false,
+        },
+      };
+    }
+    setInputs({
+      ...inputs,
+      ...clearInputs,
+    });
+    setIsErrors(false);
   }
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
@@ -139,8 +164,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
       if (isTextInput(child)) {
         // const { id }: ITextInputProps<T> = child.props;
+        const newRef = React.createRef<TextInput>();
+        inputRefs.push(newRef);
         const { id }: IAppInputProps<T> = child.props;
         return React.cloneElement(child, {
+          newRef: newRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
             setInputPosition({ ids: [id], value: nativeEvent.layout.y });
@@ -151,6 +179,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       } else if (isButton(child)) {
         const { onPress } = child.props;
         return React.cloneElement(child, {
+          newRef: buttonRef,
           disabled: isErrors || isErrors === undefined,
           onPress: () => {
             handleSubmit();

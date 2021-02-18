@@ -43,8 +43,7 @@ function* emailLoginSaga({
     tokenToHeaders(token);
     yield put(setPersistUserData({ email: login, token }));
     yield put(setAuthUserData({ email: login, token }));
-    // yield put(logInSuccess());
-    RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
+    // RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
     let [errors, message] = getErrorStrings(e);

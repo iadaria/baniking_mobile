@@ -19,14 +19,14 @@ interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
   socialLogin: ({ provider }: ICredential) => void;
-  emailLogin: ({ login, password }: ICredential) => void;
+  emailLogin: ({ login, password }: Partial<ICredential>) => void;
 }
 
 const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
   // Use ref because don't need rendering component
-  const valuesRef = React.useRef<ICredential>({ login: '', password: '' });
+  const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
   const handleEmailLogin = () => {
     console.log('values1', valuesRef.current);

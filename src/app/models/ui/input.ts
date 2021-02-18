@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { LayoutChangeEvent, TextInputProps, TextStyle } from 'react-native';
+import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle } from 'react-native';
 
 export interface IAppInputProps<T> extends IUiInput {
   id: keyof T; // id: keyof typeof defaultInputs;
@@ -7,6 +7,8 @@ export interface IAppInputProps<T> extends IUiInput {
   label?: string;
   touched?: boolean;
   onLayout?: (props: LayoutChangeEvent) => void;
+  newRef?: React.RefObject<TextInput>;
+  setVirgin: (virgin: boolean) => void;
 }
 
 export interface IUiInput extends TextInputProps {
