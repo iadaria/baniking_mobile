@@ -13,7 +13,7 @@ import {
 import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
-import { defaultLoginInputs } from '../contracts/loginInputs';
+import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -33,7 +33,7 @@ const RecoveryFormContainer = ({ scrollViewRef, emailLogin }: IProps): JSX.Eleme
   };
 
   return (
-    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef} valuesRef={valuesRef}>
+    <ValidatedElements defaultInputs={defaultRecoveryInputs} scrollView={scrollViewRef} valuesRef={valuesRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
@@ -44,10 +44,10 @@ const RecoveryFormContainer = ({ scrollViewRef, emailLogin }: IProps): JSX.Eleme
       {/* Email / Telephone Input */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
-          Email / Телеофон
+          Ваш email
         </AppText>
       </Block>
-      <AppInput center id="login" placeholder="Введите e-mail" />
+      <AppInput center id="email" placeholder="Введите e-mail" />
       {/* Button */}
       <AppButton onPress={handleEmailLogin}>
         <AppText center medium>

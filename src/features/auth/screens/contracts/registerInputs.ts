@@ -4,14 +4,17 @@ export const defaultRegisterInputs: IRegisterInputs = {
   first_name: {
     type: 'generic',
     value: '',
+    require: true,
   },
   email: {
     type: 'email',
     value: '',
+    require: true,
   },
   phone: {
     type: 'phone',
     value: '',
+    require: true,
   },
 };
 
