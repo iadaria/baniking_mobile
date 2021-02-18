@@ -26,7 +26,7 @@ export interface IUiBlock extends ViewProps {
   wrap?: boolean;
   // custome style
   underline?: boolean;
-  style?: ViewStyle;
+  style?: ViewStyle[] | ViewStyle;
   // colors
   white?: boolean;
   children?: ReactNode;

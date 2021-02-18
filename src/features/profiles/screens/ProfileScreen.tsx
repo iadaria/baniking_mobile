@@ -54,7 +54,7 @@ export function ProfileScreen() {
         </AppText>
       </Block>
       {/* Column block */}
-      <Block flex={0.2} center bottom>
+      <Block flex={0.2} margin={[0, 0, 1]} center bottom>
         <ColumnIcon />
       </Block>
     </Block>
