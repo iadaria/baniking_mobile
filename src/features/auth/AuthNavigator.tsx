@@ -1,15 +1,18 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RegisterScreen, LoginScreen } from './screens';
+import { RegisterScreen, LoginScreen, RecoveryScreen } from './screens';
+// import RecoveryScreen from './screens/RecoveryScreen/RecoveryScreen';
+
 //import ValidatedScreen from './screens/ValidatedScreen/ValidatedScreen';
 //import TestValidatedScreen from './screens/TestValidatedScreen/TestValidatedScreen';
 
 export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
-    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
+    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="RecoveryScreen">
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Auth.Screen name="RecoveryScreen" component={RecoveryScreen} />
     </Auth.Navigator>
   );
 }

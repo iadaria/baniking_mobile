@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -11,8 +11,8 @@ import {
   emailLogin as emailLoginAction,
 } from '~/src/features/auth/store/authActions';
 import { ICredential } from '~/src/app/models/user';
-import { colors, sizes } from '~/src/app/common/constants';
-import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants';
+import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 
 interface IProps {
@@ -22,8 +22,7 @@ interface IProps {
   emailLogin: ({ login, password }: Partial<ICredential>) => void;
 }
 
-const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
-  const [isAccept, setIsAccept] = React.useState<boolean>(true);
+const RecoveryFormContainer = ({ scrollViewRef, emailLogin }: IProps): JSX.Element => {
   // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
@@ -38,7 +37,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-          Авторизация
+          Восстановление пароля
         </AppText>
         <AuthLogoRight />
       </Block>
@@ -49,30 +48,6 @@ const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin
         </AppText>
       </Block>
       <AppInput center id="login" placeholder="Введите e-mail" />
-      <Block row middle center>
-        <AppText primary semibold size={sizes.text.label}>
-          Пароль
-        </AppText>
-        <TouchableOpacity
-          style={{ position: 'absolute', right: 0 }}
-          onPress={() => navigation.navigate('RecoveryScreen')}>
-          <AppText secondary medium size={sizes.text.label}>
-            Забыли пароль?
-          </AppText>
-        </TouchableOpacity>
-      </Block>
-      <AppInput center id="password" placeholder="Введите пароль" />
-      <Block margin={[2, 0, 3]} row center middle>
-        <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
-          <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
-        </TouchableOpacity>
-        {/* Gelroy medium 14 */}
-        <Block row wrap margin={[0, 0, 0, 2]}>
-          <AppText primary medium size={sizes.text.label}>
-            Запомнить меня в системе
-          </AppText>
-        </Block>
-      </Block>
       {/* Button */}
       <AppButton onPress={handleEmailLogin}>
         <AppText center medium>
@@ -83,7 +58,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin
   );
 };
 
-const LoginFormConnected = connect(
+const RecoveryFormConnected = connect(
   (/* state: IRootState */) => ({
     //
   }),
@@ -91,6 +66,6 @@ const LoginFormConnected = connect(
     socialLogin: socialLoginAction,
     emailLogin: emailLoginAction,
   },
-)(LoginFormContainer);
+)(RecoveryFormContainer);
 
-export { LoginFormConnected as LoginForm };
+export { RecoveryFormConnected as RecoveryForm };

@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { IUiInput } from '~/src/app/models/ui';
+import { IUiText } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-interface IProps extends IUiInput {
+interface IProps<T> extends IUiText {
   isFocused: boolean;
   isTouched: boolean;
   isVirgin?: boolean;
   error?: string;
-  id?: string;
+  id?: keyof T;
 }
 
 /** Как только пользователь начал исправлять значение, красная подсветка поля исчезает,
@@ -17,7 +17,7 @@ interface IProps extends IUiInput {
  * не появляется, если поле заново получает фокус.
  */
 
-export default function AppInputError(props: IProps) {
+export default function AppInputError<T>(props: IProps<T>) {
   const { error, isFocused, isTouched, isVirgin, id } = props;
   const errorColor = { color: isFocused ? colors.primary : colors.error };
 

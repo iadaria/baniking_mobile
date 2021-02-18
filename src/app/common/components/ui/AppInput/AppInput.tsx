@@ -21,8 +21,6 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isFocused: false,
     isVirgin: true,
   });
-  /* const [isTouched, setIsTouched] = React.useState(false);
-    const [isFocused, setIsFocused] = React.useState(false); */
   const {
     //system
     onLayout,

@@ -8,7 +8,6 @@ export interface IAppInputProps<T> extends IUiInput {
   touched?: boolean;
   onLayout?: (props: LayoutChangeEvent) => void;
   newRef?: React.RefObject<TextInput>;
-  setVirgin: (virgin: boolean) => void;
 }
 
 export interface IUiInput extends TextInputProps {
