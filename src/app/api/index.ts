@@ -45,9 +45,13 @@ const request = (method: Methods, _endpoint: string | Function, entity: any) => 
 };
 
 export const methods = {
+  // User
   login: request('post', '/login', pubFetch),
   register: request('post', '/register', pubFetch),
-  getCurrentUser: request('get', '/profile', privFetch),
+  // getCurrentUser: request('get', '/profile', privFetch),
+  // Cabnet
+  getProfile: request('get', '/profile', privFetch),
+  getCabinet: request('get', '/cabinet', privFetch),
 };
 
 // for debugger

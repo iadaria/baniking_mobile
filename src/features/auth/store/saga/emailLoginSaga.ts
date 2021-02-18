@@ -2,7 +2,7 @@ import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import routes from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
-import { methods } from '~/src/app/api';
+import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showMessage } from 'react-native-flash-message';
 import { setPersistUserData } from '~/src/features/persist/store/appPersistActions';
@@ -40,6 +40,7 @@ function* emailLoginSaga({
     throw response; */
     // const { token }: IResult = yield methods.login({ email: login, password, device }, null);
     const token = 'ljljlj';
+    tokenToHeaders(token);
     yield put(setPersistUserData({ email: login, token }));
     yield put(setAuthUserData({ email: login, token }));
     // yield put(logInSuccess());
@@ -62,7 +63,6 @@ function* emailLoginSaga({
       type: 'warning',
     });
 
-    console.log(e);
   }
 }
 

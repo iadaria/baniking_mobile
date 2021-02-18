@@ -1,5 +1,5 @@
 import { ISocialAccount } from '~/src/app/models/user';
-import * as constants from './profileConstants';
+import * as constants from './cabinetConstants';
 
 interface IProfile {
   email: string;
