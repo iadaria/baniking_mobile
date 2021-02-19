@@ -33,11 +33,11 @@ export function LoginScreen({ navigation }: IProps) {
         <Block style={styles.list} full base white>
           <LoginForm navigation={navigation} scrollViewRef={scrollViewRef} />
           {/*  Social login block */}
-          <Block margin={[9, 0, 3]} debug>
+          <Block margin={[9, 0, 3]}>
             <AppText caption medium center size={sizes.text.label + 0.1}>
               Или войдите через социальные сети
             </AppText>
-            <Block /* margin={[1.5, 0, 0]}  */ row middle>
+            <Block margin={[1.5, 0, 0]} row middle>
               <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
                 <FacebookIcon />
               </TouchableOpacity>
@@ -53,7 +53,7 @@ export function LoginScreen({ navigation }: IProps) {
             </Block>
           </Block>
           {/*  Sign in  */}
-          <Block margin={[0, 0, 0]} row middle debug>
+          <Block margin={[0, 0, 0]} row middle>
             <AppText primary center>
               Eще не зарегистрированы?
             </AppText>

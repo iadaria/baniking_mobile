@@ -1,11 +1,18 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { colors, sizes } from '../../constants';;
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { colors, sizes } from '../../constants';
 import { Block } from './Block';
 
-export function Divider(props) {
-  const { color, style, ...otherProps } = props;
-  const dividerStyles = [styles.divider, style];
+interface IProps {
+  color: string;
+  style: object;
+  height: number;
+  [key: string]: any;
+}
+
+export function Divider(props: Partial<IProps>) {
+  const { color, style, height, ...otherProps } = props;
+  const dividerStyles: StyleProp<ViewStyle> = [styles.divider, !!height && { height: height }, style];
 
   return <Block color={color || colors.divider} style={dividerStyles} {...otherProps} />;
 }
@@ -15,7 +22,7 @@ export const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     alignSelf: 'center',
-    margin: sizes.offset.base * 2,
+    margin: sizes.offset.base * 1.9, // 2
     borderBottomColor: colors.divider,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },

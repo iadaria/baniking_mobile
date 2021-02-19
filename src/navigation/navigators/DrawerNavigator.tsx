@@ -20,8 +20,10 @@ interface ILabelProps {
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(/* { navigation, route }: any */) {
+
   return (
     <Drawer.Navigator
+      initialRouteName="SettingsTab"
       drawerContentOptions={{
         itemStyle: appDrawerItemStyle,
       }}

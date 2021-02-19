@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ViewProps, ViewStyle } from 'react-native';
+import { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
 export interface IUiBlock extends ViewProps {
   full?: boolean;
@@ -26,7 +26,7 @@ export interface IUiBlock extends ViewProps {
   wrap?: boolean;
   // custome style
   underline?: boolean;
-  style?: ViewStyle[] | ViewStyle;
+  style?: StyleProp<ViewStyle>;
   // colors
   white?: boolean;
   children?: ReactNode | ReactNode[];

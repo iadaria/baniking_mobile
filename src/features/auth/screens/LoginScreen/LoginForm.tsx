@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { connect } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 import {
   socialLogin as socialLoginAction,
   emailLogin as emailLoginAction,
@@ -28,9 +29,11 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
-  const handleEmailLogin = () => {
-    console.log('***** values1 *******', valuesRef.current);
-    emailLogin({ ...valuesRef.current, device: 'test_device' });
+  const handleEmailLogin = async () => {
+    const deviceName = await DeviceInfo.getDeviceName();
+
+    console.log('***** values1 *******', valuesRef.current, deviceName);
+    emailLogin({ ...valuesRef.current, device: deviceName });
     setRecreate(!recreate);
   };
 
@@ -85,7 +88,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </AppText>
       </AppButton>
       {/* Button for test */}
-      {/* <TouchableOpacity style={{ backgroundColor: 'green'}} onPress={handleEmailLogin}>
+      {/* <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={async () => await handleEmailLogin()}>
         <AppText>Test</AppText>
       </TouchableOpacity> */}
     </ValidatedElements>

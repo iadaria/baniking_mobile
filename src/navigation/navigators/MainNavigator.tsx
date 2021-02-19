@@ -64,6 +64,8 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
     closeDrawer();
   }
 
+  authenticated = true;
+
   return (
     <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
       {/* <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'LoginScreen'}> */}

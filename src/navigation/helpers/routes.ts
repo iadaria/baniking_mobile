@@ -21,4 +21,12 @@ export default {
   bathesTab: {
     firstScreen: 'FirstScreen',
   },
+  settingsTab: {
+    BaseSettingsScreen: 'BaseSettingsScreen',
+    SafeScreen: 'SafeScreen',
+    NotificationsScreen: 'NotificationsScreen',
+    RulesScreen: 'RulesScreen',
+    ContractScreen: 'ContractScreen',
+    HelpScreen: 'HelpScreen',
+  },
 };
