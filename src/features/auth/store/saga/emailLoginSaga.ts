@@ -4,11 +4,11 @@ import routes from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
 import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { showMessage } from 'react-native-flash-message';
 import { setPersistUserData } from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { EMAIL_LOGIN } from '../authConstants';
-import { Alert } from 'react-native';
+import Reactotron from 'reactotron-react-native';
+import { showAlert } from '~/src/app/common/components/showAlert';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -48,17 +48,16 @@ function* emailLoginSaga({
     yield put(setAuthUserData({ email: login, token }));
     // RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    console.log(JSON.stringify(e, null, 2));
     let [errors, message] = getErrorStrings(e);
+    console.log([errors, message]);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
     if (errorMessage.includes('The given data was invalid')) {
       errorMessage = 'Введен неверный логин или пароль';
     }
 
-    yield Alert.alert('Ошибка', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }], {
-      cancelable: true,
-    });
+    yield showAlert('Ошибка', errorMessage);
 
     // console.log(`error/[catch] message = ${message}\n`, JSON.stringify(errors, null, 4));
     // console.log(`error/[catch] message = ${message}\n`);

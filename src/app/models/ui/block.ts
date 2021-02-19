@@ -29,7 +29,7 @@ export interface IUiBlock extends ViewProps {
   style?: ViewStyle[] | ViewStyle;
   // colors
   white?: boolean;
-  children?: ReactNode;
+  children?: ReactNode | ReactNode[];
   // [key: string]: any;
 }
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { IUiButton } from '~/src/app/models/ui';
-import { colors, sizes } from '../../constants';
+import { IUiButton, IUiText } from '~/src/app/models/ui';
+import { colors, sizes } from '~/src/app/common/constants';
+
+interface IChild extends JSX.Element, IUiText {}
 
 export function AppButton(props: IUiButton) {
   const {
@@ -17,6 +19,8 @@ export function AppButton(props: IUiButton) {
     ...other
   } = props;
 
+  const needRender = !!disabled;
+
   const buttonStyles = [
     styles.button,
     shadow && styles.shadow,
@@ -26,6 +30,19 @@ export function AppButton(props: IUiButton) {
     // yellow && styles.yellow,
   ];
 
+  const isTextInput = (child: IChild) => ['AppText'].includes(child.type.name);
+
+  function renderChildren(): React.ReactNode {
+    return React.Children.map(children as IChild[], (child: IChild) => {
+      if (isTextInput(child)) {
+        return React.cloneElement(child, {
+          disabled: disabled,
+        });
+      }
+      return child;
+    });
+  }
+
   return (
     <TouchableOpacity
       ref={newRef}
@@ -33,7 +50,7 @@ export function AppButton(props: IUiButton) {
       style={[buttonStyles, style]}
       activeOpacity={disabled ? 1 : opacity || 0.8}
       {...other}>
-      {children}
+      {needRender ? renderChildren() : children}
     </TouchableOpacity>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { Button, ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -84,6 +84,10 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           Авторизироваться
         </AppText>
       </AppButton>
+      {/* Button for test */}
+      {/* <TouchableOpacity style={{ backgroundColor: 'green'}} onPress={handleEmailLogin}>
+        <AppText>Test</AppText>
+      </TouchableOpacity> */}
     </ValidatedElements>
   );
 };

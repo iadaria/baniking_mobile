@@ -107,7 +107,13 @@ export const validationDictionary = {
     },
     length: {
       minimum: 6,
-      message: '^Password must be at least 6 characters long',
+      tooShort: 'Password must be at least %{count} characters long then',
+      // message: '^Password must be at least 6 characters long',
+      maximum: 16,
+      tooLong: 'Password needs to have %{count} words or less',
+      /* tokenizer: function (value) {
+        return value.split(/\s+/g);
+      }, */
     },
   },
 
