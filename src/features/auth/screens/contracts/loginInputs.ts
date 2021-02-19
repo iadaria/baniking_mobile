@@ -5,13 +5,11 @@ export const defaultLoginInputs: ILoginInputs = {
     type: 'login',
     value: '',
     require: true,
-    virgin: true,
   },
   password: {
     type: 'password',
     value: '',
     require: true,
-    virgin: true,
   },
 };
 

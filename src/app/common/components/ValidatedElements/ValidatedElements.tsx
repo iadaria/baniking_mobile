@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useRef, useState, RefObject } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ScrollView, LayoutChangeEvent, TextInput, Button, TouchableOpacity } from 'react-native';
+import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
 // import { useRefState } from './useRefState';

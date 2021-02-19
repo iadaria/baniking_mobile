@@ -25,7 +25,6 @@ interface IProps {
 const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
@@ -37,7 +36,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
 
   return (
     <ValidatedElements
-      key={recreate.toString()}
+      key={Number(recreate)}
       defaultInputs={defaultLoginInputs}
       scrollView={scrollViewRef}
       valuesRef={valuesRef}>
