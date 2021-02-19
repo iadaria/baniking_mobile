@@ -66,7 +66,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           </AppText>
         </TouchableOpacity>
       </Block>
-      <AppInput center id="password" placeholder="Введите пароль" maxLength={50} />
+      <AppInput center id="password" placeholder="Введите пароль" maxLength={50} secure />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
           <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />

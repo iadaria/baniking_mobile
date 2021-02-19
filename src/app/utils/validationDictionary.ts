@@ -46,7 +46,7 @@ const loginForm = {
     },
     length: {
       minimum: 6,
-      tooShort: 'Password must be at least %{count} characters long then',
+      tooShort: 'must be at least %{count} characters long then',
       // message: '^Password must be at least 6 characters long',
       maximum: 16,
       tooLong: 'Password needs to have %{count} words or less',

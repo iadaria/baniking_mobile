@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleProp,
   TextInput,
@@ -13,6 +13,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { IAppInputProps } from '~/src/app/models/ui';
 import AppInputError from './AppInputError';
 import AppInputLabel from './AppInputLabel';
+import { AppSecure } from './AppSecure';
 import { styles } from './styles';
 
 export interface IAppInputStates extends TextInputProps {
@@ -22,7 +23,8 @@ export interface IAppInputStates extends TextInputProps {
 }
 
 export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
-  const [states, setStates] = React.useState<IAppInputStates>({
+  const [toggleSecure, setToggleSecure] = useState(false);
+  const [states, setStates] = useState<IAppInputStates>({
     isTouched: false,
     isFocused: false,
     isVirgin: true,
@@ -45,6 +47,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     newRef,
     //native
     onFocus,
+    secure,
     ...otherProps
   } = props;
 
@@ -64,6 +67,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
     );
   }, [props, props.touched, states]);
+
+  const isSecure = toggleSecure ? false : secure;
 
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
@@ -127,7 +132,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       <TextInput
         ref={newRef}
         style={inputStyles}
-        // secureTextEntry={isSecure}
+        secureTextEntry={isSecure}
         // multiline={false}
         autoCompleteType="off"
         autoCapitalize="none"
@@ -140,6 +145,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         underlineColorAndroid="transparent"
         {...otherProps}
       />
+      <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
       <AppInputError
         error={props.error}
         isFocused={states.isFocused}

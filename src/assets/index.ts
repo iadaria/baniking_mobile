@@ -15,6 +15,8 @@ export { default as YandexIcon } from './images/svg/yandex.svg';
 export { default as stepIcon } from './images/svg/step.svg';
 export { default as CurrenStepIcon } from './images/svg/currentStep.svg';
 export { default as ColumnIcon } from './images/svg/column.svg';
+export { default as EyeIcon } from './images/svg/eye.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as userImg } from './images/png/user.png';
+

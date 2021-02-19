@@ -11,4 +11,5 @@ export interface IUiButton extends TouchableOpacityProps {
   children?: ReactNode;
   newRef?: RefObject<TouchableOpacity>;
   //[key: string]: any;
+  // native
 }
