@@ -17,6 +17,7 @@ export { default as CurrenStepIcon } from './images/svg/currentStep.svg';
 export { default as ColumnIcon } from './images/svg/column.svg';
 export { default as EyeIcon } from './images/svg/eye.svg';
 export { default as MenuItem } from './images/svg/menu-item.svg';
+export { default as BackwardIcon } from './images/svg/backward.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as userImg } from './images/png/user.png';

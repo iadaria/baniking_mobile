@@ -22,10 +22,12 @@ export function closeDrawer() {
 /***************** System reducer **********************/
 export interface ISystemState {
   isDrawerOpen: boolean;
+  isBackward: boolean;
 }
 
 const initialState: ISystemState = {
   isDrawerOpen: false,
+  isBackward: false,
 };
 
 export default function systemReducer(

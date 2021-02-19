@@ -91,6 +91,7 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
 export default connect(
   (state: IRootState) => ({
     isDrawerOpen: state.system.isDrawerOpen,
+    isBackward: state.system.isBackward,
     authenticated: state.auth.authenticated,
   }),
   {
