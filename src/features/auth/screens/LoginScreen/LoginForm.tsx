@@ -53,7 +53,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput center id="login" placeholder="Введите e-mail" />
+      <AppInput center id="login" placeholder="Введите e-mail" maxLength={50} />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Пароль
@@ -66,7 +66,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           </AppText>
         </TouchableOpacity>
       </Block>
-      <AppInput center id="password" placeholder="Введите пароль" />
+      <AppInput center id="password" placeholder="Введите пароль" maxLength={50} />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
           <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />

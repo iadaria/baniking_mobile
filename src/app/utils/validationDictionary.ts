@@ -10,13 +10,19 @@ const registerForm = {
       pattern: /^[A-Z][a-z][А-Я][а-я]*$/,
     },
     length: {
+      minimum: 6,
+      tooShort: 'Password must be at least %{count} characters long then',
+      maximum: 16,
+      tooLong: 'Password needs to have %{count} words or less',
+    },
+    /* length: {
       minimum: 2,
       message: function (value: any, attribute, validatorOptions, attributes, globalOptions) {
         return validatejs.format('^%{name} must be at least 2 characters long', {
           name: value,
         });
       },
-    },
+    }, */
   },
 };
 
@@ -27,10 +33,29 @@ const loginForm = {
       message: '^This is required',
     },
     length: {
-      minimum: 6,
-      message: '^Login must be at least 8 characters long',
+      minimum: 8,
+      tooShort: 'Login must be at least %{count} characters long then',
+      maximum: 50,
+      tooLong: 'Login needs to have %{count} words or less',
     },
   },
+  password: {
+    presence: {
+      allowEmpty: false,
+      message: '^This is required',
+    },
+    length: {
+      minimum: 6,
+      tooShort: 'Password must be at least %{count} characters long then',
+      // message: '^Password must be at least 6 characters long',
+      maximum: 16,
+      tooLong: 'Password needs to have %{count} words or less',
+      /* tokenizer: function (value) {
+        return value.split(/\s+/g);
+      }, */
+    },
+  },
+
 };
 
 export const validationDictionary = {
@@ -97,23 +122,6 @@ export const validationDictionary = {
       greaterThan: 0,
       lessThanOrEqualTo: 12,
       message: '^Must be valid',
-    },
-  },
-
-  password: {
-    presence: {
-      allowEmpty: false,
-      message: '^This is required',
-    },
-    length: {
-      minimum: 6,
-      tooShort: 'Password must be at least %{count} characters long then',
-      // message: '^Password must be at least 6 characters long',
-      maximum: 16,
-      tooLong: 'Password needs to have %{count} words or less',
-      /* tokenizer: function (value) {
-        return value.split(/\s+/g);
-      }, */
     },
   },
 
