@@ -9,7 +9,7 @@ import { RegisterScreen, LoginScreen, RecoveryScreen } from './screens';
 export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
-    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="RecoveryScreen">
+    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="LoginScreen">
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />
       <Auth.Screen name="RecoveryScreen" component={RecoveryScreen} />

@@ -132,29 +132,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       valuesRef.current = _values;
       console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
-    handleClean();
-    handleAllValidate();
-  }
-
-  function handleClean() {
-    // Clear text inputs
-    let clearInputs = inputs;
-    inputRefs.map((inputRef: RefObject<TextInput>) => inputRef.current?.clear());
-    for (const key of Object.keys(inputs)) {
-      clearInputs = {
-        ...clearInputs,
-        [key]: {
-          type: inputs[key].type,
-          value: '',
-          touched: false,
-        },
-      };
-    }
-    setInputs({
-      ...inputs,
-      ...clearInputs,
-    });
-    setIsErrors(false);
   }
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
@@ -163,12 +140,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
       if (isTextInput(child)) {
-        // const { id }: ITextInputProps<T> = child.props;
-        const newRef = React.createRef<TextInput>();
-        inputRefs.push(newRef);
+        const inputRef = React.createRef<TextInput>();
+        inputRefs.push(inputRef);
         const { id }: IAppInputProps<T> = child.props;
         return React.cloneElement(child, {
-          newRef: newRef,
+          newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
             setInputPosition({ ids: [id], value: nativeEvent.layout.y });
@@ -199,3 +175,27 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 }
 
 export default ValidatedElements;
+
+/*   function handleClean() {
+  // Clear text inputs
+  console.log(`* begin cleaning *`);
+  let clearInputs = inputs;
+  inputRefs.map((inputRef: RefObject<TextInput>) => inputRef.current?.clear());
+  for (const key of Object.keys(inputs)) {
+    clearInputs = {
+      ...clearInputs,
+      [key]: {
+        type: inputs[key].type,
+        value: '',
+        touched: false,
+        virgin: true,
+      },
+    };
+  }
+  setInputs({
+    ...inputs,
+    ...clearInputs,
+  });
+  // setIsErrors(false);
+  console.log(`[ValidateElements/handleClean] inputs=${JSON.stringify(clearInputs, null, 2)}`);
+} */

@@ -8,7 +8,7 @@ import { socialLogin } from '~/src/features/auth/store/authActions';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
+import { AuthLogo } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
 import RegisterForm from './RegisterForm';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -32,7 +32,7 @@ function RegisterContainer({ navigation }: IProps) {
       <Block style={styles.list} flex={0.9} full base white>
         <RegisterForm />
         {/* Social login block */}
-        <Block margin={[5, 0, 3]} debug>
+       {/*  <Block margin={[5, 0, 3]} debug>
           <AppText caption medium center size={sizes.text.label + 0.1}>
             Или войдите через социальные сети
           </AppText>
@@ -50,16 +50,16 @@ function RegisterContainer({ navigation }: IProps) {
               <YandexIcon />
             </TouchableOpacity>
           </Block>
-        </Block>
+        </Block> */}
         {/* Sign in */}
-        <Block /* margin={[0, 0, 1]} */ row middle debug>
+       {/*  <Block row middle debug>
           <AppText primary center>
             Уже зарегистрированы?
           </AppText>
           <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
             <AppText secondary> Войдите</AppText>
           </TouchableOpacity>
-        </Block>
+        </Block> */}
       </Block>
     </Block>
     // </ScrollView>

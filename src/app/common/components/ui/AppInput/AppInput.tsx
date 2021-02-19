@@ -1,6 +1,12 @@
 import React from 'react';
-import * as ReactNative from 'react-native';
-import { StyleProp, TextInput, TextStyle } from 'react-native';
+import {
+  StyleProp,
+  TextInput,
+  TextStyle,
+  TextInputProps,
+  TextInputFocusEventData,
+  NativeSyntheticEvent,
+} from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { Block } from '~/src/app/common/components/UI/Block';
 import { colors, sizes } from '~/src/app/common/constants';
@@ -9,7 +15,7 @@ import AppInputError from './AppInputError';
 import AppInputLabel from './AppInputLabel';
 import { styles } from './styles';
 
-export interface IAppInputStates {
+export interface IAppInputStates extends TextInputProps {
   isTouched: boolean;
   isFocused: boolean;
   isVirgin: boolean;
@@ -37,12 +43,13 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     center,
     style,
     newRef,
+    //native
+    onFocus,
     ...otherProps
   } = props;
 
   React.useEffect(() => {
     // если уже был выходи из поля или проверялось кнопкой-все
-    console.log('[AppInput/useEffect/virgin]***');
     if (!!props.touched || states.isTouched) {
       setStates({
         ...states,
@@ -54,11 +61,11 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   React.useEffect(() => {
     console.log(
-      `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
+      `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
     );
   }, [props, props.touched, states]);
 
-  const inputStyles: StyleProp<TextStyle> | null | undefined = [
+  const inputStyles: StyleProp<TextStyle> = [
     styles.input,
     !!error && { borderColor: colors.error },
     center && styles.center,
@@ -77,7 +84,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     });
   }
 
-  function handleFocus() {
+  function handleFocus(e: NativeSyntheticEvent<TextInputFocusEventData>) {
+    onFocus && onFocus(e);
     setStates({
       ...states,
       isTouched: false,
@@ -85,14 +93,12 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     });
   }
 
-  let inputStylesMask: ReactNative.StyleProp<ReactNative.TextStyle> = inputStyles;
-
   if (mask) {
     return (
       <Block margin={[sizes.input.top, 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         <TextInputMask
-          style={inputStylesMask}
+          style={inputStyles}
           keyboardType="phone-pad"
           mask={mask}
           autoCompleteType="off"

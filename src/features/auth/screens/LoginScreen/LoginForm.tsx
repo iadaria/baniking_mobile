@@ -22,19 +22,25 @@ interface IProps {
   emailLogin: ({ login, password }: Partial<ICredential>) => void;
 }
 
-const LoginFormContainer = ({ navigation, scrollViewRef, socialLogin, emailLogin }: IProps): JSX.Element => {
+const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): JSX.Element => {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
+  const [recreate, setRecreate] = React.useState<boolean>(true);
   // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
   const handleEmailLogin = () => {
-    console.log('values1', valuesRef.current);
+    console.log('***** values1 *******', valuesRef.current);
     emailLogin({ ...valuesRef.current, device: 'test_device' });
+    setRecreate(!recreate);
   };
 
   return (
-    <ValidatedElements defaultInputs={defaultLoginInputs} scrollView={scrollViewRef} valuesRef={valuesRef}>
+    <ValidatedElements
+      key={recreate.toString()}
+      defaultInputs={defaultLoginInputs}
+      scrollView={scrollViewRef}
+      valuesRef={valuesRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
