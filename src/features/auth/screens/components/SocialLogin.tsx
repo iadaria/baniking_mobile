@@ -6,7 +6,6 @@ import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { ICredential } from '~/src/app/models/user';
 import { Button } from 'react-native';
 
-
 interface IProps {
   socialLogin: ({ provider }: ICredential) => void;
 }
@@ -43,11 +42,9 @@ export default function SocialLogin({ socialLogin }: IProps) {
           } else if (result.isCancelled) {
             console.log('login is cancelled.');
           } else {
-            AccessToken.getCurrentAccessToken().then(
-              (data: AccessToken | null) => {
-                console.log(data?.accessToken.toString());
-              },
-            );
+            AccessToken.getCurrentAccessToken().then((data: AccessToken | null) => {
+              console.log(data?.accessToken.toString());
+            });
           }
         }}
         onLogoutFinished={() => console.log('logout.')}

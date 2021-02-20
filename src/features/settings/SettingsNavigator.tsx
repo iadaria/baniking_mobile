@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import {
   SettingsMenuScreen,
@@ -9,25 +9,41 @@ import {
   ContractScreen,
   HelpScreen,
 } from './screens';
-import { ParamListBase } from '@react-navigation/native';
-import { HeaderBackward } from '~/src/navigation/components/headerButtons';
+import { ParamListBase, Route } from '@react-navigation/native';
+import { useBackward } from '../../app/hooks/useBackward';
 
-interface IAppScreenOptionsProps {
+/* interface IAppScreenOptionsProps {
   navigation: StackNavigationProp<ParamListBase>;
-}
+} */
 
-const appScreenOptions = ({ navigation }: IAppScreenOptionsProps) => {
+/* const appScreenOptions = ({ navigation }: IAppScreenOptionsProps) => {
   return {
     headerLeft: () => <HeaderBackward navigation={navigation} />,
   };
-};
+}; */
 
-export default function SettingsNavigator(): JSX.Element {
-  const Settings = createStackNavigator();
+interface IScreenOptionsProps {
+  route: Route<string, object | undefined>;
+  navigation: StackNavigationProp<ParamListBase>;
+}
+
+const Settings = createStackNavigator();
+
+export default function SettingsNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
+  useBackward({ navigation, route });
+
   return (
-    <Settings.Navigator screenOptions={{ headerShown: false }} >
+    <Settings.Navigator
+      screenOptions={{ headerShown: false }}
+      /* screenOptions={(props: IScreenOptionsProps) => {
+        console.log('** canBack', props.navigation.canGoBack());
+        return {
+          // headerShown: false,
+        };
+      }} */
+      initialRouteName="SettingsMenuScreen">
       <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
-      <Settings.Screen options={appScreenOptions} name="BaseSettingsScreen" component={BaseSettingsScreen} />
+      <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} />
       <Settings.Screen name="SafeScreen" component={SafeScreen} />
       <Settings.Screen name="NotificationsScreen" component={NotificationsScreen} />
       <Settings.Screen name="RulesScreen" component={RulesScreen} />

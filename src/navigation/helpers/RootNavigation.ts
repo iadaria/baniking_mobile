@@ -21,6 +21,15 @@ export function goBack() {
   navigationRef.current?.goBack();
 }
 
+export function getCurrentRoute() {
+  let route = navigationRef.current?.getRootState();
+  while (route && route.routes) {
+    route = route.routes[route.index];
+  }
+  route = route?.state?.routes[route?.state.index]?.name ?? 'Empty Screen';
+  return route;
+}
+
 /* export function toTop() {
   navigationRef.current?.popToTop();
 } */

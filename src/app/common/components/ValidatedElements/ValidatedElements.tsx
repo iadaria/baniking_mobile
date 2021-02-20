@@ -28,7 +28,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   React.useEffect(() => {
-    console.log('changed inputs', JSON.stringify(inputs, null, 4));
+    // console.log('changed inputs', JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -52,10 +52,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
 
     !_isErrors && _allRequired && setIsErrors(false);
-    console.log(
+    /* console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
-    );
+    ); */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
 
@@ -130,7 +130,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       }
       // ({ ...values, ..._values });
       valuesRef.current = _values;
-      console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+      // console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 

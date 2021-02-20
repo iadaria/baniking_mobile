@@ -11,19 +11,38 @@ import {
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
 import { appDrawerItemStyle, appDrawerStyle } from '../appDefaultTheme';
+import { ParamListBase, Route, useNavigation, useNavigationState } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface ILabelProps {
   color: string;
   focused: boolean;
 }
 
+interface IScreenOptionsProps {
+  route: Route<string, object | undefined>;
+  navigation: StackNavigationProp<ParamListBase>;
+}
+
+
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNavigator(/* { navigation, route }: any */) {
+export default function DrawerNavigator(/* { navigation, route }: IScreenOptionsProps */) {
 
   return (
     <Drawer.Navigator
       initialRouteName="SettingsTab"
+      // https://reactnavigation.org/docs/4.x/drawer-navigator/#drawernavigatorconfig
+      screenOptions={{
+        unmountOnBlur: true,
+        /* useImperativeHandle(
+          ref,
+          () => {
+            handler
+          },
+          [input],
+        ) */
+      }}
       drawerContentOptions={{
         itemStyle: appDrawerItemStyle,
       }}
@@ -67,8 +86,11 @@ export default function DrawerNavigator(/* { navigation, route }: any */) {
       <Drawer.Screen
         name="QrTab"
         component={QrNavigator}
-        options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
+        options={(props: IScreenOptionsProps) => {
+          // console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
+          return {
+            drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
+          };
         }}
       />
     </Drawer.Navigator>

@@ -16,19 +16,14 @@ import { AppDrawerItemList } from './AppDrawerItemList';
   close: () => void;
 } */
 
-export function AppDrawerContent(
-  props: DrawerContentComponentProps<DrawerContentOptions>,
-) {
+export function AppDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
   const dispatch = useDispatch();
   function pickCloseIcon() {
     dispatch(closeDrawer());
   }
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItem
-        label={() => <AppLogoItem />}
-        onPress={() => Alert.alert('Link to help')}
-      />
+      <DrawerItem label={() => <AppLogoItem />} onPress={() => Alert.alert('Link to help')} />
       {/* <DrawerItemList {...props} /> */}
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem

@@ -1,9 +1,15 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, getFocusedRouteNameFromRoute, useNavigationState } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import { defaultScreenOptions } from '../appDefaultTheme';
-import { HeaderLeftClose, HeaderLeftOpen, HeaderRightButton } from '~/src/navigation/components/headerButtons';
+import {
+  HeaderLeftClose,
+  HeaderLeftOpen,
+  HeaderRightButton,
+  HeaderBackward,
+} from '~/src/navigation/components/headerButtons';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { ParamListBase, Route } from '@react-navigation/native';
 import AppHeaderTitle from '../components/AppHeaderTitle';
 import { connect } from 'react-redux';
@@ -17,6 +23,7 @@ import { UnauthScreen } from '~/src/features/auth/screens';
 
 interface IProps {
   isDrawerOpen: boolean;
+  isBackward: boolean;
   authenticated: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
@@ -29,18 +36,35 @@ interface IScreenOptionsProps {
 
 interface IAppScreenOptionsProps {
   isDrawerOpen: boolean;
+  isBackward: boolean;
   navigation: StackNavigationProp<ParamListBase>;
+  route: Route<string, object | undefined>;
   onCloseDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
   onOpenDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
 }
 
 const Main = createStackNavigator();
 
-const appScreenOptions = ({ isDrawerOpen, navigation, onCloseDrawer, onOpenDrawer }: IAppScreenOptionsProps) => {
+const appScreenOptions = ({
+  isDrawerOpen,
+  isBackward,
+  navigation,
+  route,
+  onCloseDrawer,
+  onOpenDrawer,
+}: IAppScreenOptionsProps) => {
   return {
     ...defaultScreenOptions,
     headerTitle: () => <AppHeaderTitle />,
     headerLeft: () => {
+      // const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
+      // console.log('[MainNavigator] ** canBack', navigation.canGoBack());
+      // console.log('[MainNavigator] ** screen', RootNavigation.getCurrentRoute() );
+
+      if (isBackward) {
+        return <HeaderBackward navigation={navigation} />;
+      }
+
       return isDrawerOpen ? (
         <HeaderLeftClose onCloseDrawer={() => onCloseDrawer(navigation)} />
       ) : (
@@ -51,7 +75,7 @@ const appScreenOptions = ({ isDrawerOpen, navigation, onCloseDrawer, onOpenDrawe
   };
 };
 
-function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, closeDrawer }: IProps) {
+function MainNavigatorContainer({ authenticated, isDrawerOpen, isBackward, openDrawer, closeDrawer }: IProps) {
   /* const { isDrawerOpen } = useSelector<IRootState>((state) => state.system) as ISystemState; */
 
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
@@ -72,14 +96,16 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
       {/* <Main.Screen options={{ headerShown: true }} name="ProfileScreen" component={LoginScreen} /> */}
       <Main.Screen options={{ headerShown: false }} name="AuthNavigator" component={AuthNavigator} />
       <Main.Screen
-        options={({ navigation }: IScreenOptionsProps) =>
-          appScreenOptions({
+        options={({ navigation, route }: IScreenOptionsProps) => {
+          return appScreenOptions({
             isDrawerOpen,
+            isBackward,
             navigation,
+            route,
             onCloseDrawer,
             onOpenDrawer,
-          })
-        }
+          });
+        }}
         name="DrawerNavigator"
         component={authenticated ? DrawerNavigator : UnauthScreen}
       />
@@ -89,10 +115,10 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, openDrawer, close
 
 //const MainNavigatorConnected = connect(
 export default connect(
-  (state: IRootState) => ({
-    isDrawerOpen: state.system.isDrawerOpen,
-    isBackward: state.system.isBackward,
-    authenticated: state.auth.authenticated,
+  ({ system, auth }: IRootState) => ({
+    isDrawerOpen: system.header.isDrawerOpen,
+    isBackward: system.header.isBackward,
+    authenticated: auth.authenticated,
   }),
   {
     openDrawer: openDrawerAction,
