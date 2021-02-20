@@ -98,12 +98,13 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     });
   }
 
-  if (mask) {
+  // https://semver.org
+  if (!!mask) {
+    console.log('****** mask');
     return (
       <Block margin={[sizes.input.top, 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         <TextInputMask
-          style={inputStyles}
           keyboardType="phone-pad"
           mask={mask}
           autoCompleteType="off"
@@ -112,8 +113,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
+          placeholderTextColor="rgba(126, 126, 126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
+          style={inputStyles}
         />
         <AppInputError
           error={props.error}
@@ -126,7 +129,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   }
 
   return (
-    <Block onLayout={onLayout} margin={[sizes.input.top, 0]}>
+    <Block onLayout={onLayout} margin={[sizes.input.top / 2, 0, sizes.input.top]}>
       {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
       {/* {renderLabel()} */}
       <TextInput

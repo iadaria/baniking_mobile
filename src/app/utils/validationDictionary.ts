@@ -1,4 +1,6 @@
-import validatejs from 'validate.js';
+// import validatejs from 'validate.js';
+
+import { baseSettingsRules } from './validateRules/baseSettingsRules';
 
 const registerForm = {
   name: {
@@ -61,6 +63,7 @@ const loginForm = {
 export const validationDictionary = {
   ...registerForm,
   ...loginForm,
+  ...baseSettingsRules,
   bool: {
     inclusion: {
       within: [true],

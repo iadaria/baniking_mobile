@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import {
   SettingsMenuScreen,
@@ -11,16 +11,6 @@ import {
 } from './screens';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { useBackward } from '../../app/hooks/useBackward';
-
-/* interface IAppScreenOptionsProps {
-  navigation: StackNavigationProp<ParamListBase>;
-} */
-
-/* const appScreenOptions = ({ navigation }: IAppScreenOptionsProps) => {
-  return {
-    headerLeft: () => <HeaderBackward navigation={navigation} />,
-  };
-}; */
 
 interface IScreenOptionsProps {
   route: Route<string, object | undefined>;
@@ -35,13 +25,8 @@ export default function SettingsNavigator({ navigation, route }: IScreenOptionsP
   return (
     <Settings.Navigator
       screenOptions={{ headerShown: false }}
-      /* screenOptions={(props: IScreenOptionsProps) => {
-        console.log('** canBack', props.navigation.canGoBack());
-        return {
-          // headerShown: false,
-        };
-      }} */
-      initialRouteName="SettingsMenuScreen">
+      //initialRouteName="SettingsMenuScreen">
+      initialRouteName="BaseSettingsScreen">
       <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
       <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} />
       <Settings.Screen name="SafeScreen" component={SafeScreen} />

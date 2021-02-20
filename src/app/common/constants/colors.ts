@@ -24,6 +24,7 @@ export const colors = {
   input: {
     text: '#232738',
     border: '#E5E5E5',
+    borderEdit: '#4F4E4D',
     placeholder: '#7E7E7E',
   },
 

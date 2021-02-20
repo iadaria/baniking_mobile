@@ -10,13 +10,6 @@ interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-/* export const HeaderLeftButton: StackNavigationOptions = {
-  headerLeft: (props: StackHeaderLeftButtonProps) => (
-    <TouchableOpacity onPress={() => console.log('menu button is clicked')}>
-      <MenuHumberger />
-    </TouchableOpacity>
-  ),
-}; */
 export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) => {
   return (
     <Block margin={[0, 0, 0, sizes.offset.base]}>

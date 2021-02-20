@@ -10,6 +10,7 @@ interface IProfile {
   birth_date: Date | null;
   avatar: string;
   full_name: string | null;
+  sex: number;
   role: 'user' | 'manager';
   accounts: ISocialAccount[];
   userId: string | null;
@@ -24,6 +25,18 @@ export interface IProfileState {
   currentUser: IProfile;
 }
 
+/* "data": {
+  "email": "jadarya@mail.ru",
+  "name": "Daria",
+  "surname": "Iakimova",
+  "middle_name": "Andreevna",
+  "phone": "+7(914)515-28-40",
+  "birth_date": "23.03.1986",
+  "sex": 0,
+  "avatar": "https://baniking.ru/images/icons/user.png",
+  "full_name": "Daria Iakimova"
+} */
+
 const initialState: IProfileState = {
   loading: false,
   errors: [],
@@ -36,6 +49,7 @@ const initialState: IProfileState = {
     birth_date: null,
     userId: null,
     avatar: '',
+    sex: 0,
     full_name: null,
     // editions
     role: 'user',
