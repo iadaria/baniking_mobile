@@ -1,11 +1,23 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { sizes } from '~/src/app/common/constants';
 import { colors } from '~/src/app/common/constants/colors';
 
+enum Sex {
+  mail = 0,
+  femail = 1,
+}
+
 export function BaseSettingsScreen() {
+  const [sex, setSex] = useState<Sex>(Sex.mail);
+
+  function handleSaveSettings() {
+
+  }
+
   return (
     <Block full base debug>
       <Block margin={[0, 0, 2]}>
@@ -54,7 +66,14 @@ export function BaseSettingsScreen() {
       <AppText style={styles.label} semibold>
         Мобильный телефон
       </AppText>
-      <AppInput style={styles.input} id="surname" placeholder="Введите Мобильный телефон" maxLength={50} />
+      <AppInput
+        style={styles.input}
+        id="phone"
+        placeholder="+7( _)__-__-__ "
+        maxLength={50}
+        number
+        mask="+[0] ([000]) [000] [00] [00]"
+      />
 
       <AppText style={styles.label} semibold>
         Email
@@ -65,6 +84,15 @@ export function BaseSettingsScreen() {
         Аватарка
       </AppText>
       <AppInput style={styles.input} id="surname" placeholder="Введите Фамилию" maxLength={50} />
+
+      <Block margin={[0.9, 0]} />
+
+      <AppButton onPress={handleSaveSettings}>
+        <AppText center medium>
+          Сохранить изменения
+        </AppText>
+      </AppButton>
+      
     </Block>
   );
 }

@@ -1,60 +1,25 @@
-import { ISocialAccount } from '~/src/app/models/user';
+import { ICabinet, IProfile } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
-
-interface IProfile {
-  email: string;
-  name: string | null;
-  surname: string | null;
-  middle_name: string | null;
-  phone: string;
-  birth_date: Date | null;
-  avatar: string;
-  full_name: string | null;
-  sex: number;
-  role: 'user' | 'manager';
-  accounts: ISocialAccount[];
-  userId: string | null;
-  // contact?:
-  // contactsAllowed: boolean;
-}
 
 export interface IProfileState {
   loading: boolean;
   errors: string[];
+  cabinetErrors: string[];
   language?: string;
-  currentUser: IProfile;
+  currentUserProfile: IProfile | null;
+  currentUserCabinet: ICabinet | null;
+  selectedUserProfile: IProfile | null;
+  selectedUserCabinet: ICabinet | null;
 }
-
-/* "data": {
-  "email": "jadarya@mail.ru",
-  "name": "Daria",
-  "surname": "Iakimova",
-  "middle_name": "Andreevna",
-  "phone": "+7(914)515-28-40",
-  "birth_date": "23.03.1986",
-  "sex": 0,
-  "avatar": "https://baniking.ru/images/icons/user.png",
-  "full_name": "Daria Iakimova"
-} */
 
 const initialState: IProfileState = {
   loading: false,
   errors: [],
-  currentUser: {
-    email: '',
-    name: null,
-    surname: null,
-    middle_name: null,
-    phone: '',
-    birth_date: null,
-    userId: null,
-    avatar: '',
-    sex: 0,
-    full_name: null,
-    // editions
-    role: 'user',
-    accounts: [],
-  },
+  cabinetErrors: [],
+  currentUserProfile: null,
+  currentUserCabinet: null,
+  selectedUserProfile: null,
+  selectedUserCabinet: null,
 };
 
 export default function persistReducer(
@@ -66,14 +31,21 @@ export default function persistReducer(
       return {
         ...state,
         loading: true,
-        // currentUser: payload,
+        errors: [],
+      };
+    // Profile
+    case constants.SET_PROFILE_DATA:
+      return {
+        ...state,
+        loading: false,
+        currentUserProfile: payload,
       };
 
     case constants.SEND_PROFILE_DATA:
       return {
         ...state,
-        loading: false,
-        currentUser: payload,
+        loading: true,
+        currentUserProfile: payload,
       };
 
     case constants.GET_PROFILE_DATA_FAIL:
@@ -81,6 +53,30 @@ export default function persistReducer(
         ...state,
         loading: false,
         errors: payload,
+      };
+
+    // Cabinet
+    case constants.GET_CABINET_DATA:
+      return {
+        ...state,
+        loading: true,
+        cabinetErrors: [],
+        currentUserProfile: payload,
+      };
+
+    case constants.SET_CABINET_DATA:
+      return {
+        ...state,
+        loading: false,
+        cabinetErrors: [],
+        currentUserProfile: payload,
+      };
+
+    // Common
+    case constants.CLEAR_PROFILE:
+      return {
+        ...state,
+        ...initialState,
       };
 
     default:

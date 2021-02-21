@@ -1,21 +1,5 @@
-import { ISocialAccount } from '~/src/app/models/user';
+import { IProfile, Role } from '~/src/app/models/profile';
 import * as constants from './cabinetConstants';
-
-interface IProfile {
-  email: string;
-  name: string | null;
-  surname: string | null;
-  middle_name: string | null;
-  phone: string;
-  birth_date: Date | null;
-  avatar: string;
-  full_name: string | null;
-  role: 'user' | 'manager';
-  accounts: ISocialAccount[];
-  userId: string | null;
-  // contact?:
-  // contactsAllowed: boolean;
-}
 
 export interface IProfileState {
   loading: boolean;
@@ -37,8 +21,7 @@ const initialState: IProfileState = {
     userId: null,
     avatar: '',
     full_name: null,
-    // editions
-    role: 'user',
+    // editions,
     accounts: [],
   },
 };

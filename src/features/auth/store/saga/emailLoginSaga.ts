@@ -26,11 +26,11 @@ interface IResult {
   token: string;
 }
 
-function* emailLoginSaga({
-  payload: { login, password, device },
-}: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
+function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    reactotron.log(login!, password!, device!);
+    console.log('payload', payload);
+    const { login, password, device_name, persist } = payload;
+    reactotron.log(login!, password!, device_name, persist);
     // For test
     /* const response = {
       data: {
@@ -43,11 +43,14 @@ function* emailLoginSaga({
       },
     };
     throw response; */
-    // const { token }: IResult = yield methods.login({ email: login, password, device }, null);
-    const token = 'ljljlj';
+    const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
+    // const token = 'ljljlj';
     tokenToHeaders(token);
-    yield put(setPersistUserData({ email: login, token }));
+    if (persist) {
+      yield put(setPersistUserData({ email: login, token }));
+    }
     yield put(setAuthUserData({ email: login, token }));
+
     RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
@@ -60,15 +63,6 @@ function* emailLoginSaga({
     }
 
     yield showAlert('Ошибка', errorMessage);
-
-    // console.log(`error/[catch] message = ${message}\n`, JSON.stringify(errors, null, 4));
-    // console.log(`error/[catch] message = ${message}\n`);
-    // console.log(errorMessage);
-
-    /* showMessage({
-      message: `${errorMessage}`,
-      type: 'warning',
-    }); */
   }
 }
 

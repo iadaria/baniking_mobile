@@ -24,16 +24,22 @@ interface IProps {
 }
 
 const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): JSX.Element => {
-  const [isAccept, setIsAccept] = React.useState<boolean>(true);
+  const [isPersist, setIsPersist] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
   const handleEmailLogin = async () => {
-    const deviceName = await DeviceInfo.getDeviceName();
+    const device_name = await DeviceInfo.getDeviceName();
+    const data = {
+      login: valuesRef.current.login,
+      password: valuesRef.current.password,
+      device_name: device_name,
+      persist: isPersist,
+    };
 
-    console.log('***** values1 *******', valuesRef.current, deviceName);
-    emailLogin({ ...valuesRef.current, device: deviceName });
+    console.log('***** data *******', data);
+    emailLogin(data);
     setRecreate(!recreate);
   };
 
@@ -71,8 +77,8 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
       </Block>
       <AppInput center id="password" placeholder="Введите пароль" maxLength={50} secure />
       <Block margin={[2, 0, 3]} row center middle>
-        <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
-          <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
+        <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>
+          <SwitcherIcon fill={isPersist ? colors.secondary : colors.disable} />
         </TouchableOpacity>
         {/* Gelroy medium 14 */}
         <Block row wrap margin={[0, 0, 0, 2]}>

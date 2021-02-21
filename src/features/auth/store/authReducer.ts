@@ -1,5 +1,5 @@
 import * as constants from './authConstants';
-import { IUserAuth } from '~/src/app/models/user';
+import { IUserAuth, Role } from '~/src/app/models/user';
 
 /* interface IAction {
   type: string;
@@ -9,6 +9,7 @@ import { IUserAuth } from '~/src/app/models/user';
 
 export interface IAuthState {
   authenticated: boolean;
+  role: Role;
   currentUser: IUserAuth | null;
   loading: boolean;
   errors?: string[] | null;
@@ -16,6 +17,7 @@ export interface IAuthState {
 
 const initialState: IAuthState = {
   authenticated: false,
+  role: Role.User,
   currentUser: null,
   loading: false,
   errors: null,

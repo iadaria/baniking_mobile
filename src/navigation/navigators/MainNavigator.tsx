@@ -88,7 +88,7 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, isBackward, openD
     closeDrawer();
   }
 
-  authenticated = true;
+  // authenticated = false;
 
   return (
     <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Level } from '~/src/app/models/profile';
 import { colors } from '../../constants';
 import { AppText } from './AppText';
 import { Block } from './Block';
@@ -9,13 +10,6 @@ enum Step {
   Achived,
   Current,
   Disable,
-}
-
-enum Level {
-  Praetor = 'Претор',
-  Magister = 'Магистр',
-  Consul = 'Консул',
-  Emperor = 'Император',
 }
 
 interface ICaptionProps {

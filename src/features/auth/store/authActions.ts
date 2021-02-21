@@ -6,9 +6,9 @@ import * as constants from './authConstants';
   payload: { pincode, forBackupPhrase },
 }); */
 
-export const emailLogin = ({ login, password, device }: Partial<ICredential>) => ({
+export const emailLogin = (payload: Partial<ICredential>) => ({
   type: constants.EMAIL_LOGIN,
-  payload: { login, password, device },
+  payload: payload,
 });
 
 export const socialLogin = ({ provider }: ICredential) => ({

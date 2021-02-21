@@ -20,10 +20,12 @@ export interface IUserFormValues {
 /**
  * Action for login user
  *
- * @field login? {string}
- * @field password? {string}
- * @field provider? {string}
- * @field device {string}
+ * @field login {string}
+ * @field email {string}
+ * @field password {string}
+ * @field provider {string}
+ * @field device_name {string}
+ * @field persist {boolean}
  */
 export interface ICredential {
   login: string;
@@ -31,7 +33,8 @@ export interface ICredential {
   phone: string;
   password: string;
   provider: string;
-  device: string;
+  device_name: string;
+  persist: boolean;
 }
 
 export enum Role {
@@ -54,6 +57,14 @@ export interface IUserPersist {
   role: Role;
 }
 
+/**
+ * Action for login user
+ *
+ * @field provider {string} - 'google' | 'vk' | 'yandex' | 'facebook'
+ * @field access_token {string}
+ * @field uid {boolean}
+ * @field photoURL {boolean}
+ */
 export interface ISocialAccount {
   provider: 'google' | 'vk' | 'yandex' | 'facebook';
   access_token: string;
