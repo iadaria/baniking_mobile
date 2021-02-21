@@ -3,15 +3,16 @@ import RNRestart from 'react-native-restart';
 import AsyncStorage from '@react-native-community/async-storage';
 import { logout } from '../appPersistActions';
 import { ASK_LOGOUT } from '../appPersistConstants';
+import { Saga } from 'redux-saga';
 
-function* logoutSaga() {
-  console.log('ask logout');
+function* logoutSaga(): Saga<void> {
+  yield console.log('!![logoutSaga] ask logout');
 
-  yield put(logout());
+  /* yield put(logout());
   yield AsyncStorage.clear();
-  RNRestart.Restart();
+  RNRestart.Restart(); */
 }
 
-export default function* listener() {
+export default function* listener(): Saga<void> {
   yield takeLatest(ASK_LOGOUT, logoutSaga);
 }

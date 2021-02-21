@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { store, persistor } from '~/src/app/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -9,15 +9,11 @@ import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
 import AppFlashMessage from '~/src/app/common/components/AppFlashMessage/AppFlashMessage';
 import { appDefaultTheme } from './components/appDefaultTheme';
-// import { CHECK_AUTH } from '../features/auth/store/authConstants';
-import { checkAuth } from '../features/auth/store/authActions';
-
 // import ModalManager from '../app/common/modals/ModalManager';
 
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

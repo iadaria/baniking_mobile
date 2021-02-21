@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
-import { sizes } from '~/src/app/common/constants';
-import { colors } from '~/src/app/common/constants/colors';
+import { connect, useDispatch } from 'react-redux';
+import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
+import { styles } from './styles';
 
-enum Sex {
+/* enum Sex {
   mail = 0,
   femail = 1,
 }
+ */
+interface IProps {
+  logout: () => void;
+}
 
-export function BaseSettingsScreen() {
-  const [sex, setSex] = useState<Sex>(Sex.mail);
+function BaseSettingsScreen(props: IProps) {
+  // const [sex, setSex] = useState<Sex>(Sex.mail);
 
   function handleSaveSettings() {
-
+    props.logout();
   }
 
   return (
@@ -92,20 +95,17 @@ export function BaseSettingsScreen() {
           Сохранить изменения
         </AppText>
       </AppButton>
-      
     </Block>
   );
 }
 
-const styles = StyleSheet.create({
-  label: {
-    textAlign: 'left',
-    fontSize: wp(sizes.text.label),
+const BaseSettingsConnected = connect(
+  (/* state: IRootState */) => ({
+    //
+  }),
+  {
+    logout: askLogoutAction,
   },
-  input: {
-    borderColor: colors.input.borderEdit,
-    height: hp(sizes.input.heightEdit),
-    color: colors.text.base,
-    fontSize: wp(sizes.input.text),
-  },
-});
+)(BaseSettingsScreen);
+
+export { BaseSettingsConnected as BaseSettingsScreen };

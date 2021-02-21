@@ -15,7 +15,7 @@ const persistConfig = {
 export interface IRootState {
   system: ISystemState;
   auth: IAuthState;
-  persist: IPersistState & PersistPartial;
+  persist: IPersistState; // & PersistPartial;
   profile: IProfileState;
 }
 

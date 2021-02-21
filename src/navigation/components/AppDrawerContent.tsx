@@ -13,6 +13,7 @@ import { closeDrawer } from '~/src/app/store/system/systemReducer';
 import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
 import { askLogout } from '~/src/features/persist/store/appPersistActions';
+import { delay } from 'redux-saga/effects';
 
 /* interface IProps extends DrawerContentComponentProps<DrawerContentOptions> {
   close: () => void;
@@ -24,6 +25,8 @@ interface ILabelProps {
 }
 
 export function AppDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+  // console.log(props);
+  const { navigation } = props;
   const dispatch = useDispatch();
   function pickCloseIcon() {
     dispatch(closeDrawer());
@@ -34,12 +37,12 @@ export function AppDrawerContent(props: DrawerContentComponentProps<DrawerConten
       {/* <DrawerItemList {...props} /> */}
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem
-        label={(props: ILabelProps) => <AppDrawerItem text="Выйти" {...props} />}
+        label={(labelProps: ILabelProps) => <AppDrawerItem text="Выйти" {...labelProps} />}
         onPress={() => {
-          console.log('click logout');
-          store.dispatch(askLogout());
+          console.log('[AppDrawerContent] click logout');
           dispatch(closeDrawer());
-          // pickCloseIcon();
+          navigation.closeDrawer();
+          store.dispatch(askLogout());
         }}
       />
     </DrawerContentScrollView>

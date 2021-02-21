@@ -50,10 +50,20 @@ export default function appPersistReducer(
       };
 
     case constants.ASK_LOGOUT:
-      console.log('[persistReducer] ASK_LOGOUT');
+      return {
+        ...state,
+      };
+
+    case constants.LOGOUT:
+      console.log('[persistReducer] persist LOGOUT');
       return {
         ...initialState,
       };
+    
+    
+/* 
+    case 'persist/REHYDRATE':
+      return payload; */
 
     default:
       return state;
