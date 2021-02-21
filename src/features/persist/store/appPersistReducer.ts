@@ -1,44 +1,18 @@
-import { ISocialAccount, Role } from '~/src/app/models/user';
+import { IPersistUser } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
 
 // TOOD SET USER PROVIDER DATE
 
-/* export interface IAction {
-  type: string;
-  payload: IPersistState;
-} */
-
-interface IUser {
-  email?: string;
-  name: string;
-  phone?: string;
-  token: string;
-  userId: string;
-  avatar: string;
-  verified: boolean;
-  role: Role;
-  accounts: ISocialAccount[];
-  // contact?:
-  // contactsAllowed: boolean;
-}
-
 export interface IPersistState {
-  language?: string;
-  currentUser: Partial<IUser>;
+  language: string | null;
+  token: string | null;
+  currentUser: Partial<IPersistUser> | null;
 }
 
 const initialState: IPersistState = {
-  currentUser: {
-    email: '',
-    name: '',
-    phone: '',
-    token: '',
-    userId: '',
-    avatar: '',
-    verified: false,
-    role: Role.User,
-    accounts: [],
-  },
+  language: null,
+  token: null,
+  currentUser: null,
 };
 
 export default function appPersistReducer(
@@ -51,18 +25,19 @@ export default function appPersistReducer(
         ...state,
         language: payload,
       };
-    case constants.SET_USER_TOKEN:
+
+    case constants.SET_TOKEN:
       return {
         ...state,
-        currentUser: {
-          token: payload,
-        },
+        token: payload,
       };
+
     case constants.SET_USER_EMAIL:
       return {
         ...state,
         currentUser: {
-          email: payload.email,
+          ...state.currentUser,
+          email: payload,
         },
       };
     case constants.SET_USER_DATA:
@@ -70,13 +45,15 @@ export default function appPersistReducer(
         ...state,
         currentUser: {
           ...state.currentUser,
-          name: payload.name,
-          email: payload.email,
-          phone: payload.phone,
-          avatar: payload.avatar,
-          role: payload.role,
+          ...payload,
         },
       };
+
+    case constants.LOGOUT:
+      return {
+        ...initialState,
+      };
+
     default:
       return state;
   }

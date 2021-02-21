@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export const navigationRef: React.RefObject<any> = React.createRef<any>();
 
-export function navigate(name: string, params: any | undefined) {
+export function navigate(name: string, params?: any) {
   navigationRef.current?.navigate(name, params);
 }
 

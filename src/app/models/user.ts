@@ -1,20 +1,14 @@
-export interface IUser {
-  username?: string;
-  displayName?: string;
-  token: string;
-  image?: string;
-  email: string; // +
-  uid?: string;
-  photoURL?: string; // +
-  providerId?: string;
-}
-
-export interface IUserFormValues {
+export interface IPersistUser {
   email: string;
-  passsword: string;
-  displayName?: string;
-  username: string;
-  phone?: string;
+  name: string;
+  phone: string;
+  userId: string;
+  avatar: string;
+  verified: boolean;
+  role: Role;
+  accounts: ISocialAccount[];
+  // contact?:
+  // contactsAllowed: boolean;
 }
 
 /**
@@ -47,14 +41,6 @@ export interface IUserAuth {
   email?: string;
   role: Role;
   token: string;
-}
-
-export interface IUserPersist {
-  token: string;
-  email: string;
-  phone: string;
-  avatar: string;
-  role: Role;
 }
 
 /**

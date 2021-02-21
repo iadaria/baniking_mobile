@@ -4,12 +4,10 @@ import routes from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
 import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { setPersistUserData } from '~/src/features/persist/store/appPersistActions';
+import { setPersistUserData, setPersistToken } from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { EMAIL_LOGIN } from '../authConstants';
-import Reactotron from 'reactotron-react-native';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import reactotron from 'reactotron-react-native';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -30,7 +28,6 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
   try {
     console.log('payload', payload);
     const { login, password, device_name, persist } = payload;
-    reactotron.log(login!, password!, device_name, persist);
     // For test
     /* const response = {
       data: {
@@ -43,16 +40,21 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
       },
     };
     throw response; */
+
     const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
+
     tokenToHeaders(token);
+
     if (persist) {
-      yield put(setPersistUserData({ email: login, token }));
+      yield put(setPersistToken({ token }));
+      yield put(setPersistUserData({ email: login }));
     }
     yield put(setAuthUserData({ email: login, token }));
 
     RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
+
     let [errors, message] = getErrorStrings(e);
     console.log([errors, message]);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';

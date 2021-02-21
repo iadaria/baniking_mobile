@@ -7,14 +7,20 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
-import { appDefaultTheme } from './appDefaultTheme';
 import AppFlashMessage from '~/src/app/common/components/AppFlashMessage/AppFlashMessage';
+import { appDefaultTheme } from './components/appDefaultTheme';
 
 // import ModalManager from '../app/common/modals/ModalManager';
 
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
+  const initialize = async(): Promise<void> => {
+    // const { language } = await store.getState().persist;
+    // await i18next.init TOOD
+    
+  }
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

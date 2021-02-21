@@ -7,6 +7,6 @@ import * as profile from '~/src/features/profiles/store/saga';
 
 export default function* rootSaga() {
   // yield all(getListeners(auth));
-  yield all([auth.emailLoginSaga(), auth.socialLoginSaga(), auth.recoveryPasswordSaga()]);
+  yield all([auth.emailLoginSaga(), auth.socialLoginSaga(), auth.recoveryPasswordSaga(), auth.checkAuthSaga()]);
   yield all([profile.getProfileDataSaga(), profile.getCabinetDataSaga()]);
 }

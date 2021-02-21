@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { CabinetScreen } from '~/src/features/cabinet/screens';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { useBackward } from '~/src/app/hooks/useBackward';
+import { CabinetScreen } from './screens';
 
 interface IScreenOptionsProps {
   route: Route<string, object | undefined>;
