@@ -9,6 +9,7 @@ import { IUserAuth, Role } from '~/src/app/models/user';
 
 export interface IAuthState {
   authenticated: boolean;
+  token: string | null;
   role: Role;
   currentUser: IUserAuth | null;
   loading: boolean;
@@ -17,6 +18,7 @@ export interface IAuthState {
 
 const initialState: IAuthState = {
   authenticated: false,
+  token: null,
   role: Role.User,
   currentUser: null,
   loading: false,
@@ -72,6 +74,14 @@ export default function authReducer(
         ...state,
         authenticated: true,
         currentUser: payload,
+        loading: false,
+        errors: null,
+      };
+    case constants.SET_TOKEN:
+      return {
+        ...state,
+        authenticated: true,
+        token: payload,
         loading: false,
         errors: null,
       };

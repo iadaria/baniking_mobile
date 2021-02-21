@@ -10,6 +10,7 @@ export const SET_ACCOUNT_TYPE = 'auth/SET_ACCOUNT_TYPE';
 export const ADD_STORAGE_CONTACT = 'auth/ADD_CONTACT';
 export const SET_LANGUAGE = 'auth/SET_LANGUAGE';
 export const SET_USER_DATA = 'auth/SET_USER_DATA';
+export const SET_TOKEN = 'auth/SET_TOKEN';
 export const CHANGE_PASSWORD = 'auth/CHANGE_PASSWORD';
 export const CONFIRM_PASSWORD = 'auth/CONFIRM_PASSWORD';
 export const AUTH_FAIL = 'auth/AUTH_FAIL';

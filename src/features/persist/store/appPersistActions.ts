@@ -6,14 +6,14 @@ export const setPersistAccountType = ({ accountType }: { accountType: string }) 
   payload: { accountType },
 });
 
-export const setPersistLanguage = ({ language }: { language: string }) => ({
+export const setPersistLanguage = (language: string) => ({
   type: constants.SET_LANGUAGE,
-  payload: { language },
+  payload: language,
 });
 
-export const setPersistToken = ({ token }: { token: string }) => ({
+export const setPersistToken = (token: string) => ({
   type: constants.SET_TOKEN,
-  payload: { token },
+  payload: token,
 });
 
 /* export const setPersistUserEmail = ({ email }: { email: string }) => ({

@@ -5,6 +5,8 @@ import { logout } from '../appPersistActions';
 import { ASK_LOGOUT } from '../appPersistConstants';
 
 function* logoutSaga() {
+  console.log('ask logout');
+
   yield put(logout());
   yield AsyncStorage.clear();
   RNRestart.Restart();

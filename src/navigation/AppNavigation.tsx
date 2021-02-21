@@ -17,16 +17,6 @@ import { checkAuth } from '../features/auth/store/authActions';
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
-  const initialize = async (): Promise<void> => {
-    // const { language } = await store.getState().persist;
-    // await i18next.init TOOD
-    // store.dispatch({ type: CHECK_AUTH });
-    store.dispatch(checkAuth());
-  };
-
-  useEffect(() => {
-    initialize();
-  }, []);
 
   return (
     <Provider store={store}>

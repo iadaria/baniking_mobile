@@ -1,4 +1,5 @@
 import React from 'react';
+import { store } from '~/src/app/store';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
@@ -11,10 +12,16 @@ import { Alert } from 'react-native';
 import { closeDrawer } from '~/src/app/store/system/systemReducer';
 import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
+import { askLogout } from '~/src/features/persist/store/appPersistActions';
 
 /* interface IProps extends DrawerContentComponentProps<DrawerContentOptions> {
   close: () => void;
 } */
+
+interface ILabelProps {
+  focused: boolean;
+  color: string;
+}
 
 export function AppDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
   const dispatch = useDispatch();
@@ -27,10 +34,12 @@ export function AppDrawerContent(props: DrawerContentComponentProps<DrawerConten
       {/* <DrawerItemList {...props} /> */}
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem
-        label={(props) => <AppDrawerItem text="Выйти" {...props} />}
+        label={(props: ILabelProps) => <AppDrawerItem text="Выйти" {...props} />}
         onPress={() => {
-          Alert.alert('Link to help');
-          // navigation.closeDrawer();
+          console.log('click logout');
+          store.dispatch(askLogout());
+          dispatch(closeDrawer());
+          // pickCloseIcon();
         }}
       />
     </DrawerContentScrollView>

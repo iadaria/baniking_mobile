@@ -49,7 +49,8 @@ export default function appPersistReducer(
         },
       };
 
-    case constants.LOGOUT:
+    case constants.ASK_LOGOUT:
+      console.log('[persistReducer] ASK_LOGOUT');
       return {
         ...initialState,
       };

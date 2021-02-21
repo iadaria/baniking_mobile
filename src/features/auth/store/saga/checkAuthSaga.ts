@@ -1,15 +1,17 @@
-import { select, takeLatest } from 'redux-saga/effects';
+import { put, select, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { tokenToHeaders } from '~/src/app/api';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CHECK_AUTH } from '../authConstants';
 import routes from '~/src/navigation/helpers/routes';
+import { setAuthToken } from '../authActions';
 
 function* checkAuthSaga() {
   const token = yield select((state: IRootState) => state.persist.token);
-
+  console.log('[checkAuthSaga] token = ', token);
   if (token) {
     tokenToHeaders(token);
+    yield put(setAuthToken(token));
   }
 
   yield RootNavigation.navigate(routes.navigators.DrawerNavigator);

@@ -100,7 +100,6 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   // https://semver.org
   if (mask) {
-    console.log('****** mask');
     return (
       <Block margin={[sizes.input.top, 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}

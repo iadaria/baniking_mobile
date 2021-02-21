@@ -25,9 +25,14 @@ export const setAuthUserData = (data: Partial<IUserAuth>) => ({
   payload: data,
 });
 
-export const recoveryPassword = ({ email }: { email: string }) => ({
+export const setAuthToken = (token: string) => ({
+  type: constants.SET_TOKEN,
+  payload: token,
+});
+
+export const recoveryPassword = (email: string) => ({
   type: constants.RECOVERY_PASSWORD,
-  payload: { email },
+  payload: email,
 });
 
 export const authFail = <I extends {}>(errors: Array<I> = []) => ({

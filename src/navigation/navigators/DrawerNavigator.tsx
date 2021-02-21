@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
   ProfileNavigator,
@@ -10,23 +10,34 @@ import {
 } from '~/src/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
-import { ParamListBase, Route } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { appDrawerItemStyle, appDrawerStyle } from '../components/appDefaultTheme';
+import { useSelector } from 'react-redux';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+import routes from '~/src/navigation/helpers/routes';
 
 interface ILabelProps {
   color: string;
   focused: boolean;
 }
 
+const Drawer = createDrawerNavigator();
+
 interface IScreenOptionsProps {
-  route: Route<string, object | undefined>;
+  // route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-const Drawer = createDrawerNavigator();
+export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
+  const { authenticated } = useSelector((state: IRootState) => state.auth);
 
-export default function DrawerNavigator(/* { navigation, route }: IScreenOptionsProps */) {
+  useEffect(() => {
+    if (!authenticated) {
+      navigation.navigate(routes.navigators.AuthNavigator);
+    }
+  }, [authenticated, navigation]);
+
   return (
     <Drawer.Navigator
       initialRouteName="SettingsTab"
