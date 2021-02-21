@@ -27,20 +27,8 @@ interface IResult {
 function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
     console.log('payload', payload);
-    const { login, password, device_name, persist } = payload;
-    // For test
-    /* const response = {
-      data: {
-        message: 'The given data was invalid.',
-        errors: {
-          email: ['Введите email'],
-          password: ['Неверный пароль'],
-          device_name: ['Девайся обязатлеьное поле'],
-        },
-      },
-    };
-    throw response; */
 
+    const { login, password, device_name, persist } = payload;
     const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
 
     tokenToHeaders(token);
@@ -70,3 +58,16 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
 export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(EMAIL_LOGIN, emailLoginSaga);
 }
+
+// For test
+/* const response = {
+      data: {
+        message: 'The given data was invalid.',
+        errors: {
+          email: ['Введите email'],
+          password: ['Неверный пароль'],
+          device_name: ['Девайся обязатлеьное поле'],
+        },
+      },
+    };
+    throw response; */
