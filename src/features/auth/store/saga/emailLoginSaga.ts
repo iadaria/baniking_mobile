@@ -44,7 +44,6 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
     };
     throw response; */
     const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
-    // const token = 'ljljlj';
     tokenToHeaders(token);
     if (persist) {
       yield put(setPersistUserData({ email: login, token }));

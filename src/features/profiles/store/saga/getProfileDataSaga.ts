@@ -1,10 +1,10 @@
-import { showMessage } from 'react-native-flash-message';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { methods } from '~/src/app/api';
-import { getErrorStrings } from '~/src/app/utils/error';
-import { IProfile } from '~/src/app/models/profile';
 import { setProfileData } from '../profileActions';
+import { getErrorStrings } from '~/src/app/utils/error';
+import { showAlert } from '~/src/app/common/components/showAlert';
+import { methods } from '~/src/app/api';
 import { GET_PROFILE_DATA } from '../profileConstants';
+import { IProfile } from '~/src/app/models/profile';
 
 function* getProfileDataSaga() {
   try {
@@ -15,10 +15,7 @@ function* getProfileDataSaga() {
     let [errors, message] = getErrorStrings(e);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
-    yield showMessage({
-      message: `${errorMessage}`,
-      type: 'warning',
-    });
+    yield showAlert('Ошибка', errorMessage);
   }
 }
 

@@ -10,9 +10,9 @@ import {
 } from '~/src/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
-import { appDrawerItemStyle, appDrawerStyle } from '../appDefaultTheme';
-import { ParamListBase, Route, useNavigation, useNavigationState } from '@react-navigation/native';
+import { ParamListBase, Route } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { appDrawerItemStyle, appDrawerStyle } from '../components/appDefaultTheme';
 
 interface ILabelProps {
   color: string;
@@ -24,11 +24,9 @@ interface IScreenOptionsProps {
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(/* { navigation, route }: IScreenOptionsProps */) {
-
   return (
     <Drawer.Navigator
       initialRouteName="SettingsTab"
@@ -86,12 +84,14 @@ export default function DrawerNavigator(/* { navigation, route }: IScreenOptions
       <Drawer.Screen
         name="QrTab"
         component={QrNavigator}
-        options={(props: IScreenOptionsProps) => {
-          // console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
-          return {
-            drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
-          };
-        }}
+        options={
+          (/* props: IScreenOptionsProps */) => {
+            // console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
+            return {
+              drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
+            };
+          }
+        }
       />
     </Drawer.Navigator>
   );

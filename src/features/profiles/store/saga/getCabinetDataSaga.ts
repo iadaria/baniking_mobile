@@ -1,24 +1,21 @@
-import { showMessage } from 'react-native-flash-message';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
+import { GET_CABINET_DATA } from '../profileConstants';
+import { ICabinet } from '~/src/app/models/profile';
+import { setCabinetData } from '../profileActions';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { IProfile } from '~/src/app/models/profile';
-import { setCabinetData } from '../cabinetActions';
-import { GET_CABINET_DATA } from '../cabinetConstants';
+import { showAlert } from '~/src/app/common/components/showAlert';
 
 function* getCabinetDataSaga() {
   try {
-    const profile: IProfile = yield call(methods.getProfile, null, null);
-    yield put(setCabinetData(profile));
+    const cabinet: ICabinet = yield call(methods.getProfile, null, null);
+    yield put(setCabinetData(cabinet));
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
     let [errors, message] = getErrorStrings(e);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
-    yield showMessage({
-      message: `${errorMessage}`,
-      type: 'warning',
-    });
+    yield showAlert('Ошибка', errorMessage);
   }
 }
 

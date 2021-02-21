@@ -1,4 +1,4 @@
-import { IProfile } from '~/src/app/models/profile';
+import { IProfile, ICabinet } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
 
 /** Cabinet */
@@ -7,7 +7,7 @@ export const getCabinetData = (/** Read parameters */) => ({
   type: constants.GET_CABINET_DATA,
 });
 
-export const setCabinetData = (payload: IProfile) => ({
+export const setCabinetData = (payload: ICabinet) => ({
   type: constants.SET_CABINET_DATA,
   payload,
 });
