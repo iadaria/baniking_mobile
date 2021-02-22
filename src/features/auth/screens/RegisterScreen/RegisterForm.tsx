@@ -1,117 +1,109 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
+import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { colors, sizes } from '~/src/app/common/constants';
+import { ICredential } from '~/src/app/models/user';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
+import SoialLoginBlock from '../components/SoialLoginBlock';
+import { defaultRegisterInputs } from '../contracts/registerInputs';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
 
-export default function RegisterForm() {
+interface IProps {
+  // navigation: StackNavigationProp<ParamListBase>;
+  scrollViewRef?: React.RefObject<ScrollView>;
+  // socialLogin: ({ provider }: ICredential) => void;
+  // emailLogin: ({ login, password }: Partial<ICredential>) => void;
+}
+
+export default function RegisterForm({ scrollViewRef }: IProps) {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
-  const [enableShift, setEnableShift] = React.useState(false);
+  const [recreate, setRecreate] = React.useState<boolean>(true);
+  const valuesRef = React.useRef<Partial<ICredential>>({ first_name: '', email: '', phone: '' });
+  // const [enableShift, setEnableShift] = React.useState(false);
+
+  function handleSubmit() {}
+
+  console.log('[RegisterForm', scrollViewRef);
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={140}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      enabled={enableShift}>
-      <Block>
-        <Block margin={[0, 0, 2]} row middle center>
-          <AuthLogoLeft />
-          <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-            Регистрация
-          </AppText>
-          <AuthLogoRight />
-        </Block>
-        <Block row middle center>
-          <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
-            Фамилия
-          </AppText>
-          <NecessaryIcon style={{ marginHorizontal: 3 }} />
-        </Block>
-        <AppInput
-          id="name"
-          placeholder="Фамилия"
-          defaultValue="Иванов"
-          center
-          // error="Внесено некорректное значение"
-        />
-        {/* Email */}
-        <Block row middle center>
-          <AppText primary semibold size={sizes.text.label}>
-            Email
-          </AppText>
-          <NecessaryIcon style={{ marginHorizontal: 3 }} />
-        </Block>
-        <AppInput id="email" defaultValue="Andrey@mail.com" center />
-        {/* Email */}
-        <Block row middle center>
-          <AppText primary semibold size={sizes.text.label}>
-            Email
-          </AppText>
-          <NecessaryIcon style={{ marginHorizontal: 3 }} />
-        </Block>
-        <AppInput id="email" defaultValue="Andrey@mail.com" center />
-        {/* Email */}
-        <Block row middle center>
-          <AppText primary semibold size={sizes.text.label}>
-            Email
-          </AppText>
-          <NecessaryIcon style={{ marginHorizontal: 3 }} />
-        </Block>
-        <AppInput id="email" defaultValue="Andrey@mail.com" center />
-        {/* Phone */}
-        <Block row middle center>
-          <AppText primary semibold size={sizes.text.label}>
-            Номер телефона
-          </AppText>
-          <NecessaryIcon style={{ marginHorizontal: 3 }} />
-        </Block>
-        <AppInput
-          id="phone"
-          defaultValue="+7"
-          center
-          mask="+7 ([000]) [000] [00] [00]"
-          onFocus={() => {
-            setEnableShift(false);
-            console.log('*********** Register Form');
-          }}
-        />
-        {/* Accept */}
-        <Block margin={[3, 0, 5]} row center>
-          <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
-            <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
-          </TouchableOpacity>
-          {/* Gelroy medium 14 */}
-          <Block row wrap margin={[0, 0, 0, 2]}>
-            <AppText primary medium size={sizes.text.label}>
-              Я согласен с
-            </AppText>
-            <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
-            <AppText primary medium size={sizes.text.label}>
-              и
-            </AppText>
-            <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
-            <AppOpenURL
-              secondary
-              medium
-              size={sizes.text.label}
-              url={supportedURLOne}
-              title="обработки персональных данных"
-            />
-          </Block>
-        </Block>
-        {/* Button */}
-        <AppButton>
-          <AppText center medium>
-            Завершить регистрацию
-          </AppText>
-        </AppButton>
+    <ValidatedElements
+      key={Number(recreate)}
+      defaultInputs={defaultRegisterInputs}
+      scrollView={scrollViewRef}
+      valuesRef={valuesRef}>
+      <Block margin={[0, 0, 2]} row middle center>
+        <AuthLogoLeft />
+        <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
+          Регистрация
+        </AppText>
+        <AuthLogoRight />
       </Block>
-    </KeyboardAvoidingView>
+      <Block row middle center>
+        <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
+          Фамилия
+        </AppText>
+        <NecessaryIcon style={{ marginHorizontal: 3 }} />
+      </Block>
+      <AppInput id="first_name" placeholder="Фамилия" center />
+      {/* Email */}
+      <Block row middle center>
+        <AppText primary semibold size={sizes.text.label}>
+          Email
+        </AppText>
+        <NecessaryIcon style={{ marginHorizontal: 3 }} />
+      </Block>
+      <AppInput id="email" center />
+      {/* Phone */}
+      <Block row middle center>
+        <AppText primary semibold size={sizes.text.label}>
+          Номер телефона
+        </AppText>
+        <NecessaryIcon style={{ marginHorizontal: 3 }} />
+      </Block>
+      <AppInput
+        id="phone"
+        center
+        mask="+7 ([000]) [000] [00] [00]"
+        /* onFocus={() => {
+          setEnableShift(false);
+          console.log('*********** Register Form');
+        }} */
+      />
+      {/* Accept */}
+      <Block margin={[3, 0, 5]} row center>
+        <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
+          <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
+        </TouchableOpacity>
+        {/* Gelroy medium 14 */}
+        <Block row wrap margin={[0, 0, 0, 2]}>
+          <AppText primary medium size={sizes.text.label}>
+            Я согласен с
+          </AppText>
+          <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
+          <AppText primary medium size={sizes.text.label}>
+            и
+          </AppText>
+          <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
+          <AppOpenURL
+            secondary
+            medium
+            size={sizes.text.label}
+            url={supportedURLOne}
+            title="обработки персональных данных"
+          />
+        </Block>
+      </Block>
+      {/* Button */}
+      <AppButton onPress={handleSubmit}>
+        <AppText center medium>
+          Завершить регистрацию
+        </AppText>
+      </AppButton>
+    </ValidatedElements>
   );
 }
 

@@ -1,6 +1,13 @@
 import React, { MutableRefObject, useRef, useState, RefObject } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  LayoutChangeEvent,
+  TextInput,
+  TouchableOpacity,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
+} from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
 // import { useRefState } from './useRefState';
@@ -28,7 +35,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   React.useEffect(() => {
-    // console.log('changed inputs', JSON.stringify(inputs, null, 4));
+    console.log('changed inputs', JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -52,10 +59,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
 
     !_isErrors && _allRequired && setIsErrors(false);
-    /* console.log(
+    console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
-    ); */
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
 
@@ -116,6 +123,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     firstInvalidCoordinate = getFirstInvalidInput(updatedInputs);
 
     if (firstInvalidCoordinate !== null) {
+      console.log('firstInavlidCoordinate', firstInvalidCoordinate);
       scrollView?.current?.scrollTo({
         x: 0,
         y: firstInvalidCoordinate,
@@ -136,6 +144,16 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
   const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
+  const handleOnFocus = (id: keyof T) => {
+    const yCoordinate = inputs[id]?.yCoordinate;
+    if (yCoordinate && yCoordinate > 140) {
+      scrollView?.current?.scrollTo({
+        x: 0,
+        y: yCoordinate! - 30,
+        animated: true,
+      });
+    }
+  };
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
@@ -143,12 +161,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const inputRef = React.createRef<TextInput>();
         inputRefs.push(inputRef);
         const { id }: IAppInputProps<T> = child.props;
+        console.log('id', inputs[id]?.yCoordinate);
         return React.cloneElement(child, {
           newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
             setInputPosition({ ids: [id], value: nativeEvent.layout.y });
           },
+          onFocus: () => handleOnFocus(id),
           error: inputs[id].errorLabel,
           touched: Boolean(inputs[id].touched),
         });
@@ -156,7 +176,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
-          disabled: isErrors || isErrors === undefined,
+          // disabled: isErrors || isErrors === undefined,
           onPress: () => {
             handleSubmit();
             onPress();

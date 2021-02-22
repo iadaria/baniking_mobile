@@ -13,7 +13,6 @@ import { closeDrawer } from '~/src/app/store/system/systemReducer';
 import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
 import { askLogout } from '~/src/features/persist/store/appPersistActions';
-import { delay } from 'redux-saga/effects';
 
 /* interface IProps extends DrawerContentComponentProps<DrawerContentOptions> {
   close: () => void;
@@ -39,7 +38,6 @@ export function AppDrawerContent(props: DrawerContentComponentProps<DrawerConten
       <DrawerItem
         label={(labelProps: ILabelProps) => <AppDrawerItem text="Выйти" {...labelProps} />}
         onPress={() => {
-          console.log('[AppDrawerContent] click logout');
           dispatch(closeDrawer());
           navigation.closeDrawer();
           store.dispatch(askLogout());

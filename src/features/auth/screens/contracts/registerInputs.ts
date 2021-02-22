@@ -12,7 +12,8 @@ export const defaultRegisterInputs: IRegisterInputs = {
     require: true,
   },
   phone: {
-    type: 'phone',
+    // type: 'phone',
+    type: 'generic',
     value: '',
     require: true,
   },

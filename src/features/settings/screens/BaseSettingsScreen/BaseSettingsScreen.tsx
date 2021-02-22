@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
 import { styles } from './styles';
 

@@ -29,8 +29,8 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
     console.log('payload', payload);
 
     const { login, password, device_name, persist } = payload;
-    // const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
-    const token = 'lkjlkjlkj';
+    const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
+    // const token = 'lkjlkjlkj';
 
     tokenToHeaders(token);
 

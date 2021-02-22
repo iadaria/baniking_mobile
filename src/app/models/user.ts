@@ -23,6 +23,7 @@ export interface IPersistUser {
  */
 export interface ICredential {
   login: string;
+  first_name: string;
   email: string;
   phone: string;
   password: string;

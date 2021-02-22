@@ -40,6 +40,10 @@ export const authFail = <I extends {}>(errors: Array<I> = []) => ({
   payload: { errors },
 });
 
+export const authLogout = () => ({
+  type: constants.LOG_OUT,
+});
+
 /* export const changePassword = (payload: ChangePassword) => ({
   type: constants.CHANGE_PASSWORD, payload,
 });

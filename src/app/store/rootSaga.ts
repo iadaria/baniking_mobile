@@ -1,4 +1,4 @@
-import { all, fork, spawn, take } from 'redux-saga/effects';
+import { all, take } from 'redux-saga/effects';
 import * as auth from '~/src/features/auth/store/saga';
 import * as profile from '~/src/features/profiles/store/saga';
 import * as preferences from '~/src/features/persist/store/saga';
