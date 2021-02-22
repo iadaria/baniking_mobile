@@ -4,17 +4,22 @@ export const defaultProfileInputs: IProfileInputs = {
   surname: {
     type: 'surname',
     value: '',
-    require: true,
+    require: false,
   },
   name: {
     type: 'name',
     value: '',
-    require: true,
+    require: false,
   },
-  birth_data: {
-    type: 'name',
+  middle_name: {
+    type: 'middle_name',
     value: '',
-    require: true,
+    require: false,
+  },
+  birth_date: {
+    type: 'birth_date',
+    value: '',
+    require: false,
   },
   email: {
     type: 'email',
@@ -24,6 +29,11 @@ export const defaultProfileInputs: IProfileInputs = {
   phone: {
     type: 'phone',
     value: '',
+    require: true,
+  },
+  sex: {
+    type: 'sex',
+    value: false,
     require: true,
   },
 };

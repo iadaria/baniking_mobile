@@ -1,11 +1,13 @@
 import { registerRules } from './validateRules/registerRules';
 import { loginRules } from './validateRules/loginRules';
+import { profileRules } from './validateRules/profileRules';
 
 // https://regex101.com/r/cU5lC2/1
 
 export const validationDictionary = {
   ...registerRules,
   ...loginRules,
+  ...profileRules,
   bool: {
     inclusion: {
       within: [true],
@@ -69,17 +71,6 @@ export const validationDictionary = {
       message: '^Must be valid',
     },
   },
-
-  /* phone: {
-    presence: {
-      allowEmpty: false,
-      message: '^This is required',
-    },
-    format: {
-      pattern: /^[2-9]\d{2}-\d{3}-\d{4}$/,
-      message: '^Phone number must be valid',
-    },
-  }, */
 
   year: {
     presence: {
