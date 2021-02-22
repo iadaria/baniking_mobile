@@ -74,7 +74,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="phone" center mask="+7([000])[000]-[00]-[00]" isScrollToFocused />
+      <AppInput id="phone" center mask="+7([000])[000]-[00]-[00]" phone isScrollToFocused />
       {/* Accept */}
       <Block margin={[3, 0, 5]} row center>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>

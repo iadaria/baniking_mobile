@@ -1,25 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
+import { Sex } from '~/src/app/models/profile';
 import { styles } from './styles';
+import { FemaleIcon, MaleIcon } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants';
 
-/* enum Sex {
-  mail = 0,
-  femail = 1,
-}
- */
 interface IProps {
   logout: () => void;
 }
 
 function BaseSettingsScreen(props: IProps) {
-  // const [sex, setSex] = useState<Sex>(Sex.mail);
+  const [sex, setSex] = useState<Sex>(Sex.Male);
 
   function handleSaveSettings() {
     props.logout();
   }
+
+  const changeSex = () => (sex === Sex.Male ? Sex.Female : Sex.Male);
 
   return (
     <Block full base debug>
@@ -31,18 +31,12 @@ function BaseSettingsScreen(props: IProps) {
       <AppText style={styles.label} semibold>
         Фамилия
       </AppText>
-      <AppInput
-        style={styles.input}
-        id="surname"
-        placeholder="Введите Фамилию"
-        maxLength={50}
-        defaultValue="Петренко"
-      />
+      <AppInput style={styles.input} id="surname" placeholder="Введите фамилию" maxLength={50} />
 
       <AppText style={styles.label} semibold>
         Имя
       </AppText>
-      <AppInput style={styles.input} id="name" placeholder="Введите Имя" maxLength={50} defaultValue="Александр" />
+      <AppInput style={styles.input} id="name" placeholder="Введите имя" maxLength={50} />
 
       <AppText style={styles.label} semibold>
         Отчество
@@ -61,10 +55,29 @@ function BaseSettingsScreen(props: IProps) {
         mask="[00]{.}[00]{.}[9900]"
       />
 
-      <AppText style={styles.label} semibold>
+      {/* <AppText style={styles.label} semibold>
         Пол
       </AppText>
-      <AppInput style={styles.input} id="sex" placeholder="Введите Пол" maxLength={50} />
+      <AppInput style={styles.input} id="sex" placeholder="Введите Пол" maxLength={50} /> */}
+      <Block row debug>
+        <AppButton style={[styles.sex, sex !== Sex.Male && styles.sexPassive]} onPress={() => setSex(Sex.Male)}>
+          <MaleIcon />
+          <Block margin={[0, sizes.offset.between]} />
+          <AppText bold center>
+            Мужское
+          </AppText>
+        </AppButton>
+        <Block margin={[0, sizes.offset.between / 2]} />
+        <AppButton
+          style={[styles.sex, sex !== Sex.Female && styles.sexPassive]}
+          onPress={() => setSex(Sex.Female)}>
+          <FemaleIcon />
+          <Block margin={[0, sizes.offset.between]} />
+          <AppText bold center>
+            Женское
+          </AppText>
+        </AppButton>
+      </Block>
 
       <AppText style={styles.label} semibold>
         Мобильный телефон
@@ -72,21 +85,21 @@ function BaseSettingsScreen(props: IProps) {
       <AppInput
         style={styles.input}
         id="phone"
-        placeholder="+7( _)__-__-__ "
+        placeholder="+7(__)__-__-__ "
         maxLength={50}
-        number
-        mask="+[0] ([000]) [000] [00] [00]"
+        phone
+        mask="+7([000])[000]-[00]-[00]"
       />
 
       <AppText style={styles.label} semibold>
         Email
       </AppText>
-      <AppInput style={styles.input} id="surname" placeholder="Введите Email" maxLength={50} />
+      <AppInput style={styles.input} id="surname" maxLength={50} />
 
       <AppText style={styles.label} semibold>
         Аватарка
       </AppText>
-      <AppInput style={styles.input} id="surname" placeholder="Введите Фамилию" maxLength={50} />
+      <AppInput style={styles.input} id="avatar" maxLength={50} />
 
       <Block margin={[0.9, 0]} />
 

@@ -13,4 +13,14 @@ export const styles = StyleSheet.create({
     color: colors.text.base,
     fontSize: wp(sizes.input.text),
   },
+  sex: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: wp(3),
+  },
+  sexPassive: {
+    backgroundColor: colors.button.sexPassive,
+  },
 });

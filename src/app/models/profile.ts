@@ -5,6 +5,11 @@ export enum Role {
   Mananger,
 }
 
+export enum Sex {
+  Male,
+  Female,
+}
+
 export interface IProfile {
   email: string;
   name: string | null;

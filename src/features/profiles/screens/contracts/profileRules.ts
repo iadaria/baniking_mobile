@@ -24,17 +24,22 @@ export const defaultProfileInputs: IProfileInputs = {
   email: {
     type: 'email',
     value: '',
-    require: true,
+    require: false,
   },
   phone: {
     type: 'phone',
     value: '',
-    require: true,
+    require: false,
   },
   sex: {
     type: 'sex',
     value: false,
     require: true,
+  },
+  avatar: {
+    type: 'avatar',
+    value: '',
+    require: false,
   },
 };
 

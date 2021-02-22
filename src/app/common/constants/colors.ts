@@ -32,6 +32,7 @@ export const colors = {
     disable: 'rgba(233,233,233,0.5)',
     disableEdit: '#333333',
     textDisable: '#171718',
+    sexPassive: '#121213',
   },
 
   profile: {

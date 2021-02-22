@@ -18,6 +18,8 @@ export { default as ColumnIcon } from './images/svg/column.svg';
 export { default as EyeIcon } from './images/svg/eye.svg';
 export { default as MenuItem } from './images/svg/menu-item.svg';
 export { default as BackwardIcon } from './images/svg/backward.svg';
+export { default as MaleIcon } from './images/svg/male.svg';
+export { default as FemaleIcon } from './images/svg/female.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as userImg } from './images/png/user.png';

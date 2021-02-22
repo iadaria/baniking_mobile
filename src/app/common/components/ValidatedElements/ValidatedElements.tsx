@@ -130,11 +130,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     } else {
       // pass values to user
       let _values: V = {} as V;
-      //for (const [key, input] of Object.entries(inputsRef.current)) {
       for (const [key, input] of Object.entries(updatedInputs)) {
         _values = { ..._values, [key]: input.value };
       }
-      // ({ ...values, ..._values });
       valuesRef.current = _values;
       // console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
@@ -180,6 +178,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           touched: Boolean(inputs[id].touched),
         });
       } else if (isButton(child)) {
+        console.log('[ValidatedElements/renderChildren', child.type.name);
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
