@@ -6,7 +6,6 @@ import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { colors, sizes } from '~/src/app/common/constants';
 import { ICredential } from '~/src/app/models/user';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
-import SoialLoginBlock from '../components/SoialLoginBlock';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 
 const supportedURLOne = 'https://google.com';
@@ -27,8 +26,6 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
 
   function handleSubmit() {}
 
-  console.log('[RegisterForm', scrollViewRef);
-
   return (
     <ValidatedElements
       key={Number(recreate)}
@@ -48,7 +45,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="first_name" placeholder="Фамилия" center />
+      <AppInput id="first_name" placeholder="Фамилия" center isScrollToFocused />
       {/* Email */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -56,7 +53,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="email" center />
+      <AppInput id="email" center isScrollToFocused />
       {/* Phone */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -64,15 +61,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
-        id="phone"
-        center
-        mask="+7 ([000]) [000] [00] [00]"
-        /* onFocus={() => {
-          setEnableShift(false);
-          console.log('*********** Register Form');
-        }} */
-      />
+      <AppInput id="phone" center mask="+7 ([000]) [000] [00] [00]" isScrollToFocused />
       {/* Accept */}
       <Block margin={[3, 0, 5]} row center>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>

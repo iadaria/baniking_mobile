@@ -5,11 +5,13 @@ import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
 import { socialLogin } from '~/src/features/auth/store/authActions';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { AuthLogo } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import RegisterForm from './RegisterForm';
 import SoialLoginBlock from '../components/SoialLoginBlock';
+import { styles } from './styles';
+import { KeyboardWrapper } from '../components/KeyboardWrapper';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -22,36 +24,42 @@ function RegisterContainer({ navigation }: IProps) {
   function handleSubmit() {}
 
   return (
-    <ScrollView
-      ref={scrollViewRef}
-      style={styles.scrollView}
-      alwaysBounceHorizontal
-      // contentInsetAdjustmentBehavior="always"
-      contentContainerStyle={styles.scrollViewContainer}>
-      <Block full bottom debug>
-        <Block center margin={[0, 0, sizes.logo.bottom]}>
-          <AuthLogo />
-        </Block>
-        <Block style={styles.list} flex={0.9} full base white>
-          <RegisterForm scrollViewRef={scrollViewRef} />
-          {/* Social login block */}
-          <SoialLoginBlock />
-          {/* Sign in */}
-          <Block row middle debug>
-            <AppText primary center>
-              Уже зарегистрированы?
-            </AppText>
-            <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-              <AppText secondary> Войдите</AppText>
-            </TouchableOpacity>
+    <KeyboardWrapper>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.scrollView}
+        scrollToOverflowEnabled
+        // horizontal={false}
+        // scrollEnabled={false}
+        alwaysBounceHorizontal
+        keyboardDismissMode="interactive"
+        // scrollEnabled={true}
+        // keyboardShouldPersistTaps="always"
+        // contentInsetAdjustmentBehavior="always"
+        contentContainerStyle={styles.scrollViewContainer}>
+        <Block full bottom debug>
+          <Block center margin={[10, 0, sizes.logo.bottom]}>
+            <AuthLogo />
+          </Block>
+          <Block style={styles.list} full base white>
+            <RegisterForm scrollViewRef={scrollViewRef} />
+            {/* Social login block */}
+            <SoialLoginBlock />
+            {/* Sign in */}
+            <Block row middle debug>
+              <AppText primary center>
+                Уже зарегистрированы?
+              </AppText>
+              <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                <AppText secondary> Войдите</AppText>
+              </TouchableOpacity>
+            </Block>
           </Block>
         </Block>
-      </Block>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardWrapper>
   );
 }
-
-// color, fontFamily, align, size
 
 const RegisterConnected = connect(
   (/* state: IRootState */) => ({
@@ -63,29 +71,3 @@ const RegisterConnected = connect(
 )(RegisterContainer);
 
 export { RegisterConnected as RegisterScreen };
-
-// <SocialLogin socialLogin={socialLogin} />
-
-const styles = StyleSheet.create({
-  scrollView: {},
-  scrollViewContainer: {
-    flexGrow: 1,
-    paddingTop: 100,
-  },
-  list: {
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-  },
-  /* scrollView: {
-    borderWidth: 2,
-    borderColor: 'green',
-    position: 'absolute',
-    bottom: 0,
-  }, */
-  bottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});

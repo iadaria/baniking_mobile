@@ -6,6 +6,8 @@ export interface IAppInputProps<T> extends IUiInput {
   error?: string;
   label?: string;
   touched?: boolean;
+  isScrollToFocused?: boolean;
+  onFocusedScroll?: () => void;
   onLayout?: (props: LayoutChangeEvent) => void;
   newRef?: React.RefObject<TextInput>;
 }

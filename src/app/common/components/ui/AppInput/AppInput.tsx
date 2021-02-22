@@ -6,6 +6,7 @@ import {
   TextInputProps,
   TextInputFocusEventData,
   NativeSyntheticEvent,
+  Keyboard,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { Block } from '~/src/app/common/components/UI/Block';
@@ -30,8 +31,6 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isVirgin: true,
   });
   const {
-    //system
-    onLayout,
     // outlined,
     email,
     phone,
@@ -45,7 +44,12 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     center,
     style,
     newRef,
+    // custome
+    isScrollToFocused,
+    onFocusedScroll,
     //native
+    onLayout,
+    onBlur,
     onFocus,
     secure,
     ...otherProps
@@ -62,7 +66,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.touched, states.isTouched]);
 
-/*   React.useEffect(() => {
+  /*   React.useEffect(() => {
     console.log(
       `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
     );
@@ -81,7 +85,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   // const inputPaperStyles = [main && { selectionColor: colors.primary }, style];
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
 
-  function handleBlur() {
+  function handleBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {
+    onBlur && onBlur(e);
     setStates({
       ...states,
       isTouched: !states.isTouched,
@@ -91,6 +96,9 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   function handleFocus(e: NativeSyntheticEvent<TextInputFocusEventData>) {
     onFocus && onFocus(e);
+    if (isScrollToFocused && onFocusedScroll) {
+      onFocusedScroll();
+    }
     setStates({
       ...states,
       isTouched: false,
@@ -101,10 +109,11 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   // https://semver.org
   if (mask) {
     return (
-      <Block margin={[sizes.input.top, 0]}>
+      <Block onLayout={onLayout} margin={[sizes.input.top, 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         <TextInputMask
-          keyboardType="phone-pad"
+          style={inputStyles}
+          keyboardType={inputType}
           mask={mask}
           autoCompleteType="off"
           autoCapitalize="none"
@@ -115,7 +124,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
           placeholderTextColor="rgba(126, 126, 126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
-          style={inputStyles}
+
         />
         <AppInputError
           error={props.error}
@@ -135,7 +144,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         ref={newRef}
         style={inputStyles}
         secureTextEntry={isSecure}
-        // multiline={false}
+        // multiline
         autoCompleteType="off"
         autoCapitalize="none"
         autoCorrect={false}
@@ -145,6 +154,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         placeholder={placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
         underlineColorAndroid="transparent"
+        scrollEnabled={true}
+        onScroll={() => Keyboard.dismiss()}
         {...otherProps}
       />
       <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />

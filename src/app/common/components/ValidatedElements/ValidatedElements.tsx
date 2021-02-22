@@ -1,16 +1,8 @@
-import React, { MutableRefObject, useRef, useState, RefObject } from 'react';
+import React, { MutableRefObject, useRef, useState, RefObject, useEffect } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import {
-  ScrollView,
-  LayoutChangeEvent,
-  TextInput,
-  TouchableOpacity,
-  NativeSyntheticEvent,
-  TextInputFocusEventData,
-} from 'react-native';
+import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
-// import { useRefState } from './useRefState';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
@@ -21,20 +13,22 @@ interface IProps<T, V> {
   valuesRef: MutableRefObject<V>;
 }
 
+const SCROLL_OFFSET_TOP = 150;
+const SCROLL_MAX = 50;
+
 function ValidatedElements<T extends { [key: string]: IInput }, V>({
   children,
   defaultInputs,
   scrollView,
   valuesRef,
 }: IProps<T, V>): JSX.Element {
-  // const [inputs, inputsRef, setInputs] = useRefState<T>(defaultInputs);
   const [inputs, setInputs] = useState<T>(defaultInputs);
   const [isErrors, setIsErrors] = useState<boolean>();
   const _scrollView = useRef<ScrollView>(null);
   const inputRefs: RefObject<TextInput>[] = [];
   const buttonRef = useRef<TouchableOpacity>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('changed inputs', JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
@@ -85,6 +79,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     for (const input of Object.values(validatedInputs)) {
       if (input.errorLabel && input.yCoordinate && input.yCoordinate < firstInvalidCoordinate!) {
         firstInvalidCoordinate = input.yCoordinate;
+        // Don't scrolling if input on the top
+        if (firstInvalidCoordinate < SCROLL_OFFSET_TOP) {
+          return SCROLL_MAX;
+        }
       }
     }
 
@@ -144,14 +142,19 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
   const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
-  const handleOnFocus = (id: keyof T) => {
+
+  const handleOnFocusedScroll = (id: keyof T) => {
     const yCoordinate = inputs[id]?.yCoordinate;
-    if (yCoordinate && yCoordinate > 140) {
-      scrollView?.current?.scrollTo({
-        x: 0,
-        y: yCoordinate! - 30,
-        animated: true,
-      });
+    console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}`);
+    if (yCoordinate && yCoordinate > 100) {
+      const delay = Platform.OS === 'ios' ? 1 : 150;
+      setTimeout(() => {
+        scrollView?.current?.scrollTo({
+          x: 1,
+          y: yCoordinate! - 50,
+          animated: true,
+        });
+      }, delay);
     }
   };
 
@@ -160,15 +163,19 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       if (isTextInput(child)) {
         const inputRef = React.createRef<TextInput>();
         inputRefs.push(inputRef);
-        const { id }: IAppInputProps<T> = child.props;
-        console.log('id', inputs[id]?.yCoordinate);
+        const { id, onFocus }: IAppInputProps<T> = child.props;
+
         return React.cloneElement(child, {
           newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
             setInputPosition({ ids: [id], value: nativeEvent.layout.y });
           },
-          onFocus: () => handleOnFocus(id),
+          onFocusedScroll: () => handleOnFocusedScroll(id),
+          /* onFocus: (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+            onFocus && onFocus(e);
+            handleOnFocus(id);
+          }, */
           error: inputs[id].errorLabel,
           touched: Boolean(inputs[id].touched),
         });
@@ -195,6 +202,21 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 }
 
 export default ValidatedElements;
+
+/* const handleOnBlur = (id: keyof T) => {
+  const yCoordinate = inputs[id]?.yCoordinate;
+  console.log(
+    `[ValidateElements/handleOnBlur] id=${id} yCoordinate=${yCoordinate} scrollView.current=${scrollView?.current}`,
+  );
+  if (yCoordinate && yCoordinate > 140) {
+    console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate} should be scroll`);
+    scrollView?.current?.scrollTo({
+      x: 1,
+      y: yCoordinate! + 30,
+      animated: true,
+    });
+  }
+}; */
 
 /*   function handleClean() {
   // Clear text inputs
