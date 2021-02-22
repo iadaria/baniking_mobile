@@ -6,7 +6,7 @@ export default function ProfileNavigator(): JSX.Element {
   const Profile = createStackNavigator();
   return (
     <Profile.Navigator screenOptions={{ headerShown: false }}>
-      <Profile.Screen name="ProfileScreen" component={CabinetScreen} />
+      <Profile.Screen name="CabinetScreen" component={CabinetScreen} />
       <Profile.Screen name="ProfileScreen" component={ProfileScreen} />
     </Profile.Navigator>
   );

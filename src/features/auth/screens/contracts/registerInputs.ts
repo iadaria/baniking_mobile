@@ -1,8 +1,8 @@
 import { IInput } from '~/src/app/models/validate';
 
 export const defaultRegisterInputs: IRegisterInputs = {
-  first_name: {
-    type: 'generic',
+  name: {
+    type: 'name',
     value: '',
     require: true,
   },
@@ -12,15 +12,14 @@ export const defaultRegisterInputs: IRegisterInputs = {
     require: true,
   },
   phone: {
-    // type: 'phone',
-    type: 'generic',
+    type: 'phone',
     value: '',
     require: true,
   },
 };
 
 export interface IRegisterInputs {
-  first_name: IInput;
+  name: IInput;
   email: IInput;
   phone: IInput;
   [key: string]: IInput;

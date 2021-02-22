@@ -44,6 +44,13 @@ export default function authReducer(
         errors: null,
       };
 
+    case constants.EMAIL_REGISTER:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
+      };
+
     case constants.AUTH_FAIL:
       return {
         ...state,

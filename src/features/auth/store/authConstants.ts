@@ -1,4 +1,6 @@
 export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
+export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
+export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
 export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
 export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';

@@ -15,6 +15,11 @@ export const emailLogin = (payload: Partial<ICredential>) => ({
   payload: payload,
 });
 
+export const emailRegister = (payload: Partial<ICredential>) => ({
+  type: constants.EMAIL_REGISTER,
+  payload: payload,
+});
+
 export const socialLogin = ({ provider }: ICredential) => ({
   type: constants.SOCIAL_LOGIN,
   payload: { provider },

@@ -150,8 +150,8 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       const delay = Platform.OS === 'ios' ? 1 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
-          x: 1,
-          y: yCoordinate! - 50,
+          x: 0,
+          y: yCoordinate! - 100,
           animated: true,
         });
       }, delay);
@@ -183,7 +183,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
-          // disabled: isErrors || isErrors === undefined,
+          disabled: isErrors || isErrors === undefined,
           onPress: () => {
             handleSubmit();
             onPress();

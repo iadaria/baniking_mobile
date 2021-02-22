@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
-import { socialLogin } from '~/src/features/auth/store/authActions';
+import { socialLogin, emailRegister as emailRegisterAction } from '~/src/features/auth/store/authActions';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { AuthLogo } from '~/src/assets';
@@ -16,9 +16,10 @@ import { KeyboardWrapper } from '../components/KeyboardWrapper';
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   socialLogin: ({ provider }: ICredential) => void;
+  emailRegister: (props: Partial<ICredential>) => void;
 }
 
-function RegisterContainer({ navigation }: IProps) {
+function RegisterContainer({ navigation, emailRegister }: IProps) {
   const scrollViewRef = React.useRef<ScrollView>(null);
 
   function handleSubmit() {}
@@ -42,7 +43,7 @@ function RegisterContainer({ navigation }: IProps) {
             <AuthLogo />
           </Block>
           <Block style={styles.list} full base white>
-            <RegisterForm scrollViewRef={scrollViewRef} />
+            <RegisterForm scrollViewRef={scrollViewRef} emailRegister={emailRegister} />
             {/* Social login block */}
             <SoialLoginBlock />
             {/* Sign in */}
@@ -67,6 +68,7 @@ const RegisterConnected = connect(
   }),
   {
     socialLogin: socialLogin,
+    emailRegister: emailRegisterAction,
   },
 )(RegisterContainer);
 

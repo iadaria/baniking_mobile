@@ -1,69 +1,11 @@
-// import validatejs from 'validate.js';
+import { registerRules } from './validateRules/registerRules';
+import { loginRules } from './validateRules/loginRules';
 
-import { baseSettingsRules } from './validateRules/baseSettingsRules';
-
-const registerForm = {
-  name: {
-    presence: {
-      allowEmpty: false,
-      message: '^This is required',
-    },
-    format: {
-      pattern: /^[A-Z][a-z][А-Я][а-я]*$/,
-    },
-    length: {
-      minimum: 6,
-      tooShort: 'Password must be at least %{count} characters long then',
-      maximum: 16,
-      tooLong: 'Password needs to have %{count} words or less',
-    },
-    /* length: {
-      minimum: 2,
-      message: function (value: any, attribute, validatorOptions, attributes, globalOptions) {
-        return validatejs.format('^%{name} must be at least 2 characters long', {
-          name: value,
-        });
-      },
-    }, */
-  },
-};
-
-const loginForm = {
-  login: {
-    presence: {
-      allowEmpty: false,
-      message: '^This is required',
-    },
-    length: {
-      minimum: 8,
-      tooShort: 'Login must be at least %{count} characters long then',
-      maximum: 50,
-      tooLong: 'Login needs to have %{count} words or less',
-    },
-  },
-  password: {
-    presence: {
-      allowEmpty: false,
-      message: '^This is required',
-    },
-    length: {
-      minimum: 6,
-      tooShort: 'must be at least %{count} characters long then',
-      // message: '^Password must be at least 6 characters long',
-      maximum: 16,
-      tooLong: 'Password needs to have %{count} words or less',
-      /* tokenizer: function (value) {
-        return value.split(/\s+/g);
-      }, */
-    },
-  },
-
-};
+// https://regex101.com/r/cU5lC2/1
 
 export const validationDictionary = {
-  ...registerForm,
-  ...loginForm,
-  ...baseSettingsRules,
+  ...registerRules,
+  ...loginRules,
   bool: {
     inclusion: {
       within: [true],
@@ -128,7 +70,7 @@ export const validationDictionary = {
     },
   },
 
-  phone: {
+  /* phone: {
     presence: {
       allowEmpty: false,
       message: '^This is required',
@@ -137,7 +79,7 @@ export const validationDictionary = {
       pattern: /^[2-9]\d{2}-\d{3}-\d{4}$/,
       message: '^Phone number must be valid',
     },
-  },
+  }, */
 
   year: {
     presence: {

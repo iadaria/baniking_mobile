@@ -14,21 +14,24 @@ export interface IPersistUser {
 /**
  * Action for login user
  *
- * @field login {string}
- * @field email {string}
- * @field password {string}
- * @field provider {string}
- * @field device_name {string}
- * @field persist {boolean}
+ * @field login? {string}
+ * @field name? {string}
+ * @field email? {string}
+ * @field password? {string}
+ * @field provider? {string}
+ * @field device_name? {string}
+ * @field persist? {boolean}
  */
 export interface ICredential {
   login: string;
+  name: string;
   first_name: string;
   email: string;
   phone: string;
   password: string;
   provider: string;
   device_name: string;
+  agreement: boolean;
   persist: boolean;
 }
 

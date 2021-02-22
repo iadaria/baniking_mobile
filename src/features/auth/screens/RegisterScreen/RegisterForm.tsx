@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
@@ -14,17 +15,29 @@ const supportedURLOne = 'https://google.com';
 interface IProps {
   // navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  // socialLogin: ({ provider }: ICredential) => void;
-  // emailLogin: ({ login, password }: Partial<ICredential>) => void;
+  emailRegister: (props: Partial<ICredential>) => void;
 }
 
-export default function RegisterForm({ scrollViewRef }: IProps) {
+export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<ICredential>>({ first_name: '', email: '', phone: '' });
+  const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '' });
   // const [enableShift, setEnableShift] = React.useState(false);
 
-  function handleSubmit() {}
+  async function handleSubmit() {
+    const device_name = await DeviceInfo.getDeviceName();
+    const data = {
+      name: valuesRef.current.name,
+      email: valuesRef.current.email,
+      phone: valuesRef.current.phone,
+      device_name: device_name,
+      agreement: isAccept,
+    };
+
+    console.log('***** data *******', data);
+    emailRegister(data);
+    setRecreate(!recreate);
+  }
 
   return (
     <ValidatedElements
@@ -45,7 +58,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="first_name" placeholder="Фамилия" center isScrollToFocused />
+      <AppInput id="name" placeholder="Фамилия" center isScrollToFocused />
       {/* Email */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -53,7 +66,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="email" center isScrollToFocused />
+      <AppInput id="email" center email />
       {/* Phone */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -61,7 +74,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="phone" center mask="+7 ([000]) [000] [00] [00]" isScrollToFocused />
+      <AppInput id="phone" center mask="+7([000])[000]-[00]-[00]" isScrollToFocused />
       {/* Accept */}
       <Block margin={[3, 0, 5]} row center>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
@@ -87,7 +100,7 @@ export default function RegisterForm({ scrollViewRef }: IProps) {
         </Block>
       </Block>
       {/* Button */}
-      <AppButton onPress={handleSubmit}>
+      <AppButton disabled={!isAccept} onPress={handleSubmit}>
         <AppText center medium>
           Завершить регистрацию
         </AppText>
