@@ -16,7 +16,7 @@ export interface IProfile {
   surname: string | null;
   middle_name: string | null;
   phone: string;
-  birth_date: Date | null;
+  birth_date: string | null;
   avatar: string;
   full_name: string | null;
   sex: number;

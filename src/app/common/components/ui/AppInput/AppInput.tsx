@@ -14,6 +14,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { IAppInputProps } from '~/src/app/models/ui';
 import AppInputError from './AppInputError';
 import AppInputLabel from './AppInputLabel';
+import { AppInputWrapper } from './AppInputWrapper';
 import { AppSecure } from './AppSecure';
 import { styles } from './styles';
 
@@ -109,8 +110,12 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   // https://semver.org
   if (mask) {
     return (
-      <Block onLayout={onLayout} margin={[sizes.input.top, 0]}>
-        {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
+      <AppInputWrapper
+        secure={secure}
+        states={states}
+        setToggleSecure={setToggleSecure}
+        toggleSecure={toggleSecure}
+        props={props}>
         <TextInputMask
           style={inputStyles}
           keyboardType={inputType}
@@ -124,22 +129,18 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
           placeholderTextColor="rgba(126, 126, 126, 0.3)"
           //underlineColorAndroid="transparent"
           {...otherProps}
-
         />
-        <AppInputError
-          error={props.error}
-          isFocused={states.isFocused}
-          isTouched={props.touched || states.isTouched}
-          {...props}
-        />
-      </Block>
+      </AppInputWrapper>
     );
   }
 
   return (
-    <Block onLayout={onLayout} margin={[sizes.input.top / 2, 0, sizes.input.top]}>
-      {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
-      {/* {renderLabel()} */}
+    <AppInputWrapper
+      secure={secure}
+      states={states}
+      setToggleSecure={setToggleSecure}
+      toggleSecure={toggleSecure}
+      props={props}>
       <TextInput
         ref={newRef}
         style={inputStyles}
@@ -158,15 +159,6 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         onScroll={() => Keyboard.dismiss()}
         {...otherProps}
       />
-      <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
-      <AppInputError
-        error={props.error}
-        isFocused={states.isFocused}
-        isTouched={props.touched || states.isTouched}
-        isVirgin={states.isVirgin}
-        // isFirstTouched={!!props.touched && !isTouched}
-        {...props}
-      />
-    </Block>
+    </AppInputWrapper>
   );
 }

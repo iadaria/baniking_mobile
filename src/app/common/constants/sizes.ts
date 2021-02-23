@@ -59,4 +59,8 @@ export const sizes = {
   profile: {
     name: 7,
   },
+
+  avatar: {
+    height: 25,
+  }
 };

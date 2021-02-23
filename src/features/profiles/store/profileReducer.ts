@@ -27,14 +27,14 @@ export default function persistReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IProfileState {
   switch (type) {
-    case constants.GET_PROFILE_DATA:
+    case constants.GET_PROFILE_SETTINGS:
       return {
         ...state,
         loading: true,
         errors: [],
       };
     // Profile
-    case constants.SET_PROFILE_DATA:
+    case constants.SET_PROFILE_SETTINGS:
       return {
         ...state,
         loading: false,

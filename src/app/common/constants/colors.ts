@@ -37,6 +37,7 @@ export const colors = {
 
   profile: {
     name: '#F5C97D',
+    avatarBorder: '#4F4E4D',
   },
 
   buttonBeginning: '#F3F0EB',

@@ -18,9 +18,17 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: wp(3),
+    padding: wp(2.4),
   },
   sexPassive: {
     backgroundColor: colors.button.sexPassive,
+  },
+  avatar: {
+    height: wp(sizes.avatar.height),
+    width: wp(sizes.avatar.height),
+    alignSelf: 'flex-start',
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: colors.profile.avatarBorder,
   },
 });

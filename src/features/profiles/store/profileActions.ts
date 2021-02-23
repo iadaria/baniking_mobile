@@ -14,12 +14,12 @@ export const setCabinetData = (payload: ICabinet) => ({
 
 /** Profile */
 
-export const getProfileData = (/** Read parameter */) => ({
-  type: constants.GET_PROFILE_DATA,
+export const getProfileSettings = (/** Read parameter */) => ({
+  type: constants.GET_PROFILE_SETTINGS,
 });
 
-export const setProfileData = (payload: IProfile) => ({
-  type: constants.SET_PROFILE_DATA,
+export const setProfileSettings = (payload: IProfile) => ({
+  type: constants.SET_PROFILE_SETTINGS,
   payload,
 });
 

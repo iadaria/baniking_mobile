@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useRef, useState, RefObject, useEffect } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
+import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
 
@@ -149,7 +149,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       setTimeout(() => {
         scrollView?.current?.scrollTo({
           x: 0,
-          y: yCoordinate! - 100,
+          y: yCoordinate! - SCROLL_OFFSET_TOP,
           animated: true,
         });
       }, delay);

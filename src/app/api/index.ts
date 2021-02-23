@@ -12,7 +12,7 @@ const pubFetch = axios.create();
 const privFetch = axios.create();
 
 export const tokenToHeaders = (token: string) => {
-  // privFetch.defaults.headers.get.Authorization = `Bearer ${token}`;
+  privFetch.defaults.headers.get.Authorization = `Bearer ${token}`;
   privFetch.defaults.headers.post.Authorization = `Bearer ${token}`;
   privFetch.defaults.headers.put.Authorization = `Bearer ${token}`;
 };
@@ -57,4 +57,4 @@ export const methods = {
 
 // for debugger
 /* eslint-disable no-undef */
-GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;

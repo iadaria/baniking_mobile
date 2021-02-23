@@ -43,7 +43,7 @@ export enum Role {
 export interface IUserAuth {
   name: string;
   email?: string;
-  role: Role;
+  role?: Role;
   token: string;
 }
 

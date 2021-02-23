@@ -32,7 +32,7 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
     const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
     // const token = 'lkjlkjlkj';
 
-    tokenToHeaders(token);
+    yield tokenToHeaders(token);
 
     if (persist) {
       yield put(setPersistToken(token));

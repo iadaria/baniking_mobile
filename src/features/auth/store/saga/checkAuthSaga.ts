@@ -10,7 +10,7 @@ function* checkAuthSaga() {
   const token = yield select((state: IRootState) => state.persist.token);
   console.log('[checkAuthSaga] token = ', token);
   if (token) {
-    tokenToHeaders(token);
+    yield tokenToHeaders(token);
     yield put(setAuthToken(token));
   }
 
