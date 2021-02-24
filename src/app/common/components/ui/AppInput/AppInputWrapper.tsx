@@ -14,6 +14,7 @@ interface IProps<T> {
   props: IAppInputProps<T>;
   secure?: boolean;
   children: JSX.Element;
+  color?: string;
 }
 
 export const AppInputWrapper = <T extends {}>({
@@ -22,6 +23,7 @@ export const AppInputWrapper = <T extends {}>({
   setToggleSecure,
   props,
   secure,
+  color,
   children,
 }: IProps<T>): JSX.Element => {
   return (
@@ -31,6 +33,7 @@ export const AppInputWrapper = <T extends {}>({
       <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
       <AppInputError
         error={props.error}
+        color={color}
         isFocused={states.isFocused}
         isTouched={props.touched || states.isTouched}
         isVirgin={states.isVirgin}

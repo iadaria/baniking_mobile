@@ -1,7 +1,7 @@
 import { Options } from 'react-native-image-crop-picker';
 
 export const imageOptions: Options = {
-  width: 300,
+  width: 400,
   height: 400,
   //width: 1024,
   //height: 1024,

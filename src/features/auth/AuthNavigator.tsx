@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RegisterScreen, LoginScreen, RecoveryScreen } from './screens';
+import { BaseSettingsScreen } from '~/src/features/settings/screens';
 // import RecoveryScreen from './screens/RecoveryScreen/RecoveryScreen';
 
 //import ValidatedScreen from './screens/ValidatedScreen/ValidatedScreen';
@@ -10,6 +11,7 @@ export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
     <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="RegisterScreen">
+      {/* <Auth.Screen name="Screen" component={BaseSettingsScreen} /> */}
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />
       <Auth.Screen name="RecoveryScreen" component={RecoveryScreen} />

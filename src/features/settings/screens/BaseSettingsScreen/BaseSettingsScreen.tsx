@@ -7,19 +7,24 @@ import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPe
 import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import { Sex } from '~/src/app/models/profile';
 import { styles } from './styles';
-import { AvatarIcon, FemaleIcon, MaleIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { AvatarIcon } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
 import { ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 import { imageOptions } from './imageOptions';
 import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { AvatarMenu } from './AvatarMenu';
+import { sendProfileSettings as sendProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
+import ValidatedElements from '~/src/app/common/components/ValidatedElements';
+import { SexSwitch } from './SexSwitch';
+import { defaultBaseSettingsInputs } from '../contracts/baseSettingsInputs';
+import { KeyboardWrapper } from '../../../../app/common/components/KeyboardWrapper';
 
 interface IProps {
   logout: () => void;
   getProfileSettings: () => void;
   currentProfileSettings: IProfile | null;
+  loading: boolean;
 }
 
 interface IBaseSettingsForm {
@@ -32,26 +37,28 @@ interface IBaseSettingsForm {
   avatar: string;
 }
 
-function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IProps) {
+function BaseSettingsScreen({ getProfileSettings, currentProfileSettings, loading }: IProps) {
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
+  const valuesRef = React.useRef<Partial<IProfile>>(currentProfileSettings);
+  // const [defaultInput, setDefaultInputs] = useState(defaultBaseSettingsInputs);
 
   const { email, name, surname, middle_name, phone, birth_date, avatar } =
     (currentProfileSettings as Partial<IBaseSettingsForm>) || {};
 
   const [avatarImage, setAvatarImage] = useState(avatar || USER_IMAGE_PATH);
 
-  console.log('userImg', avatarImage);
-  console.log('[BaseSettingsScreen]', currentProfileSettings);
+  // sconsole.log('userImg', avatarImage);
+  // console.log('[BaseSettingsScreen]', currentProfileSettings);
 
   function handleSaveSettings(/* avatarImage: string */) {
-    
+    sendProfileSettingsAction({});
   }
 
   useEffect(() => {
-    console.log('[BaseSettingsScreen/useEffect] getProfileSettings()');
-    // getProfileSettings();
+    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()');
+    getProfileSettings();
   }, [getProfileSettings]);
 
   const takePhotoFromCamera = () => {
@@ -76,20 +83,37 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IPro
       });
   };
 
+  if (loading) {
+    return (
+      <Block full base>
+        <AppText>Loading...</AppText>
+      </Block>
+    );
+  }
+
   return (
-    <>
+    <KeyboardWrapper>
       <ScrollView
         ref={scrollViewRef}
         style={styles.scrollView}
         alwaysBounceHorizontal
-        //contentContainerStyle={styles.scrollViewContainer}
-      >
-        <Block full base>
+        contentContainerStyle={styles.scrollViewContainer}>
+        <ValidatedElements
+          // key={Number(recreate)}
+          initInputs={currentProfileSettings}
+          defaultInputs={defaultBaseSettingsInputs}
+          scrollView={scrollViewRef}
+          valuesRef={valuesRef}
+          nameForm="BaseSettings">
+          {/* <Block full base> */}
           <Block margin={[0, 0, 2]}>
             <AppText h1>Основные настройки</AppText>
           </Block>
+          {/* Test */}
+          <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={() => handleSaveSettings()}>
+            <AppText>Upload</AppText>
+          </TouchableOpacity>
           {/* Form */}
-
           <AppText style={styles.label} semibold>
             Фамилия
           </AppText>
@@ -99,12 +123,20 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IPro
             placeholder="Введите фамилию"
             value={surname}
             maxLength={50}
+            isScrollToFocused
           />
 
           <AppText style={styles.label} semibold>
             Имя
           </AppText>
-          <AppInput style={styles.input} id="name" placeholder="Введите имя" value={name} maxLength={50} />
+          <AppInput
+            style={styles.input}
+            id="name"
+            placeholder="Введите имя"
+            value={name}
+            maxLength={50}
+            isScrollToFocused
+          />
 
           <AppText style={styles.label} semibold>
             Отчество
@@ -128,32 +160,13 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IPro
             maxLength={50}
             number
             mask="[00]{.}[00]{.}[9900]"
+            isScrollToFocused
           />
 
           <AppText style={styles.label} semibold>
             Пол
           </AppText>
-          <Block margin={[0.6, 0, 1]} row>
-            <AppButton
-              style={[styles.sex, sex !== Sex.Male && styles.sexPassive]}
-              onPress={() => setSex(Sex.Male)}>
-              <MaleIcon />
-              <Block margin={[0, sizes.offset.between]} />
-              <AppText bold center>
-                Мужское
-              </AppText>
-            </AppButton>
-            <Block margin={[0, sizes.offset.between / 2]} />
-            <AppButton
-              style={[styles.sex, sex !== Sex.Female && styles.sexPassive]}
-              onPress={() => setSex(Sex.Female)}>
-              <FemaleIcon />
-              <Block margin={[0, sizes.offset.between]} />
-              <AppText bold center>
-                Женское
-              </AppText>
-            </AppButton>
-          </Block>
+          <SexSwitch sex={sex} setSex={setSex} />
 
           <AppText style={styles.label} semibold>
             Мобильный телефон
@@ -166,16 +179,19 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IPro
             maxLength={50}
             phone
             mask="+7([000])[000]-[00]-[00]"
+            isScrollToFocused
           />
 
           <AppText style={styles.label} semibold>
             Email
           </AppText>
-          <AppInput style={styles.input} id="email" placeholder="Введите email" value={email} maxLength={50} />
-
-          <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={() => handleSaveSettings(avatarImage)}>
-            <AppText>Upload</AppText>
-          </TouchableOpacity>
+          <AppInput // id="email"
+            style={styles.input}
+            editable={false}
+            placeholder="Введите email"
+            value={email}
+            maxLength={50}
+          />
 
           <AppText style={styles.label} semibold>
             Аватарка
@@ -194,16 +210,19 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings }: IPro
               Сохранить изменения
             </AppText>
           </AppButton>
-        </Block>
+          {/* </Block> */}
+        </ValidatedElements>
       </ScrollView>
-      {showMenu && (
-        <AvatarMenu
-          setShowMenu={setShowMenu}
-          takePhoto={takePhotoFromCamera}
-          choosePhoto={choosePhotoFromLibrary}
-        />
-      )}
-    </>
+      <>
+        {showMenu && (
+          <AvatarMenu
+            setShowMenu={setShowMenu}
+            takePhoto={takePhotoFromCamera}
+            choosePhoto={choosePhotoFromLibrary}
+          />
+        )}
+      </>
+    </KeyboardWrapper>
   );
 }
 
@@ -211,10 +230,12 @@ const BaseSettingsConnected = connect(
   ({ auth, profile }: IRootState) => ({
     authenticated: auth.authenticated,
     currentProfileSettings: profile.currentUserProfile,
+    loading: profile.loading,
   }),
   {
     logout: askLogoutAction,
     getProfileSettings: getProfileSettingsAction,
+    sendProfileSettings: sendProfileSettingsAction,
   },
 )(BaseSettingsScreen);
 
@@ -237,3 +258,16 @@ methods
   .uploadAvatar(data, null)
   .then((answer) => console.log(answer))
   .catch((e) => console.log(e)); */
+
+// useEffect(() => {
+//   if (currentProfileSettings) {
+//     const newDefaultInput = defaultInput;
+//     for (const key of Object.keys(defaultInput)) {
+//       if (currentProfileSettings.hasOwnProperty(key)) {
+//         newDefaultInput[key] = currentProfileSettings[key];
+//       }
+//     }
+//     setDefaultInputs({ ...defaultInput, ...newDefaultInput });
+//   }
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, []);

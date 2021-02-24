@@ -1,7 +1,6 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store, persistor } from '~/src/app/store';
-import { PersistGate } from 'redux-persist/integration/react';
+import React, { useEffect } from 'react';
+import store from '~/src/app/store';
+import { checkAuth } from '~/src/features/auth/store/authActions';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,18 +13,25 @@ import { appDefaultTheme } from './components/appDefaultTheme';
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
+  const initialize = async (): Promise<void> => {
+    // const { language } = await store.getState().persist;
+    // await i18next.init TOOD
+    // store.dispatch({ type: CHECK_AUTH });
+    store.dispatch(checkAuth());
+  };
+
+  useEffect(() => {
+    initialize();
+  }, []);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaProvider>
-          <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
-          <NavigationContainer theme={appDefaultTheme} ref={navigationRef}>
-            <MainNavigator />
-          </NavigationContainer>
-          {/* <ModalManager /> */}
-          <AppFlashMessage />
-        </SafeAreaProvider>
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider>
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      <NavigationContainer theme={appDefaultTheme} ref={navigationRef}>
+        <MainNavigator />
+      </NavigationContainer>
+      {/* <ModalManager /> */}
+      <AppFlashMessage />
+    </SafeAreaProvider>
   );
 }

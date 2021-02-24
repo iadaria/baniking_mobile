@@ -11,7 +11,7 @@ import { sizes } from '~/src/app/common/constants';
 import RegisterForm from './RegisterForm';
 import SoialLoginBlock from '../components/SoialLoginBlock';
 import { styles } from './styles';
-import { KeyboardWrapper } from '../components/KeyboardWrapper';
+import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;

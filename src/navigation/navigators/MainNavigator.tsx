@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
@@ -13,8 +13,6 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
 // import { UnauthScreen } from '~/src/features/auth/screens';
 import { appScreenOptions } from '../components/appScreenOptions';
-import store from '~/src/app/store';
-import { checkAuth } from '~/src/features/auth/store/authActions';
 
 interface IProps {
   isDrawerOpen: boolean;
@@ -32,17 +30,6 @@ interface IScreenOptionsProps {
 const Main = createStackNavigator();
 
 function MainNavigatorContainer({ authenticated, isDrawerOpen, isBackward, openDrawer, closeDrawer }: IProps) {
-  const initialize = async (): Promise<void> => {
-    // const { language } = await store.getState().persist;
-    // await i18next.init TOOD
-    // store.dispatch({ type: CHECK_AUTH });
-    store.dispatch(checkAuth());
-  };
-
-  useEffect(() => {
-    initialize();
-  }, []);
-
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
     openDrawer();

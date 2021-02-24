@@ -3,6 +3,7 @@ import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
+import { Block } from '../UI';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
@@ -11,6 +12,8 @@ interface IProps<T, V> {
   defaultInputs: T;
   scrollView?: React.RefObject<ScrollView>;
   valuesRef: MutableRefObject<V>;
+  nameForm?: string;
+  initInputs?: V;
 }
 
 const SCROLL_OFFSET_TOP = 150;
@@ -19,17 +22,35 @@ const SCROLL_MAX = 50;
 function ValidatedElements<T extends { [key: string]: IInput }, V>({
   children,
   defaultInputs,
+  initInputs,
   scrollView,
   valuesRef,
+  nameForm,
 }: IProps<T, V>): JSX.Element {
+  // const [initialized, setInitialized] = useState(initInputs ? false : true);
   const [inputs, setInputs] = useState<T>(defaultInputs);
   const [isErrors, setIsErrors] = useState<boolean>();
+  //const [isEqual, setIsEqual] = useState<boolean>(true);
   const _scrollView = useRef<ScrollView>(null);
   const inputRefs: RefObject<TextInput>[] = [];
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    // console.log('changed inputs', JSON.stringify(inputs, null, 4));
+    if (initInputs) {
+      const newDefaultInputs = defaultInputs;
+      for (const key of Object.keys(inputs)) {
+        if (initInputs.hasOwnProperty(key)) {
+          newDefaultInputs[key].value = initInputs[key] || '';
+        }
+      }
+      setInputs({ ...inputs, ...newDefaultInputs });
+      // setInitialized(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initInputs]);
+
+  useEffect(() => {
+    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -53,10 +74,12 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
 
     !_isErrors && _allRequired && setIsErrors(false);
-    /* console.log(
+
+    console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
-    ); */
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
 
@@ -158,10 +181,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
+      // console.log(child.type.name);
       if (isTextInput(child)) {
+        const { id, onFocus }: IAppInputProps<T> = child.props;
+        if (!id) {
+          return child;
+        } // add new
         const inputRef = React.createRef<TextInput>();
         inputRefs.push(inputRef);
-        const { id, onFocus }: IAppInputProps<T> = child.props;
 
         return React.cloneElement(child, {
           newRef: inputRef,
@@ -174,6 +201,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
             onFocus && onFocus(e);
             handleOnFocus(id);
           }, */
+          value: inputs[id].value,
           error: inputs[id].errorLabel,
           touched: Boolean(inputs[id].touched),
         });
@@ -182,7 +210,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
-          disabled: isErrors || isErrors === undefined,
+          disabled: isErrors || isErrors === undefined, // || (initInputs && isEqual),
           onPress: () => {
             handleSubmit();
             onPress();
@@ -240,3 +268,26 @@ export default ValidatedElements;
   // setIsErrors(false);
   console.log(`[ValidateElements/handleClean] inputs=${JSON.stringify(clearInputs, null, 2)}`);
 } */
+
+/*
+const _isEqual = (): boolean => {
+  let __isEqual = true;
+  Object.keys(inputs).map((key: keyof T) => {
+    if (
+      initInputs.hasOwnProperty(key) &&
+      initInputs[key]?.toString().toLowerCase() !== inputs[key].value.toString().toLowerCase()
+    ) {
+      __isEqual = false;
+    }
+  });
+  return __isEqual;
+}; */
+
+/* useEffect(() => {
+  if (initInputs) {
+    // Проверяем изменились ли деволтные данные
+    const _equal = _isEqual();
+    setIsEqual(_equal);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [initInputs, inputs]); */

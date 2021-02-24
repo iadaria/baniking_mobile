@@ -10,6 +10,7 @@ interface IProps<T> extends IUiText {
   isVirgin?: boolean;
   error?: string;
   id?: keyof T;
+  color?: string;
 }
 
 /** Как только пользователь начал исправлять значение, красная подсветка поля исчезает,
@@ -18,8 +19,8 @@ interface IProps<T> extends IUiText {
  */
 
 export default function AppInputError<T>(props: IProps<T>) {
-  const { error, isFocused, isTouched, isVirgin, id } = props;
-  const errorColor = { color: isFocused ? colors.primary : colors.error };
+  const { error, isFocused, isTouched, isVirgin, color /*  id */ } = props;
+  const errorColor = { color: isFocused ? color || colors.primary : colors.error };
 
   // console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
   // Не показывать ошибку если это первый вводй и поля еще ниразу не touched

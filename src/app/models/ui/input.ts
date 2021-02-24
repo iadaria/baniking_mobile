@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle } from 'react-native';
 
 export interface IAppInputProps<T> extends IUiInput {
-  id: keyof T; // id: keyof typeof defaultInputs;
+  id?: keyof T; // id: keyof typeof defaultInputs;
   error?: string;
   label?: string;
   touched?: boolean;

@@ -31,16 +31,16 @@ export const defaultProfileInputs: IProfileInputs = {
     value: '',
     require: false,
   },
-  sex: {
+  /* sex: {
     type: 'sex',
     value: false,
     require: true,
-  },
-  avatar: {
+  }, */
+  /* avatar: {
     type: 'avatar',
     value: '',
     require: false,
-  },
+  }, */
 };
 
 export interface IProfileInputs {

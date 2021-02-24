@@ -6,6 +6,12 @@ import { colors, sizes } from '~/src/app/common/constants';
 export const styles = StyleSheet.create({
   scrollView: {
     position: 'relative',
+    padding: wp(sizes.offset.base),
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  scrollViewContainer: {
+    paddingBottom: wp(20),
   },
   label: {
     textAlign: 'left',

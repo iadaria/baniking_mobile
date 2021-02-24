@@ -111,8 +111,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         states={states}
         setToggleSecure={setToggleSecure}
         toggleSecure={toggleSecure}
-        props={props}>
+        props={props}
+        color={style?.color as string}>
         <TextInputMask
+          ref={newRef}
           style={inputStyles}
           keyboardType={inputType}
           mask={mask}
@@ -136,6 +138,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       states={states}
       setToggleSecure={setToggleSecure}
       toggleSecure={toggleSecure}
+      color={style?.color as string}
       props={props}>
       <TextInput
         ref={newRef}
