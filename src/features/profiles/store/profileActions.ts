@@ -23,8 +23,8 @@ export const setProfileSettings = (payload: IProfile) => ({
   payload,
 });
 
-export const sendProfileData = (payload: IProfile) => ({
-  type: constants.SEND_PROFILE_DATA,
+export const sendProfileSettings = (payload: IProfile) => ({
+  type: constants.SEND_PROFILE_SETTINGS,
   payload,
 });
 

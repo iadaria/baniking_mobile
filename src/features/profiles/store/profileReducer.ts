@@ -41,14 +41,14 @@ export default function persistReducer(
         currentUserProfile: payload,
       };
 
-    case constants.SEND_PROFILE_DATA:
+    case constants.SEND_PROFILE_SETTINGS:
       return {
         ...state,
         loading: true,
         currentUserProfile: payload,
       };
 
-    case constants.GET_PROFILE_DATA_FAIL:
+    case constants.PROFILE_DATA_FAIL:
       return {
         ...state,
         loading: false,
