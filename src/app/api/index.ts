@@ -48,7 +48,7 @@ export const methods = {
   // User
   login: request('post', '/login', pubFetch),
   register: request('post', '/register', pubFetch),
-  recovery: request('post', '/passwords/reset', privFetch),
+  reset: request('post', '/passwords/reset', privFetch),
   // getCurrentUser: request('get', '/profile', privFetch),
   // Cabnet
   getProfile: request('get', '/profile', privFetch),

@@ -14,6 +14,7 @@ export default {
   authNavigator: {
     LoginScreen: 'LoginScreen',
     RegisterScreen: 'RegisterScreen',
+    ResetPasswordScreen: 'ResetPasswordScreen',
   },
   profileTab: {
     ProfileScreen: 'ProfileScreen',

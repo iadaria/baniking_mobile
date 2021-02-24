@@ -58,7 +58,7 @@ export default function authReducer(
         errors: payload,
       };
 
-    case constants.RECOVERY_PASSWORD:
+    case constants.RESET_PASSWORD:
       return {
         ...state,
         loading: true,
@@ -98,6 +98,13 @@ export default function authReducer(
         authenticated: false,
         token: null,
         currentUser: null,
+        loading: false,
+        errors: null,
+      };
+
+    case constants.AUTH_SUCCESS:
+      return {
+        ...state,
         loading: false,
         errors: null,
       };

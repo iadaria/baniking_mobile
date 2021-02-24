@@ -35,14 +35,18 @@ export const setAuthToken = (token: string) => ({
   payload: token,
 });
 
-export const recoveryPassword = (email: string) => ({
-  type: constants.RECOVERY_PASSWORD,
+export const resetPassword = (email: string) => ({
+  type: constants.RESET_PASSWORD,
   payload: email,
 });
 
 export const authFail = <I extends {}>(errors: Array<I> = []) => ({
   type: constants.AUTH_FAIL,
   payload: { errors },
+});
+
+export const authSuccess = () => ({
+  type: constants.AUTH_SUCCESS,
 });
 
 export const authLogout = () => ({

@@ -6,26 +6,28 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { connect } from 'react-redux';
-import { recoveryPassword as recoveryPasswordAction } from '~/src/features/auth/store/authActions';
+import { resetPassword as resetPasswordAction } from '~/src/features/auth/store/authActions';
 import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
+import routes from '~/src/navigation/helpers/routes';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  recoveryPassword: ({ provider }: ICredential) => void;
+  resetPassword: (email: string) => void;
 }
 
-const RecoveryFormContainer = ({ scrollViewRef, recoveryPassword }: IProps): JSX.Element => {
+const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword, navigation }: IProps): JSX.Element => {
   // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
   // Use ref because don't need rendering component
-  const valuesRef = React.useRef<Partial<ICredential>>({ email: ''});
+  const valuesRef = React.useRef<Partial<ICredential>>({ email: '' });
 
   const handleEmailLogin = () => {
     console.log('values1', valuesRef.current);
-    recoveryPassword({ ...valuesRef.current });
+    resetPassword(valuesRef?.current.email!);
+    navigation.navigate(routes.authNavigator.LoginScreen);
   };
 
   return (
@@ -54,13 +56,13 @@ const RecoveryFormContainer = ({ scrollViewRef, recoveryPassword }: IProps): JSX
   );
 };
 
-const RecoveryFormConnected = connect(
+const ResetPasswordFormConnected = connect(
   (/* state: IRootState */) => ({
     //
   }),
   {
-    recoveryPassword: recoveryPasswordAction,
+    resetPassword: resetPasswordAction,
   },
-)(RecoveryFormContainer);
+)(ResetPasswordFormContainer);
 
-export { RecoveryFormConnected as RecoveryForm };
+export { ResetPasswordFormConnected as ResetPasswordForm };

@@ -1,10 +1,10 @@
 import { showMessage } from 'react-native-flash-message';
-import { ForkEffect, takeLatest } from 'redux-saga/effects';
+import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { ICredential } from '~/src/app/models/user';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { authFail } from '../authActions';
-import { AUTH_FAIL, RECOVERY_PASSWORD } from '../authConstants';
+import { authFail, authSuccess } from '../authActions';
+import { RESET_PASSWORD } from '../authConstants';
 
 interface IAction {
   type: string;
@@ -15,9 +15,11 @@ interface IResult {
   token: string;
 }
 
-function* recoveryPasswordSaga({ payload: { email } }: IAction) {
+function* resetPasswordSaga({ payload: { email } }: IAction) {
   try {
-    const response = yield methods.recovery({ email }, null);
+    const response = yield methods.reset({ email }, null);
+    console.log('[Auth reset password] response = ', response);
+    yield put(authSuccess());
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
     let [errors, message] = getErrorStrings(e);
@@ -33,5 +35,5 @@ function* recoveryPasswordSaga({ payload: { email } }: IAction) {
 }
 
 export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
-  yield takeLatest(RECOVERY_PASSWORD, recoveryPasswordSaga);
+  yield takeLatest(RESET_PASSWORD, resetPasswordSaga);
 }

@@ -7,13 +7,13 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { AuthLogo } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
-import { RecoveryForm } from './RecoveryForm';
+import { ResetPasswordForm } from './ResetPasswordForm';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-export function RecoveryScreen({ navigation }: IProps) {
+export function ResetPasswordScreen({ navigation }: IProps) {
   const scrollViewRef = React.useRef<ScrollView>(null);
   return (
     <ScrollView
@@ -30,7 +30,7 @@ export function RecoveryScreen({ navigation }: IProps) {
         {/* Login Form */}
         <Block style={styles.list} full base white>
           {/* <LoginForm navigation={navigation} scrollViewRef={scrollViewRef} /> */}
-          <RecoveryForm navigation={navigation} scrollViewRef={scrollViewRef} />
+          <ResetPasswordForm navigation={navigation} scrollViewRef={scrollViewRef} />
           {/*  Social login block */}
 
           <Block margin={[2.4, 0, 0]} row middle debug>
