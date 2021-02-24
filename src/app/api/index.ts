@@ -52,6 +52,7 @@ export const methods = {
   // getCurrentUser: request('get', '/profile', privFetch),
   // Cabnet
   getProfile: request('get', '/profile', privFetch),
+  uploadAvatar: request('post', '/profile/avatar', privFetch),
   getCabinet: request('get', '/cabinet', privFetch),
 };
 

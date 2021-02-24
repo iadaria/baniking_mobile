@@ -33,6 +33,7 @@ export const colors = {
     disableEdit: '#333333',
     textDisable: '#171718',
     sexPassive: '#121213',
+    delete: '#DF4D4D',
   },
 
   profile: {

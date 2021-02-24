@@ -29,7 +29,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    console.log('changed inputs', JSON.stringify(inputs, null, 4));
+    // console.log('changed inputs', JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -53,10 +53,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
 
     !_isErrors && _allRequired && setIsErrors(false);
-    console.log(
+    /* console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
-    );
+    ); */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
 
@@ -143,7 +143,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   const handleOnFocusedScroll = (id: keyof T) => {
     const yCoordinate = inputs[id]?.yCoordinate;
-    console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}`);
+    // onsole.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}`);
     if (yCoordinate && yCoordinate > 100) {
       const delay = Platform.OS === 'ios' ? 1 : 150;
       setTimeout(() => {
@@ -178,7 +178,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           touched: Boolean(inputs[id].touched),
         });
       } else if (isButton(child)) {
-        console.log('[ValidatedElements/renderChildren', child.type.name);
+        // console.log('[ValidatedElements/renderChildren', child.type.name);
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,

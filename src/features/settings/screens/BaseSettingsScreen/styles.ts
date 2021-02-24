@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'react-native-reanimated';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { colors, sizes } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
+  scrollView: {
+    position: 'relative',
+  },
   label: {
     textAlign: 'left',
     fontSize: wp(sizes.text.label),
@@ -24,11 +28,44 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.button.sexPassive,
   },
   avatar: {
-    height: wp(sizes.avatar.height),
-    width: wp(sizes.avatar.height),
     alignSelf: 'flex-start',
+    marginTop: wp(0.9),
+    marginBottom: wp(7),
     borderRadius: 50,
     borderWidth: 1,
     borderColor: colors.profile.avatarBorder,
+  },
+  avatarImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: wp(sizes.avatar.height) - 1,
+    width: wp(sizes.avatar.height) - 1,
+    borderRadius: 50,
+    opacity: 0.8,
+  },
+  avatarCloseIcon: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: wp(4),
+  },
+  avatarMenu: {
+    position: 'absolute',
+    opacity: 0.85,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    paddingVertical: wp(sizes.offset.base),
+    backgroundColor: colors.primary,
+  },
+  avatarMenuItem: {
+    marginVertical: wp(0.5),
+    marginHorizontal: wp(sizes.offset.base),
+    backgroundColor: colors.buttonBeginning,
+    color: colors.primary,
+  },
+  delete: {
+    backgroundColor: colors.button.delete,
   },
 });

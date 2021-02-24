@@ -9,13 +9,9 @@ import {
   Keyboard,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
-import { Block } from '~/src/app/common/components/UI/Block';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors } from '~/src/app/common/constants';
 import { IAppInputProps } from '~/src/app/models/ui';
-import AppInputError from './AppInputError';
-import AppInputLabel from './AppInputLabel';
 import { AppInputWrapper } from './AppInputWrapper';
-import { AppSecure } from './AppSecure';
 import { styles } from './styles';
 
 export interface IAppInputStates extends TextInputProps {
@@ -49,7 +45,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isScrollToFocused,
     onFocusedScroll,
     //native
-    onLayout,
+    // onLayout,
     onBlur,
     onFocus,
     secure,

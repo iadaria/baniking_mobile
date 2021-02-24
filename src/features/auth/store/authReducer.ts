@@ -96,6 +96,7 @@ export default function authReducer(
       return {
         ...state,
         authenticated: false,
+        token: null,
         currentUser: null,
         loading: false,
         errors: null,
