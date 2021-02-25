@@ -82,7 +82,7 @@ function ProfileScreenContainer({
   }, [currentProfileSettings, initProfileInputs]);
 
   useEffect(() => {
-    console.log('[ProfileScreen/useEffect] avatarImage=', avatarImage);
+    // console.log('[ProfileScreen/useEffect] avatarImage=', avatarImage);
   }, [avatarImage]); // del
 
   if (loading) {

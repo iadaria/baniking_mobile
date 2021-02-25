@@ -6,6 +6,7 @@ import { CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
 import { IUploadAvatar, TAcceptTypeAvatar } from '~/src/app/models/profile';
 import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
+import { Image } from 'react-native-image-crop-picker';
 
 interface IProps {
   setShowMenu: (state: boolean) => void;
@@ -15,20 +16,10 @@ interface IProps {
 }
 
 export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
-
   async function takePhoto() {
     try {
       const image = await takePhotoFromCamera();
-      image &&
-        setAvatarImage({
-          file: image.path,
-          height: image.cropRect?.height!,
-          width: image.cropRect?.width!,
-          top: image.cropRect?.y!,
-          left: image.cropRect?.x!,
-          mime: image.mime as TAcceptTypeAvatar,
-          size: image.size,
-        });
+      updateAvatarState(image);
     } catch (e) {
       console.log(e);
     }
@@ -39,21 +30,23 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
     try {
       const image = await choosePhotoFromLibrary();
       console.log('photo', image);
-      image &&
-        setAvatarImage({
-          file: image.path,
-          height: image.cropRect?.height!,
-          width: image.cropRect?.width!,
-          top: image.cropRect?.y!,
-          left: image.cropRect?.x!,
-          mime: image.mime as TAcceptTypeAvatar,
-          size: image.size,
-        });
+      updateAvatarState(image);
     } catch (e) {
       console.log(e);
     }
     setShowMenu(false);
   }
+
+  const updateAvatarState = (image: Image) =>
+    setAvatarImage({
+      file: image.path,
+      height: image.cropRect?.height!,
+      width: image.cropRect?.width!,
+      top: image.cropRect?.x!,
+      left: image.cropRect?.y!,
+      mime: image.mime as TAcceptTypeAvatar,
+      size: image.size,
+    });
 
   return (
     <Block style={styles.avatarMenu}>

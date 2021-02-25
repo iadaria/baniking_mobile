@@ -8,6 +8,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { ICredential } from '~/src/app/models/user';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
+import i18next from 'i18next';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
@@ -48,7 +49,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-          Регистрация
+          {i18next.t('Surname')}
         </AppText>
         <AuthLogoRight />
       </Block>

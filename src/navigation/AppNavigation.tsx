@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import store from '~/src/app/store';
+import { initLanguage } from '~/src/i18n';
 import { checkAuth } from '~/src/features/auth/store/authActions';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
@@ -17,6 +18,7 @@ export default function AppNavigation() {
     // const { language } = await store.getState().persist;
     // await i18next.init TOOD
     // store.dispatch({ type: CHECK_AUTH });
+    await initLanguage();
     store.dispatch(checkAuth());
   };
 
