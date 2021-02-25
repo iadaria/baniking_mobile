@@ -35,7 +35,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    // console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -214,79 +214,3 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 }
 
 export default ValidatedElements;
-
-/* const handleOnBlur = (id: keyof T) => {
-  const yCoordinate = inputs[id]?.yCoordinate;
-  console.log(
-    `[ValidateElements/handleOnBlur] id=${id} yCoordinate=${yCoordinate} scrollView.current=${scrollView?.current}`,
-  );
-  if (yCoordinate && yCoordinate > 140) {
-    console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate} should be scroll`);
-    scrollView?.current?.scrollTo({
-      x: 1,
-      y: yCoordinate! + 30,
-      animated: true,
-    });
-  }
-}; */
-
-/*   function handleClean() {
-  // Clear text inputs
-  console.log(`* begin cleaning *`);
-  let clearInputs = inputs;
-  inputRefs.map((inputRef: RefObject<TextInput>) => inputRef.current?.clear());
-  for (const key of Object.keys(inputs)) {
-    clearInputs = {
-      ...clearInputs,
-      [key]: {
-        type: inputs[key].type,
-        value: '',
-        touched: false,
-        virgin: true,
-      },
-    };
-  }
-  setInputs({
-    ...inputs,
-    ...clearInputs,
-  });
-  // setIsErrors(false);
-  console.log(`[ValidateElements/handleClean] inputs=${JSON.stringify(clearInputs, null, 2)}`);
-} */
-
-/*
-const _isEqual = (): boolean => {
-  let __isEqual = true;
-  Object.keys(inputs).map((key: keyof T) => {
-    if (
-      initInputs.hasOwnProperty(key) &&
-      initInputs[key]?.toString().toLowerCase() !== inputs[key].value.toString().toLowerCase()
-    ) {
-      __isEqual = false;
-    }
-  });
-  return __isEqual;
-}; */
-
-/* useEffect(() => {
-  if (initInputs) {
-    // Проверяем изменились ли деволтные данные
-    const _equal = _isEqual();
-    setIsEqual(_equal);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [initInputs, inputs]); */
-
-/* useEffect(() => {
-    if (initInputs) {
-      const newDefaultInputs = defaultInputs;
-      for (const key of Object.keys(inputs)) {
-        if (initInputs.hasOwnProperty(key)) {
-          newDefaultInputs[key].value = initInputs[key] || '';
-        }
-      }
-      setInputs({ ...inputs, ...newDefaultInputs });
-      // setInitialized(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initInputs]); */

@@ -24,7 +24,6 @@ export const setProfileSettings = (payload: IProfile) => ({
 });
 
 export const initProfileInputs = (payload: IProfile) => {
-  console.log('********* Initprofile inputs with payload', payload);
   return {
     type: constants.INIT_PROFILE_INPUTS,
     payload,

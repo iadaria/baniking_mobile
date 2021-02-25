@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
-import ImagePicker from 'react-native-image-crop-picker';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
@@ -13,16 +12,16 @@ import { styles } from './styles';
 import { AvatarIcon } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
-import { ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
-import { imageOptions } from './imageOptions';
+import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { AvatarMenu } from './AvatarMenu';
 import { sendProfileSettings as sendProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { SexSwitch } from './SexSwitch';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
-import { delay } from 'redux-saga/effects';
 import { IProfileInputs } from '../contracts/profileInputs';
+import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
+import { colors } from '~/src/app/common/constants/colors';
 
 interface IProps {
   logout: () => void;
@@ -54,63 +53,34 @@ function ProfileScreenContainer({
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfileSettings);
+  const [avatarImage, setAvatarImage] = useState(USER_IMAGE_PATH);
 
-  // const [defaultInput, setDefaultInputs] = useState(defaultBaseSettingsInputs);
-
-  const { email, name, surname, middle_name, phone, birth_date, avatar } =
-    (currentProfileSettings as Partial<IProfileForm>) || {};
-
-  const [avatarImage, setAvatarImage] = useState(avatar || USER_IMAGE_PATH);
+  const { email } = currentProfileSettings || {};
 
   function handleSaveSettings(/* avatarImage: string */) {
     sendProfileSettingsAction({});
   }
 
-  useEffect(
-    () => {
-      console.log('[BaseSettingsScreen/useEffect] getProfileSettings()');
-      getProfileSettings();
-      delay(8000);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      /* currentProfileSettings, getProfileSettings */
-    ],
-  );
+  useEffect(() => {
+    console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
+    getProfileSettings();
+  }, [getProfileSettings]);
 
   useEffect(() => {
-    console.log('currentProfileSettings', currentProfileSettings);
     if (currentProfileSettings) {
       initProfileInputs(currentProfileSettings);
+      setAvatarImage(currentProfileSettings.avatar);
     }
   }, [currentProfileSettings, initProfileInputs]);
 
-  const takePhotoFromCamera = () => {
-    ImagePicker.openCamera(imageOptions)
-      .then((image) => {
-        console.log(image);
-        setAvatarImage(image.path);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const choosePhotoFromLibrary = () => {
-    ImagePicker.openPicker(imageOptions)
-      .then((image) => {
-        console.log(image);
-        setAvatarImage(image.path);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  useEffect(() => {
+    console.log('[ProfileScreen/useEffect]', avatarImage);
+  }, [avatarImage]); // del
 
   if (loading) {
     return (
-      <Block full base>
-        <AppText>Loading...</AppText>
+      <Block full center middle>
+        <ActivityIndicator size="small" color={colors.secondary} />
       </Block>
     );
   }
@@ -145,7 +115,6 @@ function ProfileScreenContainer({
             style={styles.input}
             id="surname"
             placeholder="Введите фамилию"
-            value={surname}
             maxLength={50}
             isScrollToFocused
           />
@@ -153,25 +122,12 @@ function ProfileScreenContainer({
           <AppText style={styles.label} semibold>
             Имя
           </AppText>
-          <AppInput
-            style={styles.input}
-            id="name"
-            placeholder="Введите имя"
-            value={name}
-            maxLength={50}
-            isScrollToFocused
-          />
+          <AppInput style={styles.input} id="name" placeholder="Введите имя" maxLength={50} isScrollToFocused />
 
           <AppText style={styles.label} semibold>
             Отчество
           </AppText>
-          <AppInput
-            style={styles.input}
-            id="middle_name"
-            placeholder="Введите отчество"
-            value={middle_name}
-            maxLength={50}
-          />
+          <AppInput style={styles.input} id="middle_name" placeholder="Введите отчество" maxLength={50} />
 
           <AppText style={styles.label} semibold>
             Дата рождения
@@ -180,7 +136,6 @@ function ProfileScreenContainer({
             style={styles.input}
             id="birth_date"
             placeholder="ДД/ММ/ГГГГ"
-            value={birth_date}
             maxLength={50}
             number
             mask="[00]{.}[00]{.}[9900]"
@@ -199,7 +154,6 @@ function ProfileScreenContainer({
             style={styles.input}
             id="phone"
             placeholder="+7(___)___-__-__"
-            value={phone}
             maxLength={50}
             phone
             mask="+7([000])[000]-[00]-[00]"
@@ -234,15 +188,23 @@ function ProfileScreenContainer({
               Сохранить изменения
             </AppText>
           </AppButton>
-          {/* </Block> */}
         </ValidatedElements>
       </ScrollView>
       <>
         {showMenu && (
           <AvatarMenu
             setShowMenu={setShowMenu}
-            takePhoto={takePhotoFromCamera}
-            choosePhoto={choosePhotoFromLibrary}
+            takePhoto={async () => {
+              const image = await takePhotoFromCamera();
+              setAvatarImage(image?.path || USER_IMAGE_PATH);
+              setShowMenu(false);
+            }}
+            choosePhoto={async () => {
+              const image = await choosePhotoFromLibrary();
+              setAvatarImage(image?.path || USER_IMAGE_PATH);
+              console.log('image', image);
+              setShowMenu(false);
+            }}
           />
         )}
       </>
@@ -284,16 +246,3 @@ methods
   .uploadAvatar(data, null)
   .then((answer) => console.log(answer))
   .catch((e) => console.log(e)); */
-
-// useEffect(() => {
-//   if (currentProfileSettings) {
-//     const newDefaultInput = defaultInput;
-//     for (const key of Object.keys(defaultInput)) {
-//       if (currentProfileSettings.hasOwnProperty(key)) {
-//         newDefaultInput[key] = currentProfileSettings[key];
-//       }
-//     }
-//     setDefaultInputs({ ...defaultInput, ...newDefaultInput });
-//   }
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, []);
