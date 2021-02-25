@@ -34,3 +34,16 @@ export function getValidatedInput({ input, value, touched }: InputValidationStat
     touched: touched, //|| input.touched,
   };
 }
+
+export function initInputs<T extends { [key: string]: IInput }, V extends { [key: string]: any }>(
+  defaultInit: T,
+  values: V,
+) {
+  const newInput = defaultInit;
+  for (const key of Object.keys(defaultInit)) {
+    if (values.hasOwnProperty(key)) {
+      newInput[key].value = values[key];
+    }
+  }
+  return newInput;
+}

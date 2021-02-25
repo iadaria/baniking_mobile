@@ -3,7 +3,6 @@ import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
-import { Block } from '../UI';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
@@ -22,7 +21,7 @@ const SCROLL_MAX = 50;
 function ValidatedElements<T extends { [key: string]: IInput }, V>({
   children,
   defaultInputs,
-  initInputs,
+  // initInputs,
   scrollView,
   valuesRef,
   nameForm,
@@ -34,20 +33,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const _scrollView = useRef<ScrollView>(null);
   const inputRefs: RefObject<TextInput>[] = [];
   const buttonRef = useRef<TouchableOpacity>();
-
-  useEffect(() => {
-    if (initInputs) {
-      const newDefaultInputs = defaultInputs;
-      for (const key of Object.keys(inputs)) {
-        if (initInputs.hasOwnProperty(key)) {
-          newDefaultInputs[key].value = initInputs[key] || '';
-        }
-      }
-      setInputs({ ...inputs, ...newDefaultInputs });
-      // setInitialized(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initInputs]);
 
   useEffect(() => {
     console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
@@ -291,3 +276,17 @@ const _isEqual = (): boolean => {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [initInputs, inputs]); */
+
+/* useEffect(() => {
+    if (initInputs) {
+      const newDefaultInputs = defaultInputs;
+      for (const key of Object.keys(inputs)) {
+        if (initInputs.hasOwnProperty(key)) {
+          newDefaultInputs[key].value = initInputs[key] || '';
+        }
+      }
+      setInputs({ ...inputs, ...newDefaultInputs });
+      // setInitialized(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initInputs]); */

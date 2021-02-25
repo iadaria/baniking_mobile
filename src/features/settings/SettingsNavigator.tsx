@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import {
   SettingsMenuScreen,
-  BaseSettingsScreen,
+  // BaseSettingsScreen,
   SafeScreen,
   NotificationsScreen,
   RulesScreen,
@@ -11,6 +11,7 @@ import {
 } from './screens';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { useBackward } from '../../app/hooks/useBackward';
+import { ProfileScreen } from '../profiles/screens';
 
 interface IScreenOptionsProps {
   route: Route<string, object | undefined>;
@@ -27,8 +28,9 @@ export default function SettingsNavigator({ navigation, route }: IScreenOptionsP
       screenOptions={{ headerShown: false }}
       //initialRouteName="SettingsMenuScreen">
       initialRouteName="BaseSettingsScreen">
+      <Settings.Screen name="ProfileScreen" component={ProfileScreen} />
       <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
-      <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} />
+      {/* <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} /> */}
       <Settings.Screen name="SafeScreen" component={SafeScreen} />
       <Settings.Screen name="NotificationsScreen" component={NotificationsScreen} />
       <Settings.Screen name="RulesScreen" component={RulesScreen} />

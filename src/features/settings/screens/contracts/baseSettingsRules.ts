@@ -1,8 +1,8 @@
 import { IInput } from '~/src/app/models/validate';
 
-export const defaultBaseSettingsInputs: IDefaultBaseSettingsInputs = {
+export const defaultBaseSettingsInputs: IBaseSettingsInputs = {
   name: {
-    type: 'password',
+    type: 'name',
     value: '',
     require: true,
   },
@@ -33,7 +33,7 @@ export const defaultBaseSettingsInputs: IDefaultBaseSettingsInputs = {
   },
 };
 
-export interface IDefaultBaseSettingsInputs {
+export interface IBaseSettingsInputs {
   name: IInput;
   surname: IInput;
   middle_name: IInput;

@@ -20,7 +20,7 @@ export function SettingsMenuScreen({ navigation }: IProps) {
       <Block margin={[3, 0]}>
         <TouchableOpacity
           style={styles.item}
-          onPress={() => navigation.navigate(routes.settingsTab.BaseSettingsScreen)}>
+          onPress={() => navigation.navigate(routes.settingsTab.ProfileScreen)}>
           <AppText>Основные настройки</AppText>
           <MenuItem />
         </TouchableOpacity>

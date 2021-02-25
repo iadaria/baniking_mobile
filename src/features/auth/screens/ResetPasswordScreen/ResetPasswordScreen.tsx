@@ -3,10 +3,10 @@ import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 // import SocialLogin from './components/SocialLogin';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+// import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { AuthLogo } from '~/src/assets';
-import { colors, sizes } from '~/src/app/common/constants';
+import { sizes } from '~/src/app/common/constants';
 import { ResetPasswordForm } from './ResetPasswordForm';
 
 interface IProps {

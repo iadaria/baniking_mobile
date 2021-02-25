@@ -1,5 +1,5 @@
 export { SettingsMenuScreen } from './SettingsMenuScreen';
-export { BaseSettingsScreen } from './BaseSettingsScreen/BaseSettingsScreen';
+// export { BaseSettingsScreen } from './BaseSettingsScreen/BaseSettingsScreen';
 export { SafeScreen } from './SafeScreen';
 export { NotificationsScreen } from './NotificationsScreen';
 export { RulesScreen } from './RulesScreen';

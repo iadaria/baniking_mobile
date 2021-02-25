@@ -1,4 +1,6 @@
 import { ICabinet, IProfile } from '~/src/app/models/profile';
+import { initInputs } from '~/src/app/utils/validate';
+import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
 
 export interface IProfileState {
@@ -10,6 +12,11 @@ export interface IProfileState {
   currentUserCabinet: ICabinet | null;
   selectedUserProfile: IProfile | null;
   selectedUserCabinet: ICabinet | null;
+  inputs: IInputs;
+}
+
+interface IInputs {
+  settings: IProfileInputs;
 }
 
 const initialState: IProfileState = {
@@ -20,6 +27,9 @@ const initialState: IProfileState = {
   currentUserCabinet: null,
   selectedUserProfile: null,
   selectedUserCabinet: null,
+  inputs: {
+    settings: defaultProfileInputs,
+  },
 };
 
 export default function persistReducer(
@@ -39,6 +49,14 @@ export default function persistReducer(
         ...state,
         loading: false,
         currentUserProfile: payload,
+      };
+
+    case constants.INIT_PROFILE_INPUTS:
+      return {
+        ...state,
+        inputs: {
+          settings: { ...initInputs(state.inputs.settings, payload) },
+        },
       };
 
     case constants.SEND_PROFILE_SETTINGS:

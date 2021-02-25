@@ -17,13 +17,15 @@ export default {
     ResetPasswordScreen: 'ResetPasswordScreen',
   },
   profileTab: {
-    ProfileScreen: 'ProfileScreen',
+    // ProfileScreen: 'ProfileScreen',
+    CabinetScreen: 'CabinetScreen',
   },
   bathesTab: {
     firstScreen: 'FirstScreen',
   },
   settingsTab: {
-    BaseSettingsScreen: 'BaseSettingsScreen',
+    // BaseSettingsScreen: 'BaseSettingsScreen',
+    ProfileScreen: 'ProfileScreen',
     SafeScreen: 'SafeScreen',
     NotificationsScreen: 'NotificationsScreen',
     RulesScreen: 'RulesScreen',

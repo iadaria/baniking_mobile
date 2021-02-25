@@ -23,6 +23,14 @@ export const setProfileSettings = (payload: IProfile) => ({
   payload,
 });
 
+export const initProfileInputs = (payload: IProfile) => {
+  console.log('********* Initprofile inputs with payload', payload);
+  return {
+    type: constants.INIT_PROFILE_INPUTS,
+    payload,
+  };
+};
+
 export const sendProfileSettings = (payload: IProfile) => ({
   type: constants.SEND_PROFILE_SETTINGS,
   payload,

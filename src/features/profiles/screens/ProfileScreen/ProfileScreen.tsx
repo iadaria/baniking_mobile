@@ -4,7 +4,10 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
-import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
+import {
+  getProfileSettings as getProfileSettingsAction,
+  initProfileInputs as initProfileInputsAction,
+} from '~/src/features/profiles/store/profileActions';
 import { Sex } from '~/src/app/models/profile';
 import { styles } from './styles';
 import { AvatarIcon } from '~/src/assets';
@@ -17,17 +20,20 @@ import { AvatarMenu } from './AvatarMenu';
 import { sendProfileSettings as sendProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { SexSwitch } from './SexSwitch';
-import { defaultBaseSettingsInputs } from '../contracts/baseSettingsInputs';
-import { KeyboardWrapper } from '../../../../app/common/components/KeyboardWrapper';
+import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
+import { delay } from 'redux-saga/effects';
+import { IProfileInputs } from '../contracts/profileInputs';
 
 interface IProps {
   logout: () => void;
   getProfileSettings: () => void;
   currentProfileSettings: IProfile | null;
   loading: boolean;
+  initProfileInputs: (profileSettings: IProfile) => void;
+  defaultProfileInputs: IProfileInputs;
 }
 
-interface IBaseSettingsForm {
+interface IProfileForm {
   email: string;
   name: string;
   surname: string;
@@ -37,29 +43,47 @@ interface IBaseSettingsForm {
   avatar: string;
 }
 
-function BaseSettingsScreen({ getProfileSettings, currentProfileSettings, loading }: IProps) {
+function ProfileScreenContainer({
+  getProfileSettings,
+  currentProfileSettings,
+  loading,
+  initProfileInputs,
+  defaultProfileInputs,
+}: IProps) {
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfileSettings);
+
   // const [defaultInput, setDefaultInputs] = useState(defaultBaseSettingsInputs);
 
   const { email, name, surname, middle_name, phone, birth_date, avatar } =
-    (currentProfileSettings as Partial<IBaseSettingsForm>) || {};
+    (currentProfileSettings as Partial<IProfileForm>) || {};
 
   const [avatarImage, setAvatarImage] = useState(avatar || USER_IMAGE_PATH);
-
-  // sconsole.log('userImg', avatarImage);
-  // console.log('[BaseSettingsScreen]', currentProfileSettings);
 
   function handleSaveSettings(/* avatarImage: string */) {
     sendProfileSettingsAction({});
   }
 
+  useEffect(
+    () => {
+      console.log('[BaseSettingsScreen/useEffect] getProfileSettings()');
+      getProfileSettings();
+      delay(8000);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      /* currentProfileSettings, getProfileSettings */
+    ],
+  );
+
   useEffect(() => {
-    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()');
-    getProfileSettings();
-  }, [getProfileSettings]);
+    console.log('currentProfileSettings', currentProfileSettings);
+    if (currentProfileSettings) {
+      initProfileInputs(currentProfileSettings);
+    }
+  }, [currentProfileSettings, initProfileInputs]);
 
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera(imageOptions)
@@ -101,7 +125,7 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings, loadin
         <ValidatedElements
           // key={Number(recreate)}
           initInputs={currentProfileSettings}
-          defaultInputs={defaultBaseSettingsInputs}
+          defaultInputs={defaultProfileInputs}
           scrollView={scrollViewRef}
           valuesRef={valuesRef}
           nameForm="BaseSettings">
@@ -226,20 +250,22 @@ function BaseSettingsScreen({ getProfileSettings, currentProfileSettings, loadin
   );
 }
 
-const BaseSettingsConnected = connect(
+const ProfileConnected = connect(
   ({ auth, profile }: IRootState) => ({
     authenticated: auth.authenticated,
     currentProfileSettings: profile.currentUserProfile,
     loading: profile.loading,
+    defaultProfileInputs: profile.inputs.settings,
   }),
   {
     logout: askLogoutAction,
     getProfileSettings: getProfileSettingsAction,
     sendProfileSettings: sendProfileSettingsAction,
+    initProfileInputs: initProfileInputsAction,
   },
-)(BaseSettingsScreen);
+)(ProfileScreenContainer);
 
-export { BaseSettingsConnected as BaseSettingsScreen };
+export { ProfileConnected as ProfileScreen };
 
 /* const data = new FormData();
 const coordinates = {

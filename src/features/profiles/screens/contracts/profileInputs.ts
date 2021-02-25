@@ -48,9 +48,9 @@ export interface IProfileInputs {
   name: IInput;
   middle_name: IInput;
   birth_date: IInput;
-  sex: IInput;
+  // sex: IInput;
   phone: IInput;
   email: IInput;
-  avatar: IInput;
+  // avatar: IInput;
   [key: string]: IInput;
 }
