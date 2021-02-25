@@ -1,9 +1,11 @@
 import { IUploadAvatar } from '~/src/app/models/profile';
-import { takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { UPLOAD_AVATAR } from '../profileConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { methods } from '~/src/app/api/index';
+import { appPatterns } from '~/src/app/common/constants/common';
+import { uploadAvatarFail } from '../profileActions';
 
 interface IAction {
   type: string;
@@ -12,23 +14,28 @@ interface IAction {
 
 function* uploadAvatarSaga({ payload }: IAction) {
   try {
-    // const { file, ...otherData } = payload;
-    const data = new FormData();
-    data.append('file', {
+    const formData = new FormData();
+    formData.append('file', {
       uri: payload.file,
-      name: ''
+      name: payload.file.replace(appPatterns.filename, ''),
+      type: payload.mime,
     });
-    data.append('width', payload.width);
-    data.append('height', payload.height);
-    data.append('top', payload.top);
-    data.append('left', payload.left);
+    formData.append('width', payload.width);
+    formData.append('height', payload.height);
+    formData.append('top', payload.left);
+    formData.append('left', payload.top);
 
-    const result = methods.uploadAvatar(data, null);
-    console.log('[uploadAvatarSaga]/result = ', result);
+    const result = yield methods.uploadAvatar(formData, null, {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    console.log(result);
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 
     let [errors, message] = getErrorStrings(e);
+
+    yield put(uploadAvatarFail(errors));
+
     console.log([errors, message]);
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 

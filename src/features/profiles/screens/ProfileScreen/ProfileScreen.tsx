@@ -33,16 +33,6 @@ interface IProps {
   uploadAvatar: (file: IUploadAvatar) => void;
 }
 
-interface IProfileForm {
-  email: string;
-  name: string;
-  surname: string;
-  middle_name: string;
-  phone: string;
-  birth_date: string;
-  avatar: string;
-}
-
 function ProfileScreenContainer({
   getProfileSettings,
   currentProfileSettings,
@@ -61,6 +51,8 @@ function ProfileScreenContainer({
     height: 0,
     top: 0,
     left: 0,
+    mime: 'image/jpeg',
+    size: 1000,
   });
 
   const { email } = currentProfileSettings || {};
@@ -70,7 +62,7 @@ function ProfileScreenContainer({
   }
 
   useEffect(() => {
-    console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
+    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
     getProfileSettings();
   }, [getProfileSettings]);
 

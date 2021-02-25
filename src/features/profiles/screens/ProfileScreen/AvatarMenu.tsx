@@ -4,7 +4,7 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
-import { IUploadAvatar } from '~/src/app/models/profile';
+import { IUploadAvatar, TAcceptTypeAvatar } from '~/src/app/models/profile';
 import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
 
 interface IProps {
@@ -26,6 +26,8 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
           width: image.cropRect?.width!,
           top: image.cropRect?.y!,
           left: image.cropRect?.x!,
+          mime: image.mime as TAcceptTypeAvatar,
+          size: image.size,
         });
     } catch (e) {
       console.log(e);
@@ -44,6 +46,8 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
           width: image.cropRect?.width!,
           top: image.cropRect?.y!,
           left: image.cropRect?.x!,
+          mime: image.mime as TAcceptTypeAvatar,
+          size: image.size,
         });
     } catch (e) {
       console.log(e);

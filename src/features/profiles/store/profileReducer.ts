@@ -82,6 +82,16 @@ export default function persistReducer(
         errors: payload,
       };
 
+    case constants.UPLOAD_AVATAR_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: {
+          ...state.errors,
+          avatar: payload,
+        },
+      };
+
     case constants.SET_AVATAR:
       return {
         ...state,
@@ -99,7 +109,7 @@ export default function persistReducer(
     case constants.UPLOAD_AVATAR:
       return {
         ...state,
-        loading: true,
+        loading: false,
         errors: {
           ...state.errors,
           avatar: [],

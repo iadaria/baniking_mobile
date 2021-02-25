@@ -41,6 +41,11 @@ export const sendProfileSettings = (payload: IProfile) => ({
   payload,
 });
 
+export const uploadAvatarFail = (payload: string[]) => ({
+  type: constants.UPLOAD_AVATAR_FAIL,
+  payload,
+});
+
 /* export const uploadAvatar = (payload: UploadAvatar) => ({
   type: constants.UPLOAD_AVATAR, payload,
 });

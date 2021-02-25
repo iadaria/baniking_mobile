@@ -36,6 +36,8 @@ export interface IUploadAvatar {
   height: number;
   top: number;
   left: number;
+  mime: TAcceptTypeAvatar;
+  size: number;
 }
 
 export interface IPhoto {
