@@ -27,6 +27,17 @@ export interface IProfile {
   // contactsAllowed: boolean;
 }
 
+/***** Avatar ****/
+export type TAcceptTypeAvatar = 'image/png' | 'image/jpeg' | 'image/gif';
+
+export interface IUploadAvatar {
+  file: string;
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+}
+
 export interface IPhoto {
   id: string;
   url: string;

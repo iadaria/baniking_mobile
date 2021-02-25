@@ -1,5 +1,6 @@
 import { IProfile, ICabinet } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
+import { IUploadAvatar } from '~/src/app/models/profile';
 
 /** Cabinet */
 
@@ -20,6 +21,11 @@ export const getProfileSettings = (/** Read parameter */) => ({
 
 export const setProfileSettings = (payload: IProfile) => ({
   type: constants.SET_PROFILE_SETTINGS,
+  payload,
+});
+
+export const uploadAvatar = (payload: IUploadAvatar) => ({
+  type: constants.UPLOAD_AVATAR,
   payload,
 });
 

@@ -11,10 +11,6 @@ interface IAction {
   payload: ICredential;
 }
 
-interface IResult {
-  token: string;
-}
-
 function* resetPasswordSaga({ payload: { email } }: IAction) {
   try {
     const response = yield methods.reset({ email }, null);

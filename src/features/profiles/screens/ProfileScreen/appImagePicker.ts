@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import ImagePicker, { Image, Options } from 'react-native-image-crop-picker';
+import ImagePicker, { Options } from 'react-native-image-crop-picker';
 
 export const imageOptions: Options = {
   width: 400,

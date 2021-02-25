@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
-import { AppButton } from '~/src/app/common/components/UI/AppButton';
+import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator, Image as RNImage } from 'react-native';
+import { AppInput, AppText, Block, AppButton } from '~/src/app/common/components/UI';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
 import {
   getProfileSettings as getProfileSettingsAction,
   initProfileInputs as initProfileInputsAction,
+  uploadAvatar as uploadAvatarAction,
+  sendProfileSettings as sendProfileSettingsAction,
 } from '~/src/features/profiles/store/profileActions';
 import { Sex } from '~/src/app/models/profile';
-import { styles } from './styles';
-import { AvatarIcon } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
-import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
-import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { AvatarMenu } from './AvatarMenu';
-import { sendProfileSettings as sendProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { SexSwitch } from './SexSwitch';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 import { IProfileInputs } from '../contracts/profileInputs';
-import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
+import { AvatarIcon } from '~/src/assets';
+import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { colors } from '~/src/app/common/constants/colors';
+import { styles } from './styles';
+import { IUploadAvatar } from '~/src/app/models/profile';
 
 interface IProps {
   logout: () => void;
@@ -30,6 +30,7 @@ interface IProps {
   loading: boolean;
   initProfileInputs: (profileSettings: IProfile) => void;
   defaultProfileInputs: IProfileInputs;
+  uploadAvatar: (file: IUploadAvatar) => void;
 }
 
 interface IProfileForm {
@@ -48,17 +49,24 @@ function ProfileScreenContainer({
   loading,
   initProfileInputs,
   defaultProfileInputs,
+  uploadAvatar,
 }: IProps) {
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfileSettings);
-  const [avatarImage, setAvatarImage] = useState(USER_IMAGE_PATH);
+  const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({
+    file: USER_IMAGE_PATH,
+    width: 0,
+    height: 0,
+    top: 0,
+    left: 0,
+  });
 
   const { email } = currentProfileSettings || {};
 
-  function handleSaveSettings(/* avatarImage: string */) {
-    sendProfileSettingsAction({});
+  function handleSaveSettings() {
+    uploadAvatar(avatarImage);
   }
 
   useEffect(() => {
@@ -69,12 +77,20 @@ function ProfileScreenContainer({
   useEffect(() => {
     if (currentProfileSettings) {
       initProfileInputs(currentProfileSettings);
-      setAvatarImage(currentProfileSettings.avatar);
+      RNImage.getSize(currentProfileSettings.avatar, (width: number, height: number) => {
+        setAvatarImage({
+          ...avatarImage,
+          file: currentProfileSettings.avatar,
+          width,
+          height,
+        });
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfileSettings, initProfileInputs]);
 
   useEffect(() => {
-    console.log('[ProfileScreen/useEffect]', avatarImage);
+    console.log('[ProfileScreen/useEffect] avatarImage=', avatarImage);
   }, [avatarImage]); // del
 
   if (loading) {
@@ -178,7 +194,7 @@ function ProfileScreenContainer({
             <ImageBackground
               style={styles.avatarImage}
               imageStyle={{ borderRadius: 50 }}
-              source={{ uri: avatarImage }}>
+              source={{ uri: avatarImage.file }}>
               <AvatarIcon />
             </ImageBackground>
           </TouchableOpacity>
@@ -190,24 +206,7 @@ function ProfileScreenContainer({
           </AppButton>
         </ValidatedElements>
       </ScrollView>
-      <>
-        {showMenu && (
-          <AvatarMenu
-            setShowMenu={setShowMenu}
-            takePhoto={async () => {
-              const image = await takePhotoFromCamera();
-              setAvatarImage(image?.path || USER_IMAGE_PATH);
-              setShowMenu(false);
-            }}
-            choosePhoto={async () => {
-              const image = await choosePhotoFromLibrary();
-              setAvatarImage(image?.path || USER_IMAGE_PATH);
-              console.log('image', image);
-              setShowMenu(false);
-            }}
-          />
-        )}
-      </>
+      <>{showMenu && <AvatarMenu setShowMenu={setShowMenu} setAvatarImage={setAvatarImage} />}</>
     </KeyboardWrapper>
   );
 }
@@ -224,6 +223,7 @@ const ProfileConnected = connect(
     getProfileSettings: getProfileSettingsAction,
     sendProfileSettings: sendProfileSettingsAction,
     initProfileInputs: initProfileInputsAction,
+    uploadAvatar: uploadAvatarAction,
   },
 )(ProfileScreenContainer);
 

@@ -60,10 +60,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     !_isErrors && _allRequired && setIsErrors(false);
 
-    console.log(
+    /* console.log(
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
         ` allRequire = ${_allRequired} --------- `,
-    );
+    ); */
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
@@ -168,7 +168,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
       // console.log(child.type.name);
       if (isTextInput(child)) {
-        const { id, onFocus }: IAppInputProps<T> = child.props;
+        const { id /* onFocus */ }: IAppInputProps<T> = child.props;
         if (!id) {
           return child;
         } // add new

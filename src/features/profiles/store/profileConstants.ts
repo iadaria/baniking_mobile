@@ -3,6 +3,7 @@ export const SET_PROFILE_SETTINGS = 'profile/SET_PROFILE_SETTINGS';
 export const GET_PROFILE_SETTINGS = 'profile/GET_PROFILE_SETTINGS';
 export const SEND_PROFILE_SETTINGS = 'profile/SEND_PROFILE_SETTINGS';
 export const UPLOAD_AVATAR = 'profile/UPLOAD_AVATAR';
+export const SET_AVATAR = 'profile/SET_AVATAR';
 export const INIT_PROFILE_INPUTS = 'profile/INIT_PROFILE_INPUTS';
 // Cabinet
 export const SET_CABINET_DATA = 'profile/SET_CABINET_DATA';

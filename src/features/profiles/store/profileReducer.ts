@@ -5,7 +5,10 @@ import * as constants from './profileConstants';
 
 export interface IProfileState {
   loading: boolean;
-  errors: string[];
+  errors: {
+    profile: [];
+    avatar: [];
+  };
   cabinetErrors: string[];
   language?: string;
   currentUserProfile: IProfile | null;
@@ -21,7 +24,10 @@ interface IInputs {
 
 const initialState: IProfileState = {
   loading: false,
-  errors: [],
+  errors: {
+    profile: [],
+    avatar: [],
+  },
   cabinetErrors: [],
   currentUserProfile: null,
   currentUserCabinet: null,
@@ -41,7 +47,10 @@ export default function persistReducer(
       return {
         ...state,
         loading: true,
-        errors: [],
+        errors: {
+          ...state.errors,
+          profile: [],
+        },
       };
     // Profile
     case constants.SET_PROFILE_SETTINGS:
@@ -71,6 +80,30 @@ export default function persistReducer(
         ...state,
         loading: false,
         errors: payload,
+      };
+
+    case constants.SET_AVATAR:
+      return {
+        ...state,
+        loading: false,
+        errors: {
+          ...state.errors,
+          avatar: [],
+        },
+        currentUserProfile: {
+          ...state.currentUserProfile!,
+          avatar: payload,
+        },
+      };
+
+    case constants.UPLOAD_AVATAR:
+      return {
+        ...state,
+        loading: true,
+        errors: {
+          ...state.errors,
+          avatar: [],
+        },
       };
 
     // Cabinet
