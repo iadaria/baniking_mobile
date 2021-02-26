@@ -49,7 +49,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-          {i18next.t('login.surname')}
+          Регистрация
         </AppText>
         <AuthLogoRight />
       </Block>

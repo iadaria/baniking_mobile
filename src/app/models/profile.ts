@@ -14,7 +14,7 @@ export interface IProfile {
   email: string;
   name: string | null;
   surname: string | null;
-  middle_name: string | null;
+  middle_name?: string | null;
   phone: string;
   birth_date: string | null;
   avatar: string;
@@ -28,7 +28,7 @@ export interface IProfile {
 }
 
 /***** Avatar ****/
-export type TAcceptTypeAvatar = 'image/png' | 'image/jpeg' | 'image/gif';
+export type TAcceptTypeAvatar = 'image/png' | 'image/jpeg' | 'image/gif' | 'image/jpg';
 
 export interface IUploadAvatar {
   file: string;

@@ -24,7 +24,7 @@ function* sendProfileSettingsSaga({ payload }: IAction) {
         },
       },
     };
-
+    // console.log('success saving');
     throw error;
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));

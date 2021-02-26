@@ -9,7 +9,7 @@ export const registerRules = {
       message: '^The name must have only symbols',
     },
     length: {
-      minimum: 6,
+      minimum: 2,
       tooShort: 'Имя должно быть длинной не менее 8 символов',
       maximum: 16,
       tooLong: 'Имя должно быть длинной не больее 17 символов',

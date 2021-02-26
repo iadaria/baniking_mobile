@@ -7,15 +7,18 @@ import { styles } from './styles';
 import { IUploadAvatar, TAcceptTypeAvatar } from '~/src/app/models/profile';
 import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
 import { Image } from 'react-native-image-crop-picker';
+import { isAllowedImageType } from '~/src/app/utils/system';
+import { showAlert } from '~/src/app/common/components/showAlert';
+
+const MAX_SIZE = 10 * 1024 * 1024;
 
 interface IProps {
   setShowMenu: (state: boolean) => void;
-  /* takePhoto: () => void;
-  choosePhoto: () => void; */
   setAvatarImage: Dispatch<SetStateAction<IUploadAvatar>>;
+  setAvatarIsChanged: Dispatch<SetStateAction<boolean>>;
 }
 
-export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
+export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: IProps) => {
   async function takePhoto() {
     try {
       const image = await takePhotoFromCamera();
@@ -29,7 +32,7 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
   async function choosePhoto() {
     try {
       const image = await choosePhotoFromLibrary();
-      console.log('photo', image);
+      console.log('photo', JSON.stringify(image, null, 2));
       updateAvatarState(image);
     } catch (e) {
       console.log(e);
@@ -37,16 +40,31 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage }: IProps) => {
     setShowMenu(false);
   }
 
-  const updateAvatarState = (image: Image) =>
+  const updateAvatarState = (image: Image) => {
+    /* if (!isAllowedImageType(image.mime)) {
+      showAlert(
+        'Сообщение',
+        'Вы выбрали недопустимый формат изображения, разрешенные форматы: jpeg/jpg, gif, png',
+      );
+      return;
+    }
+
+    if (image.size > MAX_SIZE) {
+      showAlert('Сообщение', 'Вы выбрали недопустимый размер файла, размер файлы не должен привышать 10 Mбайт');
+      return;
+    } */
+
     setAvatarImage({
       file: image.path,
-      height: image.cropRect?.height!,
-      width: image.cropRect?.width!,
-      top: image.cropRect?.x!,
-      left: image.cropRect?.y!,
+      height: 400, //image.cropRect?.height!,
+      width: 400, //image.cropRect?.width!,
+      top: 0, //image.cropRect?.x!,
+      left: 0, //image.cropRect?.y!,
       mime: image.mime as TAcceptTypeAvatar,
       size: image.size,
     });
+    setAvatarIsChanged(true);
+  };
 
   return (
     <Block style={styles.avatarMenu}>

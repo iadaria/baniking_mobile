@@ -28,7 +28,7 @@ function* uploadAvatarSaga({ payload }: IAction) {
     const result = yield methods.uploadAvatar(formData, null, {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    console.log(result);
+    // console.log('result', result);
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 

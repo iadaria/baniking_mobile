@@ -19,7 +19,7 @@ export const getProfileSettings = (/** Read parameter */) => ({
   type: constants.GET_PROFILE_SETTINGS,
 });
 
-export const setProfileSettings = (payload: IProfile) => ({
+export const setProfileSettings = (payload: Partial<IProfile>) => ({
   type: constants.SET_PROFILE_SETTINGS,
   payload,
 });
@@ -36,7 +36,7 @@ export const initProfileInputs = (payload: IProfile) => {
   };
 };
 
-export const sendProfileSettings = (payload: IProfile) => ({
+export const sendProfileSettings = (payload: Partial<IProfile>) => ({
   type: constants.SEND_PROFILE_SETTINGS,
   payload,
 });

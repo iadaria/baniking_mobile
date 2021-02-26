@@ -76,6 +76,11 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>CFBundleLocalizations</key>
+  <array>
+  <string>en</string>
+  <string>ru</string>
+  </array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location access is rquired to run the app.</string>
   <key>NSPhotoLibraryUsageDescription</key>

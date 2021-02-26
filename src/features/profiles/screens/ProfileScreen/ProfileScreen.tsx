@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator, Image as RNImage } from 'react-native';
+import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import { AppInput, AppText, Block, AppButton } from '~/src/app/common/components/UI';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
@@ -22,68 +22,83 @@ import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { colors } from '~/src/app/common/constants/colors';
 import { styles } from './styles';
 import { IUploadAvatar } from '~/src/app/models/profile';
+import { getImageInfo } from './appImagePicker';
 
 interface IProps {
   logout: () => void;
-  getProfileSettings: () => void;
-  currentProfileSettings: IProfile | null;
+  getProfile: () => void;
+  currentProfile: IProfile | null;
   loading: boolean;
   initProfileInputs: (profileSettings: IProfile) => void;
   defaultProfileInputs: IProfileInputs;
+  sendProfile: (profileSettings: Partial<IProfile>) => void;
   uploadAvatar: (file: IUploadAvatar) => void;
 }
 
 function ProfileScreenContainer({
-  getProfileSettings,
-  currentProfileSettings,
+  getProfile,
+  currentProfile,
   loading,
   initProfileInputs,
   defaultProfileInputs,
   uploadAvatar,
+  sendProfile,
 }: IProps) {
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
-  const valuesRef = React.useRef<Partial<IProfile>>(currentProfileSettings);
-  const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({
-    file: USER_IMAGE_PATH,
-    width: 0,
-    height: 0,
-    top: 0,
-    left: 0,
-    mime: 'image/jpeg',
-    size: 1000,
-  });
+  const valuesRef = React.useRef<Partial<IProfile>>(currentProfile);
+  const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(false);
+  const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({});
 
-  const { email } = currentProfileSettings || {};
+  const { email } = currentProfile || {};
 
   function handleSaveSettings() {
-    uploadAvatar(avatarImage);
+    /* sendProfile({
+      name: valuesRef.current?.name,
+      surname: valuesRef.current?.surname,
+      middle_name: valuesRef.current?.middle_name,
+      phone: valuesRef.current?.phone,
+      birth_date: valuesRef.current?.birth_date,
+      sex: Sex.Male,
+    }); */
+    if (avatarIsChanged) {
+      console.log('avatar changed **** ');
+      uploadAvatar(avatarImage);
+    }
   }
 
   useEffect(() => {
     // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
-    getProfileSettings();
-  }, [getProfileSettings]);
+    getProfile();
+  }, [getProfile]);
 
   useEffect(() => {
-    if (currentProfileSettings) {
-      initProfileInputs(currentProfileSettings);
-      RNImage.getSize(currentProfileSettings.avatar, (width: number, height: number) => {
-        setAvatarImage({
-          ...avatarImage,
-          file: currentProfileSettings.avatar,
-          width,
-          height,
-        });
-      });
+    if (currentProfile) {
+      initProfileInputs(currentProfile);
+      console.log('currentPfoieSettings', JSON.stringify(currentProfile, null, 2));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentProfileSettings, initProfileInputs]);
+  }, [currentProfile, initProfileInputs]);
 
   useEffect(() => {
-    // console.log('[ProfileScreen/useEffect] avatarImage=', avatarImage);
-  }, [avatarImage]); // del
+    async function getImage() {
+      await getImageInfo(currentProfile?.avatar || USER_IMAGE_PATH).then((value: IUploadAvatar | null) => {
+        console.log(JSON.stringify(value, null, 2));
+        value &&
+          setAvatarImage({
+            ...avatarImage,
+            ...value,
+          });
+      });
+    }
+    getImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentProfile]); // del
+
+  useEffect(() => {
+    console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
+  }, [avatarImage]);
 
   if (loading) {
     return (
@@ -102,7 +117,7 @@ function ProfileScreenContainer({
         contentContainerStyle={styles.scrollViewContainer}>
         <ValidatedElements
           // key={Number(recreate)}
-          initInputs={currentProfileSettings}
+          initInputs={currentProfile}
           defaultInputs={defaultProfileInputs}
           scrollView={scrollViewRef}
           valuesRef={valuesRef}
@@ -198,7 +213,15 @@ function ProfileScreenContainer({
           </AppButton>
         </ValidatedElements>
       </ScrollView>
-      <>{showMenu && <AvatarMenu setShowMenu={setShowMenu} setAvatarImage={setAvatarImage} />}</>
+      <>
+        {showMenu && (
+          <AvatarMenu
+            setShowMenu={setShowMenu}
+            setAvatarImage={setAvatarImage}
+            setAvatarIsChanged={setAvatarIsChaned}
+          />
+        )}
+      </>
     </KeyboardWrapper>
   );
 }
@@ -206,14 +229,14 @@ function ProfileScreenContainer({
 const ProfileConnected = connect(
   ({ auth, profile }: IRootState) => ({
     authenticated: auth.authenticated,
-    currentProfileSettings: profile.currentUserProfile,
+    currentProfile: profile.currentUserProfile,
     loading: profile.loading,
     defaultProfileInputs: profile.inputs.settings,
   }),
   {
     logout: askLogoutAction,
-    getProfileSettings: getProfileSettingsAction,
-    sendProfileSettings: sendProfileSettingsAction,
+    getProfile: getProfileSettingsAction,
+    sendProfile: sendProfileSettingsAction,
     initProfileInputs: initProfileInputsAction,
     uploadAvatar: uploadAvatarAction,
   },
