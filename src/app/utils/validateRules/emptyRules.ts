@@ -1,16 +1,16 @@
 export const name = (field: string) => ({
   presence: {
     allowEmpty: false,
-    message: '^This is required',
+    message: '^Поле обязательно для заполнения',
   },
   format: {
     pattern: /^[A-Za-zА-Яа-я]+$/,
-    message: `^The ${field} must have only symbols`,
+    message: `^${field} должно состоять только из букв`,
   },
   length: {
     minimum: 6,
-    tooShort: `${field} must be at least %{count} characters long then`,
+    tooShort: `${field} должно быть длинной не менее %{count} символов`,
     maximum: 16,
-    tooLong: `^The ${field} needs to have %{count} words or less`,
+    tooLong: `${field} должно быть длинной менее %{count} символов`,
   },
 });

@@ -21,23 +21,23 @@ export const profileRules = {
   birth_date: {
     presence: {
       allowEmpty: true,
-      message: '^This is required',
+      message: '^Поле обязательно для заполнения',
     },
     format: {
       pattern: /^([0-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.(19[2-9][0-9]|2[0-9]{3})$/,
-      message: '^The birth day must be more then 1920 and have format DD.MM.YYYY',
+      message: '^Год должент быть не менее 1920. Введите дату в формате DD.MM.YYYY',
     },
   },
   /* sex: {
     inclusion: {
       within: [true, false],
-      message: '^This is required',
+      message: '^Поле обязательно для заполнения',
     },
   }, */
   /* avatar: {
     presence: {
       allowEmpty: true,
-      message: '^This is required',
+      message: '^Поле обязательно для заполнения',
     },
   }, */
 };

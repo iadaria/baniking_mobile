@@ -4,31 +4,17 @@ type Methods = 'put' | 'send' | 'get' | 'post';
 
 export const URL_API = 'https://baniking.ru/api/v1';
 
-// axios.defaults.headers.post['Content-Type'] = 'application/json';
-// axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.timeout = 120000;
 axios.defaults.baseURL = URL_API;
 
 const pubFetch = axios.create();
 const privFetch = axios.create();
-const uploadFetch = axios.create({
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-  transformRequest: [
-    function (data, headers) {
-      headers['Content-Type'] = 'multipart/form-data';
-      return data;
-    },
-  ],
-});
-// uploadFetch.defaults.headers['Content-Type'] = 'multipart/form-data';
 
 export const tokenToHeaders = (token: string) => {
   privFetch.defaults.headers.get.Authorization = `Bearer ${token}`;
   privFetch.defaults.headers.post.Authorization = `Bearer ${token}`;
   privFetch.defaults.headers.put.Authorization = `Bearer ${token}`;
-  uploadFetch.defaults.headers.post.Authorization = `Bearer ${token}`;
 };
 
 // const defaultLists = { page: 1, pageSize: 50, order: -1, read: 0 };
@@ -73,5 +59,4 @@ export const methods = {
 };
 
 // for debugger
-/* eslint-disable no-undef */
 global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;

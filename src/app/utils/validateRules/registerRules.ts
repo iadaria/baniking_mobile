@@ -2,7 +2,7 @@ export const registerRules = {
   name: {
     presence: {
       allowEmpty: false,
-      message: '^This is required',
+      message: '^Поле обязательно для заполнения',
     },
     format: {
       pattern: /^[A-Za-zА-Яа-я]+$/,
@@ -10,9 +10,9 @@ export const registerRules = {
     },
     length: {
       minimum: 6,
-      tooShort: 'Name must be at least %{count} characters long then',
+      tooShort: 'Имя должно быть длинной не менее 8 символов',
       maximum: 16,
-      tooLong: 'Name needs to have %{count} words or less',
+      tooLong: 'Имя должно быть длинной не больее 17 символов',
     },
     /* length: {
       minimum: 2,
@@ -26,11 +26,11 @@ export const registerRules = {
   phone: {
     presence: {
       allowEmpty: false,
-      message: '^This is required',
+      message: '^Поле обязательно для заполнения',
     },
     format: {
       pattern: /^[+][1-9]{1}[(]{1}[1-9]{1}[0-9]{2}[)]{1}[0-9]{3}-[0-9]{2}-[0-9]{2}$/,
-      message: '^Phone number must be valid',
+      message: '^Введите корректное значение',
     },
   },
 };

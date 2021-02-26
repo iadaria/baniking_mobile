@@ -12,10 +12,9 @@ function* checkAuthSaga() {
   if (token) {
     yield tokenToHeaders(token);
     yield put(setAuthToken(token));
+    yield RootNavigation.navigate(routes.navigators.DrawerNavigator);
+    // yield call(SplashScreen.hide);
   }
-
-  yield RootNavigation.navigate(routes.navigators.DrawerNavigator);
-  // yield call(SplashScreen.hide);
 }
 
 export default function* listener() {

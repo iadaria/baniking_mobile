@@ -1,0 +1,11 @@
+{
+  "title": "Log in",
+  "subtitle": "Please login using your email and password.",
+  "login": "Email address",
+  "password": "Password",
+  "login_placeholder": "Your email address",
+  "password_placeholder": "Enter your password",
+  "forgot": "I forgot my password",
+  "button": "Log in",
+  "surname": "Surname"
+}
