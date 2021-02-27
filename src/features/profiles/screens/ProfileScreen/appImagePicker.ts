@@ -13,6 +13,8 @@ export const imageOptions: Options = {
   cropping: true,
   cropperCircleOverlay: true,
   mediaType: 'photo',
+  cropperCancelText: 'Отмена',
+  cropperChooseText: 'Выбрать',
 };
 
 interface IProps {
