@@ -5,4 +5,5 @@
   Created by Daria Iakimova on 27.02.2021.
   
 */
-ucrop_label_edit_photo
+NSPhotoLibraryUsageDescription="Приложению треубется доступ к файловой системе";
+NSCameraUsageDescription="Необходим доступ к камере для дальнейшей работы с приложением";

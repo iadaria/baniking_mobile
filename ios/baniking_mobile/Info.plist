@@ -82,11 +82,11 @@
   <string>ru</string>
   </array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location access is rquired to run the app.</string>
+	<string>Location access is required to run the app.</string>
   <key>NSPhotoLibraryUsageDescription</key>
-  <string>Приложению треубется доступ к файловой системе</string>
+  <string>Photo library access is required to run the app.</string>
   <key>NSCameraUsageDescription</key>
-  <string>Необходим доступ к камере для дальнейшей работы с приложением</string>
+  <string>Camera access is requird to run the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gilroy-Bold.ttf</string>
