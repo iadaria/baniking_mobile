@@ -9,20 +9,21 @@ import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
 import AppFlashMessage from '~/src/app/common/components/AppFlashMessage/AppFlashMessage';
 import { appDefaultTheme } from './components/appDefaultTheme';
-// import i18next from 'i18next';
+import i18next from 'i18next';
+import { initLanguage } from '../i18n';
 // import ModalManager from '../app/common/modals/ModalManager';
 
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
   const initialize = async (): Promise<void> => {
-    // await initLanguage();
+    await initLanguage();
     store.dispatch(checkAuth());
   };
 
   useEffect(() => {
     initialize();
-    // return () => i18next.off('languageChanged');
+    return () => i18next.off('languageChanged');
   }, []);
 
   return (

@@ -41,18 +41,17 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
   }
 
   const updateAvatarState = (image: Image) => {
-    /* if (!isAllowedImageType(image.mime)) {
+    if (!isAllowedImageType(image.mime)) {
       showAlert(
         'Сообщение',
         'Вы выбрали недопустимый формат изображения, разрешенные форматы: jpeg/jpg, gif, png',
       );
       return;
     }
-
     if (image.size > MAX_SIZE) {
       showAlert('Сообщение', 'Вы выбрали недопустимый размер файла, размер файлы не должен привышать 10 Mбайт');
       return;
-    } */
+    }
 
     setAvatarImage({
       file: image.path,

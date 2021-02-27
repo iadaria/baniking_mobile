@@ -21,6 +21,6 @@ export function getImageExtension(file: string): string | null {
 }
 
 export function isAllowedImageType(type: string) {
-  const types = ['image/png', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+  const types = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
   return types.includes(type);
 }

@@ -16,6 +16,7 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"
+      android:supportsRtl="true"
       >
 
       <!-- begin added by Daria -->

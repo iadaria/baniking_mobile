@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">baniking_mobile</string>
+    <string name="server_client_id">470928467143-adpnffml8vnpov7scado54vbup9usg39.apps.googleusercontent.com</string>
+    <integer name="com_vk_sdk_AppId">7755623</integer>
+    <string name="facebook_app_id">172324154369646</string> 
+    <string name="fb_login_protocol_scheme">fb172324154369646</string>
+    <string name="ucrop_label_edit_photo">Выбрать область</string>
+    <string name="ucrop_crop">Обрезать</string>
+    <string name="ucrop_rotate">Повернуть</string>
+    <string name="ucrop_scale">Масштаб</string>
+    <string name="ucrop_label_original">Ориг.</string>
+</resources>

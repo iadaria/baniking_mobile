@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
+import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator, Image } from 'react-native';
 import { AppInput, AppText, Block, AppButton } from '~/src/app/common/components/UI';
 import { connect } from 'react-redux';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
@@ -9,7 +9,7 @@ import {
   uploadAvatar as uploadAvatarAction,
   sendProfileSettings as sendProfileSettingsAction,
 } from '~/src/features/profiles/store/profileActions';
-import { Sex } from '~/src/app/models/profile';
+import { Sex, TAcceptTypeAvatar } from '~/src/app/models/profile';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
 import { AvatarMenu } from './AvatarMenu';
@@ -23,6 +23,7 @@ import { colors } from '~/src/app/common/constants/colors';
 import { styles } from './styles';
 import { IUploadAvatar } from '~/src/app/models/profile';
 import { getImageInfo } from './appImagePicker';
+import { getImageExtension } from '~/src/app/utils/system';
 
 interface IProps {
   logout: () => void;
@@ -82,17 +83,20 @@ function ProfileScreenContainer({
   }, [currentProfile, initProfileInputs]);
 
   useEffect(() => {
-    async function getImage() {
-      await getImageInfo(currentProfile?.avatar || USER_IMAGE_PATH).then((value: IUploadAvatar | null) => {
-        console.log(JSON.stringify(value, null, 2));
-        value &&
-          setAvatarImage({
-            ...avatarImage,
-            ...value,
-          });
+    const _image = currentProfile?.avatar || USER_IMAGE_PATH;
+    Image.getSize(_image, (width: number, height: number) => {
+      console.log(width, height);
+      setAvatarImage({
+        file: _image,
+        width,
+        height,
+        top: 0,
+        left: 0,
+        mime: getImageExtension(_image) as TAcceptTypeAvatar,
+        size: 100000,
       });
-    }
-    getImage();
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile]); // del
 
@@ -126,10 +130,6 @@ function ProfileScreenContainer({
           <Block margin={[0, 0, 2]}>
             <AppText h1>Основные настройки</AppText>
           </Block>
-          {/* Test */}
-          <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={() => handleSaveSettings()}>
-            <AppText>Upload</AppText>
-          </TouchableOpacity>
           {/* Form */}
           <AppText style={styles.label} semibold>
             Фамилия

@@ -24,10 +24,12 @@ export const takePhotoFromCamera = () => ImagePicker.openCamera(imageOptions);
 export const choosePhotoFromLibrary = () => ImagePicker.openPicker(imageOptions);
 
 export const getImageInfo = async (imagePath: string): Promise<IUploadAvatar | null> => {
+  console.log('imagePath', imagePath);
   let avatarInfo: IUploadAvatar | null = null;
   await RNImage.getSize(
     imagePath,
     (width: number, height: number) => {
+      console.log(width, height);
       avatarInfo = {
         file: imagePath,
         width,

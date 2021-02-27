@@ -23,7 +23,7 @@ export const initLanguage = async () => {
     // const { language } = await store.getState().persist;
     await i18n.init({
       resources,
-      lng: languageCode,
+      lng: 'ru', //languageCode,
       fallbackLng: 'ru', // use ru if detected lng is not available
       // keySeparator: true, // we do not use keys in form messages.welcome
       debug: true,
