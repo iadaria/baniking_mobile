@@ -1,5 +1,5 @@
 import { ICabinet, IProfile } from '~/src/app/models/profile';
-import { initInputs, setErrors } from '~/src/app/utils/validate';
+import { initInputs } from '~/src/app/utils/validate';
 import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
 import { IErrors } from '~/src/app/utils/error';
@@ -111,7 +111,7 @@ export default function persistReducer(
         loading: false,
         errors: {
           ...state.errors,
-          avatar: [],
+          avatar: null,
         },
         currentUserProfile: {
           ...state.currentUserProfile!,
@@ -125,7 +125,7 @@ export default function persistReducer(
         loading: false,
         errors: {
           ...state.errors,
-          avatar: [],
+          avatar: null,
         },
       };
 

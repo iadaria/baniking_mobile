@@ -15,20 +15,7 @@ function* sendProfileSettingsSaga({ payload }: IAction) {
   try {
     console.log('payload', payload);
 
-    // yield methods.updateProfile(payload, null);
-    const error = {
-      data: {
-        message: 'The given data was invalid.',
-        errors: {
-          surname: ['Необходимо ввести фамилию'],
-          birth_date: ['Необходимо ввести дату рождения'],
-          phone: ['Необходимо ввести номер телефона'],
-          sex: ['Необходимо выбрать пол'],
-        },
-      },
-    };
-    // console.log('success saving');
-    throw error;
+    yield methods.updateProfile(payload, null);
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
 
@@ -40,7 +27,6 @@ function* sendProfileSettingsSaga({ payload }: IAction) {
     let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
     errorMessage = 'Ошибка при сохранении основных настроек профиля';
 
-
     yield showAlert('Ошибка', errorMessage);
   }
 }
@@ -48,3 +34,17 @@ function* sendProfileSettingsSaga({ payload }: IAction) {
 export default function* listener() {
   yield takeLatest(SEND_PROFILE_SETTINGS, sendProfileSettingsSaga);
 }
+
+/* const error = {
+      data: {
+        message: 'The given data was invalid.',
+        errors: {
+          surname: ['Необходимо ввести фамилию'],
+          birth_date: ['Необходимо ввести дату рождения'],
+          phone: ['Необходимо ввести номер телефона'],
+          sex: ['Необходимо выбрать пол'],
+        },
+      },
+    }; */
+// console.log('success saving');
+// throw error;

@@ -25,21 +25,10 @@ function* uploadAvatarSaga({ payload }: IAction) {
     formData.append('top', payload.left);
     formData.append('left', payload.top);
 
-    /* const result = yield methods.uploadAvatar(formData, null, {
+    /* const result = */ yield methods.uploadAvatar(formData, null, {
       'Content-Type': 'application/x-www-form-urlencoded',
-    }); */
+    });
     // console.log('result', result);
-
-    const error = {
-      data: {
-        message: 'The given data was invalid.',
-        errors: {
-          file: ['Загрузите файл'],
-        },
-      },
-    };
-
-    throw error;
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 
@@ -57,3 +46,15 @@ function* uploadAvatarSaga({ payload }: IAction) {
 export default function* listener() {
   yield takeLatest(UPLOAD_AVATAR, uploadAvatarSaga);
 }
+
+/* const error = {
+  data: {
+    message: 'The given data was invalid.',
+    errors: {
+      file: ['Загрузите файл'],
+    },
+  },
+};
+
+throw error;
+*/

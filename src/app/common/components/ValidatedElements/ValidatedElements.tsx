@@ -38,7 +38,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    // console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
