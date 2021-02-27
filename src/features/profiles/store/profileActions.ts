@@ -1,6 +1,7 @@
 import { IProfile, ICabinet } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
 import { IUploadAvatar } from '~/src/app/models/profile';
+import { IErrors } from '~/src/app/utils/error';
 
 /** Cabinet */
 
@@ -41,7 +42,12 @@ export const sendProfileSettings = (payload: Partial<IProfile>) => ({
   payload,
 });
 
-export const uploadAvatarFail = (payload: string[]) => ({
+export const sendProfileFail = (payload: IErrors) => ({
+  type: constants.SEND_PROFILE_FAIL,
+  payload,
+});
+
+export const uploadAvatarFail = (payload: IErrors) => ({
   type: constants.UPLOAD_AVATAR_FAIL,
   payload,
 });

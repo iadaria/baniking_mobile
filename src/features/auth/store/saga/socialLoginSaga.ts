@@ -30,6 +30,18 @@ GoogleSignin.configure({
 // third - what return call
 
 function* socialLoginSaga({ payload: { provider } }: IAction) {
+
+
+  // login
+  /* const response = {
+    message: 'The given data was invalid.',
+    errors: {
+      email: ['Введите email'],
+      password: ['Неверный пароль'],
+      device_name: ['Девайся обязатлеьное поле'],
+    },
+  }; */
+
   try {
     if (provider === 'google') {
       const userInfo = yield GoogleSignin.signIn();

@@ -47,3 +47,16 @@ export function initInputs<T extends { [key: string]: IInput }, V extends { [key
   }
   return newInput;
 }
+
+export function setErrors<T extends { [key: string]: IInput }, V extends { [key: string]: any }>(
+  defaultInit: T,
+  values: V,
+) {
+  const newInput = defaultInit;
+  for (const key of Object.keys(defaultInit)) {
+    if (values.hasOwnProperty(key)) {
+      newInput[key].errorLabel = values[key];
+    }
+  }
+  return newInput;
+}

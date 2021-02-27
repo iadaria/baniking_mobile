@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Image as RNImage } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { CloseWhiteIcon } from '~/src/assets';
@@ -7,8 +7,9 @@ import { styles } from './styles';
 import { IUploadAvatar, TAcceptTypeAvatar } from '~/src/app/models/profile';
 import { choosePhotoFromLibrary, takePhotoFromCamera } from './appImagePicker';
 import { Image } from 'react-native-image-crop-picker';
-import { isAllowedImageType } from '~/src/app/utils/system';
+import { getImageExtension, isAllowedImageType } from '~/src/app/utils/system';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { USER_IMAGE_PATH } from '~/src/app/common/constants';
 
 const MAX_SIZE = 10 * 1024 * 1024;
 
@@ -32,11 +33,29 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
   async function choosePhoto() {
     try {
       const image = await choosePhotoFromLibrary();
-      console.log('photo', JSON.stringify(image, null, 2));
+      // console.log('photo', JSON.stringify(image, null, 2));
       updateAvatarState(image);
     } catch (e) {
       console.log(e);
     }
+    setShowMenu(false);
+  }
+
+  async function deletePhoto() {
+    const _image = USER_IMAGE_PATH;
+    RNImage.getSize(_image, (width: number, height: number) => {
+      // console.log(width, height);
+      setAvatarImage({
+        file: _image,
+        width,
+        height,
+        top: 0,
+        left: 0,
+        mime: getImageExtension(_image) as TAcceptTypeAvatar,
+        size: 100000,
+      });
+    });
+    setAvatarIsChanged(true);
     setShowMenu(false);
   }
 
@@ -80,9 +99,7 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
           Сфотографировать
         </AppText>
       </AppButton>
-      <AppButton
-        style={[styles.avatarMenuItem, styles.delete]}
-        onPress={() => console.log('Download from gallery')}>
+      <AppButton style={[styles.avatarMenuItem, styles.delete]} onPress={async () => await deletePhoto()}>
         <AppText medium>Удалить фотографию</AppText>
       </AppButton>
     </Block>

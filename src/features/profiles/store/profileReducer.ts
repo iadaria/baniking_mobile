@@ -1,14 +1,16 @@
 import { ICabinet, IProfile } from '~/src/app/models/profile';
-import { initInputs } from '~/src/app/utils/validate';
+import { initInputs, setErrors } from '~/src/app/utils/validate';
 import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
+import { IErrors } from '~/src/app/utils/error';
 
 export interface IProfileState {
   loading: boolean;
   errors: {
-    profile: [];
-    avatar: [];
+    profile: IErrors | null;
+    avatar: IErrors | null;
   };
+  profileErrors: IErrors | null;
   cabinetErrors: string[];
   language?: string;
   currentUserProfile: IProfile | null;
@@ -25,9 +27,10 @@ interface IInputs {
 const initialState: IProfileState = {
   loading: false,
   errors: {
-    profile: [],
-    avatar: [],
+    profile: null,
+    avatar: null,
   },
+  profileErrors: null,
   cabinetErrors: [],
   currentUserProfile: null,
   currentUserCabinet: null,
@@ -49,7 +52,7 @@ export default function persistReducer(
         loading: true,
         errors: {
           ...state.errors,
-          profile: [],
+          profile: null,
         },
       };
     // Profile
@@ -78,11 +81,18 @@ export default function persistReducer(
         },
       };
 
-    case constants.PROFILE_DATA_FAIL:
+    case constants.SEND_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
-        errors: payload,
+        errors: {
+          ...state.errors,
+          profile: payload,
+        },
+        /* inputs: {
+          settings: { ...setErrors(state.inputs.settings, payload) },
+        }, */
+        // profileErrors: { ...setErrors(state.inputs.settings, payload) },
       };
 
     case constants.UPLOAD_AVATAR_FAIL:

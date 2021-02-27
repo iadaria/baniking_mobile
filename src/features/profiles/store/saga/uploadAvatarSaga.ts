@@ -25,10 +25,21 @@ function* uploadAvatarSaga({ payload }: IAction) {
     formData.append('top', payload.left);
     formData.append('left', payload.top);
 
-    const result = yield methods.uploadAvatar(formData, null, {
+    /* const result = yield methods.uploadAvatar(formData, null, {
       'Content-Type': 'application/x-www-form-urlencoded',
-    });
+    }); */
     // console.log('result', result);
+
+    const error = {
+      data: {
+        message: 'The given data was invalid.',
+        errors: {
+          file: ['Загрузите файл'],
+        },
+      },
+    };
+
+    throw error;
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 
@@ -36,12 +47,8 @@ function* uploadAvatarSaga({ payload }: IAction) {
 
     yield put(uploadAvatarFail(errors));
 
-    console.log([errors, message]);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
-
-    if (errorMessage.includes('The given data was invalid')) {
-      errorMessage = 'Введен неверный логин или пароль';
-    }
+    console.log('uploadAvatarSaga', [errors, message]);
+    const errorMessage = 'При сохранении аватара возникла ошибка';
 
     yield showAlert('Ошибка', errorMessage);
   }

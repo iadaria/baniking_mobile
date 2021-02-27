@@ -3,6 +3,7 @@ import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
+import { IErrors } from '~/src/app/utils/error';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
@@ -13,6 +14,7 @@ interface IProps<T, V> {
   valuesRef: MutableRefObject<V>;
   nameForm?: string;
   initInputs?: V;
+  errors?: IErrors | null;
 }
 
 const SCROLL_OFFSET_TOP = 150;
@@ -25,6 +27,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   scrollView,
   valuesRef,
   nameForm,
+  errors,
 }: IProps<T, V>): JSX.Element {
   // const [initialized, setInitialized] = useState(initInputs ? false : true);
   const [inputs, setInputs] = useState<T>(defaultInputs);
@@ -35,7 +38,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    // console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -67,6 +70,28 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs]);
+
+  useEffect(() => {
+    // Если после submit со стороны сервера пришли ошибки - отображаем их
+    if (errors) {
+      const inputsWithErrors = { ...inputs };
+      for (const key of Object.keys(inputs)) {
+        if (errors.hasOwnProperty(key)) {
+          inputsWithErrors[key].errorLabel = errors[key];
+        }
+      }
+      setInputs({ ...inputs, ...inputsWithErrors });
+
+      // Делаем скролл на первую ошибку если она присутствует
+      const firstInvalidCoordinate = getFirstInvalidInput(inputsWithErrors);
+
+      if (firstInvalidCoordinate !== null) {
+        scrollToFirstInvalidInput(firstInvalidCoordinate);
+      }
+    }
+    console.log('[ValidateElements/useEffect/errors] errors', { errors });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
@@ -129,12 +154,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     firstInvalidCoordinate = getFirstInvalidInput(updatedInputs);
 
     if (firstInvalidCoordinate !== null) {
-      console.log('firstInavlidCoordinate', firstInvalidCoordinate);
+      scrollToFirstInvalidInput(firstInvalidCoordinate);
+      /* console.log('firstInavlidCoordinate', firstInvalidCoordinate);
       scrollView?.current?.scrollTo({
         x: 0,
         y: firstInvalidCoordinate,
         animated: true,
-      });
+      }); */
     } else {
       // pass values to user
       let _values: V = {} as V;
@@ -143,6 +169,17 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       }
       valuesRef.current = _values;
       // console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+    }
+  }
+
+  function scrollToFirstInvalidInput(firstInvalidCoordinate: number) {
+    if (firstInvalidCoordinate !== null) {
+      console.log('firstInavlidCoordinate', firstInvalidCoordinate);
+      scrollView?.current?.scrollTo({
+        x: 0,
+        y: firstInvalidCoordinate,
+        animated: true,
+      });
     }
   }
 

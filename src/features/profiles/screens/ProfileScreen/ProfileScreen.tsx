@@ -22,8 +22,8 @@ import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { colors } from '~/src/app/common/constants/colors';
 import { styles } from './styles';
 import { IUploadAvatar } from '~/src/app/models/profile';
-import { getImageInfo } from './appImagePicker';
 import { getImageExtension } from '~/src/app/utils/system';
+import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
   logout: () => void;
@@ -34,6 +34,10 @@ interface IProps {
   defaultProfileInputs: IProfileInputs;
   sendProfile: (profileSettings: Partial<IProfile>) => void;
   uploadAvatar: (file: IUploadAvatar) => void;
+  errors: {
+    profile: IErrors | null;
+    avatar: IErrors | null;
+  };
 }
 
 function ProfileScreenContainer({
@@ -42,27 +46,28 @@ function ProfileScreenContainer({
   loading,
   initProfileInputs,
   defaultProfileInputs,
-  uploadAvatar,
   sendProfile,
+  uploadAvatar,
+  errors,
 }: IProps) {
   const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfile);
-  const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(false);
+  const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(true); // TOOD false
   const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({});
 
   const { email } = currentProfile || {};
 
   function handleSaveSettings() {
-    /* sendProfile({
+    sendProfile({
       name: valuesRef.current?.name,
       surname: valuesRef.current?.surname,
       middle_name: valuesRef.current?.middle_name,
       phone: valuesRef.current?.phone,
       birth_date: valuesRef.current?.birth_date,
       sex: Sex.Male,
-    }); */
+    });
     if (avatarIsChanged) {
       console.log('avatar changed **** ');
       uploadAvatar(avatarImage);
@@ -125,7 +130,8 @@ function ProfileScreenContainer({
           defaultInputs={defaultProfileInputs}
           scrollView={scrollViewRef}
           valuesRef={valuesRef}
-          nameForm="BaseSettings">
+          nameForm="BaseSettings"
+          errors={errors.profile}>
           {/* <Block full base> */}
           <Block margin={[0, 0, 2]}>
             <AppText h1>Основные настройки</AppText>
@@ -232,6 +238,7 @@ const ProfileConnected = connect(
     currentProfile: profile.currentUserProfile,
     loading: profile.loading,
     defaultProfileInputs: profile.inputs.settings,
+    errors: profile.errors,
   }),
   {
     logout: askLogoutAction,

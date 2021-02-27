@@ -13,29 +13,30 @@ export interface IResponseError {
   };
 }
 
-export const getErrorStrings = (error: IResponseError): [Array<string>, string] => {
-  const errors: string[] = [];
+export interface IErrors {
+  [key: string]: string;
+}
+
+export const getErrorStrings = (error: IResponseError): [IErrors, string] => {
+  //const errors: string[] = [];
+  let errors: IErrors = {};
+
   let firstErrorMsg = '';
 
-  if (!error) {
+  /* if (!error) {
     return [errors, firstErrorMsg];
-  }
-
-  // login
-  /* const response = {
-    message: 'The given data was invalid.',
-    errors: {
-      email: ['Введите email'],
-      password: ['Неверный пароль'],
-      device_name: ['Девайся обязатлеьное поле'],
-    },
-  }; */
+  } */
 
   firstErrorMsg = error.data?.message;
 
   if (error.data?.errors) {
-    const values = Object.values(error.data.errors);
-    values.map((_error: string[]) => errors.push(..._error));
+    // values.map((_error: string[]) => errors.push(..._error));
+    for (const [key, value] of Object.entries(error.data.errors)) {
+      let _errors = '';
+      value.forEach((_error: string) => (_errors = _errors.concat(_error)));
+      errors[key] = _errors;
+    }
+    // values.map((_error: string[]) => errors[](..._error));
   }
 
   /* if (error.local) {
