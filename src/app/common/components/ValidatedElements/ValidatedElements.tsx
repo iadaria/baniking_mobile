@@ -92,10 +92,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
   }, [scrollPosition]);
-
+ */
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
     for (const [key, input] of Object.entries(inputs)) {
@@ -133,15 +133,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return Math.trunc(firstInvalidCoordinate);
   }
 
-  function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {
-    const updatedInputs: T /* IInputs  */ = { ...inputs };
-
-    ids.forEach((id: keyof typeof inputs) => {
-      updatedInputs[id].yCoordinate = value;
-    });
-    setInputs(updatedInputs);
-    // setInputs({ ...inputs, ...updatedInputs });
-  }
 
   function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string }) {
     setInputs({
@@ -184,22 +175,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     }
   }
 
-  const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
-  const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
-
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
     console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
-    // Или фокус в поле которое выше середине экрана
-    if (
-      //(yCoordinate &&
-      // (yCoordinate > SCROLL_OFFSET_TOP || yCoordinate > SCROLL_OFFSET_BOTTOM)
-      yCoordinate &&
-      yCoordinate > SCROLL_OFFSET_TOP
-    ) {
+    if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
       console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
@@ -209,7 +191,8 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           animated: true,
         });
       }, delay);
-    } else if (scrollPosition && scrollPosition > SCROLL_OFFSET_BOTTOM) {
+      // Или фокус в поле которое выше середине экрана
+    } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 100;
       console.log(
         `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
@@ -224,6 +207,21 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       }, delay);
     }
   };
+
+  function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {
+    const updatedInputs: T /* IInputs  */ = { ...inputs };
+
+    if (value === 0) return;
+
+    ids.forEach((id: keyof typeof inputs) => {
+      updatedInputs[id].yCoordinate = value;
+    });
+    // setInputs(updatedInputs);
+    setInputs({ ...inputs, ...updatedInputs });
+  }
+
+  const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
+  const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
@@ -245,13 +243,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         });
 
         if (scrollView && isScrollToFocused) {
+          const delay = Platform.OS === 'ios' ? 0 : 0;
           return React.cloneElement(_child, {
             onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
               const { x, y, height, width } = nativeEvent.layout;
               console.log(
                 `[ValidateElements/renderChild/onLayout] ${id}: x=${x}, y=${y} widtht=${width} height=${height}`,
               );
-              setInputPosition({ ids: [id], value: nativeEvent.layout.y });
+              setTimeout(() => setInputPosition({ ids: [id], value: nativeEvent.layout.y }), delay);
             },
             onFocusedScroll: () => handleOnFocusedScroll(id),
           });

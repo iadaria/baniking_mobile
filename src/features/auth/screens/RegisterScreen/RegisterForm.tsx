@@ -61,7 +61,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="name" placeholder="Фамилия" center isScrollToFocused />
+      <AppInput id="name" placeholder="Введите имя" center maxLength={16} isScrollToFocused />
       {/* Email */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -69,7 +69,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="email" center email />
+      <AppInput id="email" placeholder="Введите email" center email maxLength={50} />
       {/* Phone */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -77,7 +77,14 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="phone" center mask="+7([000])[000]-[00]-[00]" phone isScrollToFocused />
+      <AppInput
+        id="phone"
+        placeholder="+7(___)___-__-__"
+        center
+        mask="+7([000])[000]-[00]-[00]"
+        phone
+        isScrollToFocused
+      />
       {/* Accept */}
       <Block margin={[3, 0, 5]} row center>
         <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
