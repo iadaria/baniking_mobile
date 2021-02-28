@@ -34,7 +34,9 @@ function* uploadAvatarSaga({ payload }: IAction) {
 
     let [errors, message] = getErrorStrings(e);
 
-    yield put(uploadAvatarFail(errors));
+    if (errors) {
+      yield put(uploadAvatarFail(errors));
+    }
 
     console.log('uploadAvatarSaga', [errors, message]);
     const errorMessage = 'При сохранении аватара возникла ошибка';

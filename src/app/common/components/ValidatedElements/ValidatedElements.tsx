@@ -37,7 +37,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    // console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -73,10 +73,12 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   useEffect(() => {
     // Если после submit со стороны сервера пришли ошибки - отображаем их
     if (errors) {
+      console.log('[ValidateElements] errors execute');
       const inputsWithErrors = { ...inputs };
       for (const key of Object.keys(inputs)) {
         if (errors.hasOwnProperty(key)) {
           inputsWithErrors[key].errorLabel = errors[key];
+          inputsWithErrors[key].touched = true;
         }
       }
       setInputs({ ...inputs, ...inputsWithErrors });
@@ -92,10 +94,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
   }, [scrollPosition]);
- */
+
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
     for (const [key, input] of Object.entries(inputs)) {
@@ -120,8 +122,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       if (input.errorLabel && input.yCoordinate && input.yCoordinate < firstInvalidCoordinate!) {
         firstInvalidCoordinate = input.yCoordinate;
         // Don't scrolling if input on the top
+        // Скролив в исходное положение
         if (firstInvalidCoordinate < SCROLL_OFFSET_TOP) {
-          return SCROLL_MAX;
+          // return SCROLL_MAX;
+          return 0;
         }
       }
     }
@@ -132,7 +136,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     return Math.trunc(firstInvalidCoordinate);
   }
-
 
   function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string }) {
     setInputs({
@@ -165,7 +168,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }
 
   function scrollToFirstInvalidInput(firstInvalidCoordinate: number) {
-    if (firstInvalidCoordinate !== null) {
+    if (
+      (firstInvalidCoordinate !== null && !scrollPosition) ||
+      (firstInvalidCoordinate !== null && scrollPosition && scrollPosition > SCROLL_OFFSET_BOTTOM)
+    ) {
       console.log('firstInavlidCoordinate', firstInvalidCoordinate);
       scrollView?.current?.scrollTo({
         x: 0,
@@ -211,7 +217,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {
     const updatedInputs: T /* IInputs  */ = { ...inputs };
 
-    if (value === 0) return;
+    if (value === 0) {
+      return;
+    }
 
     ids.forEach((id: keyof typeof inputs) => {
       updatedInputs[id].yCoordinate = value;
@@ -243,14 +251,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         });
 
         if (scrollView && isScrollToFocused) {
-          const delay = Platform.OS === 'ios' ? 0 : 0;
+          // const delay = Platform.OS === 'ios' ? 0 : 0;
           return React.cloneElement(_child, {
             onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
               const { x, y, height, width } = nativeEvent.layout;
-              console.log(
+              /* console.log(
                 `[ValidateElements/renderChild/onLayout] ${id}: x=${x}, y=${y} widtht=${width} height=${height}`,
-              );
-              setTimeout(() => setInputPosition({ ids: [id], value: nativeEvent.layout.y }), delay);
+              ); */
+              setInputPosition({ ids: [id], value: nativeEvent.layout.y });
             },
             onFocusedScroll: () => handleOnFocusedScroll(id),
           });
@@ -262,7 +270,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
-          disabled: isErrors || isErrors === undefined, // || (initInputs && isEqual),
+          // disabled: isErrors || isErrors === undefined, // || (initInputs && isEqual),
           onPress: () => {
             handleSubmit();
             onPress();

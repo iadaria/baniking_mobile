@@ -1,6 +1,7 @@
 import { ICredential } from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
+import { IErrors } from '~/src/app/utils/error';
 /* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
   type: constants.ENTER_PIN,
   payload: { pincode, forBackupPhrase },
@@ -40,9 +41,9 @@ export const resetPassword = (email: string) => ({
   payload: email,
 });
 
-export const authFail = <I extends {}>(errors: Array<I> = []) => ({
+export const authFail = (errors: IErrors) => ({
   type: constants.AUTH_FAIL,
-  payload: { errors },
+  payload: errors,
 });
 
 export const authSuccess = () => ({

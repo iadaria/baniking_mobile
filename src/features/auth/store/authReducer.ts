@@ -1,5 +1,6 @@
 import * as constants from './authConstants';
 import { IUserAuth, Role } from '~/src/app/models/user';
+import { IErrors } from '~/src/app/utils/error';
 
 /* interface IAction {
   type: string;
@@ -13,7 +14,7 @@ export interface IAuthState {
   role: Role;
   currentUser: IUserAuth | null;
   loading: boolean;
-  errors?: string[] | null;
+  errors: IErrors | null;
 }
 
 const initialState: IAuthState = {

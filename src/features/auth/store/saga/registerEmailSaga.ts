@@ -8,6 +8,7 @@ import { setPersistUserData, setPersistToken } from '~/src/features/persist/stor
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { EMAIL_REGISTER } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { authFail } from '../authActions';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -27,27 +28,41 @@ interface IResult {
 function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
     console.log('payload', payload);
+
+    /* const error = {
+      data: {
+        message: 'The given data was invalid.',
+        errors: {
+          name: ['Имя должно содержать только буквы'],
+          phone: ['Пользователь с данным телефоном уже зарегистрирован'],
+        },
+      },
+    };
+
+    throw error; */
+
     const { name, email, phone, agreement, device_name } = payload;
 
-    // const { token }: IResult = yield methods.register({ name, email, phone, agreement, device_name }, null);
-    const token = 'kljlkjkl';
-    tokenToHeaders(token);
-
-    yield put(setPersistToken(token));
-    // yield put(setPersistUserData({ email, name, phone }));
-    // yield put(setAuthUserData({ token, email, name }));
-
-    yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
+    const { token }: IResult = yield methods.register({ name, email, phone, agreement, device_name }, null);
+    if (token) {
+      yield tokenToHeaders(token);
+      yield put(setPersistToken(token));
+      yield put(setPersistUserData({ email, name, phone }));
+      yield put(setAuthUserData({ token, email, name }));
+      yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
+    }
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 
-    let [errors, message] = getErrorStrings(e);
-    console.log([errors, message]);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
+    let [errors, message, allErrors] = getErrorStrings(e);
 
-    if (errorMessage.includes('The given data was invalid')) {
-      errorMessage = 'Введен неверный логин или пароль';
-    }
+    /* if (errors) {
+      yield put(authFail(errors));
+    } */
+
+    console.log([errors, message]);
+
+    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 
     yield showAlert('Ошибка', errorMessage);
   }

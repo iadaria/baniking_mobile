@@ -12,14 +12,17 @@ import RegisterForm from './RegisterForm';
 import SoialLoginBlock from '../components/SoialLoginBlock';
 import { styles } from './styles';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   socialLogin: ({ provider }: ICredential) => void;
   emailRegister: (props: Partial<ICredential>) => void;
+  errors: IErrors | null;
 }
 
-function RegisterContainer({ navigation, emailRegister }: IProps) {
+function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollPosition, setScrollPosition] = useState<number | undefined>();
 
@@ -50,6 +53,7 @@ function RegisterContainer({ navigation, emailRegister }: IProps) {
               scrollViewRef={scrollViewRef}
               emailRegister={emailRegister}
               scrollPosition={scrollPosition}
+              errors={errors}
             />
             {/* Social login block */}
             <SoialLoginBlock />
@@ -70,8 +74,8 @@ function RegisterContainer({ navigation, emailRegister }: IProps) {
 }
 
 const RegisterConnected = connect(
-  (/* state: IRootState */) => ({
-    //
+  ({ auth }: IRootState) => ({
+    errors: auth.errors,
   }),
   {
     socialLogin: socialLogin,

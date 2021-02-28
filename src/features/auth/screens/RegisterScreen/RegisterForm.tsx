@@ -6,6 +6,7 @@ import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { colors, sizes } from '~/src/app/common/constants';
 import { ICredential } from '~/src/app/models/user';
+import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 // import i18next from 'i18next';
@@ -18,9 +19,10 @@ interface IProps {
   scrollViewRef?: React.RefObject<ScrollView>;
   emailRegister: (props: Partial<ICredential>) => void;
   scrollPosition?: number;
+  errors: IErrors | null;
 }
 
-export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosition }: IProps) {
+export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosition, errors }: IProps) {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
   const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '' });
@@ -47,7 +49,9 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
       defaultInputs={defaultRegisterInputs}
       scrollView={scrollViewRef}
       scrollPosition={scrollPosition}
-      valuesRef={valuesRef}>
+      valuesRef={valuesRef}
+      //errors={errors}
+    >
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>

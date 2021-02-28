@@ -44,13 +44,10 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
   } catch (e) {
     console.log(JSON.stringify(e, null, 2));
 
-    let [errors, message] = getErrorStrings(e);
+    let [errors, message, allErrors] = getErrorStrings(e);
     console.log([errors, message]);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
-    if (errorMessage.includes('The given data was invalid')) {
-      errorMessage = 'Введен неверный логин или пароль';
-    }
+    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 
     yield showAlert('Ошибка', errorMessage);
   }

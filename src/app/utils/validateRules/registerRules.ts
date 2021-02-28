@@ -6,7 +6,7 @@ export const registerRules = {
     },
     format: {
       pattern: /^[A-Za-zА-Яа-я]+$/,
-      message: '^The name must have only symbols',
+      message: '^Имя должно состоять только из символов',
     },
     length: {
       minimum: 2,
