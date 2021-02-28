@@ -32,6 +32,7 @@ function RegisterContainer({ navigation, emailRegister }: IProps) {
         onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) =>
           setScrollPosition(event.nativeEvent.contentOffset.y)
         }
+        scrollEventThrottle={16}
         // horizontal={false}
         // scrollEnabled={false}
         alwaysBounceHorizontal

@@ -126,7 +126,7 @@ function ProfileScreenContainer({
         contentContainerStyle={styles.scrollViewContainer}>
         <ValidatedElements
           // key={Number(recreate)}
-          initInputs={currentProfile}
+          // initInputs={currentProfile}
           defaultInputs={defaultProfileInputs}
           scrollView={scrollViewRef}
           valuesRef={valuesRef}

@@ -20,5 +20,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 0,
     margin: 0,
+    flex: 1,
   },
 });
