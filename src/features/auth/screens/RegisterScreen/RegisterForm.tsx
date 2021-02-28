@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
@@ -8,7 +8,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { ICredential } from '~/src/app/models/user';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
-import i18next from 'i18next';
+// import i18next from 'i18next';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
@@ -17,9 +17,10 @@ interface IProps {
   // navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
   emailRegister: (props: Partial<ICredential>) => void;
+  scrollPosition?: number;
 }
 
-export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
+export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosition }: IProps) {
   const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
   const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '' });
@@ -45,6 +46,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister }: IProps) {
       key={Number(recreate)}
       defaultInputs={defaultRegisterInputs}
       scrollView={scrollViewRef}
+      scrollPosition={scrollPosition}
       valuesRef={valuesRef}>
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />

@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef, useState, RefObject, useEffect } from 'react';
+import React, { MutableRefObject, useRef, useState, RefObject, useEffect, ReactNode } from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
 import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { IInput } from '~/src/app/models/validate';
@@ -8,32 +8,31 @@ import { IErrors } from '~/src/app/utils/error';
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
 interface IProps<T, V> {
-  children?: React.ReactNode;
+  children?: ReactNode;
   defaultInputs: T;
-  scrollView?: React.RefObject<ScrollView>;
+  scrollView?: RefObject<ScrollView>;
+  scrollPosition?: number;
   valuesRef: MutableRefObject<V>;
   nameForm?: string;
-  initInputs?: V;
+  // initInputs?: V;
   errors?: IErrors | null;
 }
 
 const SCROLL_OFFSET_TOP = 150;
+const SCROLL_OFFSET_BOTTOM = 80; // Минимальный показатель
 const SCROLL_MAX = 50;
 
 function ValidatedElements<T extends { [key: string]: IInput }, V>({
   children,
   defaultInputs,
-  // initInputs,
   scrollView,
+  scrollPosition,
   valuesRef,
   nameForm,
   errors,
 }: IProps<T, V>): JSX.Element {
-  // const [initialized, setInitialized] = useState(initInputs ? false : true);
   const [inputs, setInputs] = useState<T>(defaultInputs);
   const [isErrors, setIsErrors] = useState<boolean>();
-  //const [isEqual, setIsEqual] = useState<boolean>(true);
-  const _scrollView = useRef<ScrollView>(null);
   const inputRefs: RefObject<TextInput>[] = [];
   const buttonRef = useRef<TouchableOpacity>();
 
@@ -93,6 +92,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
+  /* useEffect(() => {
+    console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
+  }, [scrollPosition]); */
+
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
     for (const [key, input] of Object.entries(inputs)) {
@@ -107,6 +110,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }
 
   function getFirstInvalidInput(validatedInputs: T /* IInputs */): number | null {
+    if (!scrollView) {
+      return null;
+    }
+
     let firstInvalidCoordinate: number = Infinity;
 
     for (const input of Object.values(validatedInputs)) {
@@ -132,8 +139,8 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     ids.forEach((id: keyof typeof inputs) => {
       updatedInputs[id].yCoordinate = value;
     });
-
     setInputs(updatedInputs);
+    // setInputs({ ...inputs, ...updatedInputs });
   }
 
   function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string }) {
@@ -187,10 +194,19 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
 
   const handleOnFocusedScroll = (id: keyof T) => {
+    // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    // onsole.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}`);
-    if (yCoordinate && yCoordinate > 100) {
-      const delay = Platform.OS === 'ios' ? 1 : 150;
+    console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
+
+    // Делаем скролл если фокус в поле,которое ниже середины экрана
+    // Или фокус в поле которое выше середине экрана
+    if (
+      yCoordinate &&
+      (yCoordinate > SCROLL_OFFSET_TOP || yCoordinate > SCROLL_OFFSET_BOTTOM)
+      // (scrollPosition && scrollPosition > SCROLL_OFFSET_BOTTOM)
+    ) {
+      console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
+      const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
           x: 0,
@@ -212,23 +228,26 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const inputRef = React.createRef<TextInput>();
         inputRefs.push(inputRef);
 
-        return React.cloneElement(child, {
+        const _child = React.cloneElement(child, {
           newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
-          onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
-            setInputPosition({ ids: [id], value: nativeEvent.layout.y });
-          },
-          onFocusedScroll: () => handleOnFocusedScroll(id),
-          /* onFocus: (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-            onFocus && onFocus(e);
-            handleOnFocus(id);
-          }, */
           value: inputs[id].value,
           error: inputs[id].errorLabel,
           touched: Boolean(inputs[id].touched),
         });
+
+        if (scrollView) {
+          return React.cloneElement(_child, {
+            onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
+              setInputPosition({ ids: [id], value: nativeEvent.layout.y });
+            },
+            onFocusedScroll: () => handleOnFocusedScroll(id),
+          });
+        }
+
+        return _child;
       } else if (isButton(child)) {
-        // console.log('[ValidatedElements/renderChildren', child.type.name);
+        // Поведене для кнопки
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
@@ -243,11 +262,21 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     });
   }
 
-  if (!scrollView) {
-    return <ScrollView ref={_scrollView}>{renderChildren()}</ScrollView>;
-  }
-
   return <>{renderChildren()}</>;
 }
 
 export default ValidatedElements;
+
+/* onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
+  setInputPosition({ ids: [id], value: nativeEvent.layout.y });
+},
+onFocusedScroll: () => handleOnFocusedScroll(id),
+*/
+/* onFocus: (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+  onFocus && onFocus(e);
+  handleOnFocus(id);
+}, */
+
+/* if (!scrollView) {
+    return <ScrollView ref={_scrollView}>{renderChildren()}</ScrollView>;
+  } */

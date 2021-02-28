@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 
 export const KeyboardWrapper = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
   const isIOS = Platform.OS === 'ios';
@@ -7,5 +7,18 @@ export const KeyboardWrapper = ({ children }: { children: JSX.Element | JSX.Elem
   if (!isIOS) {
     return <>{children}</>;
   }
-  return <KeyboardAvoidingView behavior="padding">{children}</KeyboardAvoidingView>;
+  return (
+    <KeyboardAvoidingView style={styles.keyboard} behavior="padding">
+      {children}
+    </KeyboardAvoidingView>
+  );
 };
+
+const styles = StyleSheet.create({
+  keyboard: {
+    marginTop: 30,
+    backgroundColor: 'transparent',
+    padding: 0,
+    margin: 0,
+  },
+});
