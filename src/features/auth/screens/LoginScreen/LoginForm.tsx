@@ -30,17 +30,19 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
   const valuesRef = React.useRef<Partial<ICredential>>({ login: '', password: '' });
 
   const handleEmailLogin = async () => {
-    const device_name = await DeviceInfo.getDeviceName();
-    const data = {
-      login: valuesRef.current.login,
-      password: valuesRef.current.password,
-      device_name: device_name,
-      persist: isPersist,
-    };
+    if (valuesRef.current) {
+      const device_name = await DeviceInfo.getDeviceName();
+      const data = {
+        login: valuesRef.current.login,
+        password: valuesRef.current.password,
+        device_name: device_name,
+        persist: isPersist,
+      };
 
-    console.log('***** data *******', data);
-    emailLogin(data);
-    setRecreate(!recreate);
+      console.log('***** data *******', data);
+      emailLogin(data);
+      setRecreate(!recreate);
+    }
   };
 
   return (

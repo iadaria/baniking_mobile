@@ -7,7 +7,6 @@ import { socialLogin, emailRegister as emailRegisterAction } from '~/src/feature
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity } from 'react-native';
 import { AuthLogo } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
 import RegisterForm from './RegisterForm';
 import SoialLoginBlock from '../components/SoialLoginBlock';
 import { styles } from './styles';
