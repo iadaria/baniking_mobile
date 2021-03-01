@@ -8,7 +8,6 @@ import { setPersistUserData, setPersistToken } from '~/src/features/persist/stor
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { EMAIL_REGISTER } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { authFail } from '../authActions';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -28,18 +27,6 @@ interface IResult {
 function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
     console.log('payload *************', payload);
-
-    /* const error = {
-      data: {
-        message: 'The given data was invalid.',
-        errors: {
-          name: ['Имя должно содержать только буквы'],
-          phone: ['Пользователь с данным телефоном уже зарегистрирован'],
-        },
-      },
-    };
-
-    throw error; */
 
     const { name, email, phone, agreement, device_name } = payload;
 
@@ -83,12 +70,3 @@ export default function* listener(): Generator<ForkEffect<never>, void, unknown>
       ]
   }
 } */
-
-/*
-return
-{
-  "data": {
-      "token": "11|6nrtwlXwDV58cH7fVRKJ4eX1eUeYSxbftpAScyb3"
-  }
-}
-*/

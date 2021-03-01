@@ -1,32 +1,34 @@
-import { showMessage } from 'react-native-flash-message';
 import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { methods } from '~/src/app/api';
+import { showAlert } from '~/src/app/common/components/showAlert';
 import { ICredential } from '~/src/app/models/user';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { authFail, authSuccess } from '../authActions';
+import { authSuccess } from '../authActions';
 import { RESET_PASSWORD } from '../authConstants';
+import routes from '~/src/navigation/helpers/routes';
 
 interface IAction {
   type: string;
-  payload: ICredential;
+  payload: string;
 }
 
-function* resetPasswordSaga({ payload: { email } }: IAction) {
+function* resetPasswordSaga({ payload }: IAction) {
   try {
-    const response = yield methods.reset({ email }, null);
+    const response = yield methods.reset({ email: payload }, null);
     console.log('[Auth reset password] response = ', response);
     yield put(authSuccess());
+    yield RootNavigation.navigate(routes.authNavigator.LoginScreen);
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
-    let [errors, message] = getErrorStrings(e);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
 
-    yield showMessage({
-      message: `${errorMessage}`,
-      type: 'warning',
-    });
+    let [errors, message, allErrors] = getErrorStrings(e);
 
-    yield authFail();
+    console.log([errors, message]);
+
+    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
+
+    yield showAlert('Ошибка', errorMessage);
   }
 }
 

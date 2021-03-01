@@ -21,23 +21,21 @@ export function ResetPasswordScreen({ navigation }: IProps) {
       style={styles.scrollView}
       alwaysBounceHorizontal
       contentContainerStyle={styles.scrollViewContainer}>
-      <Block full debug>
+      <Block full>
         {/* Top log */}
-        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]} debug>
+        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
           <AuthLogo />
         </Block>
         {/* Login Form */}
         <Block style={styles.list} full base white>
-          {/* <LoginForm navigation={navigation} scrollViewRef={scrollViewRef} /> */}
           <ResetPasswordForm navigation={navigation} scrollViewRef={scrollViewRef} />
-          {/*  Social login block */}
 
-          <Block margin={[2.4, 0, 0]} row middle debug>
+          <Block margin={[2.4, 0, 0]} row middle>
             <AppText primary center>
               {'Назад к '}
             </AppText>
             <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-              <AppText secondary> Авторизации</AppText>
+              <AppText secondary>Авторизации</AppText>
             </TouchableOpacity>
           </Block>
         </Block>

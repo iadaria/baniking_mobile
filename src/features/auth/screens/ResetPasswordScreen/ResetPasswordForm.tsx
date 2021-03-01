@@ -11,7 +11,6 @@ import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
-import routes from '~/src/navigation/helpers/routes';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -19,15 +18,17 @@ interface IProps {
   resetPassword: (email: string) => void;
 }
 
-const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword, navigation }: IProps): JSX.Element => {
-  // const [values, valuesRef, setValues] = useRefState<ICredential>({ login: '', password: '' });
+const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): JSX.Element => {
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<Partial<ICredential>>({ email: '' });
+  const [recreate, setRecreate] = React.useState<boolean>(true);
 
-  const handleEmailLogin = () => {
-    console.log('values1', valuesRef.current);
-    resetPassword(valuesRef?.current.email!);
-    navigation.navigate(routes.authNavigator.LoginScreen);
+  const handleResetPassword = () => {
+    if (valuesRef.current) {
+      console.log('values1', valuesRef.current);
+      resetPassword(valuesRef?.current.email!);
+      setRecreate(!recreate);
+    }
   };
 
   return (
@@ -47,7 +48,7 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword, navigation }
       </Block>
       <AppInput center id="email" placeholder="Введите e-mail" />
       {/* Button */}
-      <AppButton onPress={handleEmailLogin}>
+      <AppButton onPress={handleResetPassword}>
         <AppText center medium>
           Восстановить
         </AppText>
