@@ -27,7 +27,7 @@ interface IResult {
 
 function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    console.log('payload', payload);
+    console.log('payload *************', payload);
 
     /* const error = {
       data: {

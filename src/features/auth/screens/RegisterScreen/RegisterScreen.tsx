@@ -36,16 +36,11 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
           setScrollPosition(event.nativeEvent.contentOffset.y)
         }
         scrollEventThrottle={16}
-        // horizontal={false}
-        // scrollEnabled={false}
         alwaysBounceHorizontal
         keyboardDismissMode="interactive"
-        // scrollEnabled={true}
-        // keyboardShouldPersistTaps="always"
-        // contentInsetAdjustmentBehavior="always"
         contentContainerStyle={styles.scrollViewContainer}>
-        <Block full bottom>
-          <Block center margin={[10, 0, sizes.logo.bottom]}>
+        <Block full>
+          <Block center margin={[5, 0, 3]}>
             <AuthLogo />
           </Block>
           <Block style={styles.list} full base white>

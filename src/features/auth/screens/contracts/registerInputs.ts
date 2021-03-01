@@ -16,6 +16,11 @@ export const defaultRegisterInputs: IRegisterInputs = {
     value: '',
     require: true,
   },
+  agreement: {
+    type: 'bool',
+    value: true,
+    require: true,
+  },
 };
 
 export interface IRegisterInputs {

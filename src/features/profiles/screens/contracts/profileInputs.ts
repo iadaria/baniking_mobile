@@ -4,12 +4,12 @@ export const defaultProfileInputs: IProfileInputs = {
   surname: {
     type: 'surname',
     value: '',
-    require: false,
+    require: true,
   },
   name: {
     type: 'name',
     value: '',
-    require: false,
+    require: true,
   },
   middle_name: {
     type: 'middle_name',
@@ -19,17 +19,17 @@ export const defaultProfileInputs: IProfileInputs = {
   birth_date: {
     type: 'birth_date',
     value: '',
-    require: false,
+    require: true,
   },
-  email: {
+  /* email: {
     type: 'email',
     value: '',
     require: false,
-  },
+  }, */
   phone: {
     type: 'phone',
     value: '',
-    require: false,
+    require: true,
   },
   /* sex: {
     type: 'sex',
@@ -50,7 +50,7 @@ export interface IProfileInputs {
   birth_date: IInput;
   // sex: IInput;
   phone: IInput;
-  email: IInput;
+  // email: IInput;
   // avatar: IInput;
   [key: string]: IInput;
 }

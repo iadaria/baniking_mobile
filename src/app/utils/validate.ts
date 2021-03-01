@@ -21,7 +21,7 @@ export function validateInput({ type, value }: IInput) {
 
 interface InputValidationStateProps {
   input: IInput;
-  value: string;
+  value: string | boolean;
   touched: boolean;
 }
 
@@ -42,7 +42,7 @@ export function initInputs<T extends { [key: string]: IInput }, V extends { [key
   const newInput = defaultInit;
   for (const key of Object.keys(defaultInit)) {
     if (values.hasOwnProperty(key)) {
-      newInput[key].value = values[key];
+      newInput[key].value = values[key] || '';
     }
   }
   return newInput;

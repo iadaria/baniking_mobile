@@ -69,7 +69,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </AppText>
         <TouchableOpacity
           style={{ position: 'absolute', right: 0 }}
-          onPress={() => navigation.navigate('RecoveryScreen')}>
+          onPress={() => navigation.navigate('ResetPasswordScreen')}>
           <AppText secondary medium size={sizes.text.label}>
             Забыли пароль?
           </AppText>

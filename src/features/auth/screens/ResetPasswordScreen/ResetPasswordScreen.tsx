@@ -17,14 +17,13 @@ export function ResetPasswordScreen({ navigation }: IProps) {
   const scrollViewRef = React.useRef<ScrollView>(null);
   return (
     <ScrollView
-      horizontal
       ref={scrollViewRef}
       style={styles.scrollView}
       alwaysBounceHorizontal
       contentContainerStyle={styles.scrollViewContainer}>
       <Block full debug>
         {/* Top log */}
-        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
+        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]} debug>
           <AuthLogo />
         </Block>
         {/* Login Form */}

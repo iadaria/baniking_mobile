@@ -11,7 +11,7 @@ export const validationDictionary = {
   bool: {
     inclusion: {
       within: [true],
-      message: '^Поле обязательно для заполнения',
+      message: '^Поле обязательно для выбора',
     },
   },
 

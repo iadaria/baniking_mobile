@@ -58,7 +58,7 @@ export function LoginScreen({ navigation }: IProps) {
               Eще не зарегистрированы?
             </AppText>
             <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-              <AppText secondary> Регистрация</AppText>
+              <AppText secondary>{' Регистрация'}</AppText>
             </TouchableOpacity>
           </Block>
         </Block>
@@ -66,9 +66,6 @@ export function LoginScreen({ navigation }: IProps) {
     </ScrollView>
   );
 }
-// color, fontFamily, align, size
-
-// <SocialLogin socialLogin={socialLogin} />
 
 const styles = StyleSheet.create({
   scrollView: {

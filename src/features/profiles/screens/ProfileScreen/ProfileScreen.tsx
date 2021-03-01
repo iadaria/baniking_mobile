@@ -22,7 +22,7 @@ import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { colors } from '~/src/app/common/constants/colors';
 import { styles } from './styles';
 import { IUploadAvatar } from '~/src/app/models/profile';
-import { getImageExtension } from '~/src/app/utils/system';
+import { getImageExtension, getSex } from '~/src/app/utils/system';
 import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
@@ -50,24 +50,27 @@ function ProfileScreenContainer({
   uploadAvatar,
   errors,
 }: IProps) {
-  const [sex, setSex] = useState<Sex>(Sex.Male);
   const [showMenu, setShowMenu] = useState(false);
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfile);
-  const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(true); // TOOD false
+  const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(false); // TOOD false
   const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({});
 
-  const { email } = currentProfile || {};
+  const { email, sex: initSex } = currentProfile || {};
+  const [sex, setSex] = useState<Sex>(getSex(initSex || 0));
 
   function handleSaveSettings() {
-    sendProfile({
-      name: valuesRef.current?.name,
-      surname: valuesRef.current?.surname,
-      middle_name: valuesRef.current?.middle_name,
-      phone: valuesRef.current?.phone,
-      birth_date: valuesRef.current?.birth_date,
-      sex: Sex.Male,
-    });
+    console.log('******** current values', valuesRef);
+    if (valuesRef?.current) {
+      sendProfile({
+        name: valuesRef.current?.name,
+        surname: valuesRef.current?.surname,
+        middle_name: valuesRef.current?.middle_name,
+        phone: valuesRef.current?.phone,
+        birth_date: valuesRef.current?.birth_date,
+        sex: sex,
+      });
+    }
     if (avatarIsChanged) {
       console.log('avatar changed **** ');
       uploadAvatar(avatarImage);
@@ -105,9 +108,9 @@ function ProfileScreenContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile]); // del
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
-  }, [avatarImage]);
+  }, [avatarImage]); */
 
   if (loading) {
     return (

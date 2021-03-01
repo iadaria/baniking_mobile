@@ -4,6 +4,7 @@ import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } 
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
 import { IErrors } from '~/src/app/utils/error';
+import { IAppCheckerProps } from '../UI/AppChecker';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
@@ -37,7 +38,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const buttonRef = useRef<TouchableOpacity>();
 
   useEffect(() => {
-    // console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -137,7 +138,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return Math.trunc(firstInvalidCoordinate);
   }
 
-  function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string }) {
+  function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string | boolean }) {
     setInputs({
       ...inputs,
       [id]: getValidatedInput({
@@ -154,16 +155,15 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     const updatedInputs = handleAllValidate();
     firstInvalidCoordinate = getFirstInvalidInput(updatedInputs);
 
-    if (firstInvalidCoordinate !== null) {
+    if (firstInvalidCoordinate !== null || firstInvalidCoordinate === 0) {
       scrollToFirstInvalidInput(firstInvalidCoordinate);
     } else {
-      // pass values to user
       let _values: V = {} as V;
       for (const [key, input] of Object.entries(updatedInputs)) {
         _values = { ..._values, [key]: input.value };
       }
       valuesRef.current = _values;
-      // console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+      console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 
@@ -230,6 +230,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
   const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
+  const isChecker = (child: IChild<T>) => ['AppChecker'].includes(child.type.name);
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
@@ -254,8 +255,8 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           // const delay = Platform.OS === 'ios' ? 0 : 0;
           return React.cloneElement(_child, {
             onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
-              const { x, y, height, width } = nativeEvent.layout;
-              /* console.log(
+              /* const { x, y, height, width } = nativeEvent.layout;
+              console.log(
                 `[ValidateElements/renderChild/onLayout] ${id}: x=${x}, y=${y} widtht=${width} height=${height}`,
               ); */
               setInputPosition({ ids: [id], value: nativeEvent.layout.y });
@@ -265,12 +266,22 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         }
 
         return _child;
+      } else if (isChecker(child)) {
+        const { id }: IAppCheckerProps<T> = child.props;
+        //const value = Boolean(inputs[id!].value);
+        return React.cloneElement(child, {
+          isAccept: Boolean(inputs[id!].value),
+          onPress: () => {
+            console.log('Accept is ', inputs[id!].value);
+            handleInputChange({ id: id!, value: !inputs[id!].value });
+          },
+        });
       } else if (isButton(child)) {
         // Поведене для кнопки
         const { onPress } = child.props;
         return React.cloneElement(child, {
           newRef: buttonRef,
-          // disabled: isErrors || isErrors === undefined, // || (initInputs && isEqual),
+          disabled: isErrors || isErrors === undefined, // || (initInputs && isEqual),
           onPress: () => {
             handleSubmit();
             onPress();

@@ -9,18 +9,26 @@ export const profileRules = {
     },
   },
   middle_name: {
-    ...name('Отчество'),
-    presence: {
-      allowEmpty: true,
+    presence: false,
+    format: {
+      pattern: /^[A-Za-zА-Яа-я]*$/,
+      message: '^Отчество должно состоять только из букв',
     },
-    length: {
-      minimum: 1,
-      maximum: 32,
+    length: function (value: string) {
+      if (value) {
+        return {
+          minimum: 6,
+          tooShort: '^Отчество должно быть длинной не менее %{count} символов',
+          maximum: 16,
+          tooLong: '^Отчество должно быть длинной менее %{count} символов',
+        };
+      }
+      return false;
     },
   },
   birth_date: {
     presence: {
-      allowEmpty: true,
+      allowEmpty: false,
       message: '^Поле обязательно для заполнения',
     },
     format: {
@@ -28,12 +36,13 @@ export const profileRules = {
       message: '^Год должент быть не менее 1920. Введите дату в формате DD.MM.YYYY',
     },
   },
-  /* sex: {
+  sex: {
+    presence: true,
     inclusion: {
-      within: [true, false],
-      message: '^Поле обязательно для заполнения',
+      within: [false, true],
+      message: '^Поле обязательно для выбора',
     },
-  }, */
+  },
   /* avatar: {
     presence: {
       allowEmpty: true,

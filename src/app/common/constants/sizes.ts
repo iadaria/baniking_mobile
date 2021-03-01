@@ -15,7 +15,7 @@ export const sizes = {
   },
 
   logo: {
-    bottom: 2.8,
+    bottom: 5,
   },
 
   input: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
+import { AppChecker, AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { colors, sizes } from '~/src/app/common/constants';
@@ -22,10 +22,29 @@ interface IProps {
   errors: IErrors | null;
 }
 
+const AgreementText = () => (
+  <Block row wrap margin={[0, 0, 0, 2]}>
+    <AppText primary medium size={sizes.text.label}>
+      Я согласен с
+    </AppText>
+    <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
+    <AppText primary medium size={sizes.text.label}>
+      и
+    </AppText>
+    <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
+    <AppOpenURL
+      secondary
+      medium
+      size={sizes.text.label}
+      url={supportedURLOne}
+      title="обработки персональных данных"
+    />
+  </Block>
+);
+
 export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosition, errors }: IProps) {
-  const [isAccept, setIsAccept] = React.useState<boolean>(true);
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '' });
+  const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '', agreement: true });
   // const [enableShift, setEnableShift] = React.useState(false);
 
   async function handleSubmit() {
@@ -35,7 +54,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
       email: valuesRef.current.email,
       phone: valuesRef.current.phone,
       device_name: device_name,
-      agreement: isAccept,
+      agreement: valuesRef.current.agreement,
     };
 
     console.log('***** data *******', data);
@@ -90,31 +109,10 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         isScrollToFocused
       />
       {/* Accept */}
-      <Block margin={[3, 0, 5]} row center>
-        <TouchableOpacity onPress={setIsAccept.bind(null, !isAccept)}>
-          <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
-        </TouchableOpacity>
-        {/* Gelroy medium 14 */}
-        <Block row wrap margin={[0, 0, 0, 2]}>
-          <AppText primary medium size={sizes.text.label}>
-            Я согласен с
-          </AppText>
-          <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
-          <AppText primary medium size={sizes.text.label}>
-            и
-          </AppText>
-          <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
-          <AppOpenURL
-            secondary
-            medium
-            size={sizes.text.label}
-            url={supportedURLOne}
-            title="обработки персональных данных"
-          />
-        </Block>
-      </Block>
+      <AppChecker id="agreement" text={<AgreementText />} />
+
       {/* Button */}
-      <AppButton disabled={!isAccept} onPress={handleSubmit}>
+      <AppButton onPress={handleSubmit}>
         <AppText center medium>
           Завершить регистрацию
         </AppText>
