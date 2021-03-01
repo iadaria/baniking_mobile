@@ -13,26 +13,32 @@ import { defaultScreenOptions } from './appDefaultTheme';
 interface IAppScreenOptionsProps {
   isDrawerOpen: boolean;
   isBackward: boolean;
+  backwardStack: string[];
   navigation: StackNavigationProp<ParamListBase>;
   route: Route<string, object | undefined>;
   onCloseDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
   onOpenDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
+  pullBackward: () => void;
 }
 
 export const appScreenOptions = ({
   isDrawerOpen,
   isBackward,
+  backwardStack,
   navigation,
   // route,
   onCloseDrawer,
   onOpenDrawer,
+  pullBackward,
 }: IAppScreenOptionsProps) => {
   return {
     ...defaultScreenOptions,
     headerTitle: () => <AppHeaderTitle />,
     headerLeft: () => {
-      if (isBackward) {
-        return <HeaderBackward navigation={navigation} />;
+      if (isBackward && backwardStack.length > 0) {
+        return (
+          <HeaderBackward navigation={navigation} backwardStack={backwardStack} pullBackward={pullBackward} />
+        );
       }
 
       return isDrawerOpen ? (

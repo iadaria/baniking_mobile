@@ -12,7 +12,7 @@ interface IProps {
 
 export default function SocialLogin({ socialLogin }: IProps) {
   return (
-    <Block base center row middle debug>
+    <Block base center row middle>
       <GoogleSigninButton
         style={{ width: 40, height: 40 }}
         size={GoogleSigninButton.Size.Icon}

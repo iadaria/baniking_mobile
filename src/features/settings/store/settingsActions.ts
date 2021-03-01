@@ -11,7 +11,7 @@ export const settingsSuccess = () => ({
   type: constants.SETTINGS_SUCCESS,
 });
 
-export const uploadAvatarFail = (payload: IErrors | null) => ({
+export const settingsFail = (payload: IErrors | null) => ({
   type: constants.SETTINGS_FAIL,
   payload,
 });

@@ -1,24 +1,24 @@
 import { IInput } from '~/src/app/models/validate';
 
-export const defaultSafeInputs: ILoginInputs = {
+export const defaultSafeInputs: ISafeInputs = {
   current_password: {
-    type: 'password',
+    type: 'new_password',
     value: '',
     require: true,
   },
   new_password: {
-    type: 'password',
+    type: 'new_password',
     value: '',
     require: true,
   },
   new_password_confirmation: {
-    type: 'password',
+    type: 'new_password',
     value: '',
     require: true,
   },
 };
 
-export interface ILoginInputs {
+export interface ISafeInputs {
   current_password: IInput;
   new_password: IInput;
   new_password_confirmation: IInput;

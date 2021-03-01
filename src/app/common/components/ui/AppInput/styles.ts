@@ -27,7 +27,7 @@ export const styles = StyleSheet.create<IInputStyleProps>({
     alignSelf: 'flex-start',
     backgroundColor: colors.white,
     borderWidth: 0.5,
-    borderColor: 'red',
+    // borderColor: 'red',
     paddingHorizontal: wp(1),
   },
   label: {},

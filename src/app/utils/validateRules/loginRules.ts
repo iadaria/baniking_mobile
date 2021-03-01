@@ -27,4 +27,20 @@ export const loginRules = {
       }, */
     },
   },
+  new_password: {
+    presence: {
+      allowEmpty: false,
+      message: '^Поле обязательно для заполнения',
+    },
+    length: {
+      minimum: 8,
+      tooShort: '^Пароль должен быть длинной не менее %{count} символов',
+      // message: '^Password must be at least 6 characters long',
+      maximum: 16,
+      tooLong: '^Password needs to have %{count} words or less',
+      /* tokenizer: function (value) {
+        return value.split(/\s+/g);
+      }, */
+    },
+  },
 };

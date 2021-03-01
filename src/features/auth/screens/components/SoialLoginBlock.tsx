@@ -7,7 +7,7 @@ import { FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 
 export default function SoialLoginBlock() {
   return (
-    <Block margin={[5, 0, 3]} debug>
+    <Block margin={[5, 0, 3]}>
       <AppText caption medium center size={sizes.text.label + 0.1}>
         Или войдите через социальные сети
       </AppText>

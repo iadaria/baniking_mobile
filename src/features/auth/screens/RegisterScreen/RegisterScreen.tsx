@@ -52,7 +52,7 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
             {/* Social login block */}
             <SoialLoginBlock />
             {/* Sign in */}
-            <Block row middle debug>
+            <Block row middle>
               <AppText primary center>
                 Уже зарегистрированы?
               </AppText>

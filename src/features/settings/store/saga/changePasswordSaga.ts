@@ -2,8 +2,9 @@ import { IChangePassword } from '~/src/app/models/settings';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { takeLatest } from 'redux-saga/effects';
-import { CHANGE_PASSWORD } from '~/src/features/auth/store/authConstants';
+import { takeLatest, put } from 'redux-saga/effects';
+import { settingsFail, settingsSuccess } from '../settingsActions';
+import { CHANGE_PASSWORD } from '../settingsConstants';
 
 interface IAction {
   type: string;
@@ -15,16 +16,24 @@ function* changePasswordSaga({ payload }: IAction) {
     console.log('[changePasswordSaga] **** ', payload);
     const response = yield methods.changePassword(payload, null);
     console.log('[changePasswordSaga]', response);
+
+    yield put(settingsSuccess());
+    yield showAlert('Сообщение', 'Ваш пароль изменен');
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
 
     let [errors, message, allErrors] = getErrorStrings(e);
+    yield put(settingsFail(errors));
 
-    console.log([errors, message]);
+    console.log([errors, message, allErrors]);
 
-    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
+    /*let errorMessage: string | null = null;
 
-    yield showAlert('Ошибка', errorMessage);
+    errorMessage = !allErrors ? allErrors : 'Введен неверный логин или пароль';
+
+    if (!errorMessage) {
+      yield showAlert('Ошибка', errorMessage);
+    } */
   }
 }
 

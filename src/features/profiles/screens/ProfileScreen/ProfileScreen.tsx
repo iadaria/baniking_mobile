@@ -22,7 +22,7 @@ import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { colors } from '~/src/app/common/constants/colors';
 import { styles } from './styles';
 import { IUploadAvatar } from '~/src/app/models/profile';
-import { getImageExtension, getSex } from '~/src/app/utils/system';
+import { getImageExtension } from '~/src/app/utils/system';
 import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
@@ -266,21 +266,3 @@ const ProfileConnected = connect(
 )(ProfileScreenContainer);
 
 export { ProfileConnected as ProfileScreen };
-
-/* const data = new FormData();
-const coordinates = {
-  width: 10,
-  height: 10,
-  top: 10,
-  left: 10,
-};
-data.append('coordinates', coordinates);
-data.append('file', {
-  uri: avatarImage,
-  name: 'userProfile.jpg',
-  type: 'image/jpg',
-});
-methods
-  .uploadAvatar(data, null)
-  .then((answer) => console.log(answer))
-  .catch((e) => console.log(e)); */

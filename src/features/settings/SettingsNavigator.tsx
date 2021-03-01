@@ -25,9 +25,9 @@ export default function SettingsNavigator({ navigation, route }: IScreenOptionsP
 
   return (
     <Settings.Navigator screenOptions={{ headerShown: false }}>
-      <Settings.Screen name="SafeScreen" component={SafeScreen} />
-      <Settings.Screen name="ProfileScreen" component={ProfileScreen} />
       <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
+      <Settings.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Settings.Screen name="SafeScreen" component={SafeScreen} />
       {/* <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} /> */}
       <Settings.Screen name="NotificationsScreen" component={NotificationsScreen} />
       <Settings.Screen name="RulesScreen" component={RulesScreen} />

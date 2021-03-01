@@ -19,6 +19,26 @@ export function validateInput({ type, value }: IInput) {
   return null;
 }
 
+export function validateInputEquality(v1: IInput, v2: IInput) {
+  const { type: type1, value: value1 } = v1;
+  const { type: type2, value: value2 } = v2;
+  const result = validatejs(
+    {
+      [type1]: value1,
+      [type2]: value2,
+    },
+    {
+      [type1]: validationDictionary[type1],
+    },
+  );
+
+  if (result) {
+    return result[type1][0];
+  }
+
+  return null;
+}
+
 interface InputValidationStateProps {
   input: IInput;
   value: string | boolean;

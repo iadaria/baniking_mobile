@@ -6,13 +6,15 @@ export const styles = StyleSheet.create({
   label: {
     textAlign: 'left',
     fontSize: wp(sizes.text.label),
-    // marginBottom: wp(1),
+    marginTop: wp(2),
   },
   input: {
     borderColor: colors.input.borderEdit,
     height: hp(sizes.input.heightEdit),
     color: colors.text.base,
     fontSize: wp(sizes.input.text),
+  },
+  lastInput: {
     marginBottom: wp(3),
   },
 });

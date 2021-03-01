@@ -1,7 +1,6 @@
 import { registerRules } from './validateRules/registerRules';
 import { loginRules } from './validateRules/loginRules';
 import { profileRules } from './validateRules/profileRules';
-
 // https://regex101.com/r/cU5lC2/1
 
 export const validationDictionary = {

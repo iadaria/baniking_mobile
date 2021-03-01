@@ -13,7 +13,7 @@ export interface IAppCheckerProps<T> {
 
 export function AppChecker<T>({ isAccept, onPress, text }: IAppCheckerProps<T>) {
   return (
-    <Block margin={[3, 0, 5]} row center debug>
+    <Block margin={[3, 0, 5]} row center>
       <TouchableOpacity onPress={onPress}>
         <SwitcherIcon fill={isAccept ? colors.secondary : colors.disable} />
       </TouchableOpacity>

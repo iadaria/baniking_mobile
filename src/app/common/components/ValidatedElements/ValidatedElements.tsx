@@ -236,7 +236,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
       // console.log(child.type.name);
       if (isTextInput(child)) {
-        const { id /* onFocus */, isScrollToFocused }: IAppInputProps<T> = child.props;
+        const {
+          id /* onFocus */,
+          isScrollToFocused /* , equalTo, errorMessage  */,
+        }: IAppInputProps<T> = child.props;
         if (!id) {
           return child;
         } // add new
@@ -247,7 +250,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           value: inputs[id].value,
-          error: inputs[id].errorLabel,
+          error: inputs[id].errorLabel, // || (equalTo && inputs[id].value !== inputs[equalTo!].value ? errorMessage : null),
           touched: Boolean(inputs[id].touched),
         });
 

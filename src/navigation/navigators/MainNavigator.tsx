@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import {
   openDrawer as openDrawerAction,
   closeDrawer as closeDrawerAction,
+  pullBackward as pullBackwardAction,
 } from '~/src/app/store/system/systemReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
@@ -18,8 +19,10 @@ interface IProps {
   isDrawerOpen: boolean;
   isBackward: boolean;
   authenticated: boolean;
+  backwardStack: string[];
   openDrawer: () => void;
   closeDrawer: () => void;
+  pullBackward: () => void;
 }
 
 interface IScreenOptionsProps {
@@ -29,7 +32,15 @@ interface IScreenOptionsProps {
 
 const Main = createStackNavigator();
 
-function MainNavigatorContainer({ authenticated, isDrawerOpen, isBackward, openDrawer, closeDrawer }: IProps) {
+function MainNavigatorContainer({
+  authenticated,
+  isDrawerOpen,
+  isBackward,
+  backwardStack,
+  openDrawer,
+  closeDrawer,
+  pullBackward,
+}: IProps) {
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
     openDrawer();
@@ -52,10 +63,12 @@ function MainNavigatorContainer({ authenticated, isDrawerOpen, isBackward, openD
           return appScreenOptions({
             isDrawerOpen,
             isBackward,
+            backwardStack,
             navigation,
             route,
             onCloseDrawer,
             onOpenDrawer,
+            pullBackward,
           });
         }}
         name="DrawerNavigator"
@@ -70,10 +83,12 @@ export default connect(
     isDrawerOpen: system.header.isDrawerOpen,
     isBackward: system.header.isBackward,
     authenticated: auth.authenticated,
+    backwardStack: system.header.backwardStack,
   }),
   {
     openDrawer: openDrawerAction,
     closeDrawer: closeDrawerAction,
+    pullBackward: pullBackwardAction,
   },
 )(MainNavigatorContainer);
 

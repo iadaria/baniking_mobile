@@ -3,6 +3,8 @@ import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle } from 'react-n
 
 export interface IAppInputProps<T> extends IUiInput {
   id?: keyof T; // id: keyof typeof defaultInputs;
+  equalTo?: string;
+  errorMessage?: string;
   error?: string;
   label?: string;
   touched?: boolean;

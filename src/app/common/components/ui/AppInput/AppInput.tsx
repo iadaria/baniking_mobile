@@ -73,9 +73,9 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
-    !!error && { borderColor: colors.error },
     center && styles.center,
     style,
+    !!error && !states.isVirgin && { borderColor: colors.error },
     states.isFocused && { borderColor: colors.secondary },
   ];
 

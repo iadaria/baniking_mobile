@@ -8,6 +8,8 @@ import { ParamListBase } from '@react-navigation/native';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
+  backwardStack: string[];
+  pullBackward: () => void;
 }
 
 export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) => {
@@ -30,10 +32,20 @@ export const HeaderLeftClose = ({ onCloseDrawer }: { onCloseDrawer: () => void }
   );
 };
 
-export const HeaderBackward = ({ navigation }: IProps) => {
+export const HeaderBackward = ({ navigation, backwardStack, pullBackward }: IProps) => {
+  const [screen, setScreen] = React.useState(backwardStack[backwardStack.length - 1]);
+  React.useEffect(() => {
+    setScreen(backwardStack[backwardStack.length - 1]);
+  }, [backwardStack]);
+
   return (
     <Block margin={[0, 0, 0, sizes.offset.base]}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
+          navigation.navigate(screen);
+          pullBackward();
+        }}>
         <BackwardIcon />
       </TouchableOpacity>
     </Block>
