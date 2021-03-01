@@ -41,7 +41,7 @@ export const resetPassword = (email: string) => ({
   payload: email,
 });
 
-export const authFail = (errors: IErrors) => ({
+export const authFail = (errors: IErrors | null) => ({
   type: constants.AUTH_FAIL,
   payload: errors,
 });

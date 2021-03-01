@@ -6,6 +6,7 @@ import { methods } from '~/src/app/api';
 import { GET_PROFILE_SETTINGS } from '../profileConstants';
 import { IProfile } from '~/src/app/models/profile';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
+import { authFail } from '../../../auth/store/authActions';
 
 function* getProfileSettingsSaga() {
   try {
@@ -25,6 +26,8 @@ function* getProfileSettingsSaga() {
     let errorMessage = allErrors ? allErrors : 'Ошибка при получении данных';
 
     yield showAlert('Ошибка', errorMessage);
+
+    put(authFail(errors));
   }
 }
 

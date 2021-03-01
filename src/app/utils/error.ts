@@ -25,7 +25,8 @@ export const getErrorStrings = (error: IResponseError): [IErrors | null, string,
   let firstErrorMsg = '';
 
   if (!error || !error.data?.errors) {
-    return [null, firstErrorMsg];
+    errors.message = error.data?.message;
+    return [null, error.data?.message];
   }
 
   firstErrorMsg = error.data?.message;

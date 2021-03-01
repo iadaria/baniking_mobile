@@ -24,14 +24,11 @@ export default function SettingsNavigator({ navigation, route }: IScreenOptionsP
   useBackward({ navigation, route });
 
   return (
-    <Settings.Navigator
-      screenOptions={{ headerShown: false }}
-      //initialRouteName="SettingsMenuScreen">
-      initialRouteName="BaseSettingsScreen">
+    <Settings.Navigator screenOptions={{ headerShown: false }}>
+      <Settings.Screen name="SafeScreen" component={SafeScreen} />
       <Settings.Screen name="ProfileScreen" component={ProfileScreen} />
       <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
       {/* <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} /> */}
-      <Settings.Screen name="SafeScreen" component={SafeScreen} />
       <Settings.Screen name="NotificationsScreen" component={NotificationsScreen} />
       <Settings.Screen name="RulesScreen" component={RulesScreen} />
       <Settings.Screen name="ContractScreen" component={ContractScreen} />

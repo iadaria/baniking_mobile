@@ -16,10 +16,8 @@ export const KeyboardWrapper = ({ children }: { children: JSX.Element | JSX.Elem
 
 const styles = StyleSheet.create({
   keyboard: {
-    marginTop: 30,
+    // marginTop: 30,
     backgroundColor: 'transparent',
-    padding: 0,
-    margin: 0,
-    // flex: 1,
+    flexGrow: 1,
   },
 });

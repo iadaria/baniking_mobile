@@ -50,11 +50,13 @@ export const methods = {
   login: request('post', '/login', pubFetch),
   register: request('post', '/register', pubFetch),
   reset: request('post', '/passwords/reset', privFetch),
-  // getCurrentUser: request('get', '/profile', privFetch),
-  // Cabnet
+  // settings
+  changePassword: request('put', '/password', privFetch),
+  // profile
   getProfile: request('get', '/profile', privFetch),
   updateProfile: request('put', '/profile', privFetch),
   uploadAvatar: request('post', '/profile/avatar', privFetch),
+  // cabinet
   getCabinet: request('get', '/cabinet', privFetch),
 };
 
