@@ -54,10 +54,18 @@ function ProfileScreenContainer({
   const scrollViewRef = React.useRef<ScrollView>(null);
   const valuesRef = React.useRef<Partial<IProfile>>(currentProfile);
   const [avatarIsChanged, setAvatarIsChaned] = useState<boolean>(false); // TOOD false
-  const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({});
+  const [avatarImage, setAvatarImage] = useState<IUploadAvatar>({
+    file: currentProfile?.avatar || USER_IMAGE_PATH,
+    width: 0,
+    height: 0,
+    left: 0,
+    top: 0,
+    mime: 'image/jpeg',
+    size: 1000,
+  });
 
   const { email, sex: initSex } = currentProfile || {};
-  const [sex, setSex] = useState<Sex>(getSex(initSex || 0));
+  const [sex, setSex] = useState<Sex>(initSex!);
 
   function handleSaveSettings() {
     console.log('******** current values', valuesRef);
@@ -85,28 +93,34 @@ function ProfileScreenContainer({
   useEffect(() => {
     if (currentProfile) {
       initProfileInputs(currentProfile);
+      setSex(currentProfile.sex);
       console.log('currentPfoieSettings', JSON.stringify(currentProfile, null, 2));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile, initProfileInputs]);
 
   useEffect(() => {
-    const _image = currentProfile?.avatar || USER_IMAGE_PATH;
-    Image.getSize(_image, (width: number, height: number) => {
-      console.log(width, height);
-      setAvatarImage({
-        file: _image,
-        width,
-        height,
-        top: 0,
-        left: 0,
-        mime: getImageExtension(_image) as TAcceptTypeAvatar,
-        size: 100000,
+    if (currentProfile?.avatar) {
+      console.log('ProfileScreen/useEffect/curreProfile] set image');
+      const _image = currentProfile.avatar;
+      Image.getSize(_image, (width: number, height: number) => {
+        setAvatarImage({
+          ...avatarImage,
+          ...{
+            file: _image,
+            width,
+            height,
+            top: 0,
+            left: 0,
+            mime: getImageExtension(_image) as TAcceptTypeAvatar,
+            size: 100000,
+          },
+        });
       });
-    });
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentProfile]); // del
+  }, [currentProfile?.avatar]);
 
   /* useEffect(() => {
     console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
@@ -129,7 +143,6 @@ function ProfileScreenContainer({
         contentContainerStyle={styles.scrollViewContainer}>
         <ValidatedElements
           // key={Number(recreate)}
-          // initInputs={currentProfile}
           defaultInputs={defaultProfileInputs}
           scrollView={scrollViewRef}
           valuesRef={valuesRef}

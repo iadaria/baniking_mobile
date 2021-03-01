@@ -32,7 +32,11 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
   };
 
   return (
-    <ValidatedElements defaultInputs={defaultRecoveryInputs} scrollView={scrollViewRef} valuesRef={valuesRef}>
+    <ValidatedElements
+      key={Number(recreate)}
+      defaultInputs={defaultRecoveryInputs}
+      scrollView={scrollViewRef}
+      valuesRef={valuesRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>

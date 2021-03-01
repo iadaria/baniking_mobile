@@ -19,8 +19,10 @@ function* getProfileSettingsSaga() {
     );
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
-    let [errors, message] = getErrorStrings(e);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
+    let [errors, message, allErrors] = getErrorStrings(e);
+    console.log('[getdProfileSettingsSaga]', [errors, message]);
+
+    let errorMessage = allErrors ? allErrors : 'Ошибка при получении данных';
 
     yield showAlert('Ошибка', errorMessage);
   }

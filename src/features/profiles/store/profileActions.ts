@@ -42,7 +42,7 @@ export const sendProfileSettings = (payload: Partial<IProfile>) => ({
   payload,
 });
 
-export const sendProfileFail = (payload: IErrors) => ({
+export const sendProfileFail = (payload: IErrors | null) => ({
   type: constants.SEND_PROFILE_FAIL,
   payload,
 });
