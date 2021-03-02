@@ -1,4 +1,4 @@
-import { ICabinet, IProfile } from '~/src/app/models/profile';
+import { ICabinet, ILevel, IProfile, IResponseCabinet } from '~/src/app/models/profile';
 import { initInputs } from '~/src/app/utils/validate';
 import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
@@ -10,13 +10,17 @@ export interface IProfileState {
     profile: IErrors | null;
     avatar: IErrors | null;
   };
-  profileErrors: IErrors | null;
-  cabinetErrors: string[];
   language?: string;
+  // Profile
+  profileErrors: IErrors | null;
   currentUserProfile: IProfile | null;
-  currentUserCabinet: ICabinet | null;
   selectedUserProfile: IProfile | null;
+  // Cabinet
+  cabinetErrors: IErrors | null;
+  currentUserCabinet: ICabinet | null;
+  currentUserLevels: ILevel[];
   selectedUserCabinet: ICabinet | null;
+  // Others
   inputs: IInputs;
 }
 
@@ -31,11 +35,13 @@ const initialState: IProfileState = {
     avatar: null,
   },
   profileErrors: null,
-  cabinetErrors: [],
   currentUserProfile: null,
-  currentUserCabinet: null,
   selectedUserProfile: null,
+  // cabinet
+  cabinetErrors: null,
   selectedUserCabinet: null,
+  currentUserCabinet: null,
+  currentUserLevels: [],
   inputs: {
     settings: defaultProfileInputs,
   },
@@ -134,22 +140,21 @@ export default function persistReducer(
       return {
         ...state,
         loading: true,
-        cabinetErrors: [],
-        currentUserProfile: payload,
+        cabinetErrors: null,
       };
 
     case constants.SET_CABINET_DATA:
       return {
         ...state,
         loading: false,
-        cabinetErrors: [],
-        currentUserProfile: payload,
+        cabinetErrors: null,
+        currentUserCabinet: (payload as IResponseCabinet).user,
+        currentUserLevels: (payload as IResponseCabinet).levels,
       };
 
     // Common
     case constants.CLEAR_PROFILE:
       return {
-        ...state,
         ...initialState,
       };
 

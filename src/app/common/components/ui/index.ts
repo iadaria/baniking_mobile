@@ -6,5 +6,6 @@ import { AppOpenURL } from './AppOpenURL';
 import { Divider } from './Divider';
 import { AppButton } from './AppButton';
 import { AppChecker } from './AppChecker';
+import { AppProgress } from './AppProgress';
 
-export { Block, AppText, AppInput, AppSwitch, AppOpenURL, Divider, AppButton, AppChecker };
+export { Block, AppText, AppInput, AppSwitch, AppOpenURL, Divider, AppButton, AppChecker, AppProgress };

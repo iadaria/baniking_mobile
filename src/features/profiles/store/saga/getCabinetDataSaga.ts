@@ -1,19 +1,24 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { GET_CABINET_DATA } from '../profileConstants';
-import { ICabinet } from '~/src/app/models/profile';
+import { IResponseCabinet } from '~/src/app/models/profile';
 import { setCabinetData } from '../profileActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 
 function* getCabinetDataSaga() {
   try {
-    const cabinet: ICabinet = yield call(methods.getProfile, null, null);
+    const cabinet: IResponseCabinet = yield call(methods.getCabinet, null, null);
+    console.log('[getCabinetSaga] **********');
     yield put(setCabinetData(cabinet));
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
-    let [errors, message] = getErrorStrings(e);
-    let errorMessage = errors.length ? `${message}` || errors[0] : 'Error connection';
+    let [errors, message, allErrors] = getErrorStrings(e);
+
+    console.log([errors, message, allErrors]);
+
+    const errorMessage =
+      allErrors && message ? allErrors || message : 'Ошибка при получении данных личного профиля';
 
     yield showAlert('Ошибка', errorMessage);
   }

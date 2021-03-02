@@ -40,17 +40,18 @@ export interface IUploadAvatar {
   size: number;
 }
 
-export interface IPhoto {
-  id: string;
-  url: string;
-  isMain: boolean;
-}
+// Cabinet
 
 export enum Level {
   Praetor = 'Претор',
   Magister = 'Магистр',
   Consul = 'Консул',
   Emperor = 'Император',
+}
+
+export interface IResponseCabinet {
+  user: ICabinet;
+  levels: ILevel[];
 }
 
 export interface ILevel {
@@ -66,5 +67,5 @@ export interface ICabinet {
   points: number;
   meetings_count: number;
   avatar: string;
-  levels: ILevel[];
+  // levels: ILevel[];
 }

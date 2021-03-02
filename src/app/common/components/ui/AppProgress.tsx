@@ -45,7 +45,7 @@ interface IStep {
   level: Level;
 }
 
-const ProgressBar = (props: IProgressBarProps) => {
+export function AppProgress(props: IProgressBarProps) {
   const { completed } = props;
 
   const steps: IStep[] = [
@@ -81,9 +81,7 @@ const ProgressBar = (props: IProgressBarProps) => {
       </Block>
     </View>
   );
-};
-
-export default ProgressBar;
+}
 
 const styles = StyleSheet.create({
   containerStyles: {

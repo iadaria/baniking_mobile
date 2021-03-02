@@ -1,7 +1,8 @@
-import { IProfile, ICabinet } from '~/src/app/models/profile';
+import { IProfile } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
 import { IUploadAvatar } from '~/src/app/models/profile';
 import { IErrors } from '~/src/app/utils/error';
+import { IResponseCabinet } from '../../../app/models/profile';
 
 /** Cabinet */
 
@@ -9,7 +10,7 @@ export const getCabinetData = (/** Read parameters */) => ({
   type: constants.GET_CABINET_DATA,
 });
 
-export const setCabinetData = (payload: ICabinet) => ({
+export const setCabinetData = (payload: IResponseCabinet) => ({
   type: constants.SET_CABINET_DATA,
   payload,
 });
@@ -51,8 +52,3 @@ export const uploadAvatarFail = (payload: IErrors) => ({
   type: constants.UPLOAD_AVATAR_FAIL,
   payload,
 });
-
-/* export const uploadAvatar = (payload: UploadAvatar) => ({
-  type: constants.UPLOAD_AVATAR, payload,
-});
- */

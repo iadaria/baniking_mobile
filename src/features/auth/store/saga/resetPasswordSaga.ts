@@ -23,7 +23,7 @@ function* resetPasswordSaga({ payload }: IAction) {
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
-    console.log([errors, message]);
+    console.log([errors, message, allErrors]);
 
     const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 

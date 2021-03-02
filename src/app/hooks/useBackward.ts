@@ -12,7 +12,8 @@ interface IProps {
 export function useBackward({ navigation, route }: IProps) {
   const dispatch = useDispatch();
   const name = getFocusedRouteNameFromRoute(route);
-  const excepts = ['SettingsMenuScreen', 'CabinetScreen'];
+  const exceptsFrom = ['SettingsMenuScreen', 'CabinetScreen'];
+  const exceptsTo = ['LoginScreen', 'RegisterScreen', 'ResetPasswordScreen'];
   const settingsScreens = [
     'SafeScreen',
     'ProfileScreen',
@@ -31,11 +32,11 @@ export function useBackward({ navigation, route }: IProps) {
     if (name && settingsScreens.includes(name)) {
       dispatch(pushBackward('SettingsMenuScreen'));
     }
-    if (name && navigation.canGoBack && !excepts.includes(name)) {
+    if (name && navigation.canGoBack && !exceptsFrom.includes(name)) {
       dispatch(enableBackward());
       //dispatch(pushBackward(name));
     } else {
       dispatch(disableBackward());
     }
-  }, [dispatch, excepts, name, navigation.canGoBack]);
+  }, [dispatch, exceptsFrom, name, navigation.canGoBack, settingsScreens]);
 }

@@ -1,25 +1,46 @@
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-import { AppText, Block, Divider } from '~/src/app/common/components/UI';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { AppText, Block, Divider, AppProgress } from '~/src/app/common/components/UI';
 import { colors, sizes } from '~/src/app/common/constants';
-import { AuthLogoLeft, AuthLogoRight, ColumnIcon, userImg } from '~/src/assets';
-import ProgressBar from '~/src/app/common/components/UI/AppProgress';
+import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { ICabinet } from '~/src/app/models/profile';
+import { AuthLogoLeft, AuthLogoRight, ColumnIcon } from '~/src/assets';
+import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { styles } from './styles';
 
-export function CabinetScreen() {
+interface IProps {
+  loading: boolean;
+  cabinetData: ICabinet;
+  getCabinetData: () => void;
+}
+
+function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
+  const { full_name, level, points, meetings_count, avatar, levels } = cabinetData || {};
+
+  useEffect(() => {
+    getCabinetData();
+  }, [getCabinetData]);
+
+  if (loading) {
+    return (
+      <Block full center middle>
+        <ActivityIndicator size="small" color={colors.secondary} />
+      </Block>
+    );
+  }
+
   return (
     <Block full base>
       <AppText h1>Личный кабинет</AppText>
       {/* Name & Avatar block */}
       <Block flex={0.8} /* margin={[7, 0, 12]}  */ middle>
         <Block margin={[0, 0, 2]} style={styles.avatarBorder}>
-          <Image style={styles.avatar} source={userImg} />
+          <Image style={styles.avatar} source={{ uri: USER_IMAGE_PATH }} />
         </Block>
         <AppText center trajan size={sizes.profile.name} color={colors.profile.name}>
-          Андрей
-        </AppText>
-        <AppText center trajan size={sizes.profile.name} color={colors.profile.name} height={30}>
-          Немиров
+          {full_name}
         </AppText>
         <Block margin={[1, 0]} row middle center>
           <AuthLogoLeft />
@@ -34,7 +55,7 @@ export function CabinetScreen() {
       <Block middle>
         <AppText center>Статус</AppText>
         <Block margin={[3, 0]}>
-          <ProgressBar completed={33.33} />
+          <AppProgress completed={33.33} />
         </Block>
       </Block>
       {/* Metting header block */}
@@ -58,3 +79,15 @@ export function CabinetScreen() {
     </Block>
   );
 }
+
+const CabinetConnected = connect(
+  ({ profile }: IRootState) => ({
+    loading: profile.loading,
+    cabinetData: profile.currentUserCabinet,
+  }),
+  {
+    getCabinetData: getCabinetDataAction,
+  },
+)(CabinetContainer);
+
+export { CabinetConnected as CabinetScreen };
