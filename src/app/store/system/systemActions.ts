@@ -1,5 +1,7 @@
 import * as constants from './systemConstants';
 
+/** Drawer */
+
 export function openDrawer() {
   return {
     type: constants.OPEN_DRAWER,
@@ -11,6 +13,8 @@ export function closeDrawer() {
     type: constants.CLOSE_DRAWER,
   };
 }
+
+/** Backward */
 
 export function enableBackward() {
   return {
@@ -40,5 +44,21 @@ export function pullBackward() {
 export function clearBackward() {
   return {
     type: constants.CLEAR_BACKWARD,
+  };
+}
+
+/** Title */
+
+export function setTitlePoints(points: number) {
+  return {
+    type: constants.SET_TITLE_POINTS,
+    payload: points,
+  };
+}
+
+/** Common */
+export function clearSystem() {
+  return {
+    type: constants.CLEAR_SYSTEM,
   };
 }

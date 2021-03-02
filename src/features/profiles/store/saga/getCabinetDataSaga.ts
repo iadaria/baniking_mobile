@@ -5,12 +5,14 @@ import { IResponseCabinet } from '~/src/app/models/profile';
 import { setCabinetData } from '../profileActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { setTitlePoints } from '~/src/app/store/system/systemActions';
 
 function* getCabinetDataSaga() {
   try {
     const cabinet: IResponseCabinet = yield call(methods.getCabinet, null, null);
     console.log('[getCabinetSaga] **********');
     yield put(setCabinetData(cabinet));
+    yield put(setTitlePoints(cabinet.user.points));
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
     let [errors, message, allErrors] = getErrorStrings(e);

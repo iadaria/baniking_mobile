@@ -1,3 +1,5 @@
+import { Sex } from '../models/profile';
+
 export function getCircularReplacer() {
   const seen = new WeakSet();
   return (key: any, value: any) => {
@@ -26,3 +28,7 @@ export function isAllowedImageType(type: string) {
 }
 
 export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Female);
+
+export function numberWithSpaces(x: number) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}

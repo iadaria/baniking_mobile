@@ -20,6 +20,7 @@ interface IProps {
   isBackward: boolean;
   authenticated: boolean;
   backwardStack: string[];
+  points: number;
   openDrawer: () => void;
   closeDrawer: () => void;
   pullBackward: () => void;
@@ -37,6 +38,7 @@ function MainNavigatorContainer({
   isDrawerOpen,
   isBackward,
   backwardStack,
+  points,
   openDrawer,
   closeDrawer,
   pullBackward,
@@ -55,8 +57,6 @@ function MainNavigatorContainer({
 
   return (
     <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
-      {/* <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'LoginScreen'}> */}
-      {/* <Main.Screen options={{ headerShown: true }} name="ProfileScreen" component={LoginScreen} /> */}
       <Main.Screen options={{ headerShown: false }} name="AuthNavigator" component={AuthNavigator} />
       <Main.Screen
         options={({ navigation, route }: IScreenOptionsProps) => {
@@ -64,6 +64,7 @@ function MainNavigatorContainer({
             isDrawerOpen,
             isBackward,
             backwardStack,
+            points,
             navigation,
             route,
             onCloseDrawer,
@@ -84,6 +85,7 @@ export default connect(
     isBackward: system.header.isBackward,
     authenticated: auth.authenticated,
     backwardStack: system.header.backwardStack,
+    points: system.header.points,
   }),
   {
     openDrawer: openDrawerAction,

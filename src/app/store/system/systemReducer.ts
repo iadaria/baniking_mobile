@@ -10,6 +10,7 @@ export interface ISystemState {
     isDrawerOpen: boolean;
     isBackward: boolean;
     backwardStack: string[];
+    points: number;
   };
 }
 
@@ -18,6 +19,7 @@ const initialState: ISystemState = {
     isDrawerOpen: false,
     isBackward: false,
     backwardStack: [],
+    points: 0,
   },
 };
 
@@ -97,6 +99,20 @@ export default function systemReducer(
           isBackward: false,
           backwardStack: [],
         },
+      };
+
+    case constants.SET_TITLE_POINTS:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          points: payload,
+        },
+      };
+
+    case constants.CLEAR_SYSTEM:
+      return {
+        ...initialState,
       };
 
     default:
