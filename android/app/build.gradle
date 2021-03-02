@@ -136,7 +136,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true
-        // manifestPlaceholders = [YANDEX_CLIENT_ID:"8ae51d5112d54b77ba33623a958e6d96"] // by Daria
+        manifestPlaceholders = [YANDEX_CLIENT_ID:"707f8fd9b4cf43ea846143b487d73c45"]
     }
     splits {
         abi {
@@ -197,6 +197,7 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1" // by daria
 
     implementation 'com.google.android.gms:play-services-auth:19.0.0' // by daria
+    implementation 'com.yandex.android:authsdk:2.1.0' // by daria
     implementation 'androidx.browser:browser:1.2.0' // by daria
 
     // maybe will need
