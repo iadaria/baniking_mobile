@@ -1,5 +1,3 @@
-import { Sex } from '~/src/app/models/profile';
-
 export function getCircularReplacer() {
   const seen = new WeakSet();
   return (key: any, value: any) => {

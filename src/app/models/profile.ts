@@ -28,6 +28,7 @@ export interface IProfile {
 }
 
 /***** Avatar ****/
+
 export type TAcceptTypeAvatar = 'image/png' | 'image/jpeg' | 'image/gif' | 'image/jpg';
 
 export interface IUploadAvatar {
@@ -49,13 +50,41 @@ export enum Level {
   Emperor = 'Император',
 }
 
+export const Levels: ILevel[] = [
+  {
+    name: Level.Praetor,
+    discount: 5,
+    meetings: 3,
+  },
+  {
+    name: Level.Magister,
+    discount: 10,
+    meetings: 5,
+  },
+  {
+    name: Level.Consul,
+    discount: 25,
+    meetings: 10,
+  },
+  {
+    name: Level.Praetor,
+    discount: 35,
+    meetings: 15,
+  },
+];
+
 export interface IResponseCabinet {
   user: ICabinet;
   levels: ILevel[];
 }
 
+/**
+ * @name {string}
+ * @discount {number}
+ * @meetings {number} - count of meetings
+ */
 export interface ILevel {
-  name: string;
+  name: Level;
   discount: number;
   meetings: number;
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { AppText, Block, Divider, AppProgress } from '~/src/app/common/components/UI';
 import { colors, sizes } from '~/src/app/common/constants';
 import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
+import { getCountForNextLevel, getMeetingsDeclension } from '~/src/app/utils/meetings';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { ICabinet } from '~/src/app/models/profile';
 import { AuthLogoLeft, AuthLogoRight, ColumnIcon } from '~/src/assets';
@@ -12,7 +13,7 @@ import { styles } from './styles';
 
 interface IProps {
   loading: boolean;
-  cabinetData: ICabinet;
+  cabinetData: ICabinet | null;
   getCabinetData: () => void;
 }
 
@@ -31,21 +32,24 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
     );
   }
 
+  const countBeforeNext = getCountForNextLevel(meetings_count || 0);
   return (
     <Block full base>
       <AppText h1>Личный кабинет</AppText>
       {/* Name & Avatar block */}
       <Block flex={0.8} /* margin={[7, 0, 12]}  */ middle>
         <Block margin={[0, 0, 2]} style={styles.avatarBorder}>
-          <Image style={styles.avatar} source={{ uri: USER_IMAGE_PATH }} />
+          <Image style={styles.avatar} source={{ uri: avatar || USER_IMAGE_PATH }} />
         </Block>
-        <AppText center trajan size={sizes.profile.name} color={colors.profile.name}>
-          {full_name}
-        </AppText>
+        {full_name?.split(' ').map((name: string, idx: number) => (
+          <AppText key={`${idx}`} center trajan size={sizes.profile.name} color={colors.profile.name} height={30}>
+            {name}
+          </AppText>
+        ))}
         <Block margin={[1, 0]} row middle center>
           <AuthLogoLeft />
           <AppText style={{ marginHorizontal: 15 }} h2 trajan transform="uppercase">
-            Магистр
+            {level}
           </AppText>
           <AuthLogoRight />
         </Block>
@@ -55,7 +59,7 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
       <Block middle>
         <AppText center>Статус</AppText>
         <Block margin={[3, 0]}>
-          <AppProgress completed={33.33} />
+          <AppProgress completed={meetings_count || 0} />
         </Block>
       </Block>
       {/* Metting header block */}
@@ -65,7 +69,7 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
             console.log('naviation to 10 mettings');
           }}>
           <AppText center light secondary>
-            {'еще 10 собраний '}
+            {`еще ${countBeforeNext} ${getMeetingsDeclension(countBeforeNext)} `}
           </AppText>
         </TouchableOpacity>
         <AppText center light>

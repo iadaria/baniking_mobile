@@ -1,8 +1,6 @@
-import { IProfile } from '~/src/app/models/profile';
 import * as constants from './profileConstants';
-import { IUploadAvatar } from '~/src/app/models/profile';
 import { IErrors } from '~/src/app/utils/error';
-import { IResponseCabinet } from '../../../app/models/profile';
+import { IProfile, IUploadAvatar, IResponseCabinet } from '~/src/app/models/profile';
 
 /** Cabinet */
 

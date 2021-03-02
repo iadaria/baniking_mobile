@@ -2,15 +2,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Level } from '~/src/app/models/profile';
-import { colors } from '../../constants';
-import { AppText } from './AppText';
-import { Block } from './Block';
-
-enum Step {
-  Achived,
-  Current,
-  Disable,
-}
+import { IStep, Step } from '~/src/app/utils/meetings';
+import { generateSteps } from '~/src/app/utils/meetings';
+import { colors } from '~/src/app/common/constants/colors';
+import { AppText } from '../AppText';
+import { Block } from '../Block';
 
 interface ICaptionProps {
   level: Level;
@@ -38,22 +34,19 @@ interface IProgressBarProps {
   completed: number;
 }
 
-interface IStep {
-  discaunt: number;
-  progress: number;
-  step: Step;
-  level: Level;
-}
-
 export function AppProgress(props: IProgressBarProps) {
   const { completed } = props;
 
-  const steps: IStep[] = [
+  // console.log('[AppProgress] steps', JSON.stringify(generateSteps(completed), null, 2));
+
+  const steps: IStep[] = generateSteps(completed);
+
+  /* const steps: IStep[] = [
     { progress: 0, discaunt: 5, step: Step.Achived, level: Level.Praetor },
     { progress: 33.3, discaunt: 10, step: Step.Current, level: Level.Magister },
     { progress: 66.66, discaunt: 25, step: Step.Disable, level: Level.Consul },
     { progress: 100, discaunt: 35, step: Step.Disable, level: Level.Emperor },
-  ];
+  ]; */
 
   const completedStyle = {
     width: `${completed}%`,

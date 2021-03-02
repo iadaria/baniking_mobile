@@ -1,4 +1,3 @@
-
 import { Image } from 'react-native';
 import { defaultUserMaleImg } from '~/src/assets';
 
