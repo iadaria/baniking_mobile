@@ -9,7 +9,7 @@ import {
   openDrawer as openDrawerAction,
   closeDrawer as closeDrawerAction,
   pullBackward as pullBackwardAction,
-} from '~/src/app/store/system/systemReducer';
+} from '~/src/app/store/system/systemActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
 // import { UnauthScreen } from '~/src/features/auth/screens';

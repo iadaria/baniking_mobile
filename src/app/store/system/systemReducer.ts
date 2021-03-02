@@ -1,63 +1,10 @@
-/***************** System constants ********************/
-const OPEN_DRAWER = 'system/OPEN_DRAWER';
-const CLOSE_DRAWER = 'system/CLOSE_DRAWER';
-const ENABLE_BACKWARD = 'system/ENABLE_BACKWARD';
-const DISABLE_BACKWARD = 'system/DISABLE_BACKWARD';
-const PUSH_BACKWARD = 'system/PUSH_BACKWARD';
-const PULL_BACKWARD = 'system/PULL_BACKWARD';
-const CLEAR_BACKWARD = 'system/CLEAR_BACKWARD';
+import * as constants from './systemConstants';
 
-/***************** System actions **********************/
 interface IAction {
   type: string;
   payload: any;
 }
 
-export function openDrawer() {
-  return {
-    type: OPEN_DRAWER,
-  };
-}
-
-export function closeDrawer() {
-  return {
-    type: CLOSE_DRAWER,
-  };
-}
-
-export function enableBackward() {
-  return {
-    type: ENABLE_BACKWARD,
-  };
-}
-
-export function disableBackward() {
-  return {
-    type: DISABLE_BACKWARD,
-  };
-}
-
-export function pushBackward(screen: string) {
-  console.log('kljlkjlkj ', screen);
-  return {
-    type: PUSH_BACKWARD,
-    payload: screen,
-  };
-}
-
-export function pullBackward() {
-  return {
-    type: PULL_BACKWARD,
-  };
-}
-
-export function clearBackward() {
-  return {
-    type: CLEAR_BACKWARD,
-  };
-}
-
-/***************** System reducer **********************/
 export interface ISystemState {
   header: {
     isDrawerOpen: boolean;
@@ -79,7 +26,7 @@ export default function systemReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): ISystemState {
   switch (type) {
-    case OPEN_DRAWER:
+    case constants.OPEN_DRAWER:
       return {
         ...state,
         header: {
@@ -89,7 +36,7 @@ export default function systemReducer(
         },
       };
 
-    case CLOSE_DRAWER:
+    case constants.CLOSE_DRAWER:
       return {
         ...state,
         header: {
@@ -99,7 +46,7 @@ export default function systemReducer(
         },
       };
 
-    case ENABLE_BACKWARD:
+    case constants.ENABLE_BACKWARD:
       return {
         ...state,
         header: {
@@ -109,7 +56,7 @@ export default function systemReducer(
         },
       };
 
-    case DISABLE_BACKWARD:
+    case constants.DISABLE_BACKWARD:
       return {
         ...state,
         header: {
@@ -119,7 +66,7 @@ export default function systemReducer(
         },
       };
 
-    case PUSH_BACKWARD:
+    case constants.PUSH_BACKWARD:
       console.log('systemReducer', payload);
       return {
         ...state,
@@ -131,7 +78,7 @@ export default function systemReducer(
         },
       };
 
-    case PULL_BACKWARD:
+    case constants.PULL_BACKWARD:
       return {
         ...state,
         header: {
@@ -142,7 +89,7 @@ export default function systemReducer(
         },
       };
 
-    case CLEAR_BACKWARD:
+    case constants.CLEAR_BACKWARD:
       return {
         ...state,
         header: {

@@ -2,7 +2,7 @@ import { getFocusedRouteNameFromRoute, ParamListBase, Route } from '@react-navig
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { disableBackward, enableBackward, pushBackward } from '~/src/app/store/system/systemReducer';
+import { disableBackward, enableBackward, pushBackward } from '~/src/app/store/system/systemActions';
 
 interface IProps {
   route: Route<string, object | undefined>;
