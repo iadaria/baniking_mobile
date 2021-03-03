@@ -47,6 +47,9 @@ public class YandexLogin extends ReactContextBaseJavaModule {
                         if (loginPromise != null) {
                             loginPromise.resolve(yandexAuthToken.getValue());
                             loginPromise = null;
+
+                            // activity.setResult(Activity.RESULT_OK);
+                            // activity.finish();
                         }
                     }
                 } catch (YandexAuthException e) {
@@ -56,6 +59,7 @@ public class YandexLogin extends ReactContextBaseJavaModule {
                         loginPromise = null;
                     }
                 }
+                return;
             }
             super.onActivityResult(activity, requestCode, resultCode, intent);
         }
@@ -94,9 +98,10 @@ public class YandexLogin extends ReactContextBaseJavaModule {
         if (yandexAuthToken != null) {
             promise.resolve(yandexAuthToken.getValue());
         }
-
+        sdk = new YandexAuthSdk( new YandexAuthOptions(currentActivity, true));
         Intent intent = sdk.createLoginIntent(currentActivity, null);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        currentActivity.startActivityForResult(intent, REQUEST_LOGIN_SDK);
+        currentActivity.startActivityForResult(intent, REQUEST_LOGIN_SDK, null);
     }
 }
