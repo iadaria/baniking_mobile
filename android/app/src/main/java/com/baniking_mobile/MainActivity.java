@@ -1,6 +1,6 @@
 package com.baniking_mobile;
 
-import android.app.Activity;
+// import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,7 +29,7 @@ public class MainActivity extends ReactActivity {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    mReactInstanceManager.onActivityResult(this, requestCode, resultCode, data);
+    // mReactInstanceManager.onActivityResult(this, requestCode, resultCode, data);
   }
 
 }

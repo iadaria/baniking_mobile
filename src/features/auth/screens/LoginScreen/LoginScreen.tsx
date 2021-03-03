@@ -24,7 +24,7 @@ export function LoginScreen({ navigation }: IProps) {
       alwaysBounceHorizontal
       // contentInsetAdjustmentBehavior="always"
       contentContainerStyle={styles.scrollViewContainer}>
-      <Block full debug>
+      <Block full>
         {/* Top log */}
         <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
           <AuthLogo />

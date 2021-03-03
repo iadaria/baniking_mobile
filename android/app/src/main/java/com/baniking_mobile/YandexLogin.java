@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -18,9 +19,12 @@ import com.yandex.authsdk.YandexAuthOptions;
 import com.yandex.authsdk.YandexAuthSdk;
 import com.yandex.authsdk.YandexAuthToken;
 
-public class YandexLogin extends ReactContextBaseJavaModule implements ActivityEventListener {
+public class YandexLogin extends ReactContextBaseJavaModule {
     private static final int REQUEST_LOGIN_SDK = 1;
+    private static final String E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST";
+
     private  ReactApplicationContext reactContext;
+
     private Promise loginPromise;
 
     @Nullable
@@ -32,84 +36,67 @@ public class YandexLogin extends ReactContextBaseJavaModule implements ActivityE
     @Nullable
     private String error;
 
+    private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+        @Override
+        public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+            if (requestCode == REQUEST_LOGIN_SDK) {
+                try {
+                    final YandexAuthToken yandexAuthToken = sdk.extractToken(resultCode, intent);
+                    if (yandexAuthToken != null) {
+                        onTokenReceived(yandexAuthToken);
+                        if (loginPromise != null) {
+                            loginPromise.resolve(yandexAuthToken.getValue());
+                            loginPromise = null;
+                        }
+                    }
+                } catch (YandexAuthException e) {
+                    error = e.getLocalizedMessage();
+                    if (loginPromise != null) {
+                        loginPromise.reject("Yandex login", e.getMessage());
+                        loginPromise = null;
+                    }
+                }
+            }
+            super.onActivityResult(activity, requestCode, resultCode, intent);
+        }
+    };
+
     YandexLogin(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
-        this.reactContext.addActivityEventListener(this);
+        // this.reactContext = reactContext;
+        reactContext.addActivityEventListener(mActivityEventListener);
 
-        sdk = new YandexAuthSdk( new YandexAuthOptions(this.reactContext, true));
+        sdk = new YandexAuthSdk( new YandexAuthOptions(reactContext, true));
     }
 
 
     @Override
     public String getName() { return "YandexLogin"; }
 
-    @ReactMethod
-    public void login(String email, Promise promise) {
-        loginPromise = promise;
-        Log.d("YandexLogin", "Create event called with name: "+ email);
-
-        if (yandexAuthToken != null) {
-            promise.resolve(yandexAuthToken);
-        }
-
-        Intent intent = sdk.createLoginIntent(this.reactContext, null);
-        // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        if (intent.resolveActivity(this.reactContext.getPackageManager()) != null) {
-            this.reactContext.startActivityForResult(intent, REQUEST_LOGIN_SDK, null);
-            Log.d("YandexLogin", "!!!!!!!!!!! "+ email);
-            Toast.makeText(this.reactContext, "Token: ", Toast.LENGTH_SHORT).show();
-        }
-
-        // promise.resolve("Test");
-
-        /*final Activity activity = getCurrentActivity();
-
-
-        getReactApplicationContext().startActivity(intent);*/
-    }
-
     private void onTokenReceived(@NonNull YandexAuthToken yandexAuthToken) {
         this.yandexAuthToken = yandexAuthToken;
+        Log.i("YandexLogin", "Create event called with name: ****************" + yandexAuthToken.getValue());
     }
 
-    @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        try {
-            final YandexAuthToken yandexAuthToken = sdk.extractToken(resultCode, data);
-            if (yandexAuthToken != null) {
-                loginPromise.resolve(yandexAuthToken);
-                onTokenReceived(yandexAuthToken);
-            }
-        } catch (YandexAuthException e) {
-            loginPromise.reject("Yandex login", e.getMessage());
-            error = e.getLocalizedMessage();
+    @ReactMethod
+    public void login(String email, Promise promise) {
+        Activity currentActivity = getCurrentActivity();
+
+        if (currentActivity == null) {
+            promise.reject(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist");
+            return;
         }
-        /*if (requestCode == REQUEST_LOGIN_SDK) {
-            try {
-                final YandexAuthToken yandexAuthToken = sdk.extractToken(resultCode, data);
-                if (yandexAuthToken != null) {
-                    onTokenReceived(yandexAuthToken);
-                    if (loginPromise != null) {
-                        loginPromise.resolve(yandexAuthToken);
-                        loginPromise = null;
-                    }
-                }
-            } catch (YandexAuthException e) {
-                error = e.getLocalizedMessage();
-                if (loginPromise != null) {
-                    loginPromise.reject("Yandex login", e.getMessage());
-                    loginPromise = null;
-                }
-            }
-        } else {
 
-        }*/
-    }
+        loginPromise = promise;
 
-    @Override
-    public void onNewIntent(Intent intent) {
+        Log.d("YandexLogin", "Create event called with name: " + email);
 
+        if (yandexAuthToken != null) {
+            promise.resolve(yandexAuthToken.getValue());
+        }
+
+        Intent intent = sdk.createLoginIntent(currentActivity, null);
+
+        currentActivity.startActivityForResult(intent, REQUEST_LOGIN_SDK);
     }
 }
