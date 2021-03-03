@@ -3,6 +3,7 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { CabinetScreen /* , ProfileScreen  */ } from '~/src/features/profiles/screens';
 import { useBackward } from '../../app/hooks/useBackward';
 import { ParamListBase, Route } from '@react-navigation/native';
+import { NotificationsScreen } from '../settings/screens';
 
 interface IScreenOptionsProps {
   route: Route<string, object | undefined>;
@@ -14,8 +15,8 @@ export default function ProfileNavigator({ navigation, route }: IScreenOptionsPr
   useBackward({ navigation, route });
   return (
     <Profile.Navigator screenOptions={{ headerShown: false }}>
+      <Profile.Screen name="ProfileScreen" component={NotificationsScreen} />
       <Profile.Screen name="CabinetScreen" component={CabinetScreen} />
-      {/* <Profile.Screen name="ProfileScreen" component={ProfileScreen} /> */}
     </Profile.Navigator>
   );
 }

@@ -7,3 +7,4 @@
 */
 NSPhotoLibraryUsageDescription="Приложению треубется доступ к файловой системе";
 NSCameraUsageDescription="Необходим доступ к камере для дальнейшей работы с приложением";
+NSNotificationsUsageDescription="Необходимо разрешение для push-уведомлений";

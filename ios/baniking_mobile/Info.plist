@@ -87,6 +87,8 @@
   <string>Photo library access is required to run the app.</string>
   <key>NSCameraUsageDescription</key>
   <string>Camera access is requird to run the app.</string>
+  <key>NSNotificationsUsageDescription</key>
+  <string>Notifications access is requird to run the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gilroy-Bold.ttf</string>
