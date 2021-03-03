@@ -15,6 +15,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.yandex.authsdk.YandexAuthException;
+import com.yandex.authsdk.YandexAuthLoginOptions;
 import com.yandex.authsdk.YandexAuthOptions;
 import com.yandex.authsdk.YandexAuthSdk;
 import com.yandex.authsdk.YandexAuthToken;
@@ -59,9 +60,9 @@ public class YandexLogin extends ReactContextBaseJavaModule {
                         loginPromise = null;
                     }
                 }
-                return;
+            } else {
+                super.onActivityResult(activity, requestCode, resultCode, intent);
             }
-            super.onActivityResult(activity, requestCode, resultCode, intent);
         }
     };
 
@@ -70,7 +71,9 @@ public class YandexLogin extends ReactContextBaseJavaModule {
         // this.reactContext = reactContext;
         reactContext.addActivityEventListener(mActivityEventListener);
 
-        // sdk = new YandexAuthSdk(reactContext, new YandexAuthOptions.Builder(reactContext, true));
+        sdk = new YandexAuthSdk(reactContext, new YandexAuthOptions.Builder(reactContext)
+                .enableLogging()
+                .build());
     }
 
 
@@ -97,11 +100,12 @@ public class YandexLogin extends ReactContextBaseJavaModule {
 
         if (yandexAuthToken != null) {
             promise.resolve(yandexAuthToken.getValue());
+            return;
         }
-        sdk = new YandexAuthSdk( new YandexAuthOptions(currentActivity, true));
-        Intent intent = sdk.createLoginIntent(currentActivity, null);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        final YandexAuthLoginOptions.Builder loginOptionsBuilder = new YandexAuthLoginOptions.Builder();
+        Intent intent = sdk.createLoginIntent(loginOptionsBuilder.build());
+        //Intent intent = sdk.createLoginIntent(currentActivity, null);
 
-        currentActivity.startActivityForResult(intent, REQUEST_LOGIN_SDK, null);
+        currentActivity.startActivityForResult(intent, REQUEST_LOGIN_SDK);
     }
 }

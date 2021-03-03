@@ -1,12 +1,21 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import { AppText, Block, Divider, AppSwitch } from '~/src/app/common/components/UI';
 import { AppPermission, PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 
 export function NotificationsScreen() {
   async function handleNotifyPermission() {
     console.log('[NotificationsScreen/handleNotificationsPermission]');
-    await AppPermission.requestNotifyPermission();
+    const result = await AppPermission.requestNotifyPermission();
+    if (!result) {
+      try {
+        console.log('result', result);
+        Linking.openSettings();
+        // Linking.openURL('baniking_mobile://app/notifications');
+      } catch (error) {
+        console.log('[NotificationsScreen/handleNotifyPersmissions/link]', error);
+      }
+    }
   }
 
   return (
