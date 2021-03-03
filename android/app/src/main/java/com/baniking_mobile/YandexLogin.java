@@ -70,7 +70,7 @@ public class YandexLogin extends ReactContextBaseJavaModule {
         // this.reactContext = reactContext;
         reactContext.addActivityEventListener(mActivityEventListener);
 
-        sdk = new YandexAuthSdk( new YandexAuthOptions(reactContext, true));
+        // sdk = new YandexAuthSdk(reactContext, new YandexAuthOptions.Builder(reactContext, true));
     }
 
 

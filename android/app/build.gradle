@@ -197,7 +197,7 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1" // by daria
 
     implementation 'com.google.android.gms:play-services-auth:19.0.0' // by daria
-    implementation 'com.yandex.android:authsdk:2.1.0' // by daria
+    implementation 'com.yandex.android:authsdk:2.3.0' // by daria
     implementation 'androidx.browser:browser:1.2.0' // by daria
 
     // maybe will need

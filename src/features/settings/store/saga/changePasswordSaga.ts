@@ -27,6 +27,14 @@ function* changePasswordSaga({ payload }: IAction) {
 
     console.log([errors, message, allErrors]);
 
+    if (errors && errors?.new_password_confirmation.includes('не совпадают')) {
+      errors.new_password_confirmation = 'Значение должно совпадать с новым паролем';
+    }
+
+    if (errors && errors.new_password) {
+      delete errors.new_password;
+    }
+
     /*let errorMessage: string | null = null;
 
     errorMessage = !allErrors ? allErrors : 'Введен неверный логин или пароль';

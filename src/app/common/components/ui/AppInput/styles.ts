@@ -32,4 +32,5 @@ export const styles = StyleSheet.create<IInputStyleProps>({
   },
   label: {},
   center: { textAlign: 'center' },
+  secure: { paddingHorizontal: 50 },
 });

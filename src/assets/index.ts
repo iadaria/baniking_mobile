@@ -16,6 +16,7 @@ export { default as stepIcon } from './images/svg/step.svg';
 export { default as CurrenStepIcon } from './images/svg/currentStep.svg';
 export { default as ColumnIcon } from './images/svg/column.svg';
 export { default as EyeIcon } from './images/svg/eye.svg';
+export { default as EyeOpenedIcon } from './images/svg/eye-open.svg';
 export { default as MenuItem } from './images/svg/menu-item.svg';
 export { default as BackwardIcon } from './images/svg/backward.svg';
 export { default as MaleIcon } from './images/svg/male.svg';

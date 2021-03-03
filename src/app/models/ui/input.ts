@@ -41,4 +41,5 @@ export interface IInputStyleProps {
   labelWrapper: object;
   // styles
   center: object;
+  secure: object;
 }

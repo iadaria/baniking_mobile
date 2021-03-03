@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { EyeIcon } from '~/src/assets';
+import { EyeIcon, EyeOpenedIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 
 interface IProps {
@@ -18,9 +18,13 @@ export function AppSecure(props: IProps) {
     return null;
   }
 
+  function renderIcon() {
+    return toggleSecure ? <EyeOpenedIcon style={{ marginTop: 2 }} /> : <EyeIcon />;
+  }
+
   return (
     <TouchableOpacity style={styles.toggle} onPress={() => setToggleSecure(!toggleSecure)}>
-      <EyeIcon />
+      {renderIcon()}
     </TouchableOpacity>
   );
 }
