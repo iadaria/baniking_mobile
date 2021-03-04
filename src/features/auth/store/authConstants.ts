@@ -2,12 +2,16 @@
 export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
 export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
 export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';
+// Social login
+export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
+export const SOCIAL_LOGIN_CANCELED = 'auth/SOCIAL_LOGIN_CANCELED';
+export const GOOGLE_LOGIN = 'auth/GOOGLE_LOGIN';
+export const YANDEX_LOGIN = 'auth/YANDEX_LOGIN';
 // register
 export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
 // reset
 export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
 export const RESET_PASSWORD = 'auth/RECOVERY_PASSWORD';
-export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const LOG_OUT = 'auth/LOG_OUT';
 export const ENTER_CODE = 'auth/ENTER_CODE';
 export const SET_VERIFIED = 'auth/SET_VERIFIED';

@@ -1,6 +1,7 @@
-import { GoogleSignin } from '@react-native-community/google-signin';
+import { GoogleSignin, statusCodes, User as GoogleUser } from '@react-native-community/google-signin';
 import { ForkEffect, takeLatest } from 'redux-saga/effects';
-import { ICredential } from '~/src/app/models/user';
+import { SocialProvider } from '~/src/app/models/user';
+import { isGoogle } from '~/src/app/utils/auth';
 import { SOCIAL_LOGIN } from '../authConstants';
 
 /**
@@ -11,7 +12,7 @@ import { SOCIAL_LOGIN } from '../authConstants';
 
 interface IAction {
   type: string;
-  payload: ICredential;
+  payload: SocialProvider;
 }
 
 interface IResult {
@@ -29,28 +30,28 @@ GoogleSignin.configure({
 // second - what we return: void or string(return "done")
 // third - what return call
 
-function* socialLoginSaga({ payload: { provider } }: IAction) {
+interface IGoogleToken {
+  idToken: string;
+  accessToken: string;
+}
 
-
-  // login
-  /* const response = {
-    message: 'The given data was invalid.',
-    errors: {
-      email: ['Введите email'],
-      password: ['Неверный пароль'],
-      device_name: ['Девайся обязатлеьное поле'],
-    },
-  }; */
-
+function* socialLoginSaga({ payload }: IAction) {
   try {
-    if (provider === 'google') {
-      const userInfo = yield GoogleSignin.signIn();
-      const tokens = yield GoogleSignin.getTokens();
+    if (isGoogle(payload)) {
+      const userInfo: GoogleUser = yield GoogleSignin.signIn();
+      const access_token: IGoogleToken = yield GoogleSignin.getTokens();
+      yield put(addSo)
       console.log('*****', userInfo);
-      console.log('!!!!!!', tokens);
+      console.log('!!!!!!', access_token);
     }
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    // Google
+    if (isGoogle(payload)) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('[socialLoginSaga/Google] user canceled the login flow');
+      }
+    }
+    console.log('[socialLoginSaga/error]', error);
   }
 }
 

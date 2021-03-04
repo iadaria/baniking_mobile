@@ -1,30 +1,42 @@
-import { ICredential } from '~/src/app/models/user';
+import { ICredential, SocialProvider } from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
-/* export const enterPin = (pincode: string, forBackupPhrase: boolean) => ({
-  type: constants.ENTER_PIN,
-  payload: { pincode, forBackupPhrase },
-}); */
+
+// Begin work
 
 export const checkAuth = () => ({
   type: constants.CHECK_AUTH,
 });
 
-export const emailLogin = (payload: Partial<ICredential>) => ({
-  type: constants.EMAIL_LOGIN,
-  payload: payload,
-});
+// Register
 
 export const emailRegister = (payload: Partial<ICredential>) => ({
   type: constants.EMAIL_REGISTER,
   payload: payload,
 });
 
-export const socialLogin = ({ provider }: ICredential) => ({
-  type: constants.SOCIAL_LOGIN,
-  payload: { provider },
+// Login
+
+export const emailLogin = (payload: Partial<ICredential>) => ({
+  type: constants.EMAIL_LOGIN,
+  payload: payload,
 });
+
+export const socialLogin = (provider: SocialProvider) => ({
+  type: constants.SOCIAL_LOGIN,
+  payload: provider,
+});
+
+export const googleLogIn = () => ({
+  type: constants.SOCIAL_LOGIN,
+});
+
+export const socialLoginCanceled = () => ({
+  type: constants.SOCIAL_LOGIN_CANCELED,
+});
+
+// Set was got data
 
 export const setAuthUserData = (data: Partial<IUserAuth>) => ({
   type: constants.SET_USER_DATA,
@@ -40,6 +52,8 @@ export const resetPassword = (email: string) => ({
   type: constants.RESET_PASSWORD,
   payload: email,
 });
+
+// Results: SUCCESS & FAIL
 
 export const authFail = (errors: IErrors | null) => ({
   type: constants.AUTH_FAIL,

@@ -6,9 +6,36 @@ export interface IPersistUser {
   avatar: string;
   verified: boolean;
   role: Role;
-  accounts: ISocialAccount[];
+  accounts: Array<ISocialAccount>;
   // contact?:
   // contactsAllowed: boolean;
+}
+
+export enum SocialProvider {
+  Google = 'google',
+  VK = 'VK',
+  Yandex = 'Yandex',
+  Facebook = 'Facebook',
+}
+
+/**
+ * Action for login user
+ *
+ * @provider {string} - 'google' | 'vk' | 'yandex' | 'facebook'
+ * @access_token {string}
+ * @uid {string}
+ * @photo {string}
+ */
+export interface ISocialAccount {
+  provider: SocialProvider;
+  access_token: string;
+  uid: string | null;
+  photo: string | null;
+  name: string | null;
+  email: string;
+  familyName: string | null;
+  givenName: string | null;
+  idToken: string | null;
 }
 
 /**
@@ -45,19 +72,7 @@ export interface IUserAuth {
   email?: string;
   role?: Role;
   token: string;
-}
-
-/**
- * Action for login user
- *
- * @field provider {string} - 'google' | 'vk' | 'yandex' | 'facebook'
- * @field access_token {string}
- * @field uid {boolean}
- * @field photoURL {boolean}
- */
-export interface ISocialAccount {
-  provider: 'google' | 'vk' | 'yandex' | 'facebook';
-  access_token: string;
+  socialProvider: SocialProvider;
   uid: string;
-  photoURL: string;
+  avatar: string;
 }

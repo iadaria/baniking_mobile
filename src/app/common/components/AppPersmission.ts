@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { check, PERMISSIONS, RESULTS, request, Permissio, requestNotifications } from 'react-native-permissions';
+import { check, PERMISSIONS, RESULTS, request, requestNotifications, Permission } from 'react-native-permissions';
 
 const PLATFORM_MICROPHONE_PERMISSIONS = {
   ios: PERMISSIONS.IOS.MICROPHONE,
@@ -64,7 +64,7 @@ class AppPermission {
     }
   };
 
-  requestMultiply = async (types): Promise<boolean> => {
+  requestMultiply = async (types: string): Promise<boolean> => {
     console.log('[AppPermission/requestMultiple] types', types);
     const results = [];
     for (const type of types) {

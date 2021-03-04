@@ -1,5 +1,6 @@
 import { IPersistUser } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
+import { refreshAccounts } from '../../../app/utils/auth';
 
 // TOOD SET USER PROVIDER DATE
 
@@ -48,22 +49,25 @@ export default function appPersistReducer(
           ...payload,
         },
       };
-
+    // Social provider
+    case constants.ADD_SOCIAL_ACCOUNT:
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          accounts: refreshAccounts(state.currentUser?.accounts, payload),
+        },
+      };
+    // Common
     case constants.ASK_LOGOUT:
       return {
         ...state,
       };
 
     case constants.LOGOUT:
-      console.log('[persistReducer] persist LOGOUT');
       return {
         ...initialState,
       };
-    
-    
-/* 
-    case 'persist/REHYDRATE':
-      return payload; */
 
     default:
       return state;

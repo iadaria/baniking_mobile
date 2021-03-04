@@ -8,7 +8,7 @@ import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import {
-  socialLogin as socialLoginAction,
+  // socialLogin as socialLoginAction,
   emailLogin as emailLoginAction,
 } from '~/src/features/auth/store/authActions';
 import { ICredential } from '~/src/app/models/user';
@@ -19,7 +19,7 @@ import { defaultLoginInputs } from '../contracts/loginInputs';
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  socialLogin: ({ provider }: ICredential) => void;
+  // socialLogin: ({ provider }: ICredential) => void;
   emailLogin: ({ login, password }: Partial<ICredential>) => void;
 }
 
@@ -108,7 +108,7 @@ const LoginFormConnected = connect(
     //
   }),
   {
-    socialLogin: socialLoginAction,
+    // socialLogin: socialLoginAction,
     emailLogin: emailLoginAction,
   },
 )(LoginFormContainer);

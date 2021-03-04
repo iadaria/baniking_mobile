@@ -1,4 +1,4 @@
-import { IPersistUser } from '~/src/app/models/user';
+import { IPersistUser, ISocialAccount } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
 
 export const setPersistAccountType = ({ accountType }: { accountType: string }) => ({
@@ -16,13 +16,13 @@ export const setPersistToken = (token: string) => ({
   payload: token,
 });
 
-/* export const setPersistUserEmail = ({ email }: { email: string }) => ({
-  type: constants.SET_EMAIL,
-  payload: { token },
-});
- */
 export const setPersistUserData = (data: Partial<IPersistUser>) => ({
   type: constants.SET_USER_DATA,
+  payload: data,
+});
+
+export const addSocialAccount = (data: ISocialAccount) => ({
+  type: constants.ADD_SOCIAL_ACCOUNT,
   payload: data,
 });
 

@@ -12,7 +12,7 @@ export interface IAuthState {
   authenticated: boolean;
   token: string | null;
   role: Role;
-  currentUser: IUserAuth | null;
+  currentUser: Partial<IUserAuth> | null;
   loading: boolean;
   errors: IErrors | null;
 }
@@ -52,25 +52,28 @@ export default function authReducer(
         errors: null,
       };
 
-    case constants.AUTH_FAIL:
-      return {
-        ...state,
-        loading: false,
-        errors: payload,
-      };
-
     case constants.RESET_PASSWORD:
       return {
         ...state,
         loading: true,
         errors: null,
       };
+
+    // Social login
     case constants.SOCIAL_LOGIN:
+    case constants.GOOGLE_LOGIN:
       return {
         ...state,
         loading: true,
         errors: null,
       };
+    case constants.SOCIAL_LOGIN_CANCELED:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+      };
+    //
     case constants.LOG_IN_FAIL:
       return {
         ...state,
@@ -101,6 +104,15 @@ export default function authReducer(
         currentUser: null,
         loading: false,
         errors: null,
+      };
+
+    // Common
+
+    case constants.AUTH_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
       };
 
     case constants.AUTH_SUCCESS:

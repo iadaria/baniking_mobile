@@ -6,7 +6,7 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 import { yandexLogin } from './socialLogins';
 
-export default function SoialLoginBlock() {
+export default function SocialLoginBlock() {
   return (
     <Block margin={[5, 0, 3]}>
       <AppText caption medium center size={sizes.text.label + 0.1}>
