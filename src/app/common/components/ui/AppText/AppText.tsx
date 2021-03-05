@@ -18,6 +18,7 @@ export function AppText(props: IUiText) {
     align,
     center,
     right,
+    left,
     //size
     h1,
     h2,
@@ -40,6 +41,8 @@ export function AppText(props: IUiText) {
     sfDisplay,
     sfTextRegular,
     sfTextSemibold,
+    // custome style
+    debug,
     // colors
     color,
     primary,
@@ -84,6 +87,7 @@ export function AppText(props: IUiText) {
     // styles
     center && styles.center,
     right && styles.right,
+    left && styles.left,
     // colors
     color && styles[color as keyof typeof styles],
     color && !styles[color as keyof typeof styles] && { color },
@@ -92,6 +96,8 @@ export function AppText(props: IUiText) {
     primary && styles.primary,
     secondary && styles.secondary,
     // tertiary && styles.tertiary,
+    // custome style
+    debug && styles.debug,
     white && styles.white,
     style, // rewrite predefined styles
     disabled && styles.disabled,

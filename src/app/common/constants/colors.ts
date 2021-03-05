@@ -41,6 +41,11 @@ export const colors = {
     avatarBorder: '#4F4E4D',
   },
 
+  qr: {
+    text: '#F6EEE3',
+    number: '#F5C97D',
+  },
+
   buttonBeginning: '#F3F0EB',
   borderBlack: '#2F2F33', // button
 

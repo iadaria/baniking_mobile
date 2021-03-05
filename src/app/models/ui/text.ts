@@ -34,10 +34,12 @@ export interface IUiText extends TextProps {
   primary?: boolean;
   secondary?: boolean;
   // style
+  debug?: boolean;
   transform?: string;
   align?: boolean;
   center?: boolean;
   right?: boolean;
+  left?: boolean;
   spacing?: number; // letter-spacin?: boolean;
   height?: number; // line-heigh?: boolean;
   necessary?: boolean;
@@ -66,6 +68,7 @@ export interface ITextStyleProps {
   // position
   center: object;
   right: object;
+  left: object;
   // colors
   primary: object;
   secondary: object;
@@ -78,4 +81,5 @@ export interface ITextStyleProps {
   logo: object;
   caption: object;
   // styles
+  debug: object;
 }

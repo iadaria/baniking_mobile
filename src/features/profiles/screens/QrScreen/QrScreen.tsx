@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { getQrCode as getQrCodeAction } from '../../store/profileActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { colors, sizes } from '~/src/app/common/constants';
-import { AppText, Block } from '~/src/app/common/components/UI';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { styles } from './styles';
+import { QrLogoIcon } from '~/src/assets';
+import { color } from 'react-native-reanimated';
 
 interface IProps {
   loading: boolean;
@@ -16,7 +19,8 @@ interface IProps {
 export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
   useEffect(() => {
     if (!qr) {
-      // getQrCode();
+      console.log('[QrScreen] get qr');
+      getQrCode();
     }
   }, [getQrCode, qr]);
 
@@ -30,14 +34,22 @@ export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
 
   return (
     <Block base full>
-      <AppText margin={[0, 0, 2]} h1>
+      <AppText h1 left>
         Qr код
       </AppText>
 
-      <Block debug>
-        <AppText>Daria</AppText>
-        <Image source={{ uri: qr }} style={styles.qr} />
-      </Block>
+      <QrLogoIcon style={styles.qrLogo} />
+
+      <AppText center size={sizes.text.label} color={colors.qr.text} height={18}>
+        {'Поднесите QR-код на экране к \n считывающему устройству'}
+      </AppText>
+
+      <Image source={{ uri: qr }} style={styles.qr} />
+
+      <AppText margin={[6, 0, 0.5]} semibold size={sizes.text.label} center>
+        Номер карты
+      </AppText>
+      <AppInput style={styles.input} center>4444444444444</AppInput>
     </Block>
   );
 }

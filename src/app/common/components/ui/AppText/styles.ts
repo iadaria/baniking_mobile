@@ -26,6 +26,7 @@ export const styles = StyleSheet.create<ITextStyleProps>({
   // position
   center: { textAlign: 'center' },
   right: { textAlign: 'right' },
+  left: { alignSelf: 'flex-start' },
   // colors
   primary: { color: colors.primary },
   secondary: { color: colors.secondary },
@@ -38,4 +39,8 @@ export const styles = StyleSheet.create<ITextStyleProps>({
   header: fonts.header,
   logo: fonts.logo,
   // styles
+  debug: {
+    borderWidth: 1,
+    borderColor: 'blue',
+  },
 });
