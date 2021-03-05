@@ -47,6 +47,13 @@ export interface IUiPadding {
   paddingLeft?: number;
 }
 
+export interface IUiMargin {
+  marginTop?: number;
+  marginRight?: number;
+  marginBottom?: number;
+  marginLeft?: number;
+}
+
 export interface IBlockStyleProps {
   block: object;
   debug: object;

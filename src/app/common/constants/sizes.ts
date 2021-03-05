@@ -62,5 +62,9 @@ export const sizes = {
 
   avatar: {
     height: 25,
-  }
+  },
+
+  qr: {
+    main: 60.38,
+  },
 };

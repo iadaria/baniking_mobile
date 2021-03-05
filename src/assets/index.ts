@@ -23,6 +23,7 @@ export { default as MaleIcon } from './images/svg/male.svg';
 export { default as FemaleIcon } from './images/svg/female.svg';
 export { default as AvatarIcon } from './images/svg/avatar.svg';
 export { default as CloseWhiteIcon } from './images/svg/close-white.svg';
+export { default as QrLogoIcon } from './images/svg/qr-logo.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
