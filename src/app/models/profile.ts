@@ -10,6 +10,12 @@ export enum Sex {
   Female,
 }
 
+export interface IQr {
+  qr: string;
+  qrValue: string | null;
+  number: string;
+}
+
 export interface IProfile {
   email: string;
   name: string | null;
@@ -23,7 +29,6 @@ export interface IProfile {
   role: Role;
   accounts: ISocialAccount[];
   userId: string | null;
-  qr?: string;
   // contact?:
   // contactsAllowed: boolean;
 }

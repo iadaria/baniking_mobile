@@ -8,18 +8,20 @@ import { colors, sizes } from '~/src/app/common/constants';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { styles } from './styles';
 import { QrLogoIcon } from '~/src/assets';
-import { color } from 'react-native-reanimated';
+import { getCardNumber } from '~/src/app/utils/system';
 
 interface IProps {
   loading: boolean;
   qr?: string;
+  number?: string;
   getQrCode: () => void;
 }
 
-export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
+export function QrScreenContainer({ loading, qr, getQrCode, number }: IProps) {
+  const result = number.replace(/^[\d ]*[\d]s$/, '');
+  console.log('[QrScreen] get qr', result, number);
   useEffect(() => {
     if (!qr) {
-      console.log('[QrScreen] get qr');
       getQrCode();
     }
   }, [getQrCode, qr]);
@@ -57,7 +59,8 @@ export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
 const QrScreenConnected = connect(
   ({ auth, profile }: IRootState) => ({
     loading: profile.loading,
-    qr: profile.currentUserProfile?.qr,
+    qr: profile.currentUserQr?.qr,
+    number: profile.currentUserQr?.number,
   }),
   {
     getQrCode: getQrCodeAction,

@@ -21,6 +21,7 @@ function* getQrCode() {
 
     if (qr_data.length > 0 && qr_data[1]) {
       const { values } = yield RNQRGenerator.detect({ base64: qr_data[1] });
+      // console.log({ values });
 
       const qrOptions: QRCodeGenerateOptions = {
         value: JSON.stringify(values),
@@ -34,7 +35,13 @@ function* getQrCode() {
 
       const exists = yield RNFS.exists(uri);
       if (exists) {
-        yield put(setQrCode(uri));
+        yield put(
+          setQrCode({
+            qr: uri,
+            qrValue: values,
+            number: values[0],
+          }),
+        );
       }
     }
     yield put(cabinetDataFail(null));
@@ -45,7 +52,7 @@ function* getQrCode() {
 
     console.log([errors, message, allErrors]);
 
-    const errorMessage = allErrors || message ? allErrors || message : 'Ошибка при qr кода';
+    const errorMessage = allErrors || message ? allErrors || message : 'Ошибка при получении qr кода';
 
     yield showAlert('Ошибка', errorMessage);
   }

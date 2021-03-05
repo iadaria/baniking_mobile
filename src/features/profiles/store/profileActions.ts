@@ -1,6 +1,6 @@
 import * as constants from './profileConstants';
 import { IErrors } from '~/src/app/utils/error';
-import { IProfile, IUploadAvatar, IResponseCabinet } from '~/src/app/models/profile';
+import { IProfile, IUploadAvatar, IResponseCabinet, IQr } from '~/src/app/models/profile';
 
 /** Cabinet */
 
@@ -17,7 +17,7 @@ export const getQrCode = () => ({
   type: constants.GET_QR_CODE,
 });
 
-export const setQrCode = (qrCode: string) => ({
+export const setQrCode = (qrCode: IQr) => ({
   type: constants.SET_QR_CODE,
   payload: qrCode,
 });

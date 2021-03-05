@@ -32,3 +32,7 @@ export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Fema
 export function numberWithSpaces(x: number) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
+
+export function getCardNumber(values: string) {
+  return values.replace(/^[\d ]*[/d].$/, '');
+}

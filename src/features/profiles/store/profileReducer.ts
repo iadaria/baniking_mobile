@@ -1,4 +1,4 @@
-import { ICabinet, ILevel, IProfile, IResponseCabinet } from '~/src/app/models/profile';
+import { ICabinet, ILevel, IProfile, IQr, IResponseCabinet } from '~/src/app/models/profile';
 import { initInputs } from '~/src/app/utils/validate';
 import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
@@ -14,11 +14,12 @@ export interface IProfileState {
   // Profile
   profileErrors: IErrors | null;
   currentUserProfile: IProfile | null;
+  currentUserLevels: ILevel[];
+  currentUserQr: IQr | null;
   selectedUserProfile: IProfile | null;
   // Cabinet
   cabinetErrors: IErrors | null;
   currentUserCabinet: ICabinet | null;
-  currentUserLevels: ILevel[];
   selectedUserCabinet: ICabinet | null;
   // Others
   inputs: IInputs;
@@ -42,6 +43,7 @@ const initialState: IProfileState = {
   selectedUserCabinet: null,
   currentUserCabinet: null,
   currentUserLevels: [],
+  currentUserQr: null,
   inputs: {
     settings: defaultProfileInputs,
   },
@@ -156,17 +158,7 @@ export default function persistReducer(
       return {
         ...state,
         loading: false,
-        currentUserProfile: {
-          ...state.currentUserProfile!,
-          qr: payload,
-        },
-      };
-
-    case constants.GET_CABINET_DATA:
-      return {
-        ...state,
-        loading: false,
-        cabinetErrors: payload,
+        currentUserQr: payload,
       };
 
     case constants.GET_QR_CODE:
@@ -174,6 +166,13 @@ export default function persistReducer(
         ...state,
         loading: true,
         cabinetErrors: null,
+      };
+
+    case constants.GET_CABINET_DATA:
+      return {
+        ...state,
+        loading: false,
+        cabinetErrors: payload,
       };
 
     // Common

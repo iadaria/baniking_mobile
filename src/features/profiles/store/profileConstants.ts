@@ -17,3 +17,4 @@ export const CLEAR_PROFILE = 'profile/CLEAR_PROFILE';
 // Qr
 export const GET_QR_CODE = 'profile/GET_QR_CODE';
 export const SET_QR_CODE = 'profile/SET_QR_CODE';
+export const SET_QR_VALUE = 'profile/SET_QR_VALUE';
