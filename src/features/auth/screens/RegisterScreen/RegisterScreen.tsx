@@ -8,7 +8,7 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity } from 'react-native';
 import { AuthLogo } from '~/src/assets';
 import RegisterForm from './RegisterForm';
-import SoialLoginBlock from '../components/SoialLoginBlock';
+import SoialLoginBlock from '../components/SocialLoginBlock';
 import { styles } from './styles';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -16,7 +16,6 @@ import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  socialLogin: ({ provider }: ICredential) => void;
   emailRegister: (props: Partial<ICredential>) => void;
   errors: IErrors | null;
 }
@@ -72,7 +71,6 @@ const RegisterConnected = connect(
     errors: auth.errors,
   }),
   {
-    socialLogin: socialLogin,
     emailRegister: emailRegisterAction,
   },
 )(RegisterContainer);

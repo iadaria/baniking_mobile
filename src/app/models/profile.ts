@@ -23,6 +23,7 @@ export interface IProfile {
   role: Role;
   accounts: ISocialAccount[];
   userId: string | null;
+  qr?: string;
   // contact?:
   // contactsAllowed: boolean;
 }

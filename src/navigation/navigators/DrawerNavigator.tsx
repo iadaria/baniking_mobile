@@ -40,7 +40,7 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
 
   return (
     <Drawer.Navigator
-      // initialRouteName="SettingsTab"
+      initialRouteName="QrTab"
       // https://reactnavigation.org/docs/4.x/drawer-navigator/#drawernavigatorconfig
       screenOptions={{
         unmountOnBlur: true,

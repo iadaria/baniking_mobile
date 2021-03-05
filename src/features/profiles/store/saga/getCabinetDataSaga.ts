@@ -20,7 +20,7 @@ function* getCabinetDataSaga() {
     console.log([errors, message, allErrors]);
 
     const errorMessage =
-      allErrors && message ? allErrors || message : 'Ошибка при получении данных личного профиля';
+      allErrors || message ? allErrors || message : 'Ошибка при получении данных личного профиля';
 
     yield showAlert('Ошибка', errorMessage);
   }

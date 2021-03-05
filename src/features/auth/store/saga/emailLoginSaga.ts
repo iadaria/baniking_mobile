@@ -45,9 +45,9 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
     console.log(JSON.stringify(e, null, 2));
 
     let [errors, message, allErrors] = getErrorStrings(e);
-    console.log([errors, message]);
+    console.log([errors, message, allErrors]);
 
-    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
+    const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении qr кода';
 
     yield showAlert('Ошибка', errorMessage);
   }

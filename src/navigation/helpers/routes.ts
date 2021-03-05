@@ -32,4 +32,7 @@ export default {
     ContractScreen: 'ContractScreen',
     HelpScreen: 'HelpScreen',
   },
+  qrTab: {
+    QrScreen: 'QrScreen',
+  },
 };

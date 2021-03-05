@@ -58,6 +58,8 @@ export const methods = {
   uploadAvatar: request('post', '/profile/avatar', privFetch),
   // cabinet
   getCabinet: request('get', '/cabinet', privFetch),
+  // qr
+  getQr: request('get', '/cabinet/qr', privFetch),
 };
 
 // for debugger

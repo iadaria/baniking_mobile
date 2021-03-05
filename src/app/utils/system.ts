@@ -32,3 +32,17 @@ export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Fema
 export function numberWithSpaces(x: number) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
+
+export function decodeBase64Image(dataString: string) {
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+  const response = {};
+
+  if (matches?.length !== 3) {
+    return new Error('Invalid input string');
+  }
+
+  response.type = matches[1];
+  response.data = new Buffer(matches[2], 'base64');
+
+  return response;
+}

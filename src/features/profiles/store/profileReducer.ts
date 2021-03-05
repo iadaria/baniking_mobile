@@ -152,6 +152,30 @@ export default function persistReducer(
         currentUserLevels: (payload as IResponseCabinet).levels,
       };
 
+    case constants.SET_QR_CODE:
+      return {
+        ...state,
+        loading: false,
+        currentUserProfile: {
+          ...state.currentUserProfile!,
+          qr: payload,
+        },
+      };
+
+    case constants.GET_CABINET_DATA:
+      return {
+        ...state,
+        loading: false,
+        cabinetErrors: payload,
+      };
+
+    case constants.GET_QR_CODE:
+      return {
+        ...state,
+        loading: true,
+        cabinetErrors: null,
+      };
+
     // Common
     case constants.CLEAR_PROFILE:
       return {

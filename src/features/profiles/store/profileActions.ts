@@ -13,6 +13,20 @@ export const setCabinetData = (payload: IResponseCabinet) => ({
   payload,
 });
 
+export const getQrCode = () => ({
+  type: constants.GET_QR_CODE,
+});
+
+export const setQrCode = (qrCode: string) => ({
+  type: constants.SET_QR_CODE,
+  payload: qrCode,
+});
+
+export const cabinetDataFail = (payload: IErrors | null) => ({
+  type: constants.SEND_PROFILE_FAIL,
+  payload,
+});
+
 /** Profile */
 
 export const getProfileSettings = (/** Read parameter */) => ({

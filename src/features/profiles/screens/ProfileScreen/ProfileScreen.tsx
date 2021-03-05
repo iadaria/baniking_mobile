@@ -122,9 +122,9 @@ function ProfileScreenContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile?.avatar]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
-  }, [avatarImage]); */
+  }, [avatarImage]);
 
   if (loading) {
     return (
