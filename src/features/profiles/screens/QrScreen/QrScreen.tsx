@@ -16,7 +16,7 @@ interface IProps {
 export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
   useEffect(() => {
     if (!qr) {
-      getQrCode();
+      // getQrCode();
     }
   }, [getQrCode, qr]);
 
@@ -30,9 +30,10 @@ export function QrScreenContainer({ loading, qr, getQrCode }: IProps) {
 
   return (
     <Block base full>
-      <Block margin={[0, 0, 2]}>
-        <AppText h1>Qr код</AppText>
-      </Block>
+      <AppText margin={[0, 0, 2]} h1>
+        Qr код
+      </AppText>
+
       <Block debug>
         <AppText>Daria</AppText>
         <Image source={{ uri: qr }} style={styles.qr} />

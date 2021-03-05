@@ -24,6 +24,9 @@ export interface IUiText extends TextProps {
   sfDisplay?: boolean;
   sfTextRegular?: boolean;
   sfTextSemibold?: boolean;
+  // View props
+  padding?: number | number[];
+  margin?: number | number[];
   // align
   // colors
   disabled?: boolean;
