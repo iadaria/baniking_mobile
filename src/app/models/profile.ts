@@ -13,7 +13,7 @@ export enum Sex {
 export interface IQr {
   qr: string;
   qrValue: string | null;
-  number: string;
+  cardNumber: string;
 }
 
 export interface IProfile {

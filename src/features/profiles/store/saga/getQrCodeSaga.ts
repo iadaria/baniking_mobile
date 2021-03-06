@@ -8,6 +8,7 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import RNFS from 'react-native-fs';
 import { colors, sizes } from '~/src/app/common/constants';
 import RNQRGenerator, { QRCodeGenerateOptions } from 'rn-qr-generator';
+import { numberWithSpaces } from '../../../../app/utils/system';
 
 interface IResult {
   qr: string;
@@ -33,13 +34,13 @@ function* getQrCode() {
       };
       const { uri } = yield RNQRGenerator.generate(qrOptions);
 
-      const exists = yield RNFS.exists(uri);
+      const exists: boolean = yield RNFS.exists(uri);
       if (exists) {
         yield put(
           setQrCode({
             qr: uri,
             qrValue: values,
-            number: values[0],
+            cardNumber: numberWithSpaces(values[0]),
           }),
         );
       }

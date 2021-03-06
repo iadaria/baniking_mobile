@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Image } from 'react-native';
+import { ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { getQrCode as getQrCodeAction } from '../../store/profileActions';
@@ -13,13 +13,11 @@ import { getCardNumber } from '~/src/app/utils/system';
 interface IProps {
   loading: boolean;
   qr?: string;
-  number?: string;
+  cardNumber?: string;
   getQrCode: () => void;
 }
 
-export function QrScreenContainer({ loading, qr, getQrCode, number }: IProps) {
-  const result = number.replace(/^[\d ]*[\d]s$/, '');
-  console.log('[QrScreen] get qr', result, number);
+export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps) {
   useEffect(() => {
     if (!qr) {
       getQrCode();
@@ -51,7 +49,9 @@ export function QrScreenContainer({ loading, qr, getQrCode, number }: IProps) {
       <AppText margin={[6, 0, 0.5]} semibold size={sizes.text.label} center>
         Номер карты
       </AppText>
-      <AppInput style={styles.input} center>4444444444444</AppInput>
+      <AppInput style={styles.input} center>
+        {cardNumber}
+      </AppInput>
     </Block>
   );
 }
@@ -60,7 +60,7 @@ const QrScreenConnected = connect(
   ({ auth, profile }: IRootState) => ({
     loading: profile.loading,
     qr: profile.currentUserQr?.qr,
-    number: profile.currentUserQr?.number,
+    cardNumber: profile.currentUserQr?.cardNumber,
   }),
   {
     getQrCode: getQrCodeAction,

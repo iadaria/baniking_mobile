@@ -29,8 +29,15 @@ export function isAllowedImageType(type: string) {
 
 export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Female);
 
-export function numberWithSpaces(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+export function numberWithSpaces(x: string) {
+  if (x) {
+    const result = x?.match(/[\d]{4}[\d ]{15}/);
+    console.log('[system/numberWithSpace]', result);
+    if (result && result.length > 0) {
+      return result[0];
+    }
+  }
+  return '';
 }
 
 export function getCardNumber(values: string) {
