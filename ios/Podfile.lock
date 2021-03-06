@@ -363,6 +363,8 @@ PODS:
     - React
   - RNDeviceInfo (8.0.1):
     - React-Core
+  - RNFS (2.16.6):
+    - React
   - RNGestureHandler (1.9.0):
     - React-Core
   - RNGoogleSignin (5.0.0):
@@ -382,6 +384,8 @@ PODS:
     - React-Core
   - RNPermissions (3.0.1):
     - React-Core
+  - RNQrGenerator (1.1.6):
+    - React
   - RNReanimated (1.13.2):
     - React-Core
   - RNScreens (2.11.0):
@@ -453,12 +457,14 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInputMask (from `../node_modules/react-native-text-input-mask/ios/InputMask`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -563,6 +569,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -575,6 +583,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNQrGenerator:
+    :path: "../node_modules/rn-qr-generator"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -640,12 +650,14 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDeviceInfo: 921a809eaf9de79645a24de1c6ca90db6cb91786
+  RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNImageCropPicker: e641bf83ac47324994cac139bde74635ec52c17c
   RNInputMask: 815461ebdf396beb62cf58916c35cf6930adb991
   RNLocalize: 43f6c30d8e19ad92282ae434d310fb463b31f419
   RNPermissions: 4c8a37b4dde50f1f152bf8cd08c4a43d2355829e
+  RNQrGenerator: d88c426dc358ceb043296a80f6fe482ccf985bc4
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e

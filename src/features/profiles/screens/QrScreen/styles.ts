@@ -1,17 +1,17 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, multiplier, sizes } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   qrLogo: {
-    marginTop: wp(12),
-    marginBottom: wp(5),
+    marginTop: wp(12) * multiplier,
+    marginBottom: wp(5) * multiplier,
     alignSelf: 'center',
   },
   qr: {
-    height: wp(sizes.qr.main),
-    width: wp(sizes.qr.main),
-    marginTop: wp(11),
+    height: wp(sizes.qr.main) * multiplier,
+    width: wp(sizes.qr.main) * multiplier,
+    marginTop: wp(11) * multiplier,
     alignSelf: 'center',
   },
   input: {

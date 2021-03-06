@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Image, TouchableOpacity } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { getQrCode as getQrCodeAction } from '../../store/profileActions';
+import { ActivityIndicator, Dimensions, Image } from 'react-native';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { getQrCode as getQrCodeAction } from '~/src/features/profiles/store/profileActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { colors, sizes } from '~/src/app/common/constants';
-import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
-import { styles } from './styles';
 import { QrLogoIcon } from '~/src/assets';
-import { getCardNumber } from '~/src/app/utils/system';
+import { styles } from './styles';
 
 interface IProps {
   loading: boolean;
@@ -19,6 +17,7 @@ interface IProps {
 
 export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps) {
   useEffect(() => {
+    console.log('Screen height', Dimensions.get('window').height);
     if (!qr) {
       getQrCode();
     }
@@ -57,7 +56,7 @@ export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps
 }
 
 const QrScreenConnected = connect(
-  ({ auth, profile }: IRootState) => ({
+  ({ profile }: IRootState) => ({
     loading: profile.loading,
     qr: profile.currentUserQr?.qr,
     cardNumber: profile.currentUserQr?.cardNumber,

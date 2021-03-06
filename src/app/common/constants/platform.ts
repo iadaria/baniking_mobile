@@ -45,3 +45,7 @@ export const screenHeight =
 export const designWidth = 375;
 export const currentLanguage = 'ru-RU';
 export const stickyHeaderIndices = [0];
+
+export const heightScreen: number = Dimensions.get('window').height;
+
+export const multiplier = heightScreen > 650 ? 1 : 0.9;

@@ -32,7 +32,6 @@ export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Fema
 export function numberWithSpaces(x: string) {
   if (x) {
     const result = x?.match(/[\d]{4}[\d ]{15}/);
-    console.log('[system/numberWithSpace]', result);
     if (result && result.length > 0) {
       return result[0];
     }
@@ -43,3 +42,7 @@ export function numberWithSpaces(x: string) {
 export function getCardNumber(values: string) {
   return values.replace(/^[\d ]*[/d].$/, '');
 }
+
+export const isAndroid = Platform.OS === 'android' ? true : false;
+export const isIOS = Platform.OS === 'ios' ? true : false;
+

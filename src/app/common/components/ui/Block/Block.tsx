@@ -50,6 +50,7 @@ export function Block(props: IUiBlock) {
     debug && styles.debug,
     content && { flex: 0 }, // reset - disable flex
     base && {
+      // paddingVertical: wp(sizes.offset.base),
       paddingVertical: wp(sizes.offset.base),
       paddingHorizontal: wp(sizes.offset.base),
       // paddingBottom: hp(sizes.footerBottom),

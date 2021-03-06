@@ -1,3 +1,5 @@
+import { multiplier } from './platform';
+
 export const sizes = {
   // global sizes
   radius: 3,
@@ -6,8 +8,8 @@ export const sizes = {
   offset: {
     headerTop: 5.7, // 51:(896:100)
     footerBottom: 3.1, // 28:(896:100)
-    base: 9, // 40.1:(414:100)
-    between: 1.5, // 12
+    base: 8, // 40.1:(414:100)
+    between: 1.5 * multiplier, // 12
   },
 
   flash: {

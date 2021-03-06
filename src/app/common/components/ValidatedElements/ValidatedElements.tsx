@@ -95,9 +95,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
-  }, [scrollPosition]);
+  }, [scrollPosition]); */
 
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
