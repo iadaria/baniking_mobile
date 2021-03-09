@@ -7,4 +7,10 @@ export interface IBath {
   latitude: number;
   longitude: number;
   image: string;
+  price: number | null;
+}
+
+export interface IBathParams = {
+  search_query: string;
+  sort_field: 
 }

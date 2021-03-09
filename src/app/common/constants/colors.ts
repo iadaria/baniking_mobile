@@ -55,4 +55,10 @@ export const colors = {
   black: '#000',
 
   divider: '#252527',
+
+  bath: {
+    starDisabled: '#2F3236',
+    phoneBorder: '#D9B384',
+    elementBorder: '#707070',
+  },
 };

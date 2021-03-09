@@ -24,6 +24,11 @@ export { default as FemaleIcon } from './images/svg/female.svg';
 export { default as AvatarIcon } from './images/svg/avatar.svg';
 export { default as CloseWhiteIcon } from './images/svg/close-white.svg';
 export { default as QrLogoIcon } from './images/svg/qr-logo.svg';
+export { default as FilterIcon } from './images/svg/filter.svg';
+export { default as KolosIcon } from './images/svg/kolos.svg';
+export { default as StarIcon } from './images/svg/star.svg';
+export { default as SearchIcon } from './images/svg/search.svg';
+export { default as ListIcon } from './images/svg/listIcon.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
