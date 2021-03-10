@@ -20,10 +20,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
   },
   searchIconButton: {
-    padding: wp(2)
+    padding: wp(2.5)
   },
   filter: {
-    borderWidth: 0.5,
+    borderWidth: 0.8,
     borderColor: colors.bath.elementBorder,
     padding: wp(3),
     borderRadius: 7,
@@ -32,10 +32,8 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.bath.elementBorder,
     padding: wp(3),
+    marginTop: wp(3),
     borderRadius: 7,
     justifyContent: 'space-between'
-  },
-  menuIcon: {
-    transform: 
   },
 });

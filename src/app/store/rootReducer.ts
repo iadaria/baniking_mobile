@@ -4,7 +4,8 @@ import systemReducer, { ISystemState } from './system/systemReducer';
 import authReducer, { IAuthState } from '~/src/features/auth/store/authReducer';
 import profileReducer, { IProfileState } from '~/src/features/profiles/store/profileReducer';
 import appPersistReducer, { IPersistState } from '~/src/features/persist/store/appPersistReducer';
-import settingsReducer, { ISettingsState } from '../../features/settings/store/settingsReducer';
+import settingsReducer, { ISettingsState } from '~/src/features/settings/store/settingsReducer';
+import bathReducer, { IBathState } from '~/src/features/bathes/store/bathReducer';
 import { persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/lib/persistReducer';
 
@@ -16,9 +17,10 @@ const persistConfig = {
 export interface IRootState {
   system: ISystemState;
   auth: IAuthState;
-  persist: IPersistState; // & PersistPartial;
   profile: IProfileState;
   settings: ISettingsState;
+  bath: IBathState;
+  persist: IPersistState & PersistPartial;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -26,6 +28,7 @@ const rootReducer = combineReducers<IRootState>({
   auth: authReducer,
   profile: profileReducer,
   settings: settingsReducer,
+  bath: bathReducer,
   persist: persistReducer(persistConfig, appPersistReducer),
 });
 

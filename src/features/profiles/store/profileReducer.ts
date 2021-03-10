@@ -50,7 +50,7 @@ const initialState: IProfileState = {
 };
 
 export default function persistReducer(
-  state: IProfileState = initialState,
+  state = initialState,
   { type, payload }: any = { type: '', payload: undefined },
 ): IProfileState {
   switch (type) {

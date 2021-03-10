@@ -9,8 +9,3 @@ export interface IBath {
   image: string;
   price: number | null;
 }
-
-export interface IBathParams = {
-  search_query: string;
-  sort_field: 
-}

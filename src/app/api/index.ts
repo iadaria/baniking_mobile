@@ -60,6 +60,8 @@ export const methods = {
   getCabinet: request('get', '/cabinet', privFetch),
   // qr
   getQr: request('get', '/cabinet/qr', privFetch),
+  // bathes
+  getBathes: request('get', '/baths', pubFetch),
 };
 
 // for debugger

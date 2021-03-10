@@ -2,7 +2,7 @@ import { multiplier } from './platform';
 
 export const sizes = {
   // global sizes
-  radius: 3,
+  radius: 5,
 
   // distance
   offset: {
