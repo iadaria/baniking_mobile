@@ -60,5 +60,6 @@ export const colors = {
     starDisabled: '#2F3236',
     phoneBorder: '#D9B384',
     elementBorder: '#707070',
+    address: '#D1CDC4',
   },
 };

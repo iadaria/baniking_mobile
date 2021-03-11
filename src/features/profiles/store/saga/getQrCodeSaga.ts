@@ -21,9 +21,11 @@ function* getQrCode() {
     const qr_data = qr.split('data:image/png;base64,');
 
     if (qr_data.length > 0 && qr_data[1]) {
+      // Расшифровываем данные получение в виде qr  изображения
       const { values } = yield RNQRGenerator.detect({ base64: qr_data[1] });
       // console.log({ values });
 
+      // Создаем стиль для нашего qr кода - размер, цвет
       const qrOptions: QRCodeGenerateOptions = {
         value: JSON.stringify(values),
         backgroundColor: colors.primary,
@@ -32,8 +34,10 @@ function* getQrCode() {
         width: wp(sizes.qr.main),
         correctionLevel: 'H',
       };
+      // Генерируем новывй qr с нужным стилем и получаем ссылку на изображение в кэше
       const { uri } = yield RNQRGenerator.generate(qrOptions);
 
+      // Проверяем есть ли сгенерированный qr в кэше
       const exists: boolean = yield RNFS.exists(uri);
       if (exists) {
         yield put(

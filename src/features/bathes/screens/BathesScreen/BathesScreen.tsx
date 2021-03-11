@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, TextInput } from 'react-native';
+import { ActivityIndicator, TextInput, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { getBathes as getBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBath } from '~/src/app/models/bath';
-import { FilterIcon, ListIcon, SearchIcon, StarIcon, StarPartIcon } from '~/src/assets';
+import { FilterIcon, ListIcon, SearchIcon, testCardImg } from '~/src/assets';
 import { styles } from './styles';
 import { colors } from '~/src/app/common/constants';
-import Star from '~/src/app/common/components/Stars/Star';
 import { Stars } from '~/src/app/common/components/Stars';
 
 interface IProps {
@@ -19,11 +18,11 @@ interface IProps {
 }
 
 export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
-  /* useEffect(() => {
+  useEffect(() => {
     if (getBathes && getBathes.length < 8) {
       getBathes();
     }
-  }, [getBathes]); */
+  }, [getBathes]);
 
   if (loading) {
     return (
@@ -33,7 +32,7 @@ export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
     );
   }
   // rating
-  const testRating = 3.1;
+  const testRating = 4.1;
 
   return (
     <Block full base>
@@ -64,10 +63,19 @@ export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
         <AppText secondary tag>
           Нордская баня с лаунтджем
         </AppText>
+        <Stars rating={testRating} />
 
-        
-        {/* <Stars rating={testRating} /> */}
+        <AppText lightUltra tag color={colors.bath.address}>
+          Mосква ул Византийская, д,5
+          <AppText medium secondary>
+            {'   3 км'}
+          </AppText>
+        </AppText>
+
+        <AppText style={styles.phone}>8 900 123 45 68</AppText>
       </Block>
+
+      <Image source={testCardImg} />
 
       {/* {bathes?.map(({ name }: Partial<IBath>, index: number) => {
         return (

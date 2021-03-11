@@ -33,3 +33,4 @@ export { default as ListIcon } from './images/svg/listIcon.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
+export { default as testCardImg } from'./images/png/testCard.jpg';

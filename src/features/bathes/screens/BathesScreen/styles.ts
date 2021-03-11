@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
   },
   searchIconButton: {
-    padding: wp(2.5)
+    padding: wp(2.5),
   },
   filter: {
     borderWidth: 0.8,
@@ -34,6 +34,15 @@ export const styles = StyleSheet.create({
     padding: wp(3),
     marginTop: wp(3),
     borderRadius: 7,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+  },
+  phone: {
+    alignSelf: 'flex-start',
+    marginTop: wp(2.8),
+    paddingHorizontal: wp(5),
+    paddingVertical: wp(2.3),
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.bath.phoneBorder,
   },
 });

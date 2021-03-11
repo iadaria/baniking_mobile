@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block } from '../UI';
+import { AppText, Block } from '../UI';
 import Star from './Star';
 
 interface IProps {
@@ -20,7 +20,7 @@ export function Stars({ rating }: IProps) {
 
     // const _active = _rating / _star > 1 ? 1 : 1 - _rating / _star;
     const _active = _rating / _star > 1 ? 1 : _rating % 1;
-    console.log(`\n rating=${_rating} star=${_star} active=${_active} rating/star=${_rating / _star}`);
+    // console.log(`\n rating=${_rating} star=${_star} active=${_active} rating/star=${_rating / _star}`);
     return _active;
   };
 
@@ -31,7 +31,7 @@ export function Stars({ rating }: IProps) {
 
   const stars = [1, 2, 3, 4, 5];
   return (
-    <Block margin={[0.8, 0]} row>
+    <Block margin={[0.9, 0]} row center>
       {stars.map((star: number) => {
         return (
           <>
@@ -41,10 +41,13 @@ export function Stars({ rating }: IProps) {
               active={getActive(rating, star)}
               // deactive={getDeactive(rating, star)}
             />
-            <Block margin={[0, 0.5]} />
+            <Block key={`item-block-${star}`} margin={[0, 0.5]} />
           </>
         );
       })}
+      <AppText margin={[0, 0, 0, 2.5]} medium tag>
+        {rating}
+      </AppText>
     </Block>
   );
 }
