@@ -52,7 +52,7 @@ export const sizes = {
     h1: 5.6, // 24:(896:100)
     h2: 5,
     label: 3.6, // 15
-    tag: 3.3, // 13
+    tag: 3.2, // 13
     header: 4.25, // 18 - header, menu
     logo: 5, //13
     caption: 3,

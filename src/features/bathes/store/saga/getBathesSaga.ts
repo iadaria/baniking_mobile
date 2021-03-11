@@ -6,13 +6,18 @@ import { GET_BATHES } from '../bathConstants';
 import { IBath } from '~/src/app/models/bath';
 import { setBathes, bathesFail } from '../bathActions';
 
+interface IResult {
+  count: number;
+  baths: Partial<IBath>[];
+}
+
 function* getBathesSaga() {
   try {
-    const bathes: IBath[] = yield call(methods.getBathes, null, null);
-    yield put(setBathes(bathes));
+    const { baths }: IResult = yield call(methods.getBathes, null, null);
+    yield put(setBathes(baths));
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);
-    let errorMessage = allErrors ? allErrors : 'Ошибка при получении данных';
+    const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении данных';
 
     console.log(JSON.stringify(e, null, 4));
     console.log('[getdProfileSettingsSaga]', [errors, message]);

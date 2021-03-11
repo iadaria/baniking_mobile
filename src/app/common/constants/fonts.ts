@@ -45,4 +45,7 @@ export const fonts = {
   caption: {
     fontSize: wp(sizes.font.caption),
   },
+  tag: {
+    fontSize: wp(sizes.font.tag),
+  },
 };

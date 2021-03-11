@@ -3,6 +3,7 @@ declare module '*.svg' {
   const content: React.FC<
     SvgProps & {
       fillSecondary?: string;
+      offset?: number;
       // margin?: number | number[];
     }
   >;

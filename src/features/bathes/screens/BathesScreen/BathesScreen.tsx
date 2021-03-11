@@ -6,9 +6,11 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { getBathes as getBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBath } from '~/src/app/models/bath';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { FilterIcon, ListIcon, SearchIcon, StarIcon, StarPartIcon } from '~/src/assets';
 import { styles } from './styles';
 import { colors } from '~/src/app/common/constants';
+import Star from '~/src/app/common/components/Stars/Star';
+import { Stars } from '~/src/app/common/components/Stars';
 
 interface IProps {
   loading: boolean;
@@ -17,9 +19,11 @@ interface IProps {
 }
 
 export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
-  useEffect(() => {
-    getBathes();
-  }, [getBathes]);
+  /* useEffect(() => {
+    if (getBathes && getBathes.length < 8) {
+      getBathes();
+    }
+  }, [getBathes]); */
 
   if (loading) {
     return (
@@ -28,6 +32,8 @@ export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
       </Block>
     );
   }
+  // rating
+  const testRating = 3.1;
 
   return (
     <Block full base>
@@ -51,15 +57,27 @@ export function BathesScreenContainer({ loading, bathes, getBathes }: IProps) {
         <ListIcon />
       </Block>
 
-      {bathes?.map(({ name }: IBath) => {
+      <Block key={1} margin={[5, 0]} card>
+        <AppText trajan header transform="uppercase" height={27}>
+          Nordik spa & Lounge
+        </AppText>
+        <AppText secondary tag>
+          Нордская баня с лаунтджем
+        </AppText>
+
+        
+        {/* <Stars rating={testRating} /> */}
+      </Block>
+
+      {/* {bathes?.map(({ name }: Partial<IBath>, index: number) => {
         return (
-          <Block margin={[5, 0]} card>
-            <AppText trajan header transform="uppercase">
+          <Block key={`key-${index}`} margin={[5, 0]} card>
+            <AppText trajan header transform="uppercase" height={6}>
               {name}
             </AppText>
           </Block>
         );
-      })}
+      })} */}
     </Block>
   );
 }

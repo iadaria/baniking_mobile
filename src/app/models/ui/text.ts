@@ -9,6 +9,7 @@ export interface IUiText extends TextProps {
   logo?: boolean;
   caption?: boolean;
   size?: number;
+  tag?: boolean;
   // font famil?: boolean;
   regular?: boolean;
   medium?: boolean;
@@ -80,6 +81,7 @@ export interface ITextStyleProps {
   header: object;
   logo: object;
   caption: object;
+  tag: object;
   // styles
   debug: object;
 }

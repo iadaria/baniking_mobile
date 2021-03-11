@@ -25,6 +25,7 @@ export function AppText(props: IUiText) {
     header,
     logo,
     caption,
+    tag,
     size,
     // font family
     regular,
@@ -61,6 +62,7 @@ export function AppText(props: IUiText) {
     header && styles.header,
     logo && styles.logo,
     caption && styles.caption,
+    tag && styles.tag,
     // small && styles.small,
     size && { fontSize: wp(size) },
     transform && { textTransform: transform },

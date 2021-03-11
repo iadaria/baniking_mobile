@@ -6,7 +6,7 @@ export const getBathes = () => ({
   type: constants.GET_BATHES,
 });
 
-export const setBathes = (bathes: IBath[]) => ({
+export const setBathes = (bathes: Partial<IBath>[]) => ({
   type: constants.SET_BATHES,
   payload: bathes,
 });

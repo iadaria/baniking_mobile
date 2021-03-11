@@ -38,6 +38,7 @@ export const styles = StyleSheet.create<ITextStyleProps>({
   h2: fonts.h2,
   header: fonts.header,
   logo: fonts.logo,
+  tag: fonts.tag,
   // styles
   debug: {
     borderWidth: 1,

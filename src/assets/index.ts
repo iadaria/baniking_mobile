@@ -27,6 +27,7 @@ export { default as QrLogoIcon } from './images/svg/qr-logo.svg';
 export { default as FilterIcon } from './images/svg/filter.svg';
 export { default as KolosIcon } from './images/svg/kolos.svg';
 export { default as StarIcon } from './images/svg/star.svg';
+export { default as StarPartIcon } from './images/svg/starPart.svg';
 export { default as SearchIcon } from './images/svg/search.svg';
 export { default as ListIcon } from './images/svg/listIcon.svg';
 // png
