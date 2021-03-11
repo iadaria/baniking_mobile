@@ -8,7 +8,7 @@ export interface IBathState {
   loading: boolean;
   errors: IErrors | null;
   // bathes
-  bathes: Partial<IBath>[];
+  bathes: IBath[];
   selectedBath: IBath | null;
   // filter
   lastVisible: IBath | null;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { AppText, Block } from '../UI';
 import Star from './Star';
 
@@ -34,15 +34,15 @@ export function Stars({ rating }: IProps) {
     <Block margin={[0.9, 0]} row center>
       {stars.map((star: number) => {
         return (
-          <>
+          <Fragment key={`item-${star}`}>
             <Star
               id={`item-${star}`}
-              key={`item-${star}`}
+              // key={`item-${star}`}
               active={getActive(rating, star)}
               // deactive={getDeactive(rating, star)}
             />
-            <Block key={`item-block-${star}`} margin={[0, 0.5]} />
-          </>
+            <Block margin={[0, 0.5]} />
+          </Fragment>
         );
       })}
       <AppText margin={[0, 0, 0, 2.5]} medium tag>

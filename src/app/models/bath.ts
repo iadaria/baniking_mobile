@@ -7,5 +7,6 @@ export interface IBath {
   latitude: number;
   longitude: number;
   image: string;
+  cachedImage?: string | null;
   price: number | null;
 }

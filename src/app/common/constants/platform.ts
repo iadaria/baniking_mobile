@@ -1,5 +1,4 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
-
 const { width, height } = Dimensions.get('window');
 
 export const isIos = Platform.OS === 'ios';
@@ -39,8 +38,7 @@ export const bottomTabBarHeight = 56;
 export const bottomSpace = isIphoneX ? 34 : 0;
 export const bottomTabBarWithSpaceHeight = bottomTabBarHeight + bottomSpace;
 
-export const screenHeight =
-  windowHeight - headerHeight - bottomTabBarWithSpaceHeight;
+export const screenHeight = windowHeight - headerHeight - bottomTabBarWithSpaceHeight;
 
 export const designWidth = 375;
 export const currentLanguage = 'ru-RU';
