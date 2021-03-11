@@ -45,4 +45,18 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.bath.phoneBorder,
   },
+  backgroundImage: {
+    height: wp(45),
+    // paddingVertical: wp(4),
+    marginTop: wp(5),
+    justifyContent: 'center',
+    marginLeft: wp(2)
+  },
+  imageStyle: {
+    borderRadius: 7,
+  },
+  gradient: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
