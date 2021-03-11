@@ -46,17 +46,17 @@ export const styles = StyleSheet.create({
     borderColor: colors.bath.phoneBorder,
   },
   backgroundImage: {
-    height: wp(45),
-    // paddingVertical: wp(4),
-    marginTop: wp(5),
+    height: wp(43),
+    marginTop: wp(3),
     justifyContent: 'center',
-    marginLeft: wp(2)
-  },
-  imageStyle: {
-    borderRadius: 7,
+    marginLeft: wp(5),
   },
   gradient: {
     flex: 1,
     justifyContent: 'center',
   },
+  imageStyle: {
+    borderRadius: 7,
+  },
+  kolosIcon: { position: 'absolute', left: -wp(5.5), top: wp(1.2) },
 });

@@ -1,22 +1,21 @@
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { GET_BATHES } from '../bathConstants';
 import { IBath, TPartBathParameter } from '~/src/app/models/bath';
 import { setBathes, bathesFail } from '../bathActions';
+import { IBathAction } from '~/src/app/models/bath';
+import { FETCH_BATHES } from '../bathConstants';
 
 interface IResult {
   count: number;
   baths: IBath[];
 }
 
-function* getBathesSaga() {
-  const bathParams: TPartBathParameter = {
-    page: 0,
-  };
+function* fetchBathesSaga(payload: IBathAction) {
+  console.log('[fetchBathesSaga]', payload);
   try {
-    const { baths }: IResult = yield call(methods.getBathes, null, bathParams);
+    const { baths, count }: IResult = yield call(methods.getBathes, null, payload.bathParams);
     // const cachedImagesBathes: IBath[] = yield withCachedImage(baths);
 
     /* const cachedImagesBathes: IBath[] = yield all(
@@ -29,7 +28,7 @@ function* getBathesSaga() {
       }),
     ); */
 
-    yield put(setBathes(baths));
+    yield put(setBathes({ bathes: baths, count }));
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);
     const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении данных';
@@ -43,5 +42,5 @@ function* getBathesSaga() {
 }
 
 export default function* listener() {
-  yield takeLatest(GET_BATHES, getBathesSaga);
+  yield takeLatest(FETCH_BATHES, fetchBathesSaga);
 }

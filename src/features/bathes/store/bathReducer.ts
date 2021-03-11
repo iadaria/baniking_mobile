@@ -8,10 +8,12 @@ export interface IBathState {
   loading: boolean;
   errors: IErrors | null;
   // bathes
+  totalBathes: number;
   bathes: IBath[];
   selectedBath: IBath | null;
   // filter
-  lastVisible: IBath | null;
+  lastPage: number;
+  moreBathes: boolean;
   filter: string;
   retainState: boolean;
 }
@@ -21,10 +23,12 @@ const initialState: IBathState = {
   loading: false,
   errors: null,
   // bathes
+  totalBathes: 0,
   bathes: [],
   selectedBath: null,
-  // filter
-  lastVisible: null,
+  // fetch
+  moreBathes: false,
+  lastPage: -1,
   filter: 'all',
   retainState: false,
 };
@@ -41,7 +45,8 @@ export default function bathReducer(
         ...state,
         loading: false,
         errors: null,
-        bathes: [...state.bathes, ...payload],
+        totalBathes: payload.count,
+        bathes: [...state.bathes, ...payload.bathes],
       };
 
     case constants.GET_BATHES:
@@ -49,6 +54,14 @@ export default function bathReducer(
         ...state,
         loading: true,
         errors: null,
+      };
+
+    case constants.FETCH_BATHES:
+      return {
+        ...state,
+        // bathes: [...state.bathes, ...payload.bathes],
+        moreBathes: payload.moreBathes,
+        lastPage: payload.lastPage,
       };
 
     // Filter

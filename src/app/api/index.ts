@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { TPartBathParameter } from '../models/bath';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
@@ -17,13 +18,17 @@ export const tokenToHeaders = (token: string) => {
   privFetch.defaults.headers.put.Authorization = `Bearer ${token}`;
 };
 
+// Объект параметров может быть либо нулевым либо представлять собой объект с несклькими
+// Свойства объекта могут иметь значения: строка, номер или массив чисел
+type TObjToUrl = null | { [key: string]: string | number | Array<number> };
+
 // const defaultLists = { page: 1, pageSize: 50, order: -1, read: 0 };
-/* const objToUrl = (obj: null | { [key: string]: string | number | Array<number> }) =>
+const objToUrl = (obj: TObjToUrl) =>
   obj
     ? `?${Object.keys(obj)
         .map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
         .join('&')}`
-    : ''; */
+    : '';
 
 const request = (method: Methods, _endpoint: string | Function, entity: any) => async (
   data: null | any,
@@ -61,7 +66,7 @@ export const methods = {
   // qr
   getQr: request('get', '/cabinet/qr', privFetch),
   // bathes
-  getBathes: request('get', '/baths', privFetch),
+  getBathes: request('get', (bathParams: TPartBathParameter) => `/baths${objToUrl(bathParams)}`, privFetch),
 };
 
 // for debugger

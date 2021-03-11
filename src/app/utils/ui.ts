@@ -62,30 +62,30 @@ export function handlePaddings(padding: number | number[]): IUiPadding {
     switch (paddingSize) {
       case 1:
         return {
-          paddingTop: hp(padding[0]),
+          paddingTop: wp(padding[0]),
           paddingRight: wp(padding[0]),
-          paddingBottom: hp(padding[0]),
+          paddingBottom: wp(padding[0]),
           paddingLeft: wp(padding[0]),
         };
       case 2:
         return {
-          paddingTop: hp(padding[0]),
+          paddingTop: wp(padding[0]),
           paddingRight: wp(padding[1]),
-          paddingBottom: hp(padding[0]),
+          paddingBottom: wp(padding[0]),
           paddingLeft: wp(padding[1]),
         };
       case 3:
         return {
-          paddingTop: hp(padding[0]),
+          paddingTop: wp(padding[0]),
           paddingRight: wp(padding[1]),
-          paddingBottom: hp(padding[2]),
+          paddingBottom: wp(padding[2]),
           paddingLeft: wp(padding[1]),
         };
       default:
         return {
-          paddingTop: hp(padding[0]),
+          paddingTop: wp(padding[0]),
           paddingRight: wp(padding[1]),
-          paddingBottom: hp(padding[2]),
+          paddingBottom: wp(padding[2]),
           paddingLeft: wp(padding[3]),
         };
     }

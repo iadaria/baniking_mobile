@@ -31,7 +31,7 @@ export function Stars({ rating }: IProps) {
 
   const stars = [1, 2, 3, 4, 5];
   return (
-    <Block margin={[0.9, 0]} row center>
+    <Block margin={[1.2, 0]} row center>
       {stars.map((star: number) => {
         return (
           <Fragment key={`item-${star}`}>

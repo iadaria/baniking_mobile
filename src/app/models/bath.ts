@@ -10,3 +10,30 @@ export interface IBath {
   cachedImage?: string | null;
   price: number | null;
 }
+
+export interface IBathParams {
+  search_query: string;
+  sort_field: 'price' | 'rating';
+  sort_type: 'asc' | 'desc';
+  rating: number;
+  price_from: number;
+  price_to: number;
+  types: number[];
+  steam_rooms_ids: number[];
+  services_ids: number[];
+  zones_ids: number[];
+  page: number;
+}
+
+export type TPartBathParameter = Partial<IBathParams>;
+
+export const defaultBathParameter: TPartBathParameter = {
+  page: 0,
+};
+
+export interface IBathAction {
+  // bathes: IBath[];
+  bathParams: TPartBathParameter;
+  moreBathes: boolean;
+  lastPage: number;
+}
