@@ -68,12 +68,4 @@ export const styles = StyleSheet.create({
     width: '106%',
     zIndex: 2,
   },
-  cachedImg: {
-    height: wp(43),
-    position: 'absolute',
-    right: 0,
-    borderRadius: 7,
-    width: '106%',
-    zIndex: 1,
-  },
 });

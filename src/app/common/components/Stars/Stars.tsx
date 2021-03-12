@@ -8,6 +8,13 @@ interface IProps {
 
 export function Stars({ rating }: IProps) {
   const getActive = (_rating: number, _star: number) => {
+    // Если рейтинг меньше 1: 0.1 или 0.6
+    if (_rating < 1) {
+      if (_star === 1) {
+        return _rating;
+      }
+      return 0;
+    }
     // Exactly star
     if (_rating / _star === 1) {
       return 1;
@@ -24,10 +31,10 @@ export function Stars({ rating }: IProps) {
     return _active;
   };
 
-  const getDeactive = (_rating: number, _star: number) => {
+  /* const getDeactive = (_rating: number, _star: number) => {
     const _deactive = _rating / _star > 1 ? 0 : _rating / _star;
     return _deactive;
-  };
+  }; */
 
   const stars = [1, 2, 3, 4, 5];
   return (
