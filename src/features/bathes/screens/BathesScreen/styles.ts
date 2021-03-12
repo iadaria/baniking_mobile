@@ -50,6 +50,8 @@ export const styles = StyleSheet.create({
     marginTop: wp(3),
     justifyContent: 'center',
     marginLeft: wp(5),
+    opacity: 0.8,
+    zIndex: 1,
   },
   gradient: {
     flex: 1,
@@ -59,4 +61,19 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
   },
   kolosIcon: { position: 'absolute', left: -wp(5.5), top: wp(1.2) },
+  temporaryImg: {
+    position: 'absolute',
+    right: 0,
+    borderRadius: 7,
+    width: '106%',
+    zIndex: 2,
+  },
+  cachedImg: {
+    height: wp(43),
+    position: 'absolute',
+    right: 0,
+    borderRadius: 7,
+    width: '106%',
+    zIndex: 1,
+  },
 });

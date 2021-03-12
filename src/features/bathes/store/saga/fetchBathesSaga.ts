@@ -1,10 +1,12 @@
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { Response } from 'react-native-image-resizer';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { IBath, IBathAction } from '~/src/app/models/bath';
 import { setBathes, bathesFail } from '../bathActions';
 import { FETCH_BATHES } from '../bathConstants';
+import { cacheImage } from '~/src/app/utils/bathUtility';
 
 interface IAction {
   payload: IBathAction;
@@ -23,7 +25,14 @@ function* fetchBathesSaga({ payload }: IAction) {
   try {
     if (moreBathes) {
       const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
-      yield put(setBathes({ bathes: baths, count }));
+
+      let cachedImagesBathes: IBath[] = [...baths];
+      /* for (let i = 0; i < baths.length; i++) {
+        const response: Response = yield cacheImage(baths[i].image);
+        cachedImagesBathes[i].cachedImage = response.uri;
+      } */
+
+      yield put(setBathes({ bathes: cachedImagesBathes, count }));
     }
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);

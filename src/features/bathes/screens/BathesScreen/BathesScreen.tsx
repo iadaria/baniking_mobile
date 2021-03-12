@@ -53,6 +53,10 @@ IProps) {
     }
   }, [bathes, fetchBathes, lastPage, totalBathes]);
 
+  useEffect(() => {
+    // console.log('[BathesScreen/useEffect] batehs', JSON.stringify(bathes, null, 2));
+  }, [bathes]);
+
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
     if (isBegin(lastPage)) {
@@ -61,11 +65,13 @@ IProps) {
   }, [handleLoadMore, lastPage]);
 
   const renderItem = useCallback(
-    ({ item }: { item: IBath }) => {
-      return <BathItem bath={item} updateBath={updateBath} />;
+    ({ item, index }: { item: IBath; index: number }) => {
+      return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} />;
     },
     [updateBath],
   );
+  
+  const keyExtractor = useCallback((item: IBath, index) => String(index), []);
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -92,8 +98,9 @@ IProps) {
 
       <FlatList
         data={bathes}
+        // initialNumToRender={5}
         renderItem={renderItem}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={keyExtractor}
         onEndReachedThreshold={0.1}
         onEndReached={handleLoadMore}
         ListFooterComponent={loading ? <AppListIndicator /> : null}
