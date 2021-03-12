@@ -7,7 +7,17 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { setTitlePoints } from '~/src/app/store/system/systemActions';
 
+var count = 0;
+
 function* getCabinetDataSaga() {
+  count++;
+  if (count > 2) {
+    console.log('[getCabinetDataSaga] count > 2');
+    setTimeout(function () {
+      count = 0;
+    }, 10000);
+    return;
+  }
   try {
     const cabinet: IResponseCabinet = yield call(methods.getCabinet, null, null);
     console.log('[getCabinetSaga] **********');

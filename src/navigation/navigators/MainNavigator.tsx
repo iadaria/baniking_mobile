@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
@@ -10,6 +10,7 @@ import {
   closeDrawer as closeDrawerAction,
   pullBackward as pullBackwardAction,
 } from '~/src/app/store/system/systemActions';
+import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AuthNavigator from '~/src/features/auth/AuthNavigator';
 // import { UnauthScreen } from '~/src/features/auth/screens';
@@ -24,6 +25,7 @@ interface IProps {
   openDrawer: () => void;
   closeDrawer: () => void;
   pullBackward: () => void;
+  getCabinetData: () => void;
 }
 
 interface IScreenOptionsProps {
@@ -42,7 +44,25 @@ function MainNavigatorContainer({
   openDrawer,
   closeDrawer,
   pullBackward,
+  getCabinetData,
 }: IProps) {
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+    if (authenticated) {
+      console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
+      timerId = setTimeout(function () {
+        console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
+        getCabinetData();
+      }, 1000);
+    }
+    return function () {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated]);
+
   function onOpenDrawer(navigation: StackNavigationProp<ParamListBase>) {
     navigation.dispatch(DrawerActions.openDrawer());
     openDrawer();
@@ -91,6 +111,7 @@ export default connect(
     openDrawer: openDrawerAction,
     closeDrawer: closeDrawerAction,
     pullBackward: pullBackwardAction,
+    getCabinetData: getCabinetDataAction,
   },
 )(MainNavigatorContainer);
 

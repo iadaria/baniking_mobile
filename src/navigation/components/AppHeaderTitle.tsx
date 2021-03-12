@@ -9,9 +9,17 @@ interface IProps {
 }
 
 export default function AppHeaderTitle({ points }: IProps) {
+  /* useEffect(() => {
+    if (!points) {
+      console.log('[AppHeaderTitle/useEffect] getCabinetData');
+      getCabinetData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [points]); */
+
   return (
     <Block row center right>
-      <AppText header>{numberWithSpaces(points)}</AppText>
+      <AppText header secondary>{numberWithSpaces(points.toString())}</AppText>
       <Block margin={[0, sizes.offset.between]} />
       <TotalPointScores />
       <Block margin={[0, sizes.offset.between]} />

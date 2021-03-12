@@ -31,6 +31,7 @@ export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Fema
 
 export function numberWithSpaces(x: string) {
   if (x) {
+    console.log('number', x);
     const result = x?.match(/[\d]{4}[\d ]{15}/);
     if (result && result.length > 0) {
       return result[0];

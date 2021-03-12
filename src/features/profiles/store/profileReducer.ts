@@ -168,7 +168,7 @@ export default function persistReducer(
         cabinetErrors: null,
       };
 
-    case constants.GET_CABINET_DATA:
+    case constants.GET_CABINET_DATA_FAIL:
       return {
         ...state,
         loading: false,
