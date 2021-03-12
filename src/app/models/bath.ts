@@ -31,6 +31,12 @@ export const defaultBathParameter: TPartBathParameter = {
   page: 0,
 };
 
+/**
+ * @interface IBathAction
+ * @param {TPartBathParameter} bathParams
+ * @param {boolean} moreBathes
+ * @param {number} lastPage
+ */
 export interface IBathAction {
   // bathes: IBath[];
   bathParams: TPartBathParameter;

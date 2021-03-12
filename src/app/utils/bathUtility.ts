@@ -3,7 +3,6 @@ import ImageResizer, { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { sizes } from '../common/constants';
-import { IBath } from '../models/bath';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -16,7 +15,7 @@ export const cacheImage = async (image: string): Promise<Response> => {
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };
 
-export function* withCachedImage(bathes: IBath[]) {
+/* export function withCachedImage(bathes: IBath[]) {
   const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   // console.log(JSON.stringify(bathes, null, 2))
   const newBathes = bathes.map(async (bath: IBath) => {
@@ -36,4 +35,4 @@ export function* withCachedImage(bathes: IBath[]) {
   });
   console.log(JSON.stringify(newBathes, null, 2));
   return newBathes;
-}
+} */

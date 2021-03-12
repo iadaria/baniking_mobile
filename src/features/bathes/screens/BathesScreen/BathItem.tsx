@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, ListRenderItem } from 'react-native';
+import { ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Stars } from '~/src/app/common/components/Stars';

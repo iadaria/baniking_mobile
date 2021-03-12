@@ -8,16 +8,19 @@ import {
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBath, TPartBathParameter } from '~/src/app/models/bath';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
-import { colors, sizes } from '~/src/app/common/constants';
 import BathItem from './BathItem';
-
-import { styles } from './styles';
 import { FlatList } from 'react-native-gesture-handler';
 import { IBathAction } from '~/src/app/models/bath';
+import { canLoadMore, isBegin } from '~/src/app/utils/common';
+import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
+import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { colors, sizes } from '~/src/app/common/constants';
+import { styles } from './styles';
+import AppListIndicator from './AppListIndicator';
 
 interface IProps {
   loading: boolean;
+  totalBathes: number;
   bathes: IBath[] | null;
   moreBathes: boolean;
   lastPage: number;
@@ -29,6 +32,7 @@ interface IProps {
 
 export function BathesScreenContainer({
   loading,
+  totalBathes,
   bathes,
   getBathes,
   fetchBathes,
@@ -36,26 +40,32 @@ export function BathesScreenContainer({
   lastPage,
   retainState,
 }: IProps) {
-  /* const image = '../../../../assets/images/png/testCard.jpg';
-  const [newImg, setNewImg] = useState<Response>(); */
+  // const [nextPage, setNextPage] = useState(lastPage);
 
-  useEffect(
-    () => {
-      console.log(bathes);
-      if (bathes && bathes.length >= 4) {
-        return;
-      }
+  const handleLoadMore = useCallback(() => {
+    const _moreBathes = canLoadMore(totalBathes, bathes?.length || 0, lastPage);
+    if (_moreBathes) {
       const nextPage = lastPage + 1;
+      // TODO Test
       const bathParams: TPartBathParameter = {
         page: nextPage,
       };
-      fetchBathes({ bathParams, moreBathes, lastPage: nextPage });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [lastPage
-      /* bathes, fetchBathes, lastPage, moreBathes */
-    ],
-  );
+      fetchBathes({ bathParams, moreBathes: _moreBathes, lastPage: nextPage });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+  }, [bathes, fetchBathes, lastPage, moreBathes, totalBathes]);
+
+  // Вызов если только запускаем приложение - не одной записи еще не полученоr
+  useEffect(() => {
+    if (isBegin(lastPage)) {
+      handleLoadMore();
+    }
+  }, [handleLoadMore, lastPage]);
+  /* useEffect(() => {
+    if (isBegin(nextPage)) {
+      setNextPage((currentPage: number) => currentPage + 1);
+    }
+  }, [nextPage]); */
 
   const renderItem = useCallback(({ item }: { item: IBath }) => {
     return <BathItem bath={item} />;
@@ -63,13 +73,13 @@ export function BathesScreenContainer({
 
   const keyExtractor = useCallback((bath: IBath) => String(bath.id), []);
 
-  if (loading) {
+  /* if (loading) {
     return (
       <Block full center middle>
         <ActivityIndicator size="small" color={colors.secondary} />
       </Block>
     );
-  }
+  } */
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -94,7 +104,14 @@ export function BathesScreenContainer({
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
-      <FlatList data={bathes} renderItem={renderItem} keyExtractor={(item) => String(item.id)} />
+      <FlatList
+        data={bathes}
+        renderItem={renderItem}
+        keyExtractor={(item) => String(item.id)}
+        onEndReachedThreshold={0.1}
+        onEndReached={handleLoadMore}
+        ListFooterComponent={loading ? <AppListIndicator /> : null}
+      />
 
       {/* Card */}
       {/* {bathes?.map((bath: IBath, index: number) => (
@@ -107,6 +124,7 @@ export function BathesScreenContainer({
 const BathesScreenConnected = connect(
   ({ bath }: IRootState) => ({
     loading: bath.loading,
+    totalBathes: bath.totalBathes,
     bathes: bath.bathes,
     moreBathes: bath.moreBathes,
     lastPage: bath.lastPage,
@@ -136,3 +154,24 @@ export { BathesScreenConnected as BathesScreen };
     });
   }, []);
  */
+
+/* useEffect(
+    () => {
+      console.log('[BathesScreen/useEffect(nextPage)]');
+      if (bathes && bathes.length >= 4) {
+        return;
+      }
+      if (nextPage === lastPage) {
+        return;
+      }
+      // const nextPage = lastPage + 1;
+      const bathParams: TPartBathParameter = {
+        page: nextPage,
+      };
+      fetchBathes({ bathParams, moreBathes, lastPage: nextPage });
+    },
+    [nextPage],
+  ); */
+
+/* const image = '../../../../assets/images/png/testCard.jpg';
+  const [newImg, setNewImg] = useState<Response>(); */

@@ -7,28 +7,25 @@ import { setBathes, bathesFail } from '../bathActions';
 import { IBathAction } from '~/src/app/models/bath';
 import { FETCH_BATHES } from '../bathConstants';
 
+interface IAction {
+  payload: IBathAction;
+  type: string;
+}
+
 interface IResult {
   count: number;
   baths: IBath[];
 }
 
-function* fetchBathesSaga(payload: IBathAction) {
+function* fetchBathesSaga({ payload }: IAction) {
+  const { moreBathes, bathParams } = payload;
+  console.log('[fetchBathesSaga]', payload.bathParams);
   console.log('[fetchBathesSaga]', payload);
   try {
-    const { baths, count }: IResult = yield call(methods.getBathes, null, payload.bathParams);
-    // const cachedImagesBathes: IBath[] = yield withCachedImage(baths);
-
-    /* const cachedImagesBathes: IBath[] = yield all(
-      baths.map(async (bath: IBath) => {
-        const response: Response = await cacheImage(bath.image);
-        return {
-          ...bath,
-          cachedImage: response.uri,
-        };
-      }),
-    ); */
-
-    yield put(setBathes({ bathes: baths, count }));
+    if (moreBathes) {
+      const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
+      yield put(setBathes({ bathes: baths, count }));
+    }
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);
     const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении данных';
@@ -44,3 +41,15 @@ function* fetchBathesSaga(payload: IBathAction) {
 export default function* listener() {
   yield takeLatest(FETCH_BATHES, fetchBathesSaga);
 }
+
+// const cachedImagesBathes: IBath[] = yield withCachedImage(baths);
+
+/* const cachedImagesBathes: IBath[] = yield all(
+      baths.map(async (bath: IBath) => {
+        const response: Response = await cacheImage(bath.image);
+        return {
+          ...bath,
+          cachedImage: response.uri,
+        };
+      }),
+    ); */

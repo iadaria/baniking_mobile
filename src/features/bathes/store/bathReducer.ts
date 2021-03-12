@@ -28,7 +28,7 @@ const initialState: IBathState = {
   selectedBath: null,
   // fetch
   moreBathes: false,
-  lastPage: -1,
+  lastPage: 0,
   filter: 'all',
   retainState: false,
 };
@@ -59,6 +59,7 @@ export default function bathReducer(
     case constants.FETCH_BATHES:
       return {
         ...state,
+        loading: true,
         // bathes: [...state.bathes, ...payload.bathes],
         moreBathes: payload.moreBathes,
         lastPage: payload.lastPage,
