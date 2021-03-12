@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
   imageStyle: {
     borderRadius: 7,
   },
-  kolosIcon: { position: 'absolute', left: -wp(5.5), top: wp(1.2) },
+  kolosIcon: { position: 'absolute', left: -wp(5.5), top: wp(4.5) },
   temporaryImg: {
     position: 'absolute',
     right: 0,

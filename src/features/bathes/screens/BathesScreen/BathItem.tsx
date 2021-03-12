@@ -89,13 +89,14 @@ export default function BathItem({ bath, updateBath }: IProps) {
       style={[styles.backgroundImage, { opacity: fadeInOpacity }]}
       imageStyle={styles.imageStyle}
       source={{ uri: thisCachedImage }}>
+      <KolosIcon style={styles.kolosIcon} />
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25,0.1)']}
         start={{ x: 0.2, y: 0 }}
         end={{ x: 2, y: 0 }}
         style={styles.gradient}>
-        <Block>
-          <KolosIcon style={styles.kolosIcon} />
+        <Block style={{ position: 'relative' }}>
+
           <AppText trajan header transform="uppercase" height={27} size={3.8}>
             {name}
           </AppText>
