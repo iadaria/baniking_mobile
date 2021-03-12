@@ -1,28 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Response } from 'react-native-image-resizer';
+// import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
-import { getRandomBathImage } from '~/src/app/utils/bathUtility';
+import { cacheImage, getRandomBathImage } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
 
 interface IProps {
   bath: IBath;
+  updateBath: (bath: IBath) => void;
 }
 
-export default function BathItem({ bath }: IBath) {
-  const { name, address, cachedImage, short_description, rating } = bath;
+export default function BathItem({ bath, updateBath }: IProps) {
+  const { name, address, cachedImage, short_description, rating, image } = bath;
+  const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
+
+  useEffect(() => {
+    console.log('/n [BathItem/useEffect]');
+    if (!thisCachedImage) {
+      console.log('/n [BathItem/useEffect] need cached image');
+      cacheImage(image)
+        .then((response: Response) => {
+          setThisCachedImage(response.uri);
+          updateBath({
+            ...bath,
+            cachedImage: response.uri,
+          });
+          console.log('/n [BathItem/useEffect] cached was update to', response.uri);
+        })
+        .catch((error) => console.log('[BathItem/useEffect(thisCachedImage)] error', error));
+    }
+  }, [bath, image, thisCachedImage, updateBath]);
+
   const randomBathImage = getRandomBathImage();
+  const imageBackground = thisCachedImage ? { uri: thisCachedImage } : randomBathImage;
 
   return (
-    <ImageBackground
-      style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
-      source={cachedImage || randomBathImage}>
+    <ImageBackground style={styles.backgroundImage} imageStyle={styles.imageStyle} source={imageBackground}>
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25,0.1)']}
         start={{ x: 0.1, y: 0 }}

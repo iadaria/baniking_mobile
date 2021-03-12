@@ -2,9 +2,8 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { IBath, TPartBathParameter } from '~/src/app/models/bath';
+import { IBath, IBathAction } from '~/src/app/models/bath';
 import { setBathes, bathesFail } from '../bathActions';
-import { IBathAction } from '~/src/app/models/bath';
 import { FETCH_BATHES } from '../bathConstants';
 
 interface IAction {

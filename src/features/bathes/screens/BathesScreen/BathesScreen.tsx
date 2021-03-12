@@ -1,22 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   getBathes as getBathesAction,
   fetchBathes as fetchBathesAction,
+  updateBath as updateBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBath, TPartBathParameter } from '~/src/app/models/bath';
+import { IBath, TPartBathParameter, IBathAction } from '~/src/app/models/bath';
 import BathItem from './BathItem';
-import { FlatList } from 'react-native-gesture-handler';
-import { IBathAction } from '~/src/app/models/bath';
-import { canLoadMore, isBegin } from '~/src/app/utils/common';
-import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
-import { colors, sizes } from '~/src/app/common/constants';
-import { styles } from './styles';
 import AppListIndicator from './AppListIndicator';
+import { canLoadMore, isBegin } from '~/src/app/utils/common';
+import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants';
+import { styles } from './styles';
 
 interface IProps {
   loading: boolean;
@@ -28,20 +26,20 @@ interface IProps {
   // functions
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
+  updateBath: (bath: IBath) => void;
 }
 
 export function BathesScreenContainer({
   loading,
   totalBathes,
   bathes,
-  getBathes,
+  // getBathes,
   fetchBathes,
-  moreBathes,
+  updateBath,
+  // moreBathes,
   lastPage,
-  retainState,
-}: IProps) {
-  // const [nextPage, setNextPage] = useState(lastPage);
-
+}: // retainState,
+IProps) {
   const handleLoadMore = useCallback(() => {
     const _moreBathes = canLoadMore(totalBathes, bathes?.length || 0, lastPage);
     if (_moreBathes) {
@@ -53,7 +51,7 @@ export function BathesScreenContainer({
       fetchBathes({ bathParams, moreBathes: _moreBathes, lastPage: nextPage });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-  }, [bathes, fetchBathes, lastPage, moreBathes, totalBathes]);
+  }, [bathes, fetchBathes, lastPage, totalBathes]);
 
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
@@ -61,25 +59,13 @@ export function BathesScreenContainer({
       handleLoadMore();
     }
   }, [handleLoadMore, lastPage]);
-  /* useEffect(() => {
-    if (isBegin(nextPage)) {
-      setNextPage((currentPage: number) => currentPage + 1);
-    }
-  }, [nextPage]); */
 
-  const renderItem = useCallback(({ item }: { item: IBath }) => {
-    return <BathItem bath={item} />;
-  }, []);
-
-  const keyExtractor = useCallback((bath: IBath) => String(bath.id), []);
-
-  /* if (loading) {
-    return (
-      <Block full center middle>
-        <ActivityIndicator size="small" color={colors.secondary} />
-      </Block>
-    );
-  } */
+  const renderItem = useCallback(
+    ({ item }: { item: IBath }) => {
+      return <BathItem bath={item} updateBath={updateBath} />;
+    },
+    [updateBath],
+  );
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -112,11 +98,6 @@ export function BathesScreenContainer({
         onEndReached={handleLoadMore}
         ListFooterComponent={loading ? <AppListIndicator /> : null}
       />
-
-      {/* Card */}
-      {/* {bathes?.map((bath: IBath, index: number) => (
-        <BathItem key={`item-${index}`} bath={bath} />
-      ))} */}
     </Block>
   );
 }
@@ -133,6 +114,7 @@ const BathesScreenConnected = connect(
   {
     getBathes: getBathesAction,
     fetchBathes: fetchBathesAction,
+    updateBath: updateBathAction,
   },
 )(BathesScreenContainer);
 

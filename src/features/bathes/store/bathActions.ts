@@ -21,3 +21,8 @@ export const fetchBathes = (payload: IBathAction) => ({
   type: constants.FETCH_BATHES,
   payload,
 });
+
+export const updateBath = (payload: IBath) => ({
+  type: constants.UPDATE_BATH,
+  payload,
+});

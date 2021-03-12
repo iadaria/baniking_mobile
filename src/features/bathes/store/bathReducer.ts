@@ -65,6 +65,12 @@ export default function bathReducer(
         lastPage: payload.lastPage,
       };
 
+    case constants.UPDATE_BATH:
+      return {
+        ...state,
+        bathes: [...state.bathes.filter((bath: IBath) => bath.id !== payload.id), payload],
+      };
+
     // Filter
     case constants.RETAIN_STATE:
       return {

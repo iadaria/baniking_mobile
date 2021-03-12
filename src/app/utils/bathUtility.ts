@@ -3,6 +3,7 @@ import ImageResizer, { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { sizes } from '../common/constants';
+import { getFileName, replaceExtension } from './common';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -11,6 +12,9 @@ export const getRandomBathImage = () => {
 };
 
 export const cacheImage = async (image: string): Promise<Response> => {
+  //const fileName = getFileName(image);
+  //const newFileName = 'file://data/user/0/com.baniking_mobile/cache/' + replaceExtension(fileName, '.png');
+  //console.log('[cacheImage/newFilename]', newFileName);
   const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };
