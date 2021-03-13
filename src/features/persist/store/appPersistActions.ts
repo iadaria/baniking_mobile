@@ -1,5 +1,6 @@
 import { IPersistUser, ISocialAccount } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
+import { IPersistImage } from '~/src/app/models/persist';
 
 export const setPersistAccountType = ({ accountType }: { accountType: string }) => ({
   type: constants.SET_ACCOUNT_TYPE,
@@ -28,3 +29,9 @@ export const addSocialAccount = (data: ISocialAccount) => ({
 
 export const askLogout = () => ({ type: constants.ASK_LOGOUT });
 export const logout = () => ({ type: constants.LOGOUT });
+
+// Image
+export const persistImage = (payload: IPersistImage) => ({
+  type: constants.PERSIST_IMAGE,
+  payload,
+});

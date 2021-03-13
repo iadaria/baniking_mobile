@@ -4,44 +4,58 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Stars } from '~/src/app/common/components/Stars';
-import { AppText, Block } from '~/src/app/common/components/UI';
-import { colors, sizes, multiplier } from '~/src/app/common/constants';
+import { AppText } from '~/src/app/common/components/UI';
+import { colors, multiplier } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
 import { cacheImage, getRandomBathImage } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
-import { multiHeightLine, isIos } from '../../../../app/common/constants/platform';
-import { isAndroid } from '../../../../app/utils/system';
+import { isAndroid } from '~/src/app/utils/system';
+import { IPersistImage } from '~/src/app/models/persist';
+import { getFileName, replaceExtension } from '~/src/app/utils/common';
+import { useSelector } from 'react-redux';
+import { IRootState } from '~/src/app/store/rootReducer';
 
 interface IProps {
   bath: IBath;
   updateBath: (bath: IBath) => void;
+  persistImage: (image: IPersistImage) => void;
 }
 
-export default function BathItem({ bath, updateBath }: IProps) {
+export default function BathItem({ bath, updateBath, persistImage }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
   const [fadeOutOpacity] = useState(new Animated.Value(0.75));
   const [randomImg] = useState(getRandomBathImage());
-  const [x, setX] = useState(0);
   const uri = useRef<string | undefined>();
-  var AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
+  const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
+
+  const fileNameExtension = getFileName(image);
+  const fileName = replaceExtension(fileNameExtension, '');
+  const indexOf = set.indexOf(fileName);
 
   useEffect(() => {
-    // console.log('/n [BathItem/useEffect]');
     if (!thisCachedImage) {
-      console.log('/n [BathItem/useEffect] need cached image');
-      cacheImage(image)
-        .then((response: Response) => {
-          setThisCachedImage(response.uri);
-          uri.current = response.uri;
-          // console.log('/n [BathItem/useEffect] cached was update to', response.uri);
-        })
-        .catch((error) => console.log('[BathItem/useEffect(thisCachedImage)] error', error));
+      if (indexOf !== -1) {
+        console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
+        const _cachedImage = images[indexOf];
+        setThisCachedImage(_cachedImage.path);
+        uri.current = _cachedImage.path;
+        return;
+      } else {
+        console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
+        cacheImage(image)
+          .then((response: Response) => {
+            setThisCachedImage(response.uri);
+            uri.current = response.uri;
+          })
+          .catch((error) => console.log('[BathItem/useEffect(thisCachedImage)] error', error));
+      }
     } else {
-      console.log('/n [BathItem/useEffect] Not need cached image');
+      console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thisCachedImage]);
 
@@ -52,6 +66,10 @@ export default function BathItem({ bath, updateBath }: IProps) {
         ...bath,
         cachedImage: uri.current,
       });
+    }
+    if (uri.current && indexOf === -1) {
+      persistImage({ id: fileName, path: uri.current });
+      console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri.current, cacheImage]);
@@ -80,42 +98,40 @@ export default function BathItem({ bath, updateBath }: IProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cachedImage]);
 
+  var AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
   const androidStyle = isAndroid ? { marginLeft: wp(5) } : {};
 
   return (
-    <>
-      {/* <KolosIcon style={[styles.kolosIcon]} width={wp(4.4) * multiplier} height={wp(4.4) * multiplier} /> */}
-      <AnimatedImage
-        key={bath.id}
-        style={[styles.backgroundImage, androidStyle, { opacity: fadeInOpacity }]}
-        imageStyle={styles.imageStyle}
-        source={{ uri: thisCachedImage }}>
-        <LinearGradient
-          colors={[colors.primary, 'rgba(23,23,25,0.1)']}
-          start={{ x: 0.2, y: 0 }}
-          end={{ x: 1.5, y: 0 }}
-          style={styles.gradient}>
-          <AppText trajan header transform="uppercase" height={28 * multiplier} size={3.8 * multiplier}>
-            {name}
-          </AppText>
+    <AnimatedImage
+      key={bath.id}
+      style={[styles.backgroundImage, androidStyle, { opacity: fadeInOpacity }]}
+      imageStyle={styles.imageStyle}
+      source={{ uri: thisCachedImage }}>
+      <LinearGradient
+        colors={[colors.primary, 'rgba(23,23,25,0.1)']}
+        start={{ x: 0.2, y: 0 }}
+        end={{ x: 1.5, y: 0 }}
+        style={styles.gradient}>
+        <AppText trajan header transform="uppercase" height={28 * multiplier} size={3.8 * multiplier}>
+          {name}
+        </AppText>
 
-          <AppText secondary tag>
-            {short_description && `${short_description.substring(0, 45)} ...`}
+        <AppText secondary tag>
+          {short_description && `${short_description.substring(0, 45)} ...`}
+        </AppText>
+        <Stars rating={rating} />
+        <AppText lightUltra tag color={colors.bath.address}>
+          {address}
+          <AppText medium secondary>
+            {'   3 км'}
           </AppText>
-          <Stars rating={rating} />
-          <AppText lightUltra tag color={colors.bath.address}>
-            {address}
-            <AppText medium secondary>
-              {'   3 км'}
-            </AppText>
-          </AppText>
-          <AppText style={styles.phone}>0 000 000 00 00</AppText>
-        </LinearGradient>
-        {!cachedImage && (
-          <Animated.Image style={[styles.temporaryImg, { opacity: fadeOutOpacity }]} source={randomImg} />
-        )}
-        <KolosIcon style={[styles.kolosIcon]} width={wp(3.5)} height={wp(3.5)} />
-      </AnimatedImage>
-    </>
+        </AppText>
+        <AppText style={styles.phone}>0 000 000 00 00</AppText>
+      </LinearGradient>
+      {!cachedImage && (
+        <Animated.Image style={[styles.temporaryImg, { opacity: fadeOutOpacity }]} source={randomImg} />
+      )}
+      <KolosIcon style={[styles.kolosIcon]} width={wp(3.5)} height={wp(3.5)} />
+    </AnimatedImage>
   );
 }

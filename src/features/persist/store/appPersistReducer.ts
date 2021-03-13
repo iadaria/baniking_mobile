@@ -1,6 +1,7 @@
 import { IPersistUser } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
 import { refreshAccounts } from '../../../app/utils/auth';
+import { IPersistImages } from '~/src/app/models/persist';
 
 // TOOD SET USER PROVIDER DATE
 
@@ -8,12 +9,17 @@ export interface IPersistState {
   language: string | null;
   token: string | null;
   currentUser: Partial<IPersistUser> | null;
+  image: IPersistImages;
 }
 
 const initialState: IPersistState = {
   language: null,
   token: null,
   currentUser: null,
+  image: {
+    images: [],
+    set: [],
+  },
 };
 
 export default function appPersistReducer(
@@ -58,10 +64,23 @@ export default function appPersistReducer(
           accounts: refreshAccounts(state.currentUser?.accounts, payload),
         },
       };
+
+    // Images
+    case constants.PERSIST_IMAGE:
+      // console.log('[appPersistReducer]', state.image);
+      const { images, set } = state.image as IPersistImages;
+      const has = [...set].includes(payload.id);
+      return {
+        ...state,
+        image: {
+          images: has ? [...images] : [...images, payload],
+          set: has ? [...set] : [...set, payload.id],
+        },
+      };
     // Common
     case constants.ASK_LOGOUT:
       return {
-        ...state,
+        ...initialState,
       };
 
     case constants.LOGOUT:

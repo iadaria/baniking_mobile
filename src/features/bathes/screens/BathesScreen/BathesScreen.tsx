@@ -13,10 +13,12 @@ import { IBath, TPartBathParameter, IBathAction } from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
-import { FilterIcon, KolosIcon, ListIcon, SearchIcon } from '~/src/assets';
-import { multiplier, sizes } from '~/src/app/common/constants';
+import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
-import { isIos } from '../../../../app/common/constants/platform';
+import { isIos } from '~/src/app/common/constants/platform';
+import { persistImage as persistImageAction } from '~/src/features/persist/store/appPersistActions';
+import { IPersistImage } from '~/src/app/models/persist';
 
 interface IProps {
   loading: boolean;
@@ -25,10 +27,13 @@ interface IProps {
   moreBathes: boolean;
   lastPage: number;
   retainState: boolean;
+  imageIds: string[];
+  cachedImages: IPersistImage[];
   // functions
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
   updateBath: (bath: IBath) => void;
+  persistImage: (image: IPersistImage) => void;
 }
 
 export function BathesScreenContainer({
@@ -38,6 +43,7 @@ export function BathesScreenContainer({
   // getBathes,
   fetchBathes,
   updateBath,
+  persistImage,
   // moreBathes,
   lastPage,
 }: // retainState,
@@ -68,18 +74,12 @@ IProps) {
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
-      return (
-        <>
-          {/* <KolosIcon style={[styles.kolosIcon]} width={wp(4.4) * multiplier} height={wp(4.4) * multiplier} /> */}
-          <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} />
-        </>
-      );
+      return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} persistImage={persistImage} />;
     },
-    [updateBath],
+    [updateBath, persistImage],
   );
 
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
-
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
 
   return (
@@ -132,6 +132,7 @@ const BathesScreenConnected = connect(
     getBathes: getBathesAction,
     fetchBathes: fetchBathesAction,
     updateBath: updateBathAction,
+    persistImage: persistImageAction,
   },
 )(BathesScreenContainer);
 

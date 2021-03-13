@@ -3,7 +3,6 @@ import ImageResizer, { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { sizes } from '../common/constants';
-import { getFileName, replaceExtension } from './common';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];

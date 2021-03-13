@@ -10,7 +10,7 @@ function* logoutSaga() {
 
   yield put(logout());
   yield put(authLogout());
-  yield AsyncStorage.clear();
+  // yield AsyncStorage.clear();
   // RNRestart.Restart();
 }
 
