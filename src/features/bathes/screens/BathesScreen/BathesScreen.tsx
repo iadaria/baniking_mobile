@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
@@ -12,9 +13,10 @@ import { IBath, TPartBathParameter, IBathAction } from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { FilterIcon, KolosIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { multiplier, sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
+import { isIos } from '../../../../app/common/constants/platform';
 
 interface IProps {
   loading: boolean;
@@ -66,12 +68,19 @@ IProps) {
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
-      return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} />;
+      return (
+        <>
+          {/* <KolosIcon style={[styles.kolosIcon]} width={wp(4.4) * multiplier} height={wp(4.4) * multiplier} /> */}
+          <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} />
+        </>
+      );
     },
     [updateBath],
   );
-  
+
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
+
+  const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -98,6 +107,7 @@ IProps) {
 
       <FlatList
         data={bathes}
+        style={iosStyle}
         // initialNumToRender={5}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -126,41 +136,3 @@ const BathesScreenConnected = connect(
 )(BathesScreenContainer);
 
 export { BathesScreenConnected as BathesScreen };
-
-/*   useEffect(() => {
-    const resolve = Image.reolveAssetSource(testCardImg);
-    // const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
-    const width = windowWidth - wp(sizes.offset.base) * 2;
-    console.log(resolve);
-    ImageResizer.createResizedImage(resolve.uri, width, width, 'PNG', 100)
-      .then((response: Response) => {
-        console.log('[BathesScreen/resize/done] response', response);
-        setNewImg(response);
-      })
-      .catch((error) => console.log('[BathesScreen/resize error]', error));
-    /* Image.getSize(testCardImg, (width: number, height: number) => {
-      console.log('[BathesScreen/useEffect', width, height);
-    });
-  }, []);
- */
-
-/* useEffect(
-    () => {
-      console.log('[BathesScreen/useEffect(nextPage)]');
-      if (bathes && bathes.length >= 4) {
-        return;
-      }
-      if (nextPage === lastPage) {
-        return;
-      }
-      // const nextPage = lastPage + 1;
-      const bathParams: TPartBathParameter = {
-        page: nextPage,
-      };
-      fetchBathes({ bathParams, moreBathes, lastPage: nextPage });
-    },
-    [nextPage],
-  ); */
-
-/* const image = '../../../../assets/images/png/testCard.jpg';
-  const [newImg, setNewImg] = useState<Response>(); */

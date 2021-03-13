@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, sizes, multiplier } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   searchWrapper: {
@@ -46,22 +46,31 @@ export const styles = StyleSheet.create({
     borderColor: colors.bath.phoneBorder,
   },
   backgroundImage: {
-    height: wp(43),
+    position: 'relative',
+    minHeight: wp(43),
     marginTop: wp(3),
     justifyContent: 'center',
-    marginLeft: wp(5),
+    // marginLeft: wp(5),
+    // paddingLeft: wp(5),
     opacity: 0.8,
     zIndex: 1,
   },
   gradient: {
     flex: 1,
-    justifyContent: 'center',
+    paddingVertical: wp(2),
+   // justifyContent: 'center',
   },
   imageStyle: {
     borderRadius: 7,
   },
-  kolosIcon: { position: 'absolute', left: -wp(5.5), top: wp(4.5) },
+  kolosIcon: {
+    position: 'absolute',
+    //left: -wp(5),
+    left: -wp(5),
+    top: wp(3.8),
+  },
   temporaryImg: {
+    height: wp(43),
     position: 'absolute',
     right: 0,
     borderRadius: 7,

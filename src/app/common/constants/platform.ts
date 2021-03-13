@@ -47,3 +47,4 @@ export const stickyHeaderIndices = [0];
 export const heightScreen: number = Dimensions.get('window').height;
 
 export const multiplier = heightScreen > 650 ? 1 : 0.9;
+export const multiHeightLine = heightScreen > 650 ? 1 : 0.5;
