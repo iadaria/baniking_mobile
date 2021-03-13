@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { closeModal } from './modalReducer';
 import { BlurView } from '@react-native-community/blur';
 import { isIos } from '../constants';
+import { colors } from '~/src/app/common/constants';
 
 export default function ModalWrapper({ children, header }: any) {
   const dispatch = useDispatch();
@@ -14,14 +15,10 @@ export default function ModalWrapper({ children, header }: any) {
         style={styles.absolute}
         blurType="dark"
         blurAmount={isIos ? 1 : 5}
-        reducedTransparencyFallbackColor="black"
+        reducedTransparencyFallbackColor={colors.title}
       />
       {children}
     </Modal>
-    // <ImageBackground key={'blurryImage'} style={styles.blur} source={bathesBlurBackground}>
-    //   {children}
-    //   <BlurView style={styles.absolute} blurType="dark" blurAmount={4} reducedTransparencyFallbackColor="black" />
-    // </ImageBackground>
   );
 }
 

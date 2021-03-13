@@ -19,7 +19,7 @@ export function Divider(props: Partial<IProps>) {
 
 export const styles = StyleSheet.create({
   divider: {
-    height: 1,
+    height: 0.4,
     width: '100%',
     alignSelf: 'center',
     margin: sizes.offset.base * 1.9, // 2

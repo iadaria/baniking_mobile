@@ -25,14 +25,14 @@ export function SettingsMenuScreen({ navigation }: IProps) {
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(routes.settingsTab.SafeScreen)}>
           <AppText>Безопасность</AppText>
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
 
         <TouchableOpacity
           style={styles.item}
@@ -41,14 +41,14 @@ export function SettingsMenuScreen({ navigation }: IProps) {
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(routes.settingsTab.RulesScreen)}>
           <AppText>Правило приложения</AppText>
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
 
         <TouchableOpacity
           style={styles.item}
@@ -57,14 +57,14 @@ export function SettingsMenuScreen({ navigation }: IProps) {
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
 
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(routes.settingsTab.HelpScreen)}>
           <AppText>Помощь</AppText>
           <MenuItem />
         </TouchableOpacity>
 
-        <Divider height={2} />
+        <Divider height={1} />
       </Block>
     </Block>
   );
