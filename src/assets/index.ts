@@ -33,7 +33,6 @@ export { default as ListIcon } from './images/svg/listIcon.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
-export { default as testCardImg } from './images/png/testCard.jpg';
 export { default as bathOneImg } from './images/png/bathOne.png';
 export { default as bathTwoImg } from './images/png/bathTwo.png';
 export { default as bathThreeImg } from './images/png/bathThree.png';

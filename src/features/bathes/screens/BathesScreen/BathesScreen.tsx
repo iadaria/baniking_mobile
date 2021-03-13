@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { TextInput, TouchableOpacity, FlatList } from 'react-native';
@@ -13,12 +13,14 @@ import { IBath, TPartBathParameter, IBathAction } from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
-import { styles } from './styles';
 import { isIos } from '~/src/app/common/constants/platform';
 import { persistImage as persistImageAction } from '~/src/features/persist/store/appPersistActions';
 import { IPersistImage } from '~/src/app/models/persist';
+import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
+import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { sizes } from '~/src/app/common/constants';
+import { styles } from './styles';
+import { ISortModal } from '../../components/SortModal';
 
 interface IProps {
   loading: boolean;
@@ -29,11 +31,12 @@ interface IProps {
   retainState: boolean;
   imageIds: string[];
   cachedImages: IPersistImage[];
-  // functions
+
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
   updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
+  openModal: (payload: IModalState) => void;
 }
 
 export function BathesScreenContainer({
@@ -44,26 +47,24 @@ export function BathesScreenContainer({
   fetchBathes,
   updateBath,
   persistImage,
+  openModal,
   // moreBathes,
   lastPage,
 }: // retainState,
 IProps) {
+  const [yForModal, setYForModal] = useState(wp(4));
+
+  // TODO Test
   const handleLoadMore = useCallback(() => {
     const _moreBathes = canLoadMore(totalBathes, bathes?.length || 0, lastPage);
     if (_moreBathes) {
       const nextPage = lastPage + 1;
-      // TODO Test
       const bathParams: TPartBathParameter = {
         page: nextPage,
       };
       fetchBathes({ bathParams, moreBathes: _moreBathes, lastPage: nextPage });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
   }, [bathes, fetchBathes, lastPage, totalBathes]);
-
-  useEffect(() => {
-    // console.log('[BathesScreen/useEffect] batehs', JSON.stringify(bathes, null, 2));
-  }, [bathes]);
 
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
@@ -98,10 +99,14 @@ IProps) {
           <FilterIcon />
         </TouchableOpacity>
       </Block>
-      <Block margin={[0, 0, 0, 4]} style={styles.sort} center row>
+      {/* Sort */}
+      <TouchableOpacity
+        onLayout={(event) => setYForModal(event.nativeEvent.layout.y)}
+        style={styles.sort}
+        onPress={() => openModal({ modalType: 'SortModal', modalProps: { y: yForModal } })}>
         <AppText>Сортировать</AppText>
         <ListIcon />
-      </Block>
+      </TouchableOpacity>
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
@@ -133,7 +138,12 @@ const BathesScreenConnected = connect(
     fetchBathes: fetchBathesAction,
     updateBath: updateBathAction,
     persistImage: persistImageAction,
+    openModal: openModalAction,
   },
 )(BathesScreenContainer);
 
 export { BathesScreenConnected as BathesScreen };
+
+/* useEffect(() => {
+  // console.log('[BathesScreen/useEffect] batehs', JSON.stringify(bathes, null, 2));
+}, [bathes]); */

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes, multiplier } from '~/src/app/common/constants';
+import { colors, sizes } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   searchWrapper: {
@@ -29,12 +29,15 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
   },
   sort: {
+    marginLeft: wp(4),
     borderWidth: 0.5,
     borderColor: colors.bath.elementBorder,
     padding: wp(3),
     marginTop: wp(3),
     borderRadius: 7,
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   phone: {
     alignSelf: 'flex-start',
