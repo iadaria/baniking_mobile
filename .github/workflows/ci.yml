@@ -1,3 +1,4 @@
+# https://github.com/Borales/actions-yarn
 name: Build Android and iOS
 on:
   push:
@@ -10,7 +11,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install npm dependencies
         run: |
-          npm install
-      - name: Run tests
-        run: |
-          npm test
+          yarn install
