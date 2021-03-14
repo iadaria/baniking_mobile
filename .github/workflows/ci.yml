@@ -11,6 +11,9 @@ jobs:
       - name: Install npm dependencies
         run: |
           yarn install
+      - name: Clean Android Cache
+        run: |
+          cd android && ./gradlew cleanBuildCache
       - name: Build Android Release
         run: |
           cd android && ./gradlew assembleRelease
