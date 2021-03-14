@@ -4,5 +4,10 @@
     <integer name="com_vk_sdk_AppId">7755623</integer>
     <string name="facebook_app_id">172324154369646</string> 
     <string name="fb_login_protocol_scheme">fb172324154369646</string>
+    <string name="ucrop_label_edit_photo">Select</string>
+    <string name="ucrop_crop">Crop</string>
+    <string name="ucrop_rotate">Rotate</string>
+    <string name="ucrop_scale">Zoom</string>
+    <string name="ucrop_label_original">Original</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">yMBfE_Z9uxZCWoiCXHFWEw1JKZ98A3K_WdiKE</string>
 </resources>
