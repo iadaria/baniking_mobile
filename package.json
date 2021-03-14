@@ -36,6 +36,7 @@
     "i18next": "^19.9.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-code-push": "^7.0.0",
     "react-native-device-info": "^8.0.1",
     "react-native-fbsdk": "^3.0.0",
     "react-native-flash-message": "^0.1.22",

@@ -76,19 +76,19 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>CFBundleLocalizations</key>
-  <array>
-  <string>en</string>
-  <string>ru</string>
-  </array>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location access is required to run the app.</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Photo library access is required to run the app.</string>
-  <key>NSCameraUsageDescription</key>
-  <string>Camera access is requird to run the app.</string>
-  <key>NSNotificationsUsageDescription</key>
-  <string>Notifications access is requird to run the app.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is required to run the app.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is requird to run the app.</string>
+	<key>NSNotificationsUsageDescription</key>
+	<string>Notifications access is requird to run the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gilroy-Bold.ttf</string>
@@ -119,6 +119,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CodePushDeploymentKey</key>
+	<string></string>
 	<key>VK_APP_ID</key>
 	<integer>7755623</integer>
 </dict>

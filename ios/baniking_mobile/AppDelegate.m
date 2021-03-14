@@ -1,3 +1,4 @@
+#import <CodePush/CodePush.h>
 #import "AppDelegate.h"
 
 #if __has_include(<VKSdkFramework/VKSdkFramework.h>)
@@ -77,7 +78,8 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return [CodePush bundleURL]; // replace by daria for codepush work
+  // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
 

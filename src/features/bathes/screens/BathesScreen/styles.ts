@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     borderRadius: 7,
-    width: '106%',
+    width: '103%',
     zIndex: 2,
   },
 });

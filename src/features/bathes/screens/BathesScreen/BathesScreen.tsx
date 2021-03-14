@@ -20,7 +20,6 @@ import { IModalState, openModal as openModalAction } from '~/src/app/common/moda
 import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
-import { ISortModal } from '../../components/SortModal';
 
 interface IProps {
   loading: boolean;

@@ -26,7 +26,7 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
-  const [fadeOutOpacity] = useState(new Animated.Value(0.75));
+  const [fadeOutOpacity] = useState(new Animated.Value(0.7));
   const [randomImg] = useState(getRandomBathImage());
   const uri = useRef<string | undefined>();
   const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
@@ -80,9 +80,9 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
   }, [returnUpdate]);
 
   useEffect(() => {
-    const multiply = cachedImage ? 0.1 : 8;
+    const multiply = cachedImage ? 8 : 8;
     fadeInOpacity.setValue(0);
-    fadeOutOpacity.setValue(0.75);
+    fadeOutOpacity.setValue(0.7);
 
     Animated.timing(fadeInOpacity, {
       toValue: 1,
@@ -128,9 +128,8 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
         </AppText>
         <AppText style={styles.phone}>0 000 000 00 00</AppText>
       </LinearGradient>
-      {!cachedImage && (
-        <Animated.Image style={[styles.temporaryImg, { opacity: fadeOutOpacity }]} source={randomImg} />
-      )}
+      <Animated.Image style={[styles.temporaryImg, { opacity: fadeOutOpacity }]} source={randomImg} />
+
       <KolosIcon style={[styles.kolosIcon]} width={wp(3.5)} height={wp(3.5)} />
     </AnimatedImage>
   );
