@@ -1,15 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
-import { isIos, statusBarHeight  } from '~/src/app/common/constants/platform';
-import { windowWidth } from '../../../app/common/constants/platform';
-import { sizes } from '~/src/app/common/constants';
-import { colors } from '../../../app/common/constants/colors';
-import { color } from 'react-native-reanimated';
+import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
+import { windowWidth } from '~/src/app/common/constants/platform';
 
 export interface ISortModal {
   y: number;
