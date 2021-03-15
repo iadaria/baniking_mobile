@@ -40,7 +40,6 @@
     "react-native-code-push": "^7.0.0",
     "react-native-device-info": "^8.0.1",
     "react-native-fbsdk": "^3.0.0",
-    "react-native-flash-message": "^0.1.22",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-global-props": "^1.1.5",
