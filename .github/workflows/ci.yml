@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
-      - name: Install npm dependencies
-        run: |
-          npm cache clean -f && yarn install && yarn run start -- --reset-cache
       - name: Build Android Release
         run: |
           pwd && cd android && ./gradlew assembleRelease
