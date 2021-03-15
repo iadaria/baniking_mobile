@@ -13,7 +13,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 // 1. Import the plugin class.
-import com.microsoft.codepush.react.CodePush; // add by Daria
+// import com.microsoft.codepush.react.CodePush; // add by Daria
 
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
@@ -39,10 +39,10 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
         // 2. Override the getJSBundleFile method to let
         // the CodePush runtime determine where to get the JS
         // bundle location from on each app start
-        @Override
+        /* @Override
         protected String getJSBundleFile() {
             return CodePush.getJSBundleFile();
-        }
+        } */
 
         @Override
         protected String getJSMainModuleName() {

@@ -2,10 +2,10 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
-project.ext.react = [
+/* project.ext.react = [
   entryFile: "index.js",
   enableHermes: true,
-]
+] */
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -86,7 +86,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+// apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -175,6 +175,8 @@ android {
             // shrinkResources true
         }
         release {
+            shrinkResources false
+            debuggable true
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release

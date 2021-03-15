@@ -26,8 +26,13 @@
     "android-clean": "cd android && ./gradlew build && cd ..",
     "brew": "brew update && brew upgrade",
     "bundle-release": "cd android && ./gradlew bundleRelease && cd ..",
+    "android-unistall": "adb uninstall \"com.baniking_mobile\"",
     "android-release": "npx react-native run-android --variant=release",
-    "android-release-conf": "npx react-native run-android --configuration=release"
+    "bundle-app-android": "node node_modules/react-native/local-cli/cli.js bundle --dev false --assets-dest ./android/app/src/main/res/ --entry-file index.js --platform android --minify false  --bundle-output ./android/app/src/main/assets/index.android.bundle",
+    "bundle-worker-android": "node node_modules/react-native/local-cli/cli.js bundle --dev false --assets-dest ./android/app/src/main/res/ --entry-file index.worker.js --platform android  --bundle-output ./android/app/src/main/assets/index.worker.bundle --sourcemap-output ./sourcemap/android.worker.map",
+    "bundle-worker-ios": "node node_modules/react-native/local-cli/cli.js bundle --dev false --assets-dest ./ios --entry-file index.worker.js --platform ios --bundle-output ./ios/worker.jsbundle --sourcemap-output ./sourcemap/ios.worker.map",
+    "bundle-android": "yarn run bundle-app-android && npm run bundle-worker-android",
+    "bundle": "concurrently --kill-others \"npm run bundle-ios\" \"run bundle-android\""
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -41,8 +46,7 @@
     "axios": "^0.21.1",
     "i18next": "^19.9.0",
     "react": "17.0.1",
-    "react-native": "0.64.0",
-    "react-native-code-push": "^7.0.0",
+    "react-native": "0.63.4",
     "react-native-device-info": "^8.0.1",
     "react-native-fbsdk": "^3.0.0",
     "react-native-fs": "^2.16.6",
@@ -61,6 +65,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-switch": "git+https://github.com/shahen94/react-native-switch.git",
     "react-native-text-input-mask": "^2.0.1",
+    "react-native-v8": "^0.63.4-patch.1",
     "react-native-vkontakte-login": "^1.0.1",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",

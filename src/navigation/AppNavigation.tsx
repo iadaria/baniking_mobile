@@ -10,6 +10,7 @@ import { appDefaultTheme } from './components/appDefaultTheme';
 import ModalManager from '~/src/app/common/modals/ModalManager';
 // import i18next from 'i18next';
 // import { initLanguage } from '../i18n';
+import { showAlert } from '../app/common/components/showAlert';
 
 
 //LogBox.ignoreLogs(['Require cycle:']);
@@ -21,6 +22,8 @@ export default function AppNavigation() {
   };
 
   useEffect(() => {
+    const ver = `V8 version is ${global._v8runtime().version}`;
+    showAlert('title', ver);
     initialize();
     // return () => i18next.off('languageChanged');
   }, []);

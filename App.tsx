@@ -5,7 +5,7 @@ import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import { store, persistor } from '~/src/app/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import codePush from 'react-native-code-push';
+// import codePush from 'react-native-code-push';
 
 enableScreens(true);
 
@@ -19,8 +19,10 @@ const App: () => React.ReactElement = () => {
   );
 };
 
-const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_START,
-};
+export default App;
 
-export default codePush(codePushOptions)(App);
+/* const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+}; */
+
+// export default codePush(codePushOptions)(App);
