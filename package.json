@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "android-shake": "adb shell input keyevent 82",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "build-android": "cd android && ./gradlew assembleRelease && cd ../",
+    "debug-android": "cd android && ./gradlew assembleDebug && cd ../",
     "ios-se": "react-native run-ios --simulator=\"iPhone 6\"",
     "clean": "watchman watch-del-all && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/haste-map-* && yarn && yarn start --reset-cache",
     "reset-cache": "yarn cache clean --force && react-native start --reset-cache",
@@ -22,7 +24,10 @@
     "other-clean": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-* && watchman watch-del-all",
     "remove-android-build": "rm -rf android/build",
     "android-clean": "cd android && ./gradlew build && cd ..",
-    "brew": "brew update && brew upgrade"
+    "brew": "brew update && brew upgrade",
+    "bundle-release": "cd android && ./gradlew bundleRelease && cd ..",
+    "android-release": "npx react-native run-android --variant=release",
+    "android-release-conf": "npx react-native run-android --configuration=release"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -35,8 +40,8 @@
     "add": "^2.0.6",
     "axios": "^0.21.1",
     "i18next": "^19.9.0",
-    "react": "16.13.1",
-    "react-native": "0.63.4",
+    "react": "17.0.1",
+    "react-native": "0.64.0",
     "react-native-code-push": "^7.0.0",
     "react-native-device-info": "^8.0.1",
     "react-native-fbsdk": "^3.0.0",
