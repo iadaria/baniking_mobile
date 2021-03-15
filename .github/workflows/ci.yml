@@ -9,8 +9,11 @@ jobs:
     steps: 
       - name: Install npm dependencies
         run: |
-          yarn install && yarn run start -- --reset-cache
+          yarn install
       - uses: actions/checkout@v2
+      - name: Clean yarn
+        run: |
+          yarn run start -- --reset-cache
       - name: Build Android Release
         run: |
           pwd && cd android && ./gradlew assembleRelease
