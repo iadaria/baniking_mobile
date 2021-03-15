@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Build Android Release
+      - uses: actions/checkout@v2
         run: |
           cd android && ./gradlew assembleRelease
       - name: Upload Artifact
