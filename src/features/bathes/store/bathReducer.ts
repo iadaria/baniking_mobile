@@ -14,6 +14,7 @@ export interface IBathState {
   // filter
   lastPage: number;
   moreBathes: boolean;
+  sorted: boolean;
   filter: TPartBathParams;
   retainState: boolean;
   // comments
@@ -31,6 +32,7 @@ const initialState: IBathState = {
   // fetch
   moreBathes: false,
   lastPage: 0,
+  sorted: false,
   filter: defaultBathParams,
   retainState: false,
   // comments
