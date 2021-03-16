@@ -1,9 +1,9 @@
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { GET_BATHES } from '../bathConstants';
-import { IBath, TPartBathParameter } from '~/src/app/models/bath';
+import { IBath, TPartBathParams } from '~/src/app/models/bath';
 import { setBathes, bathesFail } from '../bathActions';
 
 interface IResult {
@@ -12,7 +12,7 @@ interface IResult {
 }
 
 function* getBathesSaga() {
-  const bathParams: TPartBathParameter = {
+  const bathParams: TPartBathParams = {
     page: 0,
   };
   try {

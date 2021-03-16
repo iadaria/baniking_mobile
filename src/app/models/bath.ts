@@ -11,10 +11,27 @@ export interface IBath {
   price: number | null;
 }
 
+export enum EBathSortField {
+  Price = 'price',
+  Rating = 'rating',
+}
+
+export enum EBathSortType {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+/**
+ * @interface IBathParams
+ * @param {string} searc_query {string}
+ * @param {EBathSortField} sort_field {EBathSortField}
+ * @param {EBathSortType} sort_type {EBathSortType}
+ * @param {number} rating {number}
+ */
 export interface IBathParams {
   search_query: string;
-  sort_field: 'price' | 'rating';
-  sort_type: 'asc' | 'desc';
+  sort_field: EBathSortField;
+  sort_type: EBathSortType;
   rating: number;
   price_from: number;
   price_to: number;
@@ -25,9 +42,9 @@ export interface IBathParams {
   page: number;
 }
 
-export type TPartBathParameter = Partial<IBathParams>;
+export type TPartBathParams = Partial<IBathParams>;
 
-export const defaultBathParameter: TPartBathParameter = {
+export const defaultBathParams: TPartBathParams = {
   page: 0,
 };
 
@@ -39,7 +56,7 @@ export const defaultBathParameter: TPartBathParameter = {
  */
 export interface IBathAction {
   // bathes: IBath[];
-  bathParams: TPartBathParameter;
+  bathParams: TPartBathParams;
   moreBathes: boolean;
   lastPage: number;
 }
