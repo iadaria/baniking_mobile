@@ -1,14 +1,13 @@
 import * as constants from './bathConstants';
-import { IBath, TPartBathParams } from '~/src/app/models/bath';
+import { EBathSort, IBath, TPartBathParams } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
 import { IBathAction } from '~/src/app/models/bath';
-import { Dispatch } from 'react';
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,
 });
 
-export const setBathes = (payload: { bathes: IBath[]; count: number }) => ({
+export const setBathes = (payload: { bathes: IBath[]; count: number; page: number }) => ({
   type: constants.SET_BATHES,
   payload,
 });
@@ -33,12 +32,15 @@ export const clearBathes = () => ({
 });
 
 // Bathes Filter
-export const setFilter = (payload: TPartBathParams) => {
-  return function (dispatch: Dispatch<any>) {
-    dispatch(clearBathes());
-    dispatch({ type: constants.SET_FILTER, payload });
-  };
-};
+export const setFilter = (payload: TPartBathParams) => ({
+  type: constants.SET_FILTER,
+  payload,
+});
+
+export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) => ({
+  type: constants.SET_SORT,
+  payload,
+});
 
 // Bath
 export const selectBath = (payload: IBath) => ({

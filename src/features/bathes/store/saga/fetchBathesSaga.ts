@@ -26,7 +26,7 @@ function* fetchBathesSaga({ payload }: IAction) {
 
       let cachedImagesBathes: IBath[] = [...baths];
 
-      yield put(setBathes({ bathes: cachedImagesBathes, count }));
+      yield put(setBathes({ bathes: cachedImagesBathes, count, page: bathParams.page || 0 }));
     }
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);

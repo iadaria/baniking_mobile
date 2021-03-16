@@ -38,13 +38,13 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
   useEffect(() => {
     if (!thisCachedImage) {
       if (indexOf !== -1) {
-        console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
+        //console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
         const _cachedImage = images[indexOf];
         setThisCachedImage(_cachedImage.path);
         uri.current = _cachedImage.path;
         return;
       } else {
-        console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
+        //console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
         cacheImage(image)
           .then((response: Response) => {
             setThisCachedImage(response.uri);
@@ -53,23 +53,23 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
           .catch((error) => console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
     } else {
-      console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
+      //console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thisCachedImage]);
 
   const returnUpdate = useCallback(() => {
-    if (uri.current && !cachedImage) {
-      console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
+    /* if (uri.current && !cachedImage) {
+      //console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
       updateBath({
         ...bath,
         cachedImage: uri.current,
       });
-    }
+    } */
     if (uri.current && indexOf === -1) {
       persistImage({ id: fileName, path: uri.current });
-      console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
+      //console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri.current, cacheImage]);

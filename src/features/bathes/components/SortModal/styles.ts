@@ -31,8 +31,6 @@ export const styles = StyleSheet.create({
   },
   activeStyle: {
     backgroundColor: 'rgba(217, 179, 132, 0.3)',
-    /* borderColor: 'red',
-    borderWidth: 1, */
   },
   end: {
     borderBottomLeftRadius: 10,

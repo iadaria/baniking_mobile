@@ -9,7 +9,7 @@ import {
   updateBath as updateBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBath, TPartBathParameter, IBathAction } from '~/src/app/models/bath';
+import { IBath, IBathAction, TPartBathParams } from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
@@ -26,7 +26,9 @@ interface IProps {
   totalBathes: number;
   bathes: IBath[] | null;
   moreBathes: boolean;
-  lastPage: number;
+  filter: TPartBathParams;
+  params: TPartBathParams;
+  // lastPage: number;
   retainState: boolean;
   imageIds: string[];
   cachedImages: IPersistImage[];
@@ -48,29 +50,34 @@ export function BathesScreenContainer({
   persistImage,
   openModal,
   // moreBathes,
-  lastPage,
-}: // retainState,
+  filter,
+  params,
+}: // lastPage,
+// retainState,
 IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
+  const { page: lastPage = 0 } = params;
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    const _moreBathes = canLoadMore(totalBathes, bathes?.length || 0, lastPage);
-    if (_moreBathes) {
+    const countBathes = bathes?.length || 0;
+    const canMoreBathes = canLoadMore(totalBathes, countBathes, lastPage);
+    if (canMoreBathes) {
       const nextPage = lastPage + 1;
-      const bathParams: TPartBathParameter = {
+      const bathParams: TPartBathParams = {
+        ...params,
         page: nextPage,
       };
-      fetchBathes({ bathParams, moreBathes: _moreBathes, lastPage: nextPage });
+      fetchBathes({ bathParams, moreBathes: canMoreBathes, lastPage: nextPage });
     }
-  }, [bathes, fetchBathes, lastPage, totalBathes]);
+  }, [bathes, fetchBathes, lastPage, totalBathes, params]);
 
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
     if (isBegin(lastPage)) {
       handleLoadMore();
     }
-  }, [handleLoadMore, lastPage]);
+  }, [handleLoadMore, lastPage, params]);
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
@@ -128,8 +135,10 @@ const BathesScreenConnected = connect(
     loading: bath.loading,
     totalBathes: bath.totalBathes,
     bathes: bath.bathes,
+    filter: bath.filter,
+    params: bath.params,
     moreBathes: bath.moreBathes,
-    lastPage: bath.lastPage,
+    // lastPage: bath.lastPage,
     retainState: bath.retainState,
   }),
   {

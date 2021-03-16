@@ -21,6 +21,13 @@ export enum EBathSortType {
   Desc = 'desc',
 }
 
+export enum EBathSort {
+  None,
+  PriceAsc,
+  PriceDesc,
+  RatingDesc,
+}
+
 /**
  * @interface IBathParams
  * @param {string} searc_query {string}
@@ -45,6 +52,12 @@ export interface IBathParams {
 export type TPartBathParams = Partial<IBathParams>;
 
 export const defaultBathParams: TPartBathParams = {
+  page: 0,
+};
+
+export const defaultBathSort: TPartBathParams = {
+  sort_field: undefined,
+  sort_type: undefined,
   page: 0,
 };
 

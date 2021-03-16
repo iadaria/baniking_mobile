@@ -1,5 +1,5 @@
 import { IErrors } from '~/src/app/utils/error';
-import { defaultBathParams, IBath, TPartBathParams } from '~/src/app/models/bath';
+import { IBath, TPartBathParams, defaultBathParams, EBathSort } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
@@ -12,9 +12,10 @@ export interface IBathState {
   bathes: IBath[];
   selectedBath: IBath | null;
   // filter
-  lastPage: number;
+  // lastPage: number;
   moreBathes: boolean;
-  sorted: boolean;
+  sort: EBathSort;
+  params: TPartBathParams;
   filter: TPartBathParams;
   retainState: boolean;
   // comments
@@ -31,8 +32,9 @@ const initialState: IBathState = {
   selectedBath: null,
   // fetch
   moreBathes: false,
-  lastPage: 0,
-  sorted: false,
+  // lastPage: 0,
+  sort: EBathSort.None,
+  params: defaultBathParams,
   filter: defaultBathParams,
   retainState: false,
   // comments
@@ -53,6 +55,8 @@ export default function bathReducer(
         errors: null,
         totalBathes: payload.count,
         bathes: [...state.bathes, ...payload.bathes],
+        filter: { ...state.filter, page: payload.page },
+        params: { ...state.params, page: payload.page },
       };
 
     case constants.GET_BATHES:
@@ -68,7 +72,7 @@ export default function bathReducer(
         loading: true,
         // bathes: [...state.bathes, ...payload.bathes],
         moreBathes: payload.moreBathes,
-        lastPage: payload.lastPage,
+        // lastPage: payload.lastPage,
       };
 
     case constants.UPDATE_BATH:
@@ -84,13 +88,22 @@ export default function bathReducer(
         moreBathes: true,
       };
 
-    // Filter
+    // Filter & Sort
     case constants.SET_FILTER:
       return {
         ...state,
         retainState: false,
         moreBathes: true,
-        filter: payload,
+        filter: { ...payload, page: 0 },
+      };
+
+    case constants.SET_SORT:
+      return {
+        ...state,
+        retainState: false,
+        moreBathes: true,
+        sort: payload.sort,
+        params: { ...payload.params, page: 0 },
       };
 
     case constants.RETAIN_STATE:
@@ -123,6 +136,14 @@ export default function bathReducer(
       return {
         ...state,
         comments: [],
+      };
+
+    // Common
+    case constants.BATHES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
       };
 
     default:
