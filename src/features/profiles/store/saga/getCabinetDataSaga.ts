@@ -7,17 +7,17 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { setTitlePoints } from '~/src/app/store/system/systemActions';
 
-var countCabinetRequests = 0;
+// var countCabinetRequests = 0;
 
 function* getCabinetDataSaga() {
-  countCabinetRequests++;
+  /* countCabinetRequests++;
   if (countCabinetRequests > 3) {
     console.log('[getCabinetDataSaga] count > 3');
     setTimeout(function () {
       countCabinetRequests = 0;
     }, 10000);
     return;
-  }
+  } */
   try {
     const cabinet: IResponseCabinet = yield call(methods.getCabinet, null, null);
     console.log('\n[getCabinetSaga] **********\n');

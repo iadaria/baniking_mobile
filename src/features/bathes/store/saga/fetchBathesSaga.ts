@@ -16,7 +16,17 @@ interface IResult {
   baths: IBath[];
 }
 
+var countBathesRequests = 0;
+
 function* fetchBathesSaga({ payload }: IAction) {
+  countBathesRequests++;
+  if (countBathesRequests > 7) {
+    console.log('[fetchBathesSaga] count > 3');
+    setTimeout(function () {
+      countBathesRequests = 0;
+    }, 10000);
+    return;
+  }
   const { moreBathes, bathParams } = payload;
   console.log('[fetchBathesSaga]', payload.bathParams);
   console.log('[fetchBathesSaga]', payload);

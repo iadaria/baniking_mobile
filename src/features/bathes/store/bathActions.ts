@@ -32,7 +32,7 @@ export const clearBathes = () => ({
 });
 
 // Bathes Filter
-export const setFilter = (payload: TPartBathParams) => ({
+export const setFilter = (payload: { params: TPartBathParams }) => ({
   type: constants.SET_FILTER,
   payload,
 });

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, sizes, fonts } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   searchWrapper: {
@@ -18,9 +18,11 @@ export const styles = StyleSheet.create({
   searchInput: {
     flexGrow: 1,
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
+    color: '#000',
+    // fontFamily: fonts.Gilroy.medium,
   },
   searchIconButton: {
-    padding: wp(2.5),
+    padding: wp(3.5),
   },
   filter: {
     borderWidth: 0.8,
@@ -79,5 +81,8 @@ export const styles = StyleSheet.create({
     borderRadius: 7,
     width: '103%',
     zIndex: 2,
+  },
+  notFoundIcon: {
+    marginBottom: hp(3),
   },
 });

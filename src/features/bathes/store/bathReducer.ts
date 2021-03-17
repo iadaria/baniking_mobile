@@ -4,21 +4,20 @@ import * as constants from './bathConstants';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
-  // common
+  // Common
   loading: boolean;
   errors: IErrors | null;
-  // bathes
+  // Bathes
   totalBathes: number;
   bathes: IBath[];
   selectedBath: IBath | null;
-  // filter
+  // Srot & Filter
   // lastPage: number;
   moreBathes: boolean;
   sort: EBathSort;
   params: TPartBathParams;
-  filter: TPartBathParams;
   retainState: boolean;
-  // comments
+  // Comments
   comments: string[];
 }
 
@@ -35,7 +34,6 @@ const initialState: IBathState = {
   // lastPage: 0,
   sort: EBathSort.None,
   params: defaultBathParams,
-  filter: defaultBathParams,
   retainState: false,
   // comments
   comments: [],
@@ -55,7 +53,6 @@ export default function bathReducer(
         errors: null,
         totalBathes: payload.count,
         bathes: [...state.bathes, ...payload.bathes],
-        filter: { ...state.filter, page: payload.page },
         params: { ...state.params, page: payload.page },
       };
 
@@ -94,7 +91,7 @@ export default function bathReducer(
         ...state,
         retainState: false,
         moreBathes: true,
-        filter: { ...payload, page: 0 },
+        params: { ...payload.params, page: 0 },
       };
 
     case constants.SET_SORT:

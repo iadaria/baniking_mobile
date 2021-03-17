@@ -6,7 +6,7 @@ import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
 import { clearBathes, setSort } from '../../store/bathActions';
-import { EBathSort, EBathSortField, EBathSortType, TPartBathParams, defaultBathSort } from '~/src/app/models/bath';
+import { EBathSort, EBathSortField, EBathSortType, TPartBathParams } from '~/src/app/models/bath';
 import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
 import { styles } from './styles';
 import { ListIcon } from '~/src/assets';
@@ -28,7 +28,6 @@ export default function SortModal({ y }: ISortModal) {
   function handleSort(newParams: TPartBathParams, newSort: EBathSort) {
     if (sort !== newSort) {
       dispatch(clearBathes());
-      // dispatch(setFilter(params: newParams));
       dispatch(setSort({ params: newParams, sort: newSort }));
     }
     dispatch(closeModal());

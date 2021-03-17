@@ -31,12 +31,15 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
   const uri = useRef<string | undefined>();
   const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
 
+  // Берем только наименование файла и по нему ищем изображение в кэше телефона
   const fileNameExtension = getFileName(image);
   const fileName = replaceExtension(fileNameExtension, '');
   const indexOf = set.indexOf(fileName);
 
   useEffect(() => {
+    // Если нет кэшированного изображения
     if (!thisCachedImage) {
+      // Если изображение по имени найдено в кэше телефона
       if (indexOf !== -1) {
         //console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
         const _cachedImage = images[indexOf];
@@ -44,6 +47,8 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
         uri.current = _cachedImage.path;
         return;
       } else {
+        // Если изображение по имени не найдено в кэше телеофна
+        // То создаем изображение с номальным для телеофна размером и сохраняем в кэше
         //console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
         cacheImage(image)
           .then((response: Response) => {
@@ -59,6 +64,7 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thisCachedImage]);
 
+  // Сохраняем в кэше изображение, когда компонент выходит и поля видимости
   const returnUpdate = useCallback(() => {
     /* if (uri.current && !cachedImage) {
       //console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);

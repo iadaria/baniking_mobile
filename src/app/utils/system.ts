@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { Sex } from '../models/profile';
 
 export function getCircularReplacer() {
@@ -47,4 +48,3 @@ export function getCardNumber(values: string) {
 
 export const isAndroid = Platform.OS === 'android' ? true : false;
 export const isIOS = Platform.OS === 'ios' ? true : false;
-

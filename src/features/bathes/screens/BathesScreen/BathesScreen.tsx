@@ -15,18 +15,22 @@ import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
 import { isIos } from '~/src/app/common/constants/platform';
 import { persistImage as persistImageAction } from '~/src/features/persist/store/appPersistActions';
+import {
+  clearBathes as clearBathesAction,
+  setFilter as setFilterAction,
+} from '~/src/features/bathes/store/bathActions';
 import { IPersistImage } from '~/src/app/models/persist';
 import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
-import { FilterIcon, ListIcon, SearchIcon } from '~/src/assets';
+import { FilterIcon, ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
+import NotFound from './NotFound';
 
 interface IProps {
   loading: boolean;
   totalBathes: number;
   bathes: IBath[] | null;
   moreBathes: boolean;
-  filter: TPartBathParams;
   params: TPartBathParams;
   // lastPage: number;
   retainState: boolean;
@@ -38,6 +42,8 @@ interface IProps {
   updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
   openModal: (payload: IModalState) => void;
+  clearBathes: () => void;
+  setFilter: (payload: { params: TPartBathParams }) => void;
 }
 
 export function BathesScreenContainer({
@@ -50,12 +56,14 @@ export function BathesScreenContainer({
   persistImage,
   openModal,
   // moreBathes,
-  filter,
   params,
+  clearBathes,
+  setFilter,
 }: // lastPage,
 // retainState,
 IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
+  const [searchName, setSearchName] = useState<string | undefined>();
   const { page: lastPage = 0 } = params;
 
   // TODO Test
@@ -79,6 +87,8 @@ IProps) {
     }
   }, [handleLoadMore, lastPage, params]);
 
+  const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
+
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
       return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} persistImage={persistImage} />;
@@ -89,6 +99,11 @@ IProps) {
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
 
+  function handleFilter(newParams: TPartBathParams) {
+    clearBathes();
+    setFilter({ params: newParams });
+  }
+
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
       <AppText margin={[0, 0, 2, 4]} h1>
@@ -96,10 +111,42 @@ IProps) {
       </AppText>
       <Block padding={[0, 0, 0, 4]} center row>
         <Block style={styles.searchWrapper} center row>
-          <TextInput style={styles.searchInput} placeholder="Что вы ищите?" />
-          <TouchableOpacity style={styles.searchIconButton} onPress={() => console.log('search')}>
-            <SearchIcon style={styles.searchIcon} />
-          </TouchableOpacity>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Что вы ищите?"
+            onChangeText={(name: string) => {
+              console.log('[BathesScreen]', name);
+              const newName = String(name).toLowerCase();
+              setSearchName(newName);
+              const newParams: TPartBathParams = {
+                ...params,
+                search_query: searchName,
+              };
+              if (newName.length > 3) {
+                handleFilter(newParams);
+              }
+            }}
+            value={searchName}
+            autoCapitalize="none"
+            autoCorrect={false}
+            maxLength={64}
+          />
+          {isEmpty() ? (
+            <TouchableOpacity style={styles.searchIconButton} onPress={() => {}}>
+              <SearchIcon style={styles.searchIcon} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.searchIconButton}
+              onPress={() => {
+                setSearchName(undefined);
+                const newParams: TPartBathParams = { ...params };
+                delete newParams.search_query;
+                handleFilter(newParams);
+              }}>
+              <SearchCancelIcon style={styles.searchIcon} />
+            </TouchableOpacity>
+          )}
         </Block>
         <TouchableOpacity style={styles.filter} onPress={() => console.log('filter open')}>
           <FilterIcon />
@@ -116,16 +163,20 @@ IProps) {
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
-      <FlatList
-        data={bathes}
-        style={iosStyle}
-        showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        onEndReachedThreshold={0.1}
-        onEndReached={handleLoadMore}
-        ListFooterComponent={loading ? <AppListIndicator /> : null}
-      />
+      {totalBathes === 0 ? (
+        <NotFound />
+      ) : (
+        <FlatList
+          data={bathes}
+          style={iosStyle}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          onEndReachedThreshold={0.1}
+          onEndReached={handleLoadMore}
+          ListFooterComponent={loading ? <AppListIndicator /> : null}
+        />
+      )}
     </Block>
   );
 }
@@ -135,10 +186,8 @@ const BathesScreenConnected = connect(
     loading: bath.loading,
     totalBathes: bath.totalBathes,
     bathes: bath.bathes,
-    filter: bath.filter,
     params: bath.params,
     moreBathes: bath.moreBathes,
-    // lastPage: bath.lastPage,
     retainState: bath.retainState,
   }),
   {
@@ -147,6 +196,8 @@ const BathesScreenConnected = connect(
     updateBath: updateBathAction,
     persistImage: persistImageAction,
     openModal: openModalAction,
+    clearBathes: clearBathesAction,
+    setFilter: setFilterAction,
   },
 )(BathesScreenContainer);
 

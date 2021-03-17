@@ -47,20 +47,10 @@ function MainNavigatorContainer({
   getCabinetData,
 }: IProps) {
   useEffect(() => {
-    let timerId: NodeJS.Timeout;
     if (authenticated) {
+      console.log('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
       getCabinetData();
-      /* console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
-      timerId = setTimeout(function () {
-        console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
-        getCabinetData();
-      }, 1000); */
     }
-    return function () {
-      if (timerId) {
-        clearTimeout(timerId);
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated]);
 
@@ -138,3 +128,14 @@ export default connect(
           headerRight: () => <HeaderRightButton />,
         };
       }}> */
+/* console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
+      timerId = setTimeout(function () {
+        console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
+        getCabinetData();
+      }, 1000);
+    }
+    return function () {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };*/

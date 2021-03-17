@@ -30,6 +30,8 @@ export { default as StarIcon } from './images/svg/star.svg';
 export { default as StarPartIcon } from './images/svg/starPart.svg';
 export { default as SearchIcon } from './images/svg/search.svg';
 export { default as ListIcon } from './images/svg/listIcon.svg';
+export { default as SearchCancelIcon } from './images/svg/search-cancel.svg';
+export { default as NotFountIcon } from './images/svg/not-found.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
