@@ -161,18 +161,32 @@ function ProfileScreenContainer({
             id="surname"
             placeholder="Введите фамилию"
             maxLength={50}
+            textFocus
             isScrollToFocused
           />
 
           <AppText style={styles.label} semibold>
             Имя
           </AppText>
-          <AppInput style={styles.input} id="name" placeholder="Введите имя" maxLength={50} isScrollToFocused />
+          <AppInput
+            style={styles.input}
+            id="name"
+            placeholder="Введите имя"
+            maxLength={50}
+            textFocus
+            isScrollToFocused
+          />
 
           <AppText style={styles.label} semibold>
             Отчество
           </AppText>
-          <AppInput style={styles.input} id="middle_name" placeholder="Введите отчество" maxLength={50} />
+          <AppInput
+            style={styles.input}
+            id="middle_name"
+            placeholder="Введите отчество"
+            maxLength={50}
+            textFocus
+          />
 
           <AppText style={styles.label} semibold>
             Дата рождения
@@ -184,6 +198,7 @@ function ProfileScreenContainer({
             maxLength={50}
             number
             mask="[00]{.}[00]{.}[9900]"
+            textFocus
             isScrollToFocused
           />
 
@@ -202,6 +217,7 @@ function ProfileScreenContainer({
             maxLength={50}
             phone
             mask="+7([000])[000]-[00]-[00]"
+            textFocus
             isScrollToFocused
           />
 
@@ -214,6 +230,7 @@ function ProfileScreenContainer({
             placeholder="Введите email"
             value={email}
             maxLength={50}
+            textFocus
           />
 
           <AppText style={styles.label} semibold>

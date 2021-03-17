@@ -33,6 +33,7 @@ export function numberWithSpaces(x: string) {
   if (x) {
     console.log('number', x);
     const result = x?.match(/[\d]{4}[\d ]{15}/);
+    console.log('[utils/system] result number', result);
     if (result && result.length > 0) {
       return result[0];
     }

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes, WIDTH_EYE_BUTTON } from '~/src/app/common/constants';
+import { colors, sizes } from '~/src/app/common/constants';
 import { IInputStyleProps } from '~/src/app/models/ui';
 
 export const styles = StyleSheet.create<IInputStyleProps>({
@@ -33,6 +33,6 @@ export const styles = StyleSheet.create<IInputStyleProps>({
   label: {},
   center: { textAlign: 'center' },
   secure: {
-    /* paddingHorizontal: 50,  */ /* marginLeft: wp(WIDTH_EYE_BUTTON) */
+    /* paddingHorizontal: 50,  marginLeft: wp(WIDTH_EYE_BUTTON) */
   },
 });

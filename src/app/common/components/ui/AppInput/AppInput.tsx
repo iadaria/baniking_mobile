@@ -20,6 +20,8 @@ export interface IAppInputStates extends TextInputProps {
   isVirgin: boolean;
 }
 
+// TextInput.defaultProps.selectionColor = colors.secondary;
+
 export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   const [toggleSecure, setToggleSecure] = useState(false);
   const [states, setStates] = useState<IAppInputStates>({
@@ -34,6 +36,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     phone,
     number,
     placeholder,
+    textFocus,
     // secure,
     error,
     // colors
@@ -81,11 +84,14 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   const setBorderColor = (_borderColor: string) => (borderColor = _borderColor);
 
+  if (style?.borderColor) {
+    setBorderColor(style.borderColor as string);
+  }
   if (!!error && !states.isVirgin) {
     setBorderColor(colors.error);
   }
   if (states.isFocused) {
-    setBorderColor(colors.secondary);
+    setBorderColor(textFocus ? colors.text.base : colors.secondary);
   }
 
   const inputTextAlign = center ? 'center' : 'left';

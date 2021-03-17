@@ -44,7 +44,7 @@ export const AppInputWrapper = <T extends {}>({
       <Block
         style={[styles.block, { borderColor }, dynamicStyle]}
         onLayout={props.onLayout}
-        margin={[sizes.input.top / 2, 0, 0]}>
+        margin={[sizes.input.top, 0, !props.error ? sizes.input.top : 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         {children}
         <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
@@ -66,7 +66,7 @@ export const AppInputWrapper = <T extends {}>({
 
 const styles = StyleSheet.create({
   block: {
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderRadius: sizes.input.big.radius,
     borderColor: colors.input.border,
   },

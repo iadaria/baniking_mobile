@@ -49,11 +49,12 @@ function MainNavigatorContainer({
   useEffect(() => {
     let timerId: NodeJS.Timeout;
     if (authenticated) {
-      console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
+      getCabinetData();
+      /* console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
       timerId = setTimeout(function () {
         console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
         getCabinetData();
-      }, 1000);
+      }, 1000); */
     }
     return function () {
       if (timerId) {
