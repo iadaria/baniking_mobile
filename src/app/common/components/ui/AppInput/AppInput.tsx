@@ -27,6 +27,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isFocused: false,
     isVirgin: true,
   });
+  let borderColor = colors.input.border;
   const {
     // outlined,
     email,
@@ -75,9 +76,19 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     styles.input,
     center && styles.center,
     style,
-    !!error && !states.isVirgin && { borderColor: colors.error },
-    states.isFocused && { borderColor: colors.secondary },
+    // ecure && styles.secure,
   ];
+
+  const setBorderColor = (_borderColor: string) => (borderColor = _borderColor);
+
+  if (!!error && !states.isVirgin) {
+    setBorderColor(colors.error);
+  }
+  if (states.isFocused) {
+    setBorderColor(colors.secondary);
+  }
+
+  const inputTextAlign = center ? 'center' : 'left';
 
   // const inputPaperStyles = [main && { selectionColor: colors.primary }, style];
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
@@ -111,8 +122,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         states={states}
         setToggleSecure={setToggleSecure}
         toggleSecure={toggleSecure}
+        color={style?.color as string}
         props={props}
-        color={style?.color as string}>
+        center={center}
+        borderColor={borderColor}>
         <TextInputMask
           ref={newRef}
           style={inputStyles}
@@ -139,10 +152,13 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       setToggleSecure={setToggleSecure}
       toggleSecure={toggleSecure}
       color={style?.color as string}
-      props={props}>
+      props={props}
+      center={center}
+      borderColor={borderColor}>
       <TextInput
         ref={newRef}
         style={inputStyles}
+        textAlign={inputTextAlign}
         secureTextEntry={isSecure}
         // multiline
         autoCompleteType="off"

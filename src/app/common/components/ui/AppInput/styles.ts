@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, sizes, WIDTH_EYE_BUTTON } from '~/src/app/common/constants';
 import { IInputStyleProps } from '~/src/app/models/ui';
 
 export const styles = StyleSheet.create<IInputStyleProps>({
   input: {
-    borderWidth: 1, // StyleSheet.hairlineWidth,
-    borderColor: colors.input.border,
-    borderRadius: sizes.input.big.radius, // sizes.radius,
+    //borderWidth: 1, // StyleSheet.hairlineWidth,
+    //borderColor: 'yellow',
+    // borderRadius: sizes.input.big.radius, // sizes.radius,
     fontSize: wp(sizes.font.base),
     color: colors.input.text,
     height: hp(sizes.input.big.height),
@@ -32,5 +32,7 @@ export const styles = StyleSheet.create<IInputStyleProps>({
   },
   label: {},
   center: { textAlign: 'center' },
-  secure: { paddingHorizontal: 50 },
+  secure: {
+    /* paddingHorizontal: 50,  */ /* marginLeft: wp(WIDTH_EYE_BUTTON) */
+  },
 });

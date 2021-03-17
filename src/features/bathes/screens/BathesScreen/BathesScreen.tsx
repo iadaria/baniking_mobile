@@ -119,7 +119,7 @@ IProps) {
       <FlatList
         data={bathes}
         style={iosStyle}
-        // initialNumToRender={5}
+        showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         onEndReachedThreshold={0.1}
@@ -151,7 +151,3 @@ const BathesScreenConnected = connect(
 )(BathesScreenContainer);
 
 export { BathesScreenConnected as BathesScreen };
-
-/* useEffect(() => {
-  // console.log('[BathesScreen/useEffect] batehs', JSON.stringify(bathes, null, 2));
-}, [bathes]); */

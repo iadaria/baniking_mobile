@@ -18,10 +18,8 @@ export function LoginScreen({ navigation }: IProps) {
 
   return (
     <ScrollView
-      horizontal
       ref={scrollViewRef}
       style={styles.scrollView}
-      alwaysBounceHorizontal
       // contentInsetAdjustmentBehavior="always"
       contentContainerStyle={styles.scrollViewContainer}>
       <Block full>

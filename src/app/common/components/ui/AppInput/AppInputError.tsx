@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { IUiText } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { handleMargins } from '~/src/app/utils/ui';
 
 interface IProps<T> extends IUiText {
+  margin?: number | number[];
   isFocused: boolean;
   isTouched: boolean;
   isVirgin?: boolean;
@@ -19,7 +21,7 @@ interface IProps<T> extends IUiText {
  */
 
 export default function AppInputError<T>(props: IProps<T>) {
-  const { error, isFocused, isTouched, isVirgin, color /*  id */ } = props;
+  const { error, isFocused, isTouched, isVirgin, color, margin /*  id */ } = props;
   const errorColor = { color: isFocused ? color || colors.primary : colors.error };
 
   // console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
@@ -32,9 +34,7 @@ export default function AppInputError<T>(props: IProps<T>) {
   return (
     <>
       {!!error && (isTouched || isFocused) ? (
-        <View>
-          <Text style={[styles.error, errorColor]}>{error}</Text>
-        </View>
+        <Text style={[styles.error, errorColor, margin ? { ...handleMargins(margin) } : {}]}>{error}</Text>
       ) : null}
     </>
   );

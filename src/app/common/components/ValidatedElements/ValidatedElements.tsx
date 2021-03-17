@@ -74,7 +74,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   useEffect(() => {
     // Если после submit со стороны сервера пришли ошибки - отображаем их
     if (errors) {
-      console.log('[ValidateElements] errors execute');
+      // console.log('[ValidateElements] errors execute');
       const inputsWithErrors = { ...inputs };
       for (const key of Object.keys(inputs)) {
         if (errors.hasOwnProperty(key)) {
@@ -91,7 +91,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         scrollToFirstInvalidInput(firstInvalidCoordinate);
       }
     }
-    console.log('[ValidateElements/useEffect/errors] errors', { errors });
+    //console.log('[ValidateElements/useEffect/errors] errors', { errors });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
@@ -163,7 +163,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         _values = { ..._values, [key]: input.value };
       }
       valuesRef.current = _values;
-      console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+      //console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 
@@ -172,7 +172,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       (firstInvalidCoordinate !== null && !scrollPosition) ||
       (firstInvalidCoordinate !== null && scrollPosition && scrollPosition > SCROLL_OFFSET_BOTTOM)
     ) {
-      console.log('firstInavlidCoordinate', firstInvalidCoordinate);
+      //console.log('firstInavlidCoordinate', firstInvalidCoordinate);
       scrollView?.current?.scrollTo({
         x: 0,
         y: firstInvalidCoordinate,
@@ -184,11 +184,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
+    // console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
+      // console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -200,9 +200,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 100;
-      console.log(
+      /* console.log(
         `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
-      );
+      ); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -275,7 +275,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         return React.cloneElement(child, {
           isAccept: Boolean(inputs[id!].value),
           onPress: () => {
-            console.log('Accept is ', inputs[id!].value);
+            // console.log('Accept is ', inputs[id!].value);
             handleInputChange({ id: id!, value: !inputs[id!].value });
           },
         });

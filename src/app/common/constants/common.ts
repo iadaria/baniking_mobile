@@ -7,3 +7,5 @@ export const USER_IMAGE_PATH = Image.resolveAssetSource(defaultUserMaleImg).uri;
 export const appPatterns = {
   filename: /^.*[\\\/]/,
 };
+
+export const WIDTH_EYE_BUTTON = 13;

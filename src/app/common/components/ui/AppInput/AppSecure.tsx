@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { EyeIcon, EyeOpenedIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { sizes, WIDTH_EYE_BUTTON } from '~/src/app/common/constants';
 
 interface IProps {
   secure: boolean;
@@ -19,7 +19,7 @@ export function AppSecure(props: IProps) {
   }
 
   function renderIcon() {
-    return toggleSecure ? <EyeOpenedIcon style={{ marginTop: 2 }} /> : <EyeIcon />;
+    return toggleSecure ? <EyeOpenedIcon /> : <EyeIcon />;
   }
 
   return (
@@ -32,8 +32,18 @@ export function AppSecure(props: IProps) {
 const styles = StyleSheet.create({
   toggle: {
     position: 'absolute',
-    alignItems: 'flex-end',
-    top: wp(sizes.input.hight / 1.5),
-    right: wp(sizes.input.paddingHorizontal),
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: wp(WIDTH_EYE_BUTTON),
+    right: 0,
+    height: hp(sizes.input.big.height),
+    // backgroundColor: 'transparent',
+    // flex: 1,
+    // position: 'absolute',
+    // alignItems: 'flex-end',
+    // top: wp(sizes.input.hight / 1.5),
+    // right: wp(sizes.input.paddingHorizontal),
+    //borderColor: 'red',
+    // borderWidth: 1,
   },
 });
