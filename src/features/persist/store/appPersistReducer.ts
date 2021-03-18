@@ -2,6 +2,7 @@ import { IPersistUser } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
 import { refreshAccounts } from '../../../app/utils/auth';
 import { IPersistImages } from '~/src/app/models/persist';
+import { IBath } from '~/src/app/models/bath';
 
 // TOOD SET USER PROVIDER DATE
 
@@ -10,6 +11,7 @@ export interface IPersistState {
   token: string | null;
   currentUser: Partial<IPersistUser> | null;
   image: IPersistImages;
+  bathes: IBath[];
 }
 
 const initialState: IPersistState = {
@@ -20,6 +22,7 @@ const initialState: IPersistState = {
     images: [],
     set: [],
   },
+  bathes: [],
 };
 
 export default function appPersistReducer(

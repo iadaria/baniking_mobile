@@ -111,18 +111,18 @@ IProps) {
     }
   }
 
-  function switchEnter(length: number, _params: TPartBathParams) {
+  function switchEnter(length: number, newParams: TPartBathParams) {
     switch (length) {
       case 0:
         if (params.hasOwnProperty('search_query')) {
-          handleFilter(_params);
+          handleFilter(newParams);
         }
         break;
       case 1:
       case 2:
         return;
       default:
-        debounced(_params);
+        debounced(newParams);
     }
   }
 
@@ -186,20 +186,23 @@ IProps) {
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
-      {totalBathes === 0 && !loading ? (
+      {/* {totalBathes === 0 && !loading ? (
         <NotFound />
-      ) : (
-        <FlatList
-          data={bathes}
-          style={iosStyle}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          onEndReachedThreshold={0.1}
-          onEndReached={handleLoadMore}
-          ListFooterComponent={loading ? <AppListIndicator /> : <CancelLink cancelQuery={cancelQuery} />}
-        />
-      )}
+      ) : ( */}
+      <FlatList
+        data={bathes}
+        style={iosStyle}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onEndReachedThreshold={0.1}
+        onEndReached={handleLoadMore}
+        ListEmptyComponent={!loading ? <NotFound /> : null}
+        ListFooterComponent={
+          loading ? <AppListIndicator /> : totalBathes > 0 ? <CancelLink cancelQuery={cancelQuery} /> : null
+        }
+      />
+      {/* )} */}
     </Block>
   );
 }

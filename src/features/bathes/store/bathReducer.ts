@@ -12,7 +12,6 @@ export interface IBathState {
   bathes: IBath[];
   selectedBath: IBath | null;
   // Srot & Filter
-  // lastPage: number;
   moreBathes: boolean;
   sort: EBathSort;
   params: TPartBathParams;
@@ -31,7 +30,6 @@ const initialState: IBathState = {
   selectedBath: null,
   // fetch
   moreBathes: false,
-  // lastPage: 0,
   sort: EBathSort.None,
   params: defaultBathParams,
   retainState: false,

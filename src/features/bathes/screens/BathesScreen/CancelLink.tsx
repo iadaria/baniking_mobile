@@ -6,7 +6,7 @@ interface IProps {
   cancelQuery: () => void;
 }
 
-export default function CancelLink({ cancelQuery } : IProps ) {
+export default function CancelLink({ cancelQuery }: IProps) {
   return (
     <TouchableOpacity onPress={cancelQuery}>
       <AppText style={{ alignSelf: 'center' }} padding={[2, 5]} secondary medium center>
