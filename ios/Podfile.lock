@@ -386,8 +386,6 @@ PODS:
     - React-RCTImage
     - TOCropViewController
   - RNInputMask (4.1.0)
-  - RNLocalize (2.0.2):
-    - React-Core
   - RNPermissions (3.0.1):
     - React-Core
   - RNQrGenerator (1.1.6):
@@ -471,7 +469,6 @@ DEPENDENCIES:
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInputMask (from `../node_modules/react-native-text-input-mask/ios/InputMask`)
-  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -594,8 +591,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker"
   RNInputMask:
     :path: "../node_modules/react-native-text-input-mask/ios/InputMask"
-  RNLocalize:
-    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNQrGenerator:
@@ -673,7 +668,6 @@ SPEC CHECKSUMS:
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNImageCropPicker: e641bf83ac47324994cac139bde74635ec52c17c
   RNInputMask: 815461ebdf396beb62cf58916c35cf6930adb991
-  RNLocalize: 43f6c30d8e19ad92282ae434d310fb463b31f419
   RNPermissions: 4c8a37b4dde50f1f152bf8cd08c4a43d2355829e
   RNQrGenerator: d88c426dc358ceb043296a80f6fe482ccf985bc4
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad

@@ -20,13 +20,14 @@ var countBathesRequests = 0;
 
 function* fetchBathesSaga({ payload }: IAction) {
   countBathesRequests++;
-  if (countBathesRequests > 7) {
-    console.log('[fetchBathesSaga] count > 3');
-    setTimeout(function () {
-      countBathesRequests = 0;
-    }, 10000);
+  if (countBathesRequests > 20) {
+    console.log('[fetchBathesSaga] count > 20');
     return;
   }
+  setTimeout(function () {
+    countBathesRequests = 0;
+  }, 10000);
+
   const { moreBathes, bathParams } = payload;
   console.log('[fetchBathesSaga]', payload.bathParams);
   console.log('[fetchBathesSaga]', payload);

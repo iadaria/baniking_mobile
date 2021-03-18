@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { useDebouncedCallback } from 'use-debounce/lib';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   getBathes as getBathesAction,
@@ -25,6 +26,7 @@ import { FilterIcon, ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import NotFound from './NotFound';
+import CancelLink from './CancelLink';
 
 interface IProps {
   loading: boolean;
@@ -45,6 +47,8 @@ interface IProps {
   clearBathes: () => void;
   setFilter: (payload: { params: TPartBathParams }) => void;
 }
+
+// TODO 1)if filter and total === 0; 2) notfound upon keyboard
 
 export function BathesScreenContainer({
   loading,
@@ -80,6 +84,10 @@ IProps) {
     }
   }, [bathes, fetchBathes, lastPage, totalBathes, params]);
 
+  const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
+    maxWait: 2000,
+  });
+
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
     if (isBegin(lastPage)) {
@@ -89,20 +97,44 @@ IProps) {
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 
+  function handleFilter(newParams: TPartBathParams) {
+    clearBathes();
+    setFilter({ params: newParams });
+  }
+
+  function cancelQuery() {
+    setSearchName(undefined);
+    const newParams: TPartBathParams = { ...params };
+    if (newParams.hasOwnProperty('search_query')) {
+      delete newParams.search_query;
+      handleFilter(newParams);
+    }
+  }
+
+  function switchEnter(length: number, _params: TPartBathParams) {
+    switch (length) {
+      case 0:
+        if (params.hasOwnProperty('search_query')) {
+          handleFilter(_params);
+        }
+        break;
+      case 1:
+      case 2:
+        return;
+      default:
+        debounced(_params);
+    }
+  }
+
+  const keyExtractor = useCallback((item: IBath, index) => String(index), []);
+  const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
+
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
       return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} persistImage={persistImage} />;
     },
     [updateBath, persistImage],
   );
-
-  const keyExtractor = useCallback((item: IBath, index) => String(index), []);
-  const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
-
-  function handleFilter(newParams: TPartBathParams) {
-    clearBathes();
-    setFilter({ params: newParams });
-  }
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -117,14 +149,12 @@ IProps) {
             onChangeText={(name: string) => {
               console.log('[BathesScreen]', name);
               const newName = String(name).toLowerCase();
-              setSearchName(newName);
+              setSearchName(name);
               const newParams: TPartBathParams = {
                 ...params,
-                search_query: searchName,
+                search_query: newName,
               };
-              if (newName.length > 3) {
-                handleFilter(newParams);
-              }
+              switchEnter(newName.length, newParams);
             }}
             value={searchName}
             autoCapitalize="none"
@@ -136,14 +166,7 @@ IProps) {
               <SearchIcon style={styles.searchIcon} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={styles.searchIconButton}
-              onPress={() => {
-                setSearchName(undefined);
-                const newParams: TPartBathParams = { ...params };
-                delete newParams.search_query;
-                handleFilter(newParams);
-              }}>
+            <TouchableOpacity style={styles.searchIconButton} onPress={cancelQuery}>
               <SearchCancelIcon style={styles.searchIcon} />
             </TouchableOpacity>
           )}
@@ -163,7 +186,7 @@ IProps) {
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
-      {totalBathes === 0 ? (
+      {totalBathes === 0 && !loading ? (
         <NotFound />
       ) : (
         <FlatList
@@ -174,7 +197,7 @@ IProps) {
           keyExtractor={keyExtractor}
           onEndReachedThreshold={0.1}
           onEndReached={handleLoadMore}
-          ListFooterComponent={loading ? <AppListIndicator /> : null}
+          ListFooterComponent={loading ? <AppListIndicator /> : <CancelLink cancelQuery={cancelQuery} />}
         />
       )}
     </Block>
@@ -202,3 +225,12 @@ const BathesScreenConnected = connect(
 )(BathesScreenContainer);
 
 export { BathesScreenConnected as BathesScreen };
+
+/* if (newName.length === 0) {
+  handleFilter(newParams);
+}
+if (newName.length < 2) {
+  return;
+}
+
+debounced(newParams); */
