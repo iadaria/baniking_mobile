@@ -9,7 +9,7 @@ import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
 import { appDefaultTheme } from './components/appDefaultTheme';
 import ModalManager from '~/src/app/common/modals/ModalManager';
-import NetWork from '~/src/app/common/components/NetWork';
+import Network from '~/src/app/common/components/Network';
 // import i18next from 'i18next';
 // import { initLanguage } from '../i18n';
 
@@ -34,7 +34,7 @@ export default function AppNavigation() {
         <MainNavigator />
       </NavigationContainer>
       <ModalManager />
-      <NetWork />
+      <Network />
     </SafeAreaProvider>
   );
 }

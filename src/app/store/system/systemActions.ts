@@ -56,6 +56,15 @@ export function setTitlePoints(points: number) {
   };
 }
 
+/** Network */
+
+export function updateStateConnection(state: boolean) {
+  return {
+    type: constants.UPDATE_STATE_CONNECTION,
+    payload: state,
+  };
+}
+
 /** Common */
 export function clearSystem() {
   return {

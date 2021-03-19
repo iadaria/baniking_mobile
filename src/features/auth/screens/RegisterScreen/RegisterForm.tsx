@@ -8,7 +8,7 @@ import { ICredential } from '~/src/app/models/user';
 import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
-import { sizes, multiplier } from '~/src/app/common/constants';
+import { sizes } from '~/src/app/common/constants';
 // import i18next from 'i18next';
 
 const supportedURLOne = 'https://google.com';

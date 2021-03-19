@@ -10,6 +10,7 @@ export interface IBathState {
   // Bathes
   totalBathes: number;
   bathes: IBath[];
+  oldBathes: IBath[];
   selectedBath: IBath | null;
   // Srot & Filter
   moreBathes: boolean;
@@ -27,6 +28,7 @@ const initialState: IBathState = {
   // bathes
   totalBathes: 0,
   bathes: [],
+  oldBathes: [],
   selectedBath: null,
   // fetch
   moreBathes: false,
@@ -80,6 +82,7 @@ export default function bathReducer(
       return {
         ...state,
         bathes: [],
+        oldBathes: state.bathes,
         moreBathes: true,
       };
 

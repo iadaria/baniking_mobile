@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import VKLogin from 'react-native-vkontakte-login';
+import { LoginManager } from 'react-native-fbsdk';
+import { yandexLogin } from './socialLogins';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, sizes, multiplier } from '~/src/app/common/constants';
 import { FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
-import { yandexLogin } from './socialLogins';
 
 export default function SocialLoginBlock() {
   return (
@@ -13,16 +15,44 @@ export default function SocialLoginBlock() {
         Или войдите через социальные сети
       </AppText>
       <Block margin={[1.5, 0, 0]} row middle>
-        <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.socialButton}
+          onPress={() => {
+            LoginManager.logInWithPermissions(['public_profile']).then(
+              function (result) {
+                if (result.isCancelled) {
+                  console.log('Login cancelled');
+                } else {
+                  console.log('Login success with permissions: ' + result.grantedPermissions.toString());
+                }
+              },
+              function (error) {
+                console.log('Login fail with error: ' + error);
+              },
+            );
+          }}>
           <FacebookIcon />
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
           <GoogleIcon />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.socialButton}
+          onPress={async () => {
+            try {
+              const auth = await VKLogin.login(['friends', 'photos', 'email']);
+              console.log(auth);
+            } catch (error) {
+              console.log(error);
+            }
+          }}>
           <VkIcon />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton} onPress={() => yandexLogin()}>
+        <TouchableOpacity
+          style={styles.socialButton}
+          onPress={() => {
+            yandexLogin();
+          }}>
           <YandexIcon />
         </TouchableOpacity>
       </Block>

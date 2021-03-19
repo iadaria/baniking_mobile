@@ -12,6 +12,7 @@ export interface ISystemState {
     backwardStack: string[];
     points: number;
   };
+  connection?: boolean;
 }
 
 const initialState: ISystemState = {
@@ -108,6 +109,13 @@ export default function systemReducer(
           ...state.header,
           points: payload,
         },
+      };
+
+    // Network
+    case constants.UPDATE_STATE_CONNECTION:
+      return {
+        ...state,
+        connection: payload,
       };
 
     case constants.CLEAR_SYSTEM:
