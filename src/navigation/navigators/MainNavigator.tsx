@@ -48,7 +48,7 @@ function MainNavigatorContainer({
 }: IProps) {
   useEffect(() => {
     if (authenticated) {
-      console.log('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
+      // console.log('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
       getCabinetData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

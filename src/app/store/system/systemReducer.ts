@@ -12,7 +12,7 @@ export interface ISystemState {
     backwardStack: string[];
     points: number;
   };
-  connection?: boolean;
+  connection: null | boolean;
 }
 
 const initialState: ISystemState = {
@@ -22,6 +22,7 @@ const initialState: ISystemState = {
     backwardStack: [],
     points: 0,
   },
+  connection: null,
 };
 
 export default function systemReducer(

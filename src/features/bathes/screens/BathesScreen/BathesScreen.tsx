@@ -27,17 +27,19 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import NotFound from './NotFound';
 import CancelLink from './CancelLink';
+import UpdateRequestButton from './UpdateRequestButton';
 
 interface IProps {
+  connection: boolean | null;
   loading: boolean;
   totalBathes: number;
   bathes: IBath[] | null;
   moreBathes: boolean;
   params: TPartBathParams;
-  // lastPage: number;
   retainState: boolean;
-  imageIds: string[];
-  cachedImages: IPersistImage[];
+  filtered: boolean;
+  // imageIds: string[];
+  // cachedImages: IPersistImage[];
 
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
@@ -51,9 +53,11 @@ interface IProps {
 // TODO 1)if filter and total === 0; 2) notfound upon keyboard
 
 export function BathesScreenContainer({
+  connection,
   loading,
   totalBathes,
   bathes,
+  filtered,
   // getBathes,
   fetchBathes,
   updateBath,
@@ -63,26 +67,29 @@ export function BathesScreenContainer({
   params,
   clearBathes,
   setFilter,
-}: // lastPage,
-// retainState,
-IProps) {
+}: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
-  const { page: lastPage = 0 } = params;
+  const { page = 0 } = params;
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    const countBathes = bathes?.length || 0;
-    const canMoreBathes = canLoadMore(totalBathes, countBathes, lastPage);
-    if (canMoreBathes) {
-      const nextPage = lastPage + 1;
-      const bathParams: TPartBathParams = {
-        ...params,
-        page: nextPage,
-      };
-      fetchBathes({ bathParams, moreBathes: canMoreBathes, lastPage: nextPage });
+    /* console.log(
+      `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
+    ); */
+    if (connection) {
+      const countBathes = bathes?.length || 0;
+      const canMoreBathes = canLoadMore(totalBathes, countBathes, page);
+      if (canMoreBathes) {
+        const nextPage = page + 1;
+        const bathParams: TPartBathParams = {
+          ...params,
+          page: nextPage,
+        };
+        fetchBathes({ bathParams, moreBathes: canMoreBathes });
+      }
     }
-  }, [bathes, fetchBathes, lastPage, totalBathes, params]);
+  }, [bathes, fetchBathes, page, totalBathes, params, connection]);
 
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
     maxWait: 2000,
@@ -90,10 +97,10 @@ IProps) {
 
   // Вызов если только запускаем приложение - не одной записи еще не полученоr
   useEffect(() => {
-    if (isBegin(lastPage)) {
+    if (isBegin(page)) {
       handleLoadMore();
     }
-  }, [handleLoadMore, lastPage, params]);
+  }, [handleLoadMore, page, params]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 
@@ -105,7 +112,7 @@ IProps) {
   function cancelQuery() {
     setSearchName(undefined);
     const newParams: TPartBathParams = { ...params };
-    if (newParams.hasOwnProperty('search_query')) {
+    if (hasQuery(newParams)) {
       delete newParams.search_query;
       handleFilter(newParams);
     }
@@ -114,7 +121,7 @@ IProps) {
   function switchEnter(length: number, newParams: TPartBathParams) {
     switch (length) {
       case 0:
-        if (params.hasOwnProperty('search_query')) {
+        if (hasQuery(params)) {
           handleFilter(newParams);
         }
         break;
@@ -128,6 +135,7 @@ IProps) {
 
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
+  const hasQuery = (checkParams: TPartBathParams) => checkParams.hasOwnProperty('search_query');
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
@@ -135,6 +143,23 @@ IProps) {
     },
     [updateBath, persistImage],
   );
+
+  let listEmptyComponent = null;
+  if (!loading && filtered && connection) {
+    listEmptyComponent = <NotFound />;
+  } else if (!loading && !filtered) {
+    listEmptyComponent = <UpdateRequestButton title="Обновить" handleLoadMore={handleLoadMore} />;
+  }
+
+  let listFooterComponent = null;
+  if (loading) {
+    listFooterComponent = <AppListIndicator />;
+  } else if (totalBathes > 0 && totalBathes === bathes?.length) {
+    listFooterComponent = <CancelLink cancelQuery={cancelQuery} />;
+  } // Отсутствие сети, 1 запрос правильный, 2 дает сбой -> под списком повторить запрос
+  else if (!connection && bathes?.length !== 0) {
+    listFooterComponent = <UpdateRequestButton title="Повторить запрос" handleLoadMore={handleLoadMore} />;
+  }
 
   return (
     <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
@@ -186,9 +211,6 @@ IProps) {
 
       <Block margin={[sizes.offset.between, 0, 0]} />
 
-      {/* {totalBathes === 0 && !loading ? (
-        <NotFound />
-      ) : ( */}
       <FlatList
         data={bathes}
         style={iosStyle}
@@ -197,24 +219,23 @@ IProps) {
         keyExtractor={keyExtractor}
         onEndReachedThreshold={0.1}
         onEndReached={handleLoadMore}
-        ListEmptyComponent={!loading ? <NotFound /> : null}
-        ListFooterComponent={
-          loading ? <AppListIndicator /> : totalBathes > 0 ? <CancelLink cancelQuery={cancelQuery} /> : null
-        }
+        ListEmptyComponent={listEmptyComponent}
+        ListFooterComponent={listFooterComponent}
       />
-      {/* )} */}
     </Block>
   );
 }
 
 const BathesScreenConnected = connect(
-  ({ bath }: IRootState) => ({
+  ({ bath, system }: IRootState) => ({
+    connection: system.connection,
     loading: bath.loading,
     totalBathes: bath.totalBathes,
     bathes: bath.bathes,
     params: bath.params,
     moreBathes: bath.moreBathes,
     retainState: bath.retainState,
+    filtered: bath.filtered,
   }),
   {
     getBathes: getBathesAction,
@@ -228,12 +249,3 @@ const BathesScreenConnected = connect(
 )(BathesScreenContainer);
 
 export { BathesScreenConnected as BathesScreen };
-
-/* if (newName.length === 0) {
-  handleFilter(newParams);
-}
-if (newName.length < 2) {
-  return;
-}
-
-debounced(newParams); */

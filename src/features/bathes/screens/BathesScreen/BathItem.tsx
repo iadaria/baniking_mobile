@@ -118,7 +118,7 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
         start={{ x: 0.2, y: 0 }}
         end={{ x: 1.5, y: 0 }}
         style={styles.gradient}>
-        <AppText trajan header transform="uppercase" height={28 * multiplier} size={3.8 * multiplier}>
+        <AppText trajan header transform="uppercase" height={28 * multiplier} size={3.8 * multiplier * 1.1}>
           {name}
         </AppText>
 

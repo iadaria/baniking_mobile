@@ -1,5 +1,5 @@
 import { IErrors } from '~/src/app/utils/error';
-import { IBath, TPartBathParams, defaultBathParams, EBathSort } from '~/src/app/models/bath';
+import { IBath, TPartBathParams, defaultBathParams, EBathSort, FILTER_KEYS } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
@@ -15,6 +15,7 @@ export interface IBathState {
   // Srot & Filter
   moreBathes: boolean;
   sort: EBathSort;
+  filtered: boolean;
   params: TPartBathParams;
   retainState: boolean;
   // Comments
@@ -33,6 +34,7 @@ const initialState: IBathState = {
   // fetch
   moreBathes: false,
   sort: EBathSort.None,
+  filtered: false,
   params: defaultBathParams,
   retainState: false,
   // comments
@@ -69,13 +71,18 @@ export default function bathReducer(
         loading: true,
         // bathes: [...state.bathes, ...payload.bathes],
         moreBathes: payload.moreBathes,
-        // lastPage: payload.lastPage,
       };
 
     case constants.UPDATE_BATH:
       return {
         ...state,
         bathes: [...state.bathes.filter((bath: IBath) => bath.id !== payload.id), payload],
+      };
+
+    case constants.REUSE_BATHES:
+      return {
+        ...state,
+        bathes: state.oldBathes,
       };
 
     case constants.CLEAR_BATHS:
@@ -92,6 +99,7 @@ export default function bathReducer(
         ...state,
         retainState: false,
         moreBathes: true,
+        filtered: Object.keys(payload.params).some((key: string) => FILTER_KEYS.includes(key)),
         params: { ...payload.params, page: 0 },
       };
 

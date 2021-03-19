@@ -55,6 +55,17 @@ export const defaultBathParams: TPartBathParams = {
   page: 0,
 };
 
+export const FILTER_KEYS = [
+  'search_query',
+  'rating',
+  'price_from',
+  'price_to',
+  'types',
+  'steam_rooms_ids',
+  'services_ids',
+  'zones_ids',
+];
+
 export const defaultBathSort: TPartBathParams = {
   sort_field: undefined,
   sort_type: undefined,
@@ -65,11 +76,8 @@ export const defaultBathSort: TPartBathParams = {
  * @interface IBathAction
  * @param {TPartBathParameter} bathParams
  * @param {boolean} moreBathes
- * @param {number} lastPage
  */
 export interface IBathAction {
-  // bathes: IBath[];
   bathParams: TPartBathParams;
   moreBathes: boolean;
-  lastPage: number;
 }

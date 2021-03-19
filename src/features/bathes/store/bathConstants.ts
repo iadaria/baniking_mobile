@@ -6,6 +6,7 @@ export const GET_BATHES = 'bath/GET_BATHES';
 export const SET_BATHES = 'bath/SET_BATHES';
 export const FETCH_BATHES = 'bath/FETCH_BATHES';
 export const UPDATE_BATH = 'bath/UPDATE_BATH';
+export const REUSE_BATHES = 'bath/REUSE_BATHES';
 // Bath
 export const SELECT_BATH = 'bath/SELECT_BATH';
 export const CLEAR_SELECTED_BATH = 'bath/CLEAR_SELECTED_BATH';

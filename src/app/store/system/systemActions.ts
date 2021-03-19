@@ -58,7 +58,7 @@ export function setTitlePoints(points: number) {
 
 /** Network */
 
-export function updateStateConnection(state: boolean) {
+export function updateStateConnection(state: boolean | null) {
   return {
     type: constants.UPDATE_STATE_CONNECTION,
     payload: state,
