@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
 import { socialLogin, emailRegister as emailRegisterAction } from '~/src/features/auth/store/authActions';
@@ -13,6 +14,7 @@ import { styles } from './styles';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IErrors } from '~/src/app/utils/error';
+import { multiplier } from '~/src/app/common/constants';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -38,8 +40,8 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
         keyboardDismissMode="interactive"
         contentContainerStyle={styles.scrollViewContainer}>
         <Block full>
-          <Block center margin={[5, 0, 3]}>
-            <AuthLogo />
+          <Block center margin={[5 * multiplier, 0, 3 * multiplier]}>
+            <AuthLogo width={wp(13) * multiplier} />
           </Block>
           <Block style={styles.list} full base white>
             <RegisterForm

@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, sizes, multiplier } from '~/src/app/common/constants';
 import { FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
 // import { yandexLogin } from './socialLogins';
 
 export default function SocialLoginBlock() {
   return (
-    <Block margin={[5, 0, 3]}>
+    <Block margin={[5 * multiplier, 0, 3 * multiplier]}>
       <AppText caption medium center size={sizes.text.label + 0.1}>
         Или войдите через социальные сети
       </AppText>

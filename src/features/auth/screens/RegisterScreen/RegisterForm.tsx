@@ -1,14 +1,14 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { AppChecker, AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { colors, sizes } from '~/src/app/common/constants';
 import { ICredential } from '~/src/app/models/user';
 import { IErrors } from '~/src/app/utils/error';
-import { AuthLogoLeft, AuthLogoRight, NecessaryIcon, SwitcherIcon } from '~/src/assets';
+import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
+import { sizes, multiplier } from '~/src/app/common/constants';
 // import i18next from 'i18next';
 
 const supportedURLOne = 'https://google.com';
