@@ -36,6 +36,14 @@
 				<string>com.googleusercontent.apps.470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog</string>
 			</array>
 		</dict>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>YandexLoginSDK</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>yx707f8fd9b4cf43ea846143b487d73c45</string>
+      </array>
+    </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -60,6 +68,8 @@
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+    <string>yandexauth</string>
+	  <string>yandexauth2</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, sizes, multiplier } from '~/src/app/common/constants';
 import { FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
-// import { yandexLogin } from './socialLogins';
+import { yandexLogin } from './socialLogins';
 
 export default function SocialLoginBlock() {
   return (
@@ -22,7 +22,7 @@ export default function SocialLoginBlock() {
         <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
           <VkIcon />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
+        <TouchableOpacity style={styles.socialButton} onPress={() => yandexLogin()}>
           <YandexIcon />
         </TouchableOpacity>
       </Block>

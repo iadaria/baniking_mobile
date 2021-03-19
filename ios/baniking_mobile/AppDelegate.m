@@ -17,11 +17,17 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+#import <YandexLoginSDK/YandexLoginSDK.h>
+#import "baniking_mobile-Swift.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
+
+#define IS_IOS11orHIGHER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0)
+#define IS_IOS8orLOWER ([[[UIDevice currentDevice] systemVersion] floatValue] <= 8.0)
+#define IS_IOS9orLOWER ([[[UIDevice currentDevice] systemVersion] floatValue] > 8.0 && [[[UIDevice currentDevice] systemVersion] floatValue] <= 9.0)
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -63,6 +69,18 @@ static void InitializeFlipper(UIApplication *application) {
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
+  NSString *clientId = @"707f8fd9b4cf43ea846143b487d73c45";
+  NSError *error;
+  @try {
+    BOOL resultActivate = [YandexLogin activateWithAppId:clientId error:nil];
+    NSLog(resultActivate ? @"YES!!! YXLSdk is initialized" : @"NO YXSdk isn't initialized");
+  }
+  
+  @catch ( NSException *e ) {
+    NSLog(@"%@", e);
+    NSLog(@"%@ Error from ", error);
+  }
+  
   return YES;
 }
 
@@ -75,7 +93,8 @@ static void InitializeFlipper(UIApplication *application) {
     [[FBSDKApplicationDelegate sharedInstance] application:app
                                                    openURL:url
                                                    options:options];
-    return YES;
+    return [YandexLogin handleOpen:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]];
+    // return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -87,5 +106,24 @@ static void InitializeFlipper(UIApplication *application) {
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            sourceApplication:(NSString *)sourceApplication
+            annotatioin:(id)annotation
+{
+  // return [[YXLSdk shared] handleOpenURL:url sourceApplication:sourceApplication];
+  return [YandexLogin handleOpen:url sourceApplication:sourceApplication];
+}
+
+#ifdef IS_IOS8orLOWER
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+  restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> *restorableObjects))restorationHandler {
+  [YandexLogin processUserActivity:userActivity];
+  return YES;
+}
+#endif
+
 
 @end

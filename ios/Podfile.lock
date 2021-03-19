@@ -400,6 +400,8 @@ PODS:
     - React
   - TOCropViewController (2.6.0)
   - VK-ios-sdk (1.6.2)
+  - When (5.0.0)
+  - YandexLoginSDK (2.0.2)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -477,6 +479,8 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - When
+  - YandexLoginSDK
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -501,6 +505,8 @@ SPEC REPOS:
     - OpenSSL-Universal
     - TOCropViewController
     - VK-ios-sdk
+    - When
+    - YandexLoginSDK
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -681,9 +687,11 @@ SPEC CHECKSUMS:
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   VK-ios-sdk: 5bcf00a2014a7323f98db9328b603d4f96635caa
+  When: ac659b48746fe8970737efcb9c97a7d063026a5c
+  YandexLoginSDK: cd407482207b4b7da75c5f7d7fd2fdd6a604c325
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 15be78327a56d9d71e22db9c26b2dcfb641ed51e
+PODFILE CHECKSUM: c1ec2fb5b155650dd938cacf4fb79a7f0814c426
 
 COCOAPODS: 1.10.1
