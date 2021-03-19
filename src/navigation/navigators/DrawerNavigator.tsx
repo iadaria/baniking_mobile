@@ -8,7 +8,6 @@ import {
   SettingsNavigator,
   QrNavigator,
 } from '~/src/navigation/navigators';
-import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
 import { appDrawerItemStyle, appDrawerStyle } from '../components/appDefaultTheme';

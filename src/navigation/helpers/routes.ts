@@ -21,7 +21,8 @@ export default {
     CabinetScreen: 'CabinetScreen',
   },
   bathesTab: {
-    firstScreen: 'FirstScreen',
+    BathesScreen: 'BathesScreen',
+    BathScreen: 'BathScreen',
   },
   settingsTab: {
     // BaseSettingsScreen: 'BaseSettingsScreen',

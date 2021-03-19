@@ -29,7 +29,7 @@ export function useBackward({ navigation, route }: IProps) {
 
   useEffect(() => {
     console.log('[useBackward !!!!!!!]', name);
-    if (name && settingsScreens.includes(name)) {
+    if (name && settingsScreens.includes(name) && !exceptsTo.includes(name)) {
       dispatch(pushBackward('SettingsMenuScreen'));
     }
     if (name && navigation.canGoBack && !exceptsFrom.includes(name)) {
@@ -38,5 +38,5 @@ export function useBackward({ navigation, route }: IProps) {
     } else {
       dispatch(disableBackward());
     }
-  }, [dispatch, exceptsFrom, name, navigation.canGoBack, settingsScreens]);
+  }, [dispatch, exceptsFrom, exceptsTo, name, navigation.canGoBack, settingsScreens]);
 }

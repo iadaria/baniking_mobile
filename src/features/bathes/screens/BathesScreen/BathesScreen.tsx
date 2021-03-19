@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
@@ -28,6 +30,7 @@ import { styles } from './styles';
 import NotFound from './NotFound';
 import CancelLink from './CancelLink';
 import UpdateRequestButton from './UpdateRequestButton';
+import routes from '~/src/navigation/helpers/routes';
 
 interface IProps {
   connection: boolean | null;
@@ -38,8 +41,6 @@ interface IProps {
   params: TPartBathParams;
   retainState: boolean;
   filtered: boolean;
-  // imageIds: string[];
-  // cachedImages: IPersistImage[];
 
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
@@ -48,6 +49,8 @@ interface IProps {
   openModal: (payload: IModalState) => void;
   clearBathes: () => void;
   setFilter: (payload: { params: TPartBathParams }) => void;
+
+  navigation: StackNavigationProp<ParamListBase>;
 }
 
 // TODO 1)if filter and total === 0; 2) notfound upon keyboard
@@ -58,15 +61,14 @@ export function BathesScreenContainer({
   totalBathes,
   bathes,
   filtered,
-  // getBathes,
   fetchBathes,
   updateBath,
   persistImage,
   openModal,
-  // moreBathes,
   params,
   clearBathes,
   setFilter,
+  navigation,
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
@@ -101,6 +103,13 @@ export function BathesScreenContainer({
       handleLoadMore();
     }
   }, [handleLoadMore, page, params]);
+
+  useEffect(() => {
+    // by Daria need delete
+    if (bathes?.length) {
+      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+    }
+  }, [bathes, navigation]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 
@@ -144,21 +153,21 @@ export function BathesScreenContainer({
     [updateBath, persistImage],
   );
 
-  let listEmptyComponent = null;
+  let emptyComponent = null;
   if (!loading && filtered && connection) {
-    listEmptyComponent = <NotFound />;
+    emptyComponent = <NotFound />;
   } else if (!loading && !filtered) {
-    listEmptyComponent = <UpdateRequestButton title="Обновить" handleLoadMore={handleLoadMore} />;
+    emptyComponent = <UpdateRequestButton title="Обновить" handleLoadMore={handleLoadMore} />;
   }
 
-  let listFooterComponent = null;
+  let footerComponent = null;
   if (loading) {
-    listFooterComponent = <AppListIndicator />;
+    footerComponent = <AppListIndicator />;
   } else if (totalBathes > 0 && totalBathes === bathes?.length) {
-    listFooterComponent = <CancelLink cancelQuery={cancelQuery} />;
+    footerComponent = <CancelLink cancelQuery={cancelQuery} />;
   } // Отсутствие сети, 1 запрос правильный, 2 дает сбой -> под списком повторить запрос
   else if (!connection && bathes?.length !== 0) {
-    listFooterComponent = <UpdateRequestButton title="Повторить запрос" handleLoadMore={handleLoadMore} />;
+    footerComponent = <UpdateRequestButton title="Повторить запрос" handleLoadMore={handleLoadMore} />;
   }
 
   return (
@@ -219,8 +228,8 @@ export function BathesScreenContainer({
         keyExtractor={keyExtractor}
         onEndReachedThreshold={0.1}
         onEndReached={handleLoadMore}
-        ListEmptyComponent={listEmptyComponent}
-        ListFooterComponent={listFooterComponent}
+        ListEmptyComponent={emptyComponent}
+        ListFooterComponent={footerComponent}
       />
     </Block>
   );
