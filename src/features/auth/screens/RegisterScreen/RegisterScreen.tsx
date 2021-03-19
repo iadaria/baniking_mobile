@@ -41,7 +41,7 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
         contentContainerStyle={styles.scrollViewContainer}>
         <Block full>
           <Block center margin={[5 * multiplier, 0, 3 * multiplier]}>
-            <AuthLogo width={wp(13) * multiplier} />
+            <AuthLogo width={wp(11) * multiplier} />
           </Block>
           <Block style={styles.list} full base white>
             <RegisterForm

@@ -1,13 +1,15 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 // import SocialLogin from './components/SocialLogin';
 // import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { AuthLogo } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { sizes, multiplier } from '~/src/app/common/constants';
 import { ResetPasswordForm } from './ResetPasswordForm';
+import { styles } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -23,11 +25,11 @@ export function ResetPasswordScreen({ navigation }: IProps) {
       contentContainerStyle={styles.scrollViewContainer}>
       <Block full>
         {/* Top log */}
-        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
-          <AuthLogo />
+        <Block style={{ flexGrow: 0.7 }} margin={[0, 0, 5 * multiplier]} bottom center>
+          <AuthLogo width={wp(11) * multiplier} />
         </Block>
         {/* Login Form */}
-        <Block style={styles.list} full base white>
+        <Block style={[{ flexGrow: 1 }, styles.list]} base white>
           <ResetPasswordForm navigation={navigation} scrollViewRef={scrollViewRef} />
 
           <Block margin={[2.4, 0, 0]} row middle>
@@ -43,24 +45,3 @@ export function ResetPasswordScreen({ navigation }: IProps) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    /* borderWidth: 2,
-    borderColor: 'green',
-    backgroundColor: 'red', */
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-  },
-  list: {
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-  },
-  bottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});

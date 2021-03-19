@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 // import SocialLogin from './components/SocialLogin';
@@ -7,7 +7,8 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { LoginForm } from './LoginForm';
 import { AuthLogo, FacebookIcon, GoogleIcon, VkIcon, YandexIcon } from '~/src/assets';
-import { colors, sizes } from '~/src/app/common/constants';
+import { sizes, multiplier } from '~/src/app/common/constants';
+import { styles } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -24,11 +25,11 @@ export function LoginScreen({ navigation }: IProps) {
       contentContainerStyle={styles.scrollViewContainer}>
       <Block full>
         {/* Top log */}
-        <Block flex={0.3} center bottom margin={[0, 0, sizes.logo.bottom]}>
-          <AuthLogo />
+        <Block style={{ flexGrow: 0.7 }} margin={[0, 0, 4 * multiplier]} bottom center>
+          <AuthLogo width={wp(11) * multiplier} />
         </Block>
         {/* Login Form */}
-        <Block style={styles.list} full base white>
+        <Block style={[{ flexGrow: 1 }, styles.list]} base white>
           <LoginForm navigation={navigation} scrollViewRef={scrollViewRef} />
           {/*  Social login block */}
           <Block margin={[9, 0, 3]}>
@@ -64,39 +65,3 @@ export function LoginScreen({ navigation }: IProps) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    /* borderWidth: 2,
-    borderColor: 'green',
-    backgroundColor: 'red', */
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-  },
-  list: {
-    borderTopRightRadius: 50,
-    borderTopLeftRadius: 50,
-  },
-  bottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  socialButtons: {
-    // position: 'absolute',
-    // bottom: 0,
-    // width: '100%',
-  },
-  socialButton: {
-    width: wp(10.14),
-    height: wp(10.14),
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: wp(0.8),
-  },
-});
