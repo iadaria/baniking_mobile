@@ -7,8 +7,7 @@ const PLATFORM_PHOTO_PERMISSIONS = {
 };
 
 const PLATFORM_LOCATION_PERMISSIONS = {
-  // ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
-  ios: null,
+  ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
   android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, // && PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
 };
 
@@ -46,6 +45,28 @@ class AppPermission {
         return [true, ''];
       }
       return this.requestPermission(permissions);
+    } catch (error) {
+      console.log('[AppPermission/checkPermission] error', error);
+      return [false, ''];
+    }
+  };
+
+  checkPermissionWithoutRequest = async (type: any): Promise<[boolean, string]> => {
+    console.log('[AppPermission/checkPermission] type', type);
+    const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
+    console.log('[AppPermission/checkPermission] permissions', permissions);
+
+    if (!permissions) {
+      return [true, ''];
+    }
+
+    try {
+      const result = await check(permissions);
+      console.log('[AppPermission/checkPermission] result', result);
+      if (result === RESULTS.GRANTED) {
+        return [true, ''];
+      }
+      return [false, result];
     } catch (error) {
       console.log('[AppPermission/checkPermission] error', error);
       return [false, ''];

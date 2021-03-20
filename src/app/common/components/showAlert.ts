@@ -4,14 +4,14 @@ export const showAlert = (
   title: string,
   message: string,
   textOk?: string,
-  onOkPress?: () => void,
+  okPress?: () => void,
   cancel?: boolean,
 ) => {
   const buttons: AlertButton[] = [
     {
       text: textOk || 'OK',
       onPress: () => {
-        onOkPress && onOkPress();
+        okPress && okPress();
       },
       style: 'default',
     },

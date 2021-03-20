@@ -18,6 +18,7 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <YandexLoginSDK/YandexLoginSDK.h>
+#import <GoogleMaps/GoogleMaps.h>
 #import "baniking_mobile-Swift.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -68,6 +69,8 @@ static void InitializeFlipper(UIApplication *application) {
   /** Замените код в AppDelegate следующим. Он инициализирует SDK при запуске приложения и позволяет SDK обрабатывать результаты, полученные из нативного приложения Facebook при входе или публикации. */
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  
+  [GMSServices provideAPIKey:@"AIzaSyAMDDBBRDBRkGsqyUP58_iZ_V5QFWwlRVc"]; // add by Daria for google map
   
   NSString *clientId = @"707f8fd9b4cf43ea846143b487d73c45";
   NSError *error;

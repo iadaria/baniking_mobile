@@ -12,6 +12,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -36,14 +41,14 @@
 				<string>com.googleusercontent.apps.470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog</string>
 			</array>
 		</dict>
-    <dict>
-      <key>CFBundleURLName</key>
-      <string>YandexLoginSDK</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>yx707f8fd9b4cf43ea846143b487d73c45</string>
-      </array>
-    </dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>YandexLoginSDK</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yx707f8fd9b4cf43ea846143b487d73c45</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -68,8 +73,8 @@
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
-    <string>yandexauth</string>
-	  <string>yandexauth2</string>
+		<string>yandexauth</string>
+		<string>yandexauth2</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -86,19 +91,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>ru</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location access is required to run the app.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo library access is required to run the app.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is requird to run the app.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location access is required to run the app.</string>
 	<key>NSNotificationsUsageDescription</key>
 	<string>Notifications access is requird to run the app.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is required to run the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gilroy-Bold.ttf</string>
@@ -114,6 +114,11 @@
 		<string>SFProText-Semibold.ttf</string>
 		<string>TrajanPro3-Regular.ttf</string>
 		<string>Ubuntu-Light.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

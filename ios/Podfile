@@ -10,12 +10,16 @@ target 'baniking_mobile' do
   pod 'YandexLoginSDK'
   pod 'When'
   pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
 
   target 'baniking_mobileTests' do
     inherit! :complete
