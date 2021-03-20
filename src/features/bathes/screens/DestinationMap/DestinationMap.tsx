@@ -7,9 +7,10 @@ import { openSettings } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { isAndroid, isIos } from '~/src/app/common/constants/platform';
-import MapScreen from '../DestinationMap/MapScreen';
+import MapScreen from './MapScreen';
 import MapView from 'react-native-maps';
 import { View } from 'react-native';
+import { styles } from './styles';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -22,7 +23,7 @@ interface IState {
   destinationCoords: number[];
 }
 
-export function BathScreen({ route }: IProps) {
+export function DestinationMap({ route }: IProps) {
   const [permitLocate, setPermitLocate] = useState<[boolean, string]>();
   const [state, setState] = useState<IState>({
     hasMapPermission: [true, ''],
@@ -104,7 +105,7 @@ export function BathScreen({ route }: IProps) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <MapScreen ref={map} userLatitude={state.userLatitude} userLongitude={state.userLongitude} />
     </View>
   );

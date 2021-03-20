@@ -1,87 +1,68 @@
 import { Platform } from 'react-native';
 import { check, PERMISSIONS, RESULTS, request, requestNotifications, Permission } from 'react-native-permissions';
 
-const PLATFORM_MICROPHONE_PERMISSIONS = {
-  ios: PERMISSIONS.IOS.MICROPHONE,
-  android: PERMISSIONS.ANDROID.RECORD_AUDIO,
-};
-
 const PLATFORM_PHOTO_PERMISSIONS = {
   ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
   android: PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
 };
 
-// use can put null id don't need permission
-const PLATFORM_SEND_SMS_PERMISSIONS = {
+const PLATFORM_LOCATION_PERMISSIONS = {
+  // ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
   ios: null,
-  androdi: PERMISSIONS.ANDROID.SEND_SMS,
+  android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, // && PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+};
+
+const PLATFORM_ACCESS_BACKGROUND_PERMISSIONS = {
+  ios: null,
+  android: PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION,
 };
 
 const REQUEST_PERMISSION_TYPE = {
-  // microphone: PLATFORM_MICROPHONE_PERMISSIONS,
   photo: PLATFORM_PHOTO_PERMISSIONS,
-  // send_sms: PLATFORM_SEND_SMS_PERMISSIONS,
+  location: PLATFORM_LOCATION_PERMISSIONS,
+  background: PLATFORM_ACCESS_BACKGROUND_PERMISSIONS,
 };
 
 const PERMISSION_TYPE = {
-  // microphone: 'microphone',
   photo: 'photo',
-  // send_sms: 'send_sms',
+  location: 'location',
+  background: 'background',
 };
 
 class AppPermission {
-  checkPermission = async (type: any): Promise<boolean> => {
+  checkPermission = async (type: any): Promise<[boolean, string]> => {
     console.log('[AppPermission/checkPermission] type', type);
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
     console.log('[AppPermission/checkPermission] permissions', permissions);
 
     if (!permissions) {
-      return true;
+      return [true, ''];
     }
 
     try {
       const result = await check(permissions);
       console.log('[AppPermission/checkPermission] result', result);
       if (result === RESULTS.GRANTED) {
-        return true;
+        return [true, ''];
       }
       return this.requestPermission(permissions);
     } catch (error) {
       console.log('[AppPermission/checkPermission] error', error);
-      return false;
+      return [false, ''];
     }
   };
 
-  requestPermission = async (permissions: Permission): Promise<boolean> => {
+  requestPermission = async (permissions: Permission): Promise<[boolean, string]> => {
     console.log('[AppPermission/requestPersmission] permission', permissions);
     try {
       const result = await request(permissions);
       console.log('[AppPermission/requestPersmission] result', result);
-      return result === RESULTS.GRANTED;
+      return [result === RESULTS.GRANTED, result];
+      // return result === RESULTS.GRANTED;
     } catch (error) {
       console.log('[AppPermission/requestPersmission] error', error);
-      return false;
+      return [false, ''];
     }
-  };
-
-  requestMultiply = async (types: string): Promise<boolean> => {
-    console.log('[AppPermission/requestMultiple] types', types);
-    const results = [];
-    for (const type of types) {
-      const permission = REQUEST_PERMISSION_TYPE[type][Platform.OS];
-      if (permission) {
-        const result = await this.requestPermission(permission);
-        results.push(result);
-      }
-    }
-
-    for (const result of results) {
-      if (!result) {
-        return false;
-      }
-    }
-
-    return true;
   };
 
   requestNotifyPermission = async (): Promise<boolean> => {
@@ -98,3 +79,21 @@ class AppPermission {
 const appPermission = new AppPermission();
 
 export { appPermission as AppPermission, PERMISSION_TYPE };
+
+// use can put null id don't need permission
+
+// microphone: PLATFORM_MICROPHONE_PERMISSIONS,
+// send_sms: PLATFORM_SEND_SMS_PERMISSIONS,
+
+// microphone: 'microphone',
+// send_sms: 'send_sms',
+
+/* const PLATFORM_SEND_SMS_PERMISSIONS = {
+  ios: null,
+  androdi: PERMISSIONS.ANDROID.SEND_SMS,
+}; */
+
+/* const PLATFORM_MICROPHONE_PERMISSIONS = {
+  ios: PERMISSIONS.IOS.MICROPHONE,
+  android: PERMISSIONS.ANDROID.RECORD_AUDIO,
+}; */

@@ -46,5 +46,5 @@ export function getCardNumber(values: string) {
   return values.replace(/^[\d ]*[/d].$/, '');
 }
 
-export const isAndroid = Platform.OS === 'android' ? true : false;
-export const isIOS = Platform.OS === 'ios' ? true : false;
+export const isAndroid = Platform.OS === 'android';
+export const isIOS = Platform.OS === 'ios';
