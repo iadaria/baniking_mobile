@@ -31,6 +31,10 @@ import NotFound from './NotFound';
 import CancelLink from './CancelLink';
 import UpdateRequestButton from './UpdateRequestButton';
 import routes from '~/src/navigation/helpers/routes';
+import { ILocation } from '../../../../app/models/user';
+import usePermission from '../../../../app/hooks/usePermission';
+import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
+import { useGeolocation } from '../../hooks/useGeolocation';
 
 interface IProps {
   connection: boolean | null;
@@ -72,7 +76,23 @@ export function BathesScreenContainer({
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
+  const [userLocation, setUserLocation] = useState<ILocation>();
+  const [localPermission, setLocalPermission] = useState(false);
+
   const { page = 0 } = params;
+
+  usePermission({
+    permission_type: PERMISSION_TYPE.location,
+    setGranted: setLocalPermission,
+    alert_message:
+      'Вы запретили использовать геолокацию, для дальнейшей работы приложения небходимо разрешение на определение местоположения',
+    warning_message: 'У приложения нет разрешения на использование геолокации',
+  });
+
+  useGeolocation({
+    permission: localPermission,
+    setUserLocation,
+  });
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
@@ -97,19 +117,19 @@ export function BathesScreenContainer({
     maxWait: 2000,
   });
 
-  // Вызов если только запускаем приложение - не одной записи еще не полученоr
+  // Вызов если только запускаем приложение - не одной записи еще не получено
   useEffect(() => {
     if (isBegin(page)) {
       handleLoadMore();
     }
   }, [handleLoadMore, page, params]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     // by Daria need delete
     if (bathes?.length) {
-      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+      navigation.navigate(routes.bathesTab.DestinationMap, { ...bathes[0] });
     }
-  }, [bathes, navigation]);
+  }, [bathes, navigation]); */
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 
@@ -148,9 +168,18 @@ export function BathesScreenContainer({
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
-      return <BathItem key={`item-${index}`} bath={item} updateBath={updateBath} persistImage={persistImage} />;
+      return (
+        <BathItem
+          key={`item-${index}`}
+          bath={item}
+          updateBath={updateBath}
+          persistImage={persistImage}
+          localPermission={localPermission}
+          userLocation={userLocation}
+        />
+      );
     },
-    [updateBath, persistImage],
+    [updateBath, persistImage, localPermission, userLocation],
   );
 
   let emptyComponent = null;

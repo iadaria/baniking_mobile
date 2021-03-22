@@ -6,6 +6,7 @@ export interface IBath {
   address: string;
   latitude: number;
   longitude: number;
+  placeId?: string;
   image: string;
   cachedImage?: string | null;
   price: number | null;
@@ -80,4 +81,50 @@ export const defaultBathSort: TPartBathParams = {
 export interface IBathAction {
   bathParams: TPartBathParams;
   moreBathes: boolean;
+}
+
+// Google
+export interface IGooglePlaceParams {
+  key: string;
+  input: string;
+  inputtype: string;
+  fields: string;
+  locationbieas: string;
+}
+
+export interface IGooglePlaceResponse {
+  candidates: [
+    {
+      name: string;
+      place_id: string;
+    },
+  ];
+  status: string;
+}
+
+export interface IDirectionsParams {
+  origin: string;
+  destination: string;
+  key: string;
+}
+
+export type TPartDirectionsParams = Partial<IDirectionsParams>;
+
+export interface IDirectionsResponse {
+  geocoded_waypoints: [{ geocoder_status: string }, { geocoder_status: string }];
+  routes: [
+    {
+      legs: [
+        {
+          distance: {
+            test: string;
+            value: number;
+          };
+        },
+      ];
+      overview_polyline: {
+        points: string;
+      };
+    },
+  ];
 }

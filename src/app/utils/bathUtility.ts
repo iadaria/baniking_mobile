@@ -1,8 +1,11 @@
+import { GOOGLE_API } from '@env';
 import { Dimensions } from 'react-native';
 import ImageResizer, { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
+import { methods } from '../api';
 import { sizes } from '../common/constants';
+import { IDirectionsResponse, TPartDirectionsParams } from '../models/bath';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -17,6 +20,24 @@ export const cacheImage = async (image: string): Promise<Response> => {
   const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };
+
+export async function getDirections(params: TPartDirectionsParams): Promise<[number, string]> {
+  const newParams = { ...params, key: GOOGLE_API };
+  try {
+    const { geocoded_waypoints, routes }: IDirectionsResponse = await methods.getDirections(null, newParams);
+    if (
+      geocoded_waypoints.length > 1 &&
+      geocoded_waypoints[0].geocoder_status === 'OK' &&
+      geocoded_waypoints[1].geocoder_status === 'OK'
+    ) {
+      const { legs, overview_polyline } = routes[0];
+      return [legs[0].distance.value, overview_polyline.points];
+    }
+  } catch (error) {
+    console.log('[getDirectionsSaga]', error);
+  }
+  return [0, ''];
+}
 
 /* export function withCachedImage(bathes: IBath[]) {
   const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;

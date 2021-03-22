@@ -1,17 +1,15 @@
 import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
-import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+import { RESULTS, openSettings } from 'react-native-permissions';
 import { Route } from '@react-navigation/native';
+import MapView from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
 import { IBath } from '~/src/app/models/bath';
 import { AppPermission, PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
-import { openSettings } from 'react-native-permissions';
-import Geolocation from 'react-native-geolocation-service';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { isAndroid, isIos } from '~/src/app/common/constants/platform';
+import NoPermissionPart from './NoPermissionPart';
 import MapScreen from './MapScreen';
-import MapView from 'react-native-maps';
-import { Button, View } from 'react-native';
 import { styles } from './styles';
-import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
+import { View } from 'react-native';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -25,7 +23,6 @@ interface IState {
 }
 
 export function DestinationMap({ route }: IProps) {
-  //const [permitLocate, setPermitLocate] = useState<[boolean, string]>();
   const [needCheck, setNeedCheck] = useState<boolean>(true);
   const [state, setState] = useState<IState>({
     hasMapPermission: [false, ''],
@@ -37,7 +34,11 @@ export function DestinationMap({ route }: IProps) {
   // const showDirectionsOnMap = useRef<MapView>();
   const map = createRef<MapView>();
 
-  // const bath: IBath | undefined = route?.params;
+  const bath: IBath | undefined = route?.params || {};
+
+  useEffect(() => {
+    console.log('[DestinationMab/bath]', bath);
+  }, [bath]);
 
   useEffect(() => {
     if (needCheck) {
@@ -54,7 +55,6 @@ export function DestinationMap({ route }: IProps) {
   // Проверка на разрешение определения местоположения и запрос на разрешение
   useEffect(() => {
     const [granted, permit] = state.hasMapPermission;
-    console.log('[DestingationMap/useEffect()]', state.hasMapPermission, needCheck);
     if (!granted && !needCheck) {
       if (!granted && (permit === RESULTS.BLOCKED || permit === RESULTS.UNAVAILABLE)) {
         showAlert(
@@ -75,6 +75,7 @@ export function DestinationMap({ route }: IProps) {
     }
   }, [state.hasMapPermission, needCheck]);
 
+  /** Функция для определения текущего местоположения */
   const requestFineLocation = useCallback(() => {
     const [granted] = state.hasMapPermission || [false];
     if (granted) {
@@ -96,6 +97,7 @@ export function DestinationMap({ route }: IProps) {
     }
   }, [state.hasMapPermission]);
 
+  /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
     locationWatchId.current = requestFineLocation();
     return function () {
@@ -106,16 +108,7 @@ export function DestinationMap({ route }: IProps) {
   }, [state.hasMapPermission, requestFineLocation]);
 
   if (!state.hasMapPermission[0]) {
-    return (
-      <Block base>
-        <AppText margin={[3, 0]} center>
-          У приложения нет разрешение на использование геолокации
-        </AppText>
-        <AppButton onPress={() => setNeedCheck(true)}>
-          <AppText center>Обновить страницу</AppText>
-        </AppButton>
-      </Block>
-    );
+    return <NoPermissionPart setNeedCheck={setNeedCheck.bind(null, true)} />;
   }
 
   return (

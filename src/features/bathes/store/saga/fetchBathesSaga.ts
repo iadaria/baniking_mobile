@@ -6,6 +6,7 @@ import { IBath, IBathAction } from '~/src/app/models/bath';
 import { setBathes, bathesFail, reuseBathes } from '../bathActions';
 import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
+import { IGooglePlaceParams } from '~/src/app/models/bath';
 
 interface IAction {
   payload: IBathAction;
@@ -36,9 +37,9 @@ function* fetchBathesSaga({ payload }: IAction) {
     if (moreBathes) {
       const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
 
-      let cachedImagesBathes: IBath[] = [...baths];
+      const bathes = [...baths];
 
-      yield put(setBathes({ bathes: cachedImagesBathes, count, page: bathParams.page || 0 }));
+      yield put(setBathes({ bathes, count, page: bathParams.page || 0 }));
     }
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
@@ -70,3 +71,19 @@ function* fetchBathesSaga({ payload }: IAction) {
 export default function* listener() {
   yield takeLatest(FETCH_BATHES, fetchBathesSaga);
 }
+
+/* for (let i = 0; i < baths.length; i++) {
+  const { name, latitude, longitude } = bathes[i];
+  const placeParams: IGooglePlaceParams = {
+    key: GOOGLE_API,
+    input: name,
+    inputtype: 'textquery',
+    fields: 'place_id,name',
+    locationbieas: `point:${latitude},${longitude}`,
+  };
+  const result: IGooglePlaceResponse = yield methods.getPlaceId(null, placeParams);
+  console.log('[fetchBathesSaga/result]', result);
+  if (result.status === 'OK') {
+    bathes[i].placeId = result.candidates[0].place_id;
+  }
+} */

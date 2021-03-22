@@ -23,6 +23,7 @@ export default {
   bathesTab: {
     BathesScreen: 'BathesScreen',
     BathScreen: 'BathScreen',
+    DestinationMap: 'DestinationMap',
   },
   settingsTab: {
     // BaseSettingsScreen: 'BaseSettingsScreen',

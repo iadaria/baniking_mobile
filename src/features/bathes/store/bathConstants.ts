@@ -10,6 +10,7 @@ export const REUSE_BATHES = 'bath/REUSE_BATHES';
 // Bath
 export const SELECT_BATH = 'bath/SELECT_BATH';
 export const CLEAR_SELECTED_BATH = 'bath/CLEAR_SELECTED_BATH';
+export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 // Bathes Filter
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';

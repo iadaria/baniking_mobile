@@ -76,3 +76,8 @@ export interface IUserAuth {
   uid: string;
   avatar: string;
 }
+
+export interface ILocation {
+  userLatitude: number;
+  userLongitude: number;
+}

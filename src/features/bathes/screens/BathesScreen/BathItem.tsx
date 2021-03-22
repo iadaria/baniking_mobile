@@ -7,7 +7,7 @@ import { Stars } from '~/src/app/common/components/Stars';
 import { AppText } from '~/src/app/common/components/UI';
 import { colors, multiplier } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
-import { cacheImage, getRandomBathImage } from '~/src/app/utils/bathUtility';
+import { cacheImage, getDirections, getRandomBathImage } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
 import { isAndroid } from '~/src/app/utils/system';
@@ -15,19 +15,23 @@ import { IPersistImage } from '~/src/app/models/persist';
 import { getFileName, replaceExtension } from '~/src/app/utils/common';
 import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
+import { ILocation } from '~/src/app/models/user';
 
 interface IProps {
   bath: IBath;
   updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
+  localPermission: boolean;
+  userLocation?: ILocation;
 }
 
-export default function BathItem({ bath, updateBath, persistImage }: IProps) {
+export default function BathItem({ bath, updateBath, persistImage, localPermission, userLocation }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
   const [fadeOutOpacity] = useState(new Animated.Value(0.7));
   const [randomImg] = useState(getRandomBathImage());
+  const [kms, setKms] = useState<number>(0);
   const uri = useRef<string | undefined>();
   const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
 
@@ -80,6 +84,22 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri.current, cacheImage]);
 
+  // Если у нас есть данные о геолокации пользователя - находим расстояние до бани
+  useEffect(() => {
+    if (userLocation) {
+      const { userLatitude, userLongitude } = userLocation;
+      getDirections({
+        origin: `${userLatitude},${userLongitude}`,
+        destination: `${bath.latitude},${bath.longitude}`,
+      })
+        .then((result: [number, string]) => {
+          const [_kms] = result;
+          setKms(_kms);
+        })
+        .catch((error) => console.log('[BathItem/useEffect/get kms]', error));
+    }
+  }, [bath.latitude, bath.longitude, userLocation]);
+
   // Обновляем записи только после закрытия страницы, чтобы не менять порядок и не тормозить список
   useEffect(() => {
     return returnUpdate;
@@ -129,7 +149,7 @@ export default function BathItem({ bath, updateBath, persistImage }: IProps) {
         <AppText lightUltra tag color={colors.bath.address}>
           {address}
           <AppText medium secondary>
-            {'   3 км'}
+            {` ${kms}  3 км`}
           </AppText>
         </AppText>
         <AppText style={styles.phone}>0 000 000 00 00</AppText>

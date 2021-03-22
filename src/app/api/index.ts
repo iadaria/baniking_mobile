@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TPartBathParameter } from '../models/bath';
+import { TPartBathParams, IGooglePlaceParams, IDirectionsParams } from '../models/bath';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
@@ -66,7 +66,20 @@ export const methods = {
   // qr
   getQr: request('get', '/cabinet/qr', privFetch),
   // bathes
-  getBathes: request('get', (bathParams: TPartBathParameter) => `/baths${objToUrl(bathParams)}`, privFetch),
+  getBathes: request('get', (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`, privFetch),
+  // google
+  getPlaceId: request(
+    'get',
+    (placeParams: IGooglePlaceParams) =>
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json${objToUrl(placeParams)}`,
+    pubFetch,
+  ),
+  getDirections: request(
+    'get',
+    (directionParams: IDirectionsParams) =>
+      `https://maps.googleapis.com/maps/api/directions/json${objToUrl(directionParams)}`,
+    pubFetch,
+  ),
 };
 
 // for debugger
