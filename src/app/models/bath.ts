@@ -128,3 +128,34 @@ export interface IDirectionsResponse {
     },
   ];
 }
+
+export interface IDistanceParams {
+  units: string;
+  origins: string;
+  destinations: string;
+  key: string;
+}
+
+export type TPartDistanceParams = Partial<IDirectionsParams>;
+
+export interface IDistanceResponse {
+  rows: [
+    {
+      elements: [
+        {
+          distance: { value: number };
+          status: string;
+        },
+      ];
+    },
+  ];
+  status: string;
+}
+
+export interface IMap {
+  bathId: number;
+  distance: number;
+  lastUpdateDistance: Date;
+  points?: string;
+  lastUpdatePoints?: Date;
+}

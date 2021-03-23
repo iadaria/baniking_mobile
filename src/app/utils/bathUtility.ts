@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { methods } from '../api';
 import { sizes } from '../common/constants';
-import { IDirectionsResponse, TPartDirectionsParams } from '../models/bath';
+import { IDirectionsResponse, IDistanceResponse, TPartDirectionsParams, TPartDistanceParams } from '../models/bath';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -37,6 +37,45 @@ export async function getDirections(params: TPartDirectionsParams): Promise<[num
     console.log('[getDirectionsSaga]', error);
   }
   return [0, ''];
+}
+
+export async function getDistance(params: TPartDistanceParams): Promise<number | null> {
+  const newParams = { ...params, key: GOOGLE_API, units: 'metric' };
+  try {
+    const { rows, status }: IDistanceResponse = await methods.getDistance(null, newParams);
+    if (status === 'OK' && rows[0].elements[0].status === 'OK') {
+      const { distance } = rows[0].elements[0];
+      return distance.value;
+    }
+  } catch (error) {
+    console.log('[getDirectionsSaga]', error);
+  }
+  return null;
+}
+
+interface IDistance {
+  lant1: number;
+  long1: number;
+  lant2: number;
+  long2: number;
+}
+
+var rad = function (x: number) {
+  return (x * Math.PI) / 180;
+};
+
+export function calculateDistance(props: IDistance) {
+  const { lant1, long1, lant2, long2 } = props;
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(lant2 - lant1);
+  var dLong = rad(long2 - long1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(lant1)) * Math.cos(rad(lant2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d; // returns the distance in meter
+  // console.log('[bathUtility/calculateDisntance]', d / 1000);
 }
 
 /* export function withCachedImage(bathes: IBath[]) {

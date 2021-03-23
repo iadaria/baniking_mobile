@@ -1,6 +1,7 @@
 import { IErrors } from '~/src/app/utils/error';
 import { IBath, TPartBathParams, defaultBathParams, EBathSort, FILTER_KEYS } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
+import { IMap } from '../../../app/models/bath';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -20,6 +21,8 @@ export interface IBathState {
   retainState: boolean;
   // Comments
   comments: string[];
+  // Maps
+  maps: IMap[];
 }
 
 const initialState: IBathState = {
@@ -39,6 +42,8 @@ const initialState: IBathState = {
   retainState: false,
   // comments
   comments: [],
+  // maps
+  maps: [],
 };
 
 export default function bathReducer(
@@ -150,6 +155,19 @@ export default function bathReducer(
         ...state,
         loading: false,
         errors: payload,
+      };
+
+    // Maps
+    case constants.SET_MAPS:
+      return {
+        ...state,
+        maps: [...state.maps, ...payload],
+      };
+
+    case constants.CLEAR_MAPS:
+      return {
+        ...state,
+        maps: [],
       };
 
     default:

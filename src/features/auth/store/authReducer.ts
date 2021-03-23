@@ -84,7 +84,7 @@ export default function authReducer(
       return {
         ...state,
         authenticated: true,
-        currentUser: payload,
+        currentUser: { ...state.currentUser, ...payload },
         loading: false,
         errors: null,
       };

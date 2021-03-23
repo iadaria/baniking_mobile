@@ -1,5 +1,5 @@
 import * as constants from './bathConstants';
-import { EBathSort, IBath, TPartBathParams } from '~/src/app/models/bath';
+import { EBathSort, IBath, IMap, TPartBathParams } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
 import { IBathAction } from '~/src/app/models/bath';
 
@@ -54,6 +54,17 @@ export const selectBath = (payload: IBath) => ({
 
 export const clearSelectedBath = () => ({
   type: constants.CLEAR_SELECTED_BATH,
+});
+
+// Maps
+
+export const setMaps = (payload: IMap[]) => ({
+  type: constants.SET_MAPS,
+  payload,
+});
+
+export const clearMaps = () => ({
+  type: constants.CLEAR_MAPS,
 });
 
 // Comments

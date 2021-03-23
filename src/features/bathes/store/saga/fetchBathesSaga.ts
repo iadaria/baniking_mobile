@@ -1,12 +1,14 @@
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select, fork, take } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { IBath, IBathAction } from '~/src/app/models/bath';
-import { setBathes, bathesFail, reuseBathes } from '../bathActions';
+import { IBath, IBathAction, IDistanceResponse, IMap, TPartDistanceParams } from '~/src/app/models/bath';
+import { setBathes, bathesFail, reuseBathes, setMaps } from '../bathActions';
 import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IGooglePlaceParams } from '~/src/app/models/bath';
+import { IUserAuth } from '~/src/app/models/user';
+import { GOOGLE_API } from '@env';
+import { IAuthState } from '~/src/features/auth/store/authReducer';
 
 interface IAction {
   payload: IBathAction;
@@ -17,19 +19,7 @@ interface IResult {
   count: number;
   baths: IBath[];
 }
-
-var countBathesRequests = 0;
-
 function* fetchBathesSaga({ payload }: IAction) {
-  countBathesRequests++;
-  if (countBathesRequests > 20) {
-    console.log('[fetchBathesSaga] count > 20');
-    return;
-  }
-  setTimeout(function () {
-    countBathesRequests = 0;
-  }, 10000);
-
   const { moreBathes, bathParams } = payload;
   console.log('[fetchBathesSaga]', payload.bathParams);
   console.log('[fetchBathesSaga]', payload);
@@ -40,6 +30,8 @@ function* fetchBathesSaga({ payload }: IAction) {
       const bathes = [...baths];
 
       yield put(setBathes({ bathes, count, page: bathParams.page || 0 }));
+
+      yield fork(fetchMapsSaga, bathes);
     }
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
@@ -65,6 +57,40 @@ function* fetchBathesSaga({ payload }: IAction) {
       yield put(bathesFail(null));
       yield showAlert('Ошибка', errorMessage);
     }
+  }
+}
+
+function* fetchMapsSaga(bathes: IBath[]) {
+  const { currentUser }: IAuthState = yield select(({ auth }: IRootState) => auth);
+  console.log('[fetchBathesSaga]', { currentUser });
+  const { location } = currentUser || {};
+  //const bathes: IBath[] = yield select(({ bath }: IRootState) => bath.bathes);
+  if (location) {
+    let maps: IMap[] = [];
+    for (let i = 0; i < bathes.length; i++) {
+      const { latitude, longitude } = bathes[i];
+      const placeParams: TPartDistanceParams = {
+        origins: `${location.latitude},${location.longitude}`,
+        destinations: `${latitude},${longitude}`,
+        units: 'metric',
+        key: GOOGLE_API,
+      };
+      const { status, rows }: IDistanceResponse = yield methods.getDistance(null, placeParams);
+      console.log('[fetchBathesSaga/result]', rows);
+      if (status === 'OK' && rows[0].elements[0].status === 'OK') {
+        const { distance } = rows[0].elements[0];
+        const newMap: IMap = {
+          bathId: bathes[i].id,
+          distance: distance.value,
+          lastUpdateDistance: new Date(),
+        };
+        maps.push(newMap);
+      }
+    }
+
+    console.log('[fetchMaps]', maps);
+
+    yield put(setMaps(maps));
   }
 }
 

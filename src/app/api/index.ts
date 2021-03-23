@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TPartBathParams, IGooglePlaceParams, IDirectionsParams } from '../models/bath';
+import { TPartBathParams, IGooglePlaceParams, IDirectionsParams, IDistanceParams } from '../models/bath';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
@@ -78,6 +78,12 @@ export const methods = {
     'get',
     (directionParams: IDirectionsParams) =>
       `https://maps.googleapis.com/maps/api/directions/json${objToUrl(directionParams)}`,
+    pubFetch,
+  ),
+  getDistance: request(
+    'get',
+    (distanceParams: IDistanceParams) =>
+      `https://maps.googleapis.com/maps/api/distancematrix/json${objToUrl(distanceParams)}`,
     pubFetch,
   ),
 };

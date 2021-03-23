@@ -18,3 +18,7 @@ export const SET_SORT = 'bath/SET_SORT';
 // Comments
 export const FETCH_BATH_COMMENTS = 'bath/FETCH_BATH_COMMENTS';
 export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
+// Maps
+export const FETCH_MAPS = 'bath/FETCH_MAPS';
+export const SET_MAPS = 'bath/SET_MAPS';
+export const CLEAR_MAPS = 'bath/CLEAR_MAPS';

@@ -93,12 +93,12 @@ export function BathesScreenContainer({
     permission: localPermission,
     setUserLocation,
   });
-
+  
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    /* console.log(
+    console.log(
       `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
-    ); */
+    );
     if (connection) {
       const countBathes = bathes?.length || 0;
       const canMoreBathes = canLoadMore(totalBathes, countBathes, page);
@@ -174,7 +174,6 @@ export function BathesScreenContainer({
           bath={item}
           updateBath={updateBath}
           persistImage={persistImage}
-          localPermission={localPermission}
           userLocation={userLocation}
         />
       );

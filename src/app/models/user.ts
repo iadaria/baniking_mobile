@@ -75,9 +75,10 @@ export interface IUserAuth {
   socialProvider: SocialProvider;
   uid: string;
   avatar: string;
+  location: ILocation | null;
 }
 
 export interface ILocation {
-  userLatitude: number;
-  userLongitude: number;
+  latitude: number;
+  longitude: number;
 }
