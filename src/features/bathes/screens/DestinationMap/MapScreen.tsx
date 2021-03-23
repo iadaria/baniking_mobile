@@ -12,8 +12,10 @@ export default React.forwardRef(
   ({ userLatitude, userLongitude, children }: IProps, ref: ForwardedRef<MapView>) => (
     <MapView
       ref={ref}
+      mapType="standard"
       showsUserLocation
       followsUserLocation
+      zoomEnabled={true}
       style={styles.map}
       region={{
         latitude: userLatitude,

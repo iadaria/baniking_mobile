@@ -31,6 +31,7 @@
     "android-release": "npx react-native run-android --variant=release"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.1.1",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/google-signin": "^5.0.0",
@@ -78,6 +79,7 @@
     "@react-native-community/eslint-config": "^1.1.0",
     "@types/axios": "^0.14.0",
     "@types/jest": "^25.2.3",
+    "@types/mapbox__polyline": "^1.0.2",
     "@types/react-native": "^0.63.2",
     "@types/react-native-fbsdk": "^3.0.0",
     "@types/react-native-text-input-mask": "^0.7.5",

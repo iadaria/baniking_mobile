@@ -126,12 +126,12 @@ export function BathesScreenContainer({
     }
   }, [handleLoadMore, page, params]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     // by Daria need delete
     if (bathes?.length) {
       navigation.navigate(routes.bathesTab.DestinationMap, { ...bathes[0] });
     }
-  }, [bathes, navigation]); */
+  }, [bathes, navigation]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 

@@ -44,6 +44,24 @@ export async function getDirections(params: TPartDirectionsParams): Promise<[num
   return [0, ''];
 }
 
+export async function getPoints(params: TPartDirectionsParams): Promise<string | null> {
+  const newParams = { ...params, key: GOOGLE_API };
+  try {
+    const { geocoded_waypoints, routes }: IDirectionsResponse = await methods.getDirections(null, newParams);
+    if (
+      geocoded_waypoints.length > 1 &&
+      geocoded_waypoints[0].geocoder_status === 'OK' &&
+      geocoded_waypoints[1].geocoder_status === 'OK'
+    ) {
+      const { overview_polyline } = routes[0];
+      return overview_polyline.points;
+    }
+  } catch (error) {
+    console.log('[getDirectionsSaga]', error);
+  }
+  return null;
+}
+
 export async function getDistance(params: TPartDistanceParams): Promise<number | null> {
   const newParams = { ...params, key: GOOGLE_API, units: 'metric' };
   try {
