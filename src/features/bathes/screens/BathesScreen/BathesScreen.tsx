@@ -12,7 +12,7 @@ import {
   updateBath as updateBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBath, IBathAction, TPartBathParams } from '~/src/app/models/bath';
+import { IBath, IBathAction, IMap, TPartBathParams } from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
@@ -31,8 +31,8 @@ import NotFound from './NotFound';
 import CancelLink from './CancelLink';
 import UpdateRequestButton from './UpdateRequestButton';
 import routes from '~/src/navigation/helpers/routes';
-import { ILocation } from '../../../../app/models/user';
-import usePermission from '../../../../app/hooks/usePermission';
+import { ILocation } from '~/src/app/models/user';
+import usePermission from '~/src/app/hooks/usePermission';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useGeolocation } from '../../hooks/useGeolocation';
 
@@ -45,6 +45,7 @@ interface IProps {
   params: TPartBathParams;
   retainState: boolean;
   filtered: boolean;
+  maps: IMap[];
 
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
@@ -64,6 +65,7 @@ export function BathesScreenContainer({
   loading,
   totalBathes,
   bathes,
+  maps,
   filtered,
   fetchBathes,
   updateBath,
@@ -93,7 +95,7 @@ export function BathesScreenContainer({
     permission: localPermission,
     setUserLocation,
   });
-  
+
   // TODO Test
   const handleLoadMore = useCallback(() => {
     console.log(
@@ -168,17 +170,21 @@ export function BathesScreenContainer({
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
+      const map = maps.find((map: IMap) => map.bathId === item.id);
+      const distance: number = map?.distance || 0;
       return (
         <BathItem
           key={`item-${index}`}
           bath={item}
+          distance={distance}
           updateBath={updateBath}
           persistImage={persistImage}
-          userLocation={userLocation}
         />
       );
     },
-    [updateBath, persistImage, localPermission, userLocation],
+    // В зависимостях должно быть userLocation
+    // т/к удаленность зависит от изменения локации пользователя
+    [updateBath, persistImage, userLocation, maps]
   );
 
   let emptyComponent = null;
@@ -269,6 +275,7 @@ const BathesScreenConnected = connect(
     loading: bath.loading,
     totalBathes: bath.totalBathes,
     bathes: bath.bathes,
+    maps: bath.maps,
     params: bath.params,
     moreBathes: bath.moreBathes,
     retainState: bath.retainState,

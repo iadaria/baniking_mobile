@@ -7,7 +7,7 @@ import { Stars } from '~/src/app/common/components/Stars';
 import { AppText } from '~/src/app/common/components/UI';
 import { colors, multiplier } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
-import { cacheImage, getDistance, getRandomBathImage } from '~/src/app/utils/bathUtility';
+import { cacheImage, getRandomBathImage } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
 import { isAndroid } from '~/src/app/utils/system';
@@ -15,22 +15,20 @@ import { IPersistImage } from '~/src/app/models/persist';
 import { getFileName, replaceExtension } from '~/src/app/utils/common';
 import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { ILocation } from '~/src/app/models/user';
 
 interface IProps {
   bath: IBath;
+  distance: number;
   updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
-  userLocation?: ILocation;
 }
 
-export default function BathItem({ bath, updateBath, persistImage, userLocation }: IProps) {
+export default function BathItem({ bath, distance, updateBath, persistImage }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
   const [fadeOutOpacity] = useState(new Animated.Value(0.7));
   const [randomImg] = useState(getRandomBathImage());
-  const [kms, setKms] = useState<number | null>(10000);
   const uri = useRef<string | undefined>();
   const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
 
@@ -83,30 +81,6 @@ export default function BathItem({ bath, updateBath, persistImage, userLocation 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri.current, cacheImage]);
 
-  // Если у нас есть данные о геолокации пользователя - находим расстояние до бани
-  // useEffect(() => {
-  //   if (userLocation) {
-  //     const { userLatitude, userLongitude } = userLocation;
-  //     getDistance({
-  //       origins: `${userLatitude},${userLongitude}`,
-  //       destinations: `${bath.latitude},${bath.longitude}`,
-  //     })
-  //       .then((result: number | null) => {
-  //         setKms(result);
-  //       })
-  //       .catch((error) => console.log('[BathItem/useEffect/get kms]', error));
-  //     /* getDirections({
-  //       origin: `${userLatitude},${userLongitude}`,
-  //       destination: `${bath.latitude},${bath.longitude}`,
-  //     })
-  //       .then((result: [number, string]) => {
-  //         const [_kms] = result;
-  //         setKms(_kms);
-  //       })
-  //       .catch((error) => console.log('[BathItem/useEffect/get kms]', error)); */
-  //   }
-  // }, [bath.latitude, bath.longitude, userLocation]);
-
   // Обновляем записи только после закрытия страницы, чтобы не менять порядок и не тормозить список
   useEffect(() => {
     return returnUpdate;
@@ -133,6 +107,7 @@ export default function BathItem({ bath, updateBath, persistImage, userLocation 
 
   var AnimatedImage = Animated.createAnimatedComponent(ImageBackground);
   const androidStyle = isAndroid ? { marginLeft: wp(5) } : {};
+  const kms = distance > 0 ? (distance / 1000).toFixed(1) : null;
 
   return (
     <AnimatedImage
@@ -156,7 +131,7 @@ export default function BathItem({ bath, updateBath, persistImage, userLocation 
         <AppText lightUltra tag color={colors.bath.address}>
           {address}
           <AppText medium secondary>
-            {`   ${(kms / 1000).toFixed(1)} км`}
+            {kms && `   ${kms}  км`}
           </AppText>
         </AppText>
         <AppText style={styles.phone}>0 000 000 00 00</AppText>

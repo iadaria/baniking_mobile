@@ -43,6 +43,7 @@ export function useGeolocation({ permission, setUserLocation }: IProps) {
 
   /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
+    console.log('\n[useGoelocation/useEffect/requestFineLocation]');
     locationWatchId.current = requestFineLocation();
     return function () {
       if (locationWatchId.current) {
