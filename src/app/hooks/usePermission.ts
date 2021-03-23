@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RESULTS, openSettings } from 'react-native-permissions';
 import { AppPermission } from '~/src/app/common/components/AppPersmission';
 import { showAlert } from '~/src/app/common/components/showAlert';
@@ -8,18 +8,34 @@ interface IProps {
   setGranted: (state: boolean) => void;
   alert_message: string;
   warning_message: string;
+  customeNeedCheck?: boolean;
+  resetCustomeNeedCheck?: () => void;
 }
 
-export default function usePermission({ permission_type, setGranted, alert_message, warning_message }: IProps) {
+export default function usePermission({
+  permission_type,
+  setGranted,
+  alert_message,
+  warning_message,
+  customeNeedCheck,
+  resetCustomeNeedCheck,
+}: IProps) {
   const [needCheck, setNeedCheck] = useState<boolean>(true);
   const [permission, setPermission] = useState<[boolean, string]>([false, '']);
 
   useEffect(() => {
+    if (!!customeNeedCheck && resetCustomeNeedCheck) {
+      setNeedCheck(true);
+      resetCustomeNeedCheck();
+    }
+  }, [customeNeedCheck, resetCustomeNeedCheck]);
+
+  useEffect(() => {
     if (needCheck) {
       AppPermission.checkPermission(permission_type).then((result) => {
-        const [gratend] = result;
+        const [granted] = result;
         setPermission(result); // Сохраняем текущие(измененные) права
-        setGranted(gratend); // Вернем значение в вызувающую функцию
+        setGranted(granted); // Вернем значение в вызувающую функцию
         setNeedCheck(false); // Отмечаем, что проверка пройдена и не нужна
       });
     } else {
@@ -51,4 +67,8 @@ export default function usePermission({ permission_type, setGranted, alert_messa
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permission, needCheck]);
+
+  /* if (permission) {
+    return <NoPermissionPart setNeedCheck={setNeedCheck.bind(null, true)} />;
+  } */
 }

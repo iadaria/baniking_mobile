@@ -78,7 +78,7 @@ export function BathesScreenContainer({
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
-  const [userLocation, setUserLocation] = useState<ILocation>();
+  //const [userLocation, setUserLocation] = useState<ILocation>();
   const [localPermission, setLocalPermission] = useState(false);
 
   const { page = 0 } = params;
@@ -93,7 +93,7 @@ export function BathesScreenContainer({
 
   useGeolocation({
     permission: localPermission,
-    setUserLocation,
+    // setUserLocation,
   });
 
   // TODO Test
@@ -103,9 +103,9 @@ export function BathesScreenContainer({
     );
     if (connection) {
       const countBathes = bathes?.length || 0;
-      const canMoreBathes = canLoadMore(totalBathes, countBathes, page);
+      const canMoreBathes = canLoadMore(totalBathes, countBathes, params.page!);
       if (canMoreBathes) {
-        const nextPage = page + 1;
+        const nextPage = params.page! + 1;
         const bathParams: TPartBathParams = {
           ...params,
           page: nextPage,
@@ -185,7 +185,7 @@ export function BathesScreenContainer({
     // В зависимостях должно быть userLocation
     // т/к удаленность зависит от изменения локации пользователя
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateBath, persistImage, userLocation, maps]
+    [updateBath, persistImage, /* userLocation, */ maps],
   );
 
   let emptyComponent = null;
