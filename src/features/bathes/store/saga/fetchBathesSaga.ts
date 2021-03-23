@@ -8,6 +8,7 @@ import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { GOOGLE_API } from '@env';
 import { IAuthState } from '~/src/features/auth/store/authReducer';
+import { isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
 
 interface IAction {
   payload: IBathAction;
@@ -61,13 +62,23 @@ function* fetchBathesSaga({ payload }: IAction) {
 
 function* fetchMapsSaga(bathes: IBath[]) {
   const { currentUser }: IAuthState = yield select(({ auth }: IRootState) => auth);
-  console.log('[fetchBathesSaga]', { currentUser });
   const { location } = currentUser || {};
 
   if (location) {
+    if (!isLatitude(location.latitude) || !isLongitude(location.longitude)) {
+      console.log('[fecthMapsSaga/not correct lat or long]', location);
+      return;
+    }
+
     let maps: IMap[] = [];
     for (let i = 0; i < bathes.length; i++) {
       const { latitude, longitude } = bathes[i];
+
+      if (!isLatitude(latitude) || !isLongitude(longitude)) {
+        console.log('[fecthMapsSaga/not correct lat or long]', latitude, longitude);
+        return;
+      }
+
       const placeParams: TPartDistanceParams = {
         origins: `${location.latitude},${location.longitude}`,
         destinations: `${latitude},${longitude}`,
@@ -83,7 +94,7 @@ function* fetchMapsSaga(bathes: IBath[]) {
           lastUpdateDistance: new Date(),
         };
         maps.push(newMap);
-      }
+      } else console.log('[fetchMapsSaga] status=', rows[0].elements[0].status);
     }
     yield put(setMaps(maps));
   }

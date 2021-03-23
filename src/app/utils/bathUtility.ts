@@ -5,7 +5,12 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { methods } from '../api';
 import { sizes } from '../common/constants';
-import { IDirectionsResponse, IDistanceResponse, TPartDirectionsParams, TPartDistanceParams } from '../models/bath';
+import {
+  IDirectionsResponse,
+  IDistanceResponse,
+  TPartDirectionsParams,
+  TPartDistanceParams,
+} from '../models/bath';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -63,6 +68,9 @@ interface IDistance {
 var rad = function (x: number) {
   return (x * Math.PI) / 180;
 };
+
+export const isLatitude = (num: number) => isFinite(num) && Math.abs(num) <= 90;
+export const isLongitude = (num: number) => isFinite(num) && Math.abs(num) <= 180;
 
 export function calculateDistance(props: IDistance) {
   const { lant1, long1, lant2, long2 } = props;

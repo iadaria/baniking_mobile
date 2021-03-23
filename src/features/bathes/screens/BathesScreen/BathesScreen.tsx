@@ -113,7 +113,7 @@ export function BathesScreenContainer({
         fetchBathes({ bathParams, moreBathes: canMoreBathes });
       }
     }
-  }, [bathes, fetchBathes, page, totalBathes, params, connection]);
+  }, [/* bathes, fetchBathes, page, totalBathes, */ params, connection]);
 
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
     maxWait: 2000,
@@ -184,6 +184,7 @@ export function BathesScreenContainer({
     },
     // В зависимостях должно быть userLocation
     // т/к удаленность зависит от изменения локации пользователя
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateBath, persistImage, userLocation, maps]
   );
 

@@ -11,6 +11,7 @@ export interface IBathState {
   // Bathes
   totalBathes: number;
   bathes: IBath[];
+  bathIds: number[];
   oldBathes: IBath[];
   selectedBath: IBath | null;
   // Srot & Filter
@@ -22,6 +23,7 @@ export interface IBathState {
   // Comments
   comments: string[];
   // Maps
+  mapIds: number[];
   maps: IMap[];
 }
 
@@ -32,6 +34,7 @@ const initialState: IBathState = {
   // bathes
   totalBathes: 0,
   bathes: [],
+  bathIds: [],
   oldBathes: [],
   selectedBath: null,
   // fetch
@@ -43,6 +46,7 @@ const initialState: IBathState = {
   // comments
   comments: [],
   // maps
+  mapIds: [],
   maps: [],
 };
 
@@ -54,26 +58,23 @@ export default function bathReducer(
     // Common
     // Bathes
     case constants.SET_BATHES:
+      const newBathes: IBath[] = payload.bathes.filter((bath: IBath) => state.bathIds.indexOf(bath.id) === -1);
       return {
         ...state,
         loading: false,
         errors: null,
         totalBathes: payload.count,
-        bathes: [...state.bathes, ...payload.bathes],
+        // bathes: [...state.bathes, ...payload.bathes],
+        bathIds: [...state.bathIds, ...newBathes.map((bath: IBath) => bath.id)],
+        bathes: [...state.bathes, ...newBathes],
         params: { ...state.params, page: payload.page },
-      };
-
-    case constants.GET_BATHES:
-      return {
-        ...state,
-        loading: true,
-        errors: null,
       };
 
     case constants.FETCH_BATHES:
       return {
         ...state,
         loading: true,
+        params: payload.bathParams,
         // bathes: [...state.bathes, ...payload.bathes],
         moreBathes: payload.moreBathes,
       };
@@ -96,6 +97,13 @@ export default function bathReducer(
         bathes: [],
         oldBathes: state.bathes,
         moreBathes: true,
+      };
+
+    case constants.GET_BATHES:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
       };
 
     // Filter & Sort
@@ -159,9 +167,11 @@ export default function bathReducer(
 
     // Maps
     case constants.SET_MAPS:
+      const newMaps: IMap[] = payload.filter((map: IMap) => state.mapIds.indexOf(map.bathId) === -1);
       return {
         ...state,
-        maps: [...state.maps, ...payload],
+        mapIds: [...state.mapIds, ...newMaps.map((map: IMap) => map.bathId)],
+        maps: [...state.maps, ...newMaps],
       };
 
     case constants.CLEAR_MAPS:
