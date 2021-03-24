@@ -1,5 +1,5 @@
 import React, { ForwardedRef } from 'react';
-import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import MapView, { MapStyleElement, MapViewProps } from 'react-native-maps';
 
 interface IProps extends MapViewProps {

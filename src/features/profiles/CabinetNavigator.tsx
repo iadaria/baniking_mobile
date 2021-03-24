@@ -12,7 +12,9 @@ interface IScreenOptionsProps {
 const Cabinet = createStackNavigator();
 
 export default function CabinetNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
-  useBackward({ navigation, route });
+  /* const backToScreen = null;
+  const screens: string[] = [];
+  useBackward({ navigation, route, screens, screen: backToScreen }); */
   return (
     <Cabinet.Navigator screenOptions={{ headerShown: false }}>
       <Cabinet.Screen name="CabinetScreen" component={CabinetScreen} />

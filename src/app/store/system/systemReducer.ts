@@ -71,14 +71,21 @@ export default function systemReducer(
       };
 
     case constants.PUSH_BACKWARD:
-      console.log('systemReducer', payload);
+      // Находим длину стека
+      const length = state.header.backwardStack.length;
+      // Находим последнюю страницу в стеке
+      const last = length - 1 >= 0 ? state.header.backwardStack[length - 1] : null;
       return {
         ...state,
         header: {
           ...state.header,
           isDrawerOpen: false,
           isBackward: true,
-          backwardStack: [...state.header.backwardStack, payload],
+          // Если нет в стеке этой страницы, чтобы не повторять
+          backwardStack:
+            (last && last !== payload) || !last
+              ? [...state.header.backwardStack, payload]
+              : [...state.header.backwardStack],
         },
       };
 

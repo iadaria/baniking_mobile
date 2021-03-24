@@ -14,7 +14,7 @@ import { IBath, TPartDirectionsParams } from '~/src/app/models/bath';
 import { ILocation } from '~/src/app/models/user';
 import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
-import { MarkerIcon } from '~/src/assets';
+import { MarkerIcon, MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
 
 export interface IProps {
@@ -131,7 +131,8 @@ export function DestinationMap({ route }: IProps) {
     polyline = <MapPolyline coordinates={destinationCoords} strokeWidth={4} strokeColor="#000" />;
     marker = (
       <Marker coordinate={destinationCoords[destinationCoords.length - 1]}>
-        <Image source={MarkerIcon} width={wp(15)} height={wp(15)} />
+        <MarkerIconSvg />
+        {/* <Image source={MarkerIcon} width={wp(15)} height={wp(15)} /> */}
       </Marker>
     );
   }

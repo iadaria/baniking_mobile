@@ -10,7 +10,7 @@ import {
   HelpScreen,
 } from './screens';
 import { ParamListBase, Route } from '@react-navigation/native';
-import { useBackward } from '../../app/hooks/useBackward';
+import { useBackward } from '~/src/app/hooks/useBackward';
 import { ProfileScreen } from '../profiles/screens';
 
 interface IScreenOptionsProps {
@@ -21,7 +21,16 @@ interface IScreenOptionsProps {
 const Settings = createStackNavigator();
 
 export default function SettingsNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
-  useBackward({ navigation, route });
+  const screen = 'SettingsMenuScreen';
+  const screens = [
+    'ProfileScreen',
+    'SafeScreen',
+    'NotificationsScreen',
+    'RulesScreen',
+    'ContractScreen',
+    'HelpScreen',
+  ];
+  useBackward({ navigation, route, screens, screen });
 
   return (
     <Settings.Navigator screenOptions={{ headerShown: false }}>

@@ -7,30 +7,22 @@ import { disableBackward, enableBackward, pushBackward } from '~/src/app/store/s
 interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
+  screens: string[];
+  screen: string | null;
 }
 
-export function useBackward({ navigation, route }: IProps) {
+export function useBackward({ navigation, route, screens, screen }: IProps) {
   const dispatch = useDispatch();
   const name = getFocusedRouteNameFromRoute(route);
   const exceptsFrom = ['SettingsMenuScreen', 'CabinetScreen'];
   const exceptsTo = ['LoginScreen', 'RegisterScreen', 'ResetPasswordScreen'];
-  const settingsScreens = [
-    'SafeScreen',
-    'ProfileScreen',
-    'NotificationsScreen',
-    'RulesScreen',
-    'ContractScreen',
-    'HelpScreen',
-  ];
-  // const excepts = ['SettingsMenuScreen', 'LoginScreen', 'RegisterScreen', ''];
-  // const excepts = [''];
 
-  // console.log(name);
 
   useEffect(() => {
-    console.log('[useBackward !!!!!!!]', name);
-    if (name && settingsScreens.includes(name) && !exceptsTo.includes(name)) {
-      dispatch(pushBackward('SettingsMenuScreen'));
+    console.log('[useBackward/screen !!!!!!!]', name);
+    if (name && screen && screens.includes(name) && !exceptsTo.includes(name)) {
+      //dispatch(pushBackward('SettingsMenuScreen'));
+      dispatch(pushBackward(screen));
     }
     if (name && navigation.canGoBack && !exceptsFrom.includes(name)) {
       dispatch(enableBackward());
@@ -38,5 +30,19 @@ export function useBackward({ navigation, route }: IProps) {
     } else {
       dispatch(disableBackward());
     }
-  }, [dispatch, exceptsFrom, exceptsTo, name, navigation.canGoBack, settingsScreens]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, exceptsFrom, exceptsTo, name, navigation.canGoBack]);
 }
+
+/* const settingsScreens = [
+    'SafeScreen',
+    'ProfileScreen',
+    'NotificationsScreen',
+    'RulesScreen',
+    'ContractScreen',
+    'HelpScreen',
+  ]; */
+// const excepts = ['SettingsMenuScreen', 'LoginScreen', 'RegisterScreen', ''];
+// const excepts = [''];
+
+// console.log(name);

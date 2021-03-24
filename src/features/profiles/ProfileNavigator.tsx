@@ -12,7 +12,8 @@ interface IScreenOptionsProps {
 const Profile = createStackNavigator();
 
 export default function ProfileNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
-  useBackward({ navigation, route });
+  /* const screens = ['CabinetScreen', 'ProfileScreen'];
+  useBackward({ navigation, route, screens, screen: null }); */
   return (
     <Profile.Navigator screenOptions={{ headerShown: false }}>
       <Profile.Screen name="ProfileScreen" component={NotificationsScreen} />
