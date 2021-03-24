@@ -1481,6 +1481,14 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-maps@^0.24.1":
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-maps/-/react-native-maps-0.24.1.tgz#3d735b290ef9cb69f5df60b28853163b0f6d89f0"
+  integrity sha512-5yAoJOnjwVRyK8iGGxN7d1ZNbxptHFeEgZKv1iZSAE76lgP22x5uXL3CV9JuCgzp3pvRQMC35xFk/9i5McfItA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-text-input-mask@^0.7.5":
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@types/react-native-text-input-mask/-/react-native-text-input-mask-0.7.5.tgz#0dff36337e253d9891851cfb3ba89fe50dc14c50"

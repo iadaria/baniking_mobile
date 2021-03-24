@@ -82,6 +82,7 @@
     "@types/mapbox__polyline": "^1.0.2",
     "@types/react-native": "^0.63.2",
     "@types/react-native-fbsdk": "^3.0.0",
+    "@types/react-native-maps": "^0.24.1",
     "@types/react-native-text-input-mask": "^0.7.5",
     "@types/react-redux": "^7.1.16",
     "@types/react-test-renderer": "^16.9.2",

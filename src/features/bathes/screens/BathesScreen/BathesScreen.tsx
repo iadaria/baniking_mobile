@@ -31,7 +31,6 @@ import NotFound from './NotFound';
 import CancelLink from './CancelLink';
 import UpdateRequestButton from './UpdateRequestButton';
 import routes from '~/src/navigation/helpers/routes';
-import { ILocation } from '~/src/app/models/user';
 import usePermission from '~/src/app/hooks/usePermission';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useGeolocation } from '../../hooks/useGeolocation';
@@ -129,7 +128,8 @@ export function BathesScreenContainer({
   useEffect(() => {
     // by Daria need delete
     if (bathes?.length) {
-      navigation.navigate(routes.bathesTab.DestinationMap, { ...bathes[0] });
+      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+      // navigation.navigate(routes.bathesTab.DestinationMap, { ...bathes[0] });
     }
   }, [bathes, navigation]);
 
@@ -164,6 +164,10 @@ export function BathesScreenContainer({
     }
   }
 
+  const handleOpenBath = (bath: IBath) => {
+    navigation.navigate(routes.bathesTab.BathScreen, { ...bath });
+  };
+
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
   const hasQuery = (checkParams: TPartBathParams) => checkParams.hasOwnProperty('search_query');
@@ -173,13 +177,15 @@ export function BathesScreenContainer({
       const map = maps.find((map: IMap) => map.bathId === item.id);
       const distance: number = map?.distance || 0;
       return (
-        <BathItem
-          key={`item-${index}`}
-          bath={item}
-          distance={distance}
-          updateBath={updateBath}
-          persistImage={persistImage}
-        />
+        <TouchableOpacity onPress={handleOpenBath.bind(null, item)}>
+          <BathItem
+            key={`item-${index}`}
+            bath={item}
+            distance={distance}
+            updateBath={updateBath}
+            persistImage={persistImage}
+          />
+        </TouchableOpacity>
       );
     },
     // В зависимостях должно быть userLocation

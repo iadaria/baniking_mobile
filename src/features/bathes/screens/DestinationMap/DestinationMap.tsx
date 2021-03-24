@@ -3,7 +3,6 @@ import { Route } from '@react-navigation/native';
 import MapView, { Polyline as MapPolyline, Marker } from 'react-native-maps';
 import PolyLine from '@mapbox/polyline';
 import NoPermissionPart from './NoPermissionPart';
-import MapScreen from './MapScreen';
 import { View, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import usePermission from '~/src/app/hooks/usePermission';
@@ -16,6 +15,7 @@ import { ILocation } from '~/src/app/models/user';
 import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
 import { MarkerIcon } from '~/src/assets';
+import MapScreen from '../../components/MapScreen';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -35,14 +35,12 @@ const testBath: IBath = { latitude: 55.832871, longitude: 37.3031741 };
 export function DestinationMap({ route }: IProps) {
   const [customeNeedCheck, setCustomeNeedCheck] = useState<boolean>(false);
   const [localPermission, setLocalPermission] = useState(false);
-  // const [points, setPoints] = useState<string | null>(null);
+  //const [fit, setFit] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState<ILocation[]>([]);
   const { location } = useSelector(({ auth }: IRootState) => auth.currentUser) || test;
   const map = createRef<MapView>();
 
   const bath: IBath | undefined = route?.params || testBath;
-
-  console.log(bath);
 
   usePermission({
     permission_type: PERMISSION_TYPE.location,
@@ -58,9 +56,9 @@ export function DestinationMap({ route }: IProps) {
     permission: localPermission,
   });
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log('[DestinationMap/points]', destinationCoords);
-  }, [destinationCoords]);
+  }, [destinationCoords]); */
 
   const requestPoint = useCallback(() => {
     const { latitude, longitude } = bath || {};
@@ -79,10 +77,12 @@ export function DestinationMap({ route }: IProps) {
               longitude: point[1],
             }));
             setDestinationCoords(latLng);
-            map.current?.fitToElements(true);
-            map.current?.fitToCoordinates(latLng, {
-              edgePadding: { top: 40, bottom: 40, left: 40, right: 40 },
-            });
+            setTimeout(() => {
+              map.current?.fitToElements(true);
+              map.current?.fitToCoordinates(latLng, {
+                edgePadding: { top: 40, bottom: 40, left: 40, right: 40 },
+              });
+            }, 1500);
           }
           // setPoints(result);
         })
@@ -91,6 +91,12 @@ export function DestinationMap({ route }: IProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bath, location]);
 
+  /* useEffect(() => {
+    setTimeout(() => {
+      setFit(true);
+    }, 1000);
+  }, []); */
+
   useEffect(() => {
     if (bath && location) {
       requestPoint();
@@ -98,19 +104,22 @@ export function DestinationMap({ route }: IProps) {
   }, [bath, location, requestPoint]);
 
   useEffect(() => {
-    if (map.current) {
+    setTimeout(() => {
       map.current?.fitToElements(true);
       map.current?.fitToCoordinates(destinationCoords, {
         edgePadding: { top: 40, bottom: 40, left: 40, right: 40 },
       });
-    }
+    }, 1000);
   }, [destinationCoords, map]);
 
   if (!localPermission) {
     return <NoPermissionPart setNeedCheck={setCustomeNeedCheck.bind(null, true)} />;
   }
 
-  console.log('[DestinationMap/userLocation]', location, localPermission);
+  // console.log('[DestinationMap/userLocation]', location, localPermission);
+  const test = () => {
+    map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } });
+  };
 
   if (!location) {
     return null;
@@ -122,14 +131,20 @@ export function DestinationMap({ route }: IProps) {
     polyline = <MapPolyline coordinates={destinationCoords} strokeWidth={4} strokeColor="#000" />;
     marker = (
       <Marker coordinate={destinationCoords[destinationCoords.length - 1]}>
-        <Image source={MarkerIcon} />
+        <Image source={MarkerIcon} width={wp(15)} height={wp(15)} />
       </Marker>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <MapScreen ref={map} userLatitude={location?.latitude} userLongitude={location?.longitude}>
+    <View style={[styles.container]}>
+      <MapScreen
+        //style={[styles.container]}
+        onMapReady={test}
+        style={styles.container}
+        ref={map}
+        userLatitude={location?.latitude}
+        userLongitude={location?.longitude}>
         {polyline}
         {marker}
       </MapScreen>
