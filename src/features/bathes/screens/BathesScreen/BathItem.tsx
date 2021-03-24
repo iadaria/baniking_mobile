@@ -4,10 +4,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Stars } from '~/src/app/common/components/Stars';
-import { AppText } from '~/src/app/common/components/UI';
+import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
-import { cacheImage, getRandomBathImage } from '~/src/app/utils/bathUtility';
+import { cacheImage, getRandomBathImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
 import { isAndroid } from '~/src/app/utils/system';
@@ -109,6 +109,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
   const androidStyle = isAndroid ? { marginLeft: wp(5) } : {};
   const kms = distance > 0 ? (distance / 1000).toFixed(1) : null;
 
+
   return (
     <AnimatedImage
       key={bath.id}
@@ -127,7 +128,8 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
         <AppText secondary tag>
           {short_description && `${short_description.substring(0, 45)} ...`}
         </AppText>
-        <Stars rating={rating} />
+        {!isNonRating(rating) ? <Stars rating={rating} /> : <Block style={{ height: wp(5) }} />}
+        {/* <Stars rating={rating} /> */}
         <AppText lightUltra tag color={colors.bath.address}>
           {address}
           <AppText medium secondary>

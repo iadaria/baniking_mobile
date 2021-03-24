@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes, fonts } from '~/src/app/common/constants';
+import { colors, sizes } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   searchWrapper: {
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'relative',
-    minHeight: wp(43),
+    minHeight: wp(38), //43
     marginTop: wp(3),
     justifyContent: 'center',
     // marginLeft: wp(5),
@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
     top: wp(3.8),
   },
   temporaryImg: {
-    height: wp(43),
+    height: wp(38), // 43
     position: 'absolute',
     right: 0,
     borderRadius: 7,

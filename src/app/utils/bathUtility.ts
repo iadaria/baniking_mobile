@@ -18,6 +18,8 @@ export const getRandomBathImage = () => {
   return images[randomDigit];
 };
 
+export const isNonRating = (rating: number) => ['0', '0.0'].indexOf(String(rating)) !== -1;
+
 export const cacheImage = async (image: string): Promise<Response> => {
   //const fileName = getFileName(image);
   //const newFileName = 'file://data/user/0/com.baniking_mobile/cache/' + replaceExtension(fileName, '.png');

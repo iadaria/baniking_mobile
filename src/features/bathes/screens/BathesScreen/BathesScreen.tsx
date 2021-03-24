@@ -82,6 +82,14 @@ export function BathesScreenContainer({
 
   const { page = 0 } = params;
 
+  // by Daria need delete
+  useEffect(() => {
+    if (bathes?.length) {
+      //navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+      // navigation.navigate(routes.bathesTab.BathesFilterScreen);
+    }
+  }, [bathes, navigation]);
+
   usePermission({
     permission_type: PERMISSION_TYPE.location,
     setGranted: setLocalPermission,
@@ -112,6 +120,7 @@ export function BathesScreenContainer({
         fetchBathes({ bathParams, moreBathes: canMoreBathes });
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* bathes, fetchBathes, page, totalBathes, */ params, connection]);
 
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
@@ -124,14 +133,6 @@ export function BathesScreenContainer({
       handleLoadMore();
     }
   }, [handleLoadMore, page, params]);
-
-  useEffect(() => {
-    // by Daria need delete
-    if (bathes?.length) {
-      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
-      // navigation.navigate(routes.bathesTab.DestinationMap, { ...bathes[0] });
-    }
-  }, [bathes, navigation]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 
@@ -246,7 +247,9 @@ export function BathesScreenContainer({
             </TouchableOpacity>
           )}
         </Block>
-        <TouchableOpacity style={styles.filter} onPress={() => console.log('filter open')}>
+        <TouchableOpacity
+          style={styles.filter}
+          onPress={() => navigation.navigate(routes.bathesTab.BathesFilterScreen)}>
           <FilterIcon />
         </TouchableOpacity>
       </Block>

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { isNonRating } from '~/src/app/utils/bathUtility';
 import { AppText, Block } from '../UI';
 import Star from './Star';
 
@@ -25,16 +26,10 @@ export function Stars({ rating }: IProps) {
       return 0;
     }
 
-    // const _active = _rating / _star > 1 ? 1 : 1 - _rating / _star;
     const _active = _rating / _star > 1 ? 1 : _rating % 1;
     // console.log(`\n rating=${_rating} star=${_star} active=${_active} rating/star=${_rating / _star}`);
     return _active;
   };
-
-  /* const getDeactive = (_rating: number, _star: number) => {
-    const _deactive = _rating / _star > 1 ? 0 : _rating / _star;
-    return _deactive;
-  }; */
 
   const stars = [1, 2, 3, 4, 5];
   return (
@@ -52,9 +47,11 @@ export function Stars({ rating }: IProps) {
           </Fragment>
         );
       })}
-      <AppText margin={[0, 0, 0, 2.5]} medium tag>
-        {rating}
-      </AppText>
+      {!isNonRating(rating) && (
+        <AppText margin={[0, 0, 0, 2.5]} medium tag>
+          {rating}
+        </AppText>
+      )}
     </Block>
   );
 }

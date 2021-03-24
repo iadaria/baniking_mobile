@@ -18,6 +18,7 @@ export interface IBathState {
   moreBathes: boolean;
   sort: EBathSort;
   filtered: boolean;
+  countFilters: number;
   params: TPartBathParams;
   retainState: boolean;
   // Comments
@@ -41,6 +42,7 @@ const initialState: IBathState = {
   moreBathes: false,
   sort: EBathSort.None,
   filtered: false,
+  countFilters: 0,
   params: defaultBathParams,
   retainState: false,
   // comments
