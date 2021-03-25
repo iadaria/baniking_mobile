@@ -7,6 +7,7 @@ import {
   TextInputFocusEventData,
   NativeSyntheticEvent,
   Keyboard,
+  ViewStyle,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { colors } from '~/src/app/common/constants';
@@ -29,7 +30,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isFocused: false,
     isVirgin: true,
   });
-  let borderColor = colors.input.border;
+  let borderColor = colors.input.borderEdit;
   const {
     // outlined,
     email,
@@ -53,6 +54,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     onBlur,
     onFocus,
     secure,
+    rightButton,
     ...otherProps
   } = props;
 
@@ -79,6 +81,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     styles.input,
     center && styles.center,
     style,
+    //{ borderColor: 'yellow', borderWidth: 1 },
     // ecure && styles.secure,
   ];
 
@@ -95,9 +98,11 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   }
 
   const inputTextAlign = center ? 'center' : 'left';
-
-  // const inputPaperStyles = [main && { selectionColor: colors.primary }, style];
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
+  const blockStyle: ViewStyle = {};
+  style?.backgroundColor && (blockStyle.backgroundColor = style?.backgroundColor);
+  style?.height && (blockStyle.height = Number(style?.height) + 2);
+  style?.borderRadius && (blockStyle.borderRadius = style?.borderRadius);
 
   function handleBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {
     onBlur && onBlur(e);
@@ -131,6 +136,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         color={style?.color as string}
         props={props}
         center={center}
+        //borderColor={borderColor}>
         borderColor={borderColor}>
         <TextInputMask
           ref={newRef}
@@ -160,7 +166,9 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       color={style?.color as string}
       props={props}
       center={center}
-      borderColor={borderColor}>
+      borderColor={borderColor}
+      blockStyle={blockStyle}
+      rightButton={rightButton}>
       <TextInput
         ref={newRef}
         style={inputStyles}

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 import { Block } from '../Block';
 import { AppSecure } from './AppSecure';
 import AppInputLabel from './AppInputLabel';
@@ -6,8 +6,8 @@ import AppInputError from './AppInputError';
 import { IAppInputProps } from '~/src/app/models/ui/input';
 import { sizes } from '~/src/app/common/constants/sizes';
 import { IAppInputStates } from './AppInput';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { colors } from '~/src/app/common/constants/colors';
+import { StyleProp, ViewStyle } from 'react-native';
+import { styles } from './styles';
 
 interface IProps<T> {
   states: IAppInputStates;
@@ -17,8 +17,10 @@ interface IProps<T> {
   secure?: boolean;
   children: JSX.Element;
   color?: string;
-  borderColor: string;
+  //borderColor: string;
+  blockStyle: StyleProp<ViewStyle>;
   center?: boolean;
+  rightButton?: ReactNode;
 }
 
 export const AppInputWrapper = <T extends {}>({
@@ -29,12 +31,14 @@ export const AppInputWrapper = <T extends {}>({
   secure,
   color,
   borderColor,
+  blockStyle,
   center,
   // inputStyle,
   children,
+  rightButton,
 }: IProps<T>): JSX.Element => {
   const dynamicStyle: StyleProp<ViewStyle> = [
-    secure && { flexDirection: 'row' },
+    (secure || !!rightButton) && { flexDirection: 'row', alignItems: 'center' },
     center && { justifyContent: 'center' },
   ];
   // console.log('[AppInputWrapper] inputStyle', inputStyle);
@@ -42,11 +46,12 @@ export const AppInputWrapper = <T extends {}>({
   return (
     <>
       <Block
-        style={[styles.block, { borderColor }, dynamicStyle]}
+        style={[styles.block, blockStyle, { borderColor }, dynamicStyle]}
         onLayout={props.onLayout}
         margin={[sizes.input.top, 0, !props.error ? sizes.input.top : 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
         {children}
+        {rightButton}
         <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
       </Block>
       <AppInputError
@@ -57,17 +62,7 @@ export const AppInputWrapper = <T extends {}>({
         isFocused={states.isFocused}
         isTouched={props.touched || states.isTouched}
         isVirgin={states.isVirgin}
-        // isFirstTouched={!!props.touched && !isTouched}
-        // {...props}
       />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  block: {
-    borderWidth: 0.8,
-    borderRadius: sizes.input.big.radius,
-    borderColor: colors.input.border,
-  },
-});

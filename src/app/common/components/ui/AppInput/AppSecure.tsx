@@ -37,13 +37,5 @@ const styles = StyleSheet.create({
     width: wp(WIDTH_EYE_BUTTON),
     right: 0,
     height: hp(sizes.input.big.height),
-    // backgroundColor: 'transparent',
-    // flex: 1,
-    // position: 'absolute',
-    // alignItems: 'flex-end',
-    // top: wp(sizes.input.hight / 1.5),
-    // right: wp(sizes.input.paddingHorizontal),
-    //borderColor: 'red',
-    // borderWidth: 1,
   },
 });

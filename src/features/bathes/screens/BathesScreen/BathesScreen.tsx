@@ -86,7 +86,7 @@ export function BathesScreenContainer({
   useEffect(() => {
     if (bathes?.length) {
       //navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
-      // navigation.navigate(routes.bathesTab.BathesFilterScreen);
+      navigation.navigate(routes.bathesTab.BathesFilterScreen);
     }
   }, [bathes, navigation]);
 

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle } from 'react-native';
+import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle, ViewProps } from 'react-native';
 
 export interface IAppInputProps<T> extends IUiInput {
   id?: keyof T; // id: keyof typeof defaultInputs;
@@ -18,16 +18,16 @@ export interface IUiInput extends TextInputProps {
   label?: string;
   error?: string;
   secure?: boolean;
-  rightLabel?: JSX.Element;
-  rightStyle?: object;
-  onRightPress?: Function;
+  /* rightStyle?: object;
+  onRightPress?: Function; */
+  rightButton?: ReactNode;
   email?: boolean;
   phone?: boolean;
   number?: boolean;
   placeholder?: string;
   // styles
   center?: boolean;
-  style?: TextStyle;
+  style?: TextStyle & ViewProps;
   mask?: string;
   textFocus?: boolean;
   // others
@@ -43,4 +43,5 @@ export interface IInputStyleProps {
   // styles
   center: object;
   secure: object;
+  block: object;
 }

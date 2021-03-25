@@ -17,7 +17,6 @@ export function useBackward({ navigation, route, screens, screen }: IProps) {
   const exceptsFrom = ['SettingsMenuScreen', 'CabinetScreen'];
   const exceptsTo = ['LoginScreen', 'RegisterScreen', 'ResetPasswordScreen'];
 
-
   useEffect(() => {
     console.log('[useBackward/screen !!!!!!!]', name);
     if (name && screen && screens.includes(name) && !exceptsTo.includes(name)) {
