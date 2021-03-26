@@ -21,8 +21,8 @@ interface IResult {
 }
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
-  console.log('[fetchBathesSaga]', payload.bathParams);
-  console.log('[fetchBathesSaga]', payload);
+  /* console.log('[fetchBathesSaga]', payload.bathParams);
+  console.log('[fetchBathesSaga]', payload); */
   try {
     if (moreBathes) {
       const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);

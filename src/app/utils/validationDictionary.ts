@@ -47,6 +47,12 @@ export const validationDictionary = {
     },
   },
 
+  common: {
+    presence: {
+      allowEmpty: true,
+    },
+  },
+
   integer: {
     presence: {
       allowEmpty: false,

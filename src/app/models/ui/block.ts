@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
-export interface IUiBlock extends ViewProps {
+export interface IUiBlock<T> extends ViewProps {
+  id?: keyof T; // id: keyof typeof defaultInputs;
   full?: boolean;
   flex?: number;
   debug?: boolean;

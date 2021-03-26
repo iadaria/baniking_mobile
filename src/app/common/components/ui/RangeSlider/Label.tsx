@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
     padding: 8,
-    backgroundColor: '#4499ff',
     borderRadius: 4,
+    opacity: 1,
   },
   text: {
     fontSize: 16,

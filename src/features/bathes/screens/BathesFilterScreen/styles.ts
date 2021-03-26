@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { colors } from '~/src/app/common/constants';
-import { sizes } from '../../../../app/common/constants/sizes';
+import { sizes } from '~/src/app/common/constants/sizes';
 
 export const styles = StyleSheet.create({
   button: {
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   input: {
-    width: wp(18),
+    width: wp(14),
     color: colors.text.base,
     fontSize: wp(sizes.font.label),
     paddingLeft: wp(3),
@@ -43,4 +43,11 @@ export const styles = StyleSheet.create({
     width: wp(8),
     height: hp(sizes.input.big.height * 0.9),
   },
+  slider: {
+    /* borderWidth: 1,
+    borderColor: 'red', */
+  },
+  block: {
+    flexDirection: 'row',
+  }
 });

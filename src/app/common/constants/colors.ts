@@ -56,6 +56,10 @@ export const colors = {
 
   divider: '#252527',
 
+  slider: {
+    rail: '#707070',
+  },
+
   bath: {
     starDisabled: '#2F3236',
     phoneBorder: '#D9B384',
