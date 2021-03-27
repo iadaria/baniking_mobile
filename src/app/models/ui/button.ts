@@ -12,4 +12,6 @@ export interface IUiButton extends TouchableOpacityProps {
   newRef?: RefObject<TouchableOpacity>;
   //[key: string]: any;
   // native
+  padding?: number | number[];
+  margin?: number | number[];
 }

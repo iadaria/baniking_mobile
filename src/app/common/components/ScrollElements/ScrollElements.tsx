@@ -11,7 +11,6 @@ import { IInput } from '~/src/app/models/validate';
 import { sizes } from '../../constants/sizes';
 
 interface IChild<T> extends JSX.Element {}
-type TChild<T> = IChild<T> | IChild<T>[];
 
 interface IProps<T> {
   children?: ReactNode;
@@ -39,11 +38,11 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
+    // console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
+      // console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollViewRef?.current?.scrollTo({
@@ -54,11 +53,11 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
       }, delay);
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
-      console.log(
-        `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
-      );
       const newCoordinat = yCoordinate! - 100;
       const delay = Platform.OS === 'ios' ? 10 : 150;
+      /* console.log(
+        `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
+      ); */
       setTimeout(() => {
         scrollViewRef?.current?.scrollTo({
           x: 0,
@@ -69,9 +68,9 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
-  }, [scrollPosition]);
+  }, [scrollPosition]); */
 
   function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {
     const updatedInputs: T /* IInputs  */ = { ...inputs };
@@ -104,7 +103,7 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
     return React.Children.map(_children as IChild<T>[], (child: IChild<T>) => {
       const { id, isScrollToFocused } = child.props;
 
-      if (isBlock(child) && id && scrollViewRef) {
+      if (id && isBlock(child)) {
         const clonedChildren = renderChildren(child.props.children, id);
         return React.cloneElement(child, {
           onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
@@ -113,7 +112,7 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
           children: clonedChildren,
         });
       }
-      if (isElement(child) && scrollViewRef && isScrollToFocused) {
+      if (isElement(child) && isScrollToFocused) {
         const inputRef = React.createRef<JSX.Element>();
         inputRefs.push(inputRef);
 

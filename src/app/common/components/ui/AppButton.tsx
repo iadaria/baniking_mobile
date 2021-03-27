@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IUiButton, IUiText } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
+import { handleMargins, handlePaddings } from '~/src/app/utils/ui';
 
 interface IChild extends JSX.Element, IUiText {}
 
@@ -14,6 +15,8 @@ export function AppButton(props: IUiButton) {
     shadow,
     children,
     // property of Button
+    padding,
+    margin,
     disabled = false,
     newRef,
     ...other
@@ -27,6 +30,8 @@ export function AppButton(props: IUiButton) {
     color && styles[color as keyof typeof styles], // predefined styles colors for backgroundColor
     color && !styles[color as keyof typeof styles] && { backgroundColor: color }, // custom backgroundColor
     disabled && styles.disabled,
+    margin && { ...handleMargins(margin) },
+    padding && { ...handlePaddings(padding) },
     // yellow && styles.yellow,
   ];
 

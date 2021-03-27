@@ -17,9 +17,11 @@ export const styles = StyleSheet.create({
   element: {
     backgroundColor: '#121213',
     paddingVertical: wp(2.2),
-    paddingHorizontal: wp(3),
+    paddingHorizontal: wp(3.5),
     borderRadius: sizes.radius,
     alignSelf: 'flex-start',
+    marginRight: wp(1),
+    marginBottom: wp(1),
   },
   input: {
     width: wp(14),
