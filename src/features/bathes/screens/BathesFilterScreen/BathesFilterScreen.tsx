@@ -7,13 +7,20 @@ import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import ScrollElements from '~/src/app/common/components/ScrollElements/ScrollElements';
 import { defaultFilterInputs } from '../contracts/filterInputs';
 import { bathSteamRooms, bathServices, bathZones } from '~/src/app/models/bath';
-import { bathType } from '../../../../app/models/bath';
+import { bathType } from '~/src/app/models/bath';
+import { useDispatch } from 'react-redux';
+import { getBathParams } from '../../store/bathActions';
 
 export function BathesFilterScreen() {
+  const dispatch = useDispatch();
   const [lowPrice, setLowPrice] = useState(90);
   const [highPrice, setHighPrice] = useState(300);
   const [lowRating, setLowRating] = useState(2);
   const [highRating, setHighRating] = useState(5);
+
+  useEffect(() => {
+    dispatch(getBathParams());
+  }, [dispatch]);
 
   /* useEffect(() => {
     console.log('[BathesFilterScreen]', lowPrice, highPrice);

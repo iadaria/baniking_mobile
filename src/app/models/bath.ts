@@ -161,6 +161,12 @@ export interface IMap {
 }
 
 // Filters
+export interface IBathParamsResponse {
+  types: EBathType[];
+  zones: Map<number, string>;
+  services: Map<number, string>;
+  streamRooms: Map<number, string>;
+}
 
 export enum EBathType {
   Economy = 'Economy',

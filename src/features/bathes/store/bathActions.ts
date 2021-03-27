@@ -35,6 +35,10 @@ export const reuseBathes = () => ({
   type: constants.REUSE_BATHES,
 });
 
+export const getBathParams = () => ({
+  type: constants.GET_BATH_PARAMS,
+});
+
 // Bathes Filter
 export const setFilter = (payload: { params: TPartBathParams }) => ({
   type: constants.SET_FILTER,

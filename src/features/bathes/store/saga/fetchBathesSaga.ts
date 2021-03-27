@@ -1,5 +1,5 @@
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { call, put, takeLatest, select, fork, takeEvery } from 'redux-saga/effects';
+import { call, put, select, fork, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { IBath, IBathAction, IDistanceResponse, IMap, TPartDistanceParams } from '~/src/app/models/bath';

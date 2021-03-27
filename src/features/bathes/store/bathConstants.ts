@@ -15,6 +15,8 @@ export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';
 export const SET_SORT = 'bath/SET_SORT';
+export const GET_BATH_PARAMS = 'bath/GET_BATH_PARAMS';
+export const SET_BATH_PARAMS = 'bath/SET_BATH_PARAMS';
 // Comments
 export const FETCH_BATH_COMMENTS = 'bath/FETCH_BATH_COMMENTS';
 export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
