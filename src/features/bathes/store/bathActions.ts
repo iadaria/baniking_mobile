@@ -1,7 +1,6 @@
 import * as constants from './bathConstants';
-import { EBathSort, IBath, IMap, TPartBathParams } from '~/src/app/models/bath';
+import { EBathSort, IBath, IMap, TPartBathParams, IBathAction, IBathParamsVariety } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
-import { IBathAction } from '~/src/app/models/bath';
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,
@@ -35,8 +34,13 @@ export const reuseBathes = () => ({
   type: constants.REUSE_BATHES,
 });
 
-export const getBathParams = () => ({
-  type: constants.GET_BATH_PARAMS,
+export const getBathParamsVariety = () => ({
+  type: constants.GET_BATH_PARAMS_VARIETY,
+});
+
+export const setBathParamsVariety = (paramsVariety: IBathParamsVariety) => ({
+  type: constants.SET_BATH_PARAMS_VARIETY,
+  payload: paramsVariety,
 });
 
 // Bathes Filter

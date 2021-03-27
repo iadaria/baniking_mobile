@@ -9,7 +9,7 @@ import { defaultFilterInputs } from '../contracts/filterInputs';
 import { bathSteamRooms, bathServices, bathZones } from '~/src/app/models/bath';
 import { bathType } from '~/src/app/models/bath';
 import { useDispatch } from 'react-redux';
-import { getBathParams } from '../../store/bathActions';
+import { getBathParamsVariety } from '../../store/bathActions';
 
 export function BathesFilterScreen() {
   const dispatch = useDispatch();
@@ -19,8 +19,9 @@ export function BathesFilterScreen() {
   const [highRating, setHighRating] = useState(5);
 
   useEffect(() => {
-    dispatch(getBathParams());
-  }, [dispatch]);
+    dispatch(getBathParamsVariety());
+    //console.log(bathType);
+  }, []);
 
   /* useEffect(() => {
     console.log('[BathesFilterScreen]', lowPrice, highPrice);

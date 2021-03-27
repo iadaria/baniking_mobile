@@ -1,17 +1,19 @@
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
-import { IBathParamsResponse } from '~/src/app/models/bath';
-import { GET_BATH_PARAMS } from '../bathConstants';
+import { GET_BATH_PARAMS_VARIETY } from '../bathConstants';
+import { setBathParamsVariety } from '../bathActions';
+import { IBathParamsVariety } from '~/src/app/models/bath';
 
 function* getBathParamsSaga() {
   try {
-    const r: IBathParamsResponse = yield call(methods.getBathParams, null, null);
-    console.log('[getBathParamsSaga]', r);
+    const params: IBathParamsVariety = yield call(methods.getBathParams, null, null);
+    console.log({ params });
+    yield put(setBathParamsVariety(params));
   } catch (error) {
     console.log('[getBathParamsSaga]', error);
   }
 }
 
 export default function* listener() {
-  yield takeEvery(GET_BATH_PARAMS, getBathParamsSaga);
+  yield takeEvery(GET_BATH_PARAMS_VARIETY, getBathParamsSaga);
 }

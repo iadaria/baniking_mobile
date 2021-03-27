@@ -1,7 +1,14 @@
 import { IErrors } from '~/src/app/utils/error';
-import { IBath, TPartBathParams, defaultBathParams, EBathSort, FILTER_KEYS } from '~/src/app/models/bath';
+import {
+  IBath,
+  TPartBathParams,
+  defaultBathParams,
+  EBathSort,
+  FILTER_KEYS,
+  IBathParamsResponse,
+  IMap,
+} from '~/src/app/models/bath';
 import * as constants from './bathConstants';
-import { IMap } from '../../../app/models/bath';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -20,6 +27,7 @@ export interface IBathState {
   filtered: boolean;
   countFilters: number;
   params: TPartBathParams;
+  paramsVariety: IBathParamsResponse | null;
   retainState: boolean;
   // Comments
   comments: string[];
@@ -44,6 +52,7 @@ const initialState: IBathState = {
   filtered: false,
   countFilters: 0,
   params: defaultBathParams,
+  paramsVariety: null,
   retainState: false,
   // comments
   comments: [],
@@ -131,6 +140,12 @@ export default function bathReducer(
       return {
         ...state,
         retainState: true,
+      };
+
+    case constants.SET_BATH_PARAMS_VARIETY:
+      return {
+        ...state,
+        paramsVariety: payload,
       };
 
     // Bath

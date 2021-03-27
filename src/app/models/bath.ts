@@ -163,9 +163,16 @@ export interface IMap {
 // Filters
 export interface IBathParamsResponse {
   types: EBathType[];
+  zones: object;
+  services: object;
+  steamRooms: object;
+}
+
+export interface IBathParamsVariety {
+  types: EBathType[];
   zones: Map<number, string>;
   services: Map<number, string>;
-  streamRooms: Map<number, string>;
+  steamRooms: Map<number, string>;
 }
 
 export enum EBathType {
