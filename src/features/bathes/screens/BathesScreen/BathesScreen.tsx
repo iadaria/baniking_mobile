@@ -85,8 +85,8 @@ export function BathesScreenContainer({
   // by Daria need delete
   useEffect(() => {
     if (bathes?.length) {
-      //navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
-      navigation.navigate(routes.bathesTab.BathesFilterScreen);
+      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+      // navigation.navigate(routes.bathesTab.BathesFilterScreen);
     }
   }, [bathes, navigation]);
 
@@ -120,7 +120,7 @@ export function BathesScreenContainer({
         fetchBathes({ bathParams, moreBathes: canMoreBathes });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* bathes, fetchBathes, page, totalBathes, */ params, connection]);
 
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {

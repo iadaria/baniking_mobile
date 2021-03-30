@@ -7,7 +7,7 @@ import routes from '~/src/navigation/helpers/routes';
 import { setAuthToken } from '../authActions';
 
 function* checkAuthSaga() {
-  const token = yield select((state: IRootState) => state.persist.token);
+  const token: string | null = yield select((state: IRootState) => state.persist.token);
   console.log('[checkAuthSaga] token = ', token);
   if (token) {
     yield tokenToHeaders(token);

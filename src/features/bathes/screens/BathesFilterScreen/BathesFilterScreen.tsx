@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
-import { styles } from './styles';
-import { CloseFilerIcon } from '~/src/assets';
 import { RightButton } from './RightButton';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import ScrollElements from '~/src/app/common/components/ScrollElements/ScrollElements';
 import { defaultFilterInputs } from '../contracts/filterInputs';
-import { bathSteamRooms, bathServices, bathZones } from '~/src/app/models/bath';
-import { bathType } from '~/src/app/models/bath';
-import { useDispatch } from 'react-redux';
-import { getBathParamsVariety } from '../../store/bathActions';
+import { IBathParamsVariety, bathType } from '~/src/app/models/bath';
+import { getBathParamsVariety as getBathParamsVarietyAction } from '../../store/bathActions';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { CloseFilerIcon } from '~/src/assets';
+import { styles } from './styles';
 
-export function BathesFilterScreen() {
-  const dispatch = useDispatch();
+interface IProps {
+  paramsVariety: IBathParamsVariety | null;
+  getBathParamsVariety: () => void;
+}
+
+function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IProps) {
   const [lowPrice, setLowPrice] = useState(90);
   const [highPrice, setHighPrice] = useState(300);
   const [lowRating, setLowRating] = useState(2);
   const [highRating, setHighRating] = useState(5);
 
-  useEffect(() => {
-    dispatch(getBathParamsVariety());
-    //console.log(bathType);
-  }, []);
+  const { zones, services, steamRooms } = paramsVariety || {};
 
-  /* useEffect(() => {
-    console.log('[BathesFilterScreen]', lowPrice, highPrice);
-  }, [lowPrice, highPrice]); */
+  useEffect(() => {
+    if (!paramsVariety) {
+      getBathParamsVariety();
+    }
+    console.log(JSON.stringify(paramsVariety, null, 4));
+  }, [getBathParamsVariety, paramsVariety]);
 
   return (
     <ScrollElements defaultInputs={defaultFilterInputs}>
@@ -118,33 +122,36 @@ export function BathesFilterScreen() {
         Виды парной
       </AppText>
       <Block row wrap>
-        {bathSteamRooms.map((steam: string, index: number) => (
-          <AppText key={`item-${index}`} style={[styles.element]} tag>
-            {steam}
-          </AppText>
-        ))}
+        {steamRooms &&
+          Array.from(steamRooms, ([key, value]) => (
+            <AppText key={`item-${key}`} style={[styles.element]} tag>
+              {value}
+            </AppText>
+          ))}
       </Block>
       {/* Сервис */}
       <AppText margin={[3, 0, 2]} secondary>
         Сервис
       </AppText>
       <Block row wrap>
-        {bathServices.map((steam: string, index: number) => (
-          <AppText key={`item-${index}`} style={[styles.element]} tag>
-            {steam}
-          </AppText>
-        ))}
+        {services &&
+          Array.from(services, ([key, value]) => (
+            <AppText key={`item-${key}`} style={[styles.element]} tag>
+              {value}
+            </AppText>
+          ))}
       </Block>
       {/* Аквазоны */}
       <AppText margin={[3, 0, 2]} secondary>
         Аквазоны
       </AppText>
       <Block row wrap>
-        {bathZones.map((steam: string, index: number) => (
-          <AppText key={`item-${index}`} style={[styles.element]} tag>
-            {steam}
-          </AppText>
-        ))}
+        {zones &&
+          Array.from(zones, ([key, value]) => (
+            <AppText key={`item-${key}`} style={[styles.element]} tag>
+              {value}
+            </AppText>
+          ))}
       </Block>
       {/* Уровни */}
       <AppText margin={[3, 0, 2]} secondary>
@@ -152,6 +159,12 @@ export function BathesFilterScreen() {
       </AppText>
       <Block row wrap>
         {/* {bathType.forEach((value, key, map) => console.log(value, key))} */}
+        {steamRooms &&
+          Array.from(steamRooms, ([key, value]) => (
+            <AppText key={`item-${key}`} style={[styles.element]} tag>
+              {value}
+            </AppText>
+          ))}
         {Array.from(bathType, ([key, value]) => (
           <AppText key={`${key}`} style={[styles.element]} tag>
             {value}
@@ -166,3 +179,14 @@ export function BathesFilterScreen() {
     </ScrollElements>
   );
 }
+
+const BathesFilterScreenConnected = connect(
+  ({ bath }: IRootState) => ({
+    paramsVariety: bath.paramsVariety,
+  }),
+  {
+    getBathParamsVariety: getBathParamsVarietyAction,
+  },
+)(BathesFilterScreenContainer);
+
+export { BathesFilterScreenConnected as BathesFilterScreen };

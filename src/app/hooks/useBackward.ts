@@ -14,6 +14,7 @@ interface IProps {
 export function useBackward({ navigation, route, screens, screen }: IProps) {
   const dispatch = useDispatch();
   const name = getFocusedRouteNameFromRoute(route);
+  __DEV__ && console.log('[useBakward/name screen]', name);
   const exceptsFrom = ['SettingsMenuScreen', 'CabinetScreen'];
   const exceptsTo = ['LoginScreen', 'RegisterScreen', 'ResetPasswordScreen'];
 

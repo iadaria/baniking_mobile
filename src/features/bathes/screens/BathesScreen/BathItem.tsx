@@ -109,7 +109,6 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
   const androidStyle = isAndroid ? { marginLeft: wp(5) } : {};
   const kms = distance > 0 ? (distance / 1000).toFixed(1) : null;
 
-
   return (
     <AnimatedImage
       key={bath.id}

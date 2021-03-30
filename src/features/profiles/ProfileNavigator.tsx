@@ -16,8 +16,8 @@ export default function ProfileNavigator({ navigation, route }: IScreenOptionsPr
   useBackward({ navigation, route, screens, screen: null }); */
   return (
     <Profile.Navigator screenOptions={{ headerShown: false }}>
-      <Profile.Screen name="ProfileScreen" component={NotificationsScreen} />
       <Profile.Screen name="CabinetScreen" component={CabinetScreen} />
+      <Profile.Screen name="ProfileScreen" component={NotificationsScreen} />
     </Profile.Navigator>
   );
 }

@@ -1,10 +1,7 @@
 import { DefaultTheme } from '@react-navigation/native';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { Dimensions, StyleProp, ViewStyle } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { colors, sizes } from '~/src/app/common/constants';
 
 const { width } = Dimensions.get('window');

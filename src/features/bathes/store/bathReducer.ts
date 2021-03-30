@@ -5,7 +5,7 @@ import {
   defaultBathParams,
   EBathSort,
   FILTER_KEYS,
-  IBathParamsResponse,
+  IBathParamsVariety,
   IMap,
 } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
@@ -27,7 +27,7 @@ export interface IBathState {
   filtered: boolean;
   countFilters: number;
   params: TPartBathParams;
-  paramsVariety: IBathParamsResponse | null;
+  paramsVariety: IBathParamsVariety | null;
   retainState: boolean;
   // Comments
   comments: string[];
@@ -105,6 +105,7 @@ export default function bathReducer(
     case constants.CLEAR_BATHS:
       return {
         ...state,
+        bathIds: [],
         bathes: [],
         oldBathes: state.bathes,
         moreBathes: true,

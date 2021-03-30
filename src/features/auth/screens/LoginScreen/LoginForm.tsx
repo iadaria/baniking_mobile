@@ -12,7 +12,7 @@ import {
   emailLogin as emailLoginAction,
 } from '~/src/features/auth/store/authActions';
 import { ICredential } from '~/src/app/models/user';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 
@@ -80,7 +80,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
       <AppInput center id="password" placeholder="Введите пароль" maxLength={50} secure />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>
-          <SwitcherIcon fill={isPersist ? colors.secondary : colors.disable} />
+          <SwitcherIcon width={21 * multiplier} fill={isPersist ? colors.secondary : colors.disable} />
         </TouchableOpacity>
         {/* Gelroy medium 14 */}
         <Block row wrap margin={[0, 0, 0, 2]}>

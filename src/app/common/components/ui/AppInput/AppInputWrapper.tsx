@@ -17,7 +17,7 @@ interface IProps<T> {
   secure?: boolean;
   children: JSX.Element;
   color?: string;
-  //borderColor: string;
+  borderColor: string;
   blockStyle: StyleProp<ViewStyle>;
   center?: boolean;
   rightButton?: ReactNode;

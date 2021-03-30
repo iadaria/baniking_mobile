@@ -170,9 +170,9 @@ export interface IBathParamsResponse {
 
 export interface IBathParamsVariety {
   types: EBathType[];
-  zones: Map<number, string>;
-  services: Map<number, string>;
-  steamRooms: Map<number, string>;
+  zones: Map<string, string>;
+  services: Map<string, string>;
+  steamRooms: Map<string, string>;
 }
 
 export enum EBathType {

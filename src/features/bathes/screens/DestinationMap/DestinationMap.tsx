@@ -14,7 +14,7 @@ import { IBath, TPartDirectionsParams } from '~/src/app/models/bath';
 import { ILocation } from '~/src/app/models/user';
 import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
-import { MarkerIcon, MarkerIconSvg } from '~/src/assets';
+import { MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
 
 export interface IProps {

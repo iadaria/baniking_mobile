@@ -30,7 +30,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     isFocused: false,
     isVirgin: true,
   });
-  let borderColor = colors.input.borderEdit;
+  let borderColor = colors.input.border;
   const {
     // outlined,
     email,
