@@ -22,6 +22,8 @@ interface IProps {
   authenticated: boolean;
   backwardStack: string[];
   points: number;
+  // currentScreen?: string;
+  isTransparent: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
   pullBackward: () => void;
@@ -41,6 +43,7 @@ function MainNavigatorContainer({
   isBackward,
   backwardStack,
   points,
+  isTransparent,
   openDrawer,
   closeDrawer,
   pullBackward,
@@ -78,6 +81,7 @@ function MainNavigatorContainer({
             points,
             navigation,
             route,
+            isTransparent,
             onCloseDrawer,
             onOpenDrawer,
             pullBackward,
@@ -92,11 +96,13 @@ function MainNavigatorContainer({
 
 export default connect(
   ({ system, auth }: IRootState) => ({
+    authenticated: auth.authenticated,
     isDrawerOpen: system.header.isDrawerOpen,
     isBackward: system.header.isBackward,
-    authenticated: auth.authenticated,
     backwardStack: system.header.backwardStack,
     points: system.header.points,
+    // currentScreen: system.header.currentScreen,
+    isTransparent: system.header.isTransparent,
   }),
   {
     openDrawer: openDrawerAction,

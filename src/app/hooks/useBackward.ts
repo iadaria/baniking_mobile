@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { disableBackward, enableBackward, pushBackward } from '~/src/app/store/system/systemActions';
+import { setCurrentScreen } from '../store/system/systemActions';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -19,7 +20,10 @@ export function useBackward({ navigation, route, screens, screen }: IProps) {
   const exceptsTo = ['LoginScreen', 'RegisterScreen', 'ResetPasswordScreen'];
 
   useEffect(() => {
-    // console.log('[useBackward/screen !!!!!!!]', name);
+    if (name) {
+      dispatch(setCurrentScreen(name));
+    }
+    //console.log('[useBackward/screen !!!!!!!]', navigation?.state?.routeName);
     if (name && screen && screens.includes(name) && !exceptsTo.includes(name)) {
       //dispatch(pushBackward('SettingsMenuScreen'));
       dispatch(pushBackward(screen));

@@ -11,7 +11,6 @@ export const defaultScreenOptions: StackNavigationOptions = {
   // headerShown: true,
   headerStyle: {
     // backgroundColor: colors.primary,
-    // backgroundColor: 'transparent',
     // opacity: 1,
     shadowColor: 'transparent', // delete the bottomBorder for IOS
   },
@@ -29,12 +28,12 @@ export const appDefaultTheme = {
   },
 };
 
-export const appDrawerStyle: StyleProp<ViewStyle> = {
+export const appDrawerStyle = (multiMargin: number): StyleProp<ViewStyle> => ({
   width,
-  paddingVertical: hp(sizes.offset.base / 3), // TODO depend on android version
+  paddingVertical: hp(sizes.offset.base / 3) * multiMargin, // TODO depend on android version
   paddingHorizontal: wp(sizes.offset.base - 3),
   backgroundColor: colors.primary,
-};
+});
 
 export const appDrawerItemStyle: StyleProp<ViewStyle> = {
   marginBottom: hp(1.25),

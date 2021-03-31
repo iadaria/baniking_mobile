@@ -11,6 +11,8 @@ export interface ISystemState {
     isBackward: boolean;
     backwardStack: string[];
     points: number;
+    currentScreen?: string;
+    isTransparent: boolean;
   };
   connection: null | boolean;
 }
@@ -21,6 +23,7 @@ const initialState: ISystemState = {
     isBackward: false,
     backwardStack: [],
     points: 0,
+    isTransparent: false,
   },
   connection: null,
 };
@@ -97,6 +100,42 @@ export default function systemReducer(
           isDrawerOpen: false,
           isBackward: state.header.backwardStack.length > 0,
           backwardStack: [...state.header.backwardStack.slice(0, -1)],
+        },
+      };
+
+    case constants.TRANSPARENT_HEADER:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          isTransparent: true,
+        },
+      };
+
+    case constants.NON_TRANSPARENT_HEADER:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          isTransparent: false,
+        },
+      };
+
+    case constants.SET_CURRENT_SCREEN:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          currentScreen: payload,
+        },
+      };
+
+    case constants.CLEAR_CURRENT_SCREEN:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          currentScreen: undefined,
         },
       };
 

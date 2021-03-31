@@ -56,6 +56,33 @@ export function setTitlePoints(points: number) {
   };
 }
 
+export function transparentHeader() {
+  return {
+    type: constants.TRANSPARENT_HEADER,
+  };
+}
+
+export function nonTransparentHeader() {
+  return {
+    type: constants.NON_TRANSPARENT_HEADER,
+  };
+}
+
+/** Screen */
+
+export function setCurrentScreen(screen: string) {
+  return {
+    type: constants.SET_CURRENT_SCREEN,
+    payload: screen,
+  };
+}
+
+export function clearCurrentScreen() {
+  return {
+    type: constants.CLEAR_CURRENT_SCREEN,
+  };
+}
+
 /** Network */
 
 export function updateStateConnection(state: boolean | null) {

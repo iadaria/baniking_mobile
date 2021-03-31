@@ -31,6 +31,8 @@ interface IScreenOptionsProps {
 
 export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
   const { authenticated } = useSelector((state: IRootState) => state.auth);
+  const { isTransparent } = useSelector((state: IRootState) => state.system.header);
+  const multiMargin = isTransparent ? 4 : 1;
 
   useEffect(() => {
     if (!authenticated) {
@@ -55,7 +57,7 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
       drawerContentOptions={{
         itemStyle: appDrawerItemStyle,
       }}
-      drawerStyle={appDrawerStyle}
+      drawerStyle={appDrawerStyle(multiMargin)}
       drawerContent={(props) => <AppDrawerContent {...props} />}>
       <Drawer.Screen
         name="ProfileTab"

@@ -15,6 +15,7 @@ interface IAppScreenOptionsProps {
   isBackward: boolean;
   backwardStack: string[];
   points: number;
+  isTransparent: boolean;
   navigation: StackNavigationProp<ParamListBase>;
   route: Route<string, object | undefined>;
   onCloseDrawer: (navigation: StackNavigationProp<ParamListBase>) => void;
@@ -29,12 +30,14 @@ export const appScreenOptions = ({
   points,
   navigation,
   // route,
+  isTransparent,
   onCloseDrawer,
   onOpenDrawer,
   pullBackward,
 }: IAppScreenOptionsProps) => {
   return {
     ...defaultScreenOptions,
+    ...{ headerTransparent: isTransparent },
     headerTitle: () => <AppHeaderTitle points={points} />,
     headerLeft: () => {
       if (isBackward && backwardStack.length > 0) {

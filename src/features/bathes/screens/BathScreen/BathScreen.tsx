@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IBath } from '~/src/app/models/bath';
@@ -9,6 +9,8 @@ import { ImageBackground, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import routes from '~/src/navigation/helpers/routes';
 import { getRandomBathImage } from '~/src/app/utils/bathUtility';
+import { useDispatch } from 'react-redux';
+import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -16,8 +18,14 @@ export interface IProps {
 }
 
 export function BathScreen({ route, navigation }: IProps) {
+  const dispatch = useDispatch();
   const [randomImg] = useState(getRandomBathImage());
   const bath: IBath | undefined = route?.params as IBath;
+
+  useEffect(() => {
+    dispatch(transparentHeader());
+    return () => dispatch(nonTransparentHeader());
+  }, [dispatch]);
 
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bath });
@@ -35,7 +43,7 @@ export function BathScreen({ route, navigation }: IProps) {
   return (
     // <ImageBackground source={randomImg} style={{ flex: 1, resizeMode: 'cover' }}>
     <Block full debug>
-      <ImageBackground source={randomImg} style={{ flex: 0.5, resizeMode: 'contain' }}>
+      <ImageBackground source={randomImg} style={{ flex: 0.5, resizeMode: 'contain', paddingTop: wp(20) }}>
         <AppText>Test</AppText>
         <AppText>Test</AppText>
         <AppText>Test</AppText>
