@@ -9,6 +9,7 @@ import {
   IMap,
 } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
+import { IBathDetailed } from '../../../app/models/bath';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -20,7 +21,10 @@ export interface IBathState {
   bathes: IBath[];
   bathIds: number[];
   oldBathes: IBath[];
-  selectedBath: IBath | null;
+  // Bathes detailded
+  bathesDetailed: IBathDetailed[];
+  bathesDetailedIds: number[];
+  selectedBath: IBathDetailed | null;
   // Srot & Filter
   moreBathes: boolean;
   sort: EBathSort;
@@ -45,6 +49,9 @@ const initialState: IBathState = {
   bathes: [],
   bathIds: [],
   oldBathes: [],
+  // bathes detailed
+  bathesDetailed: [],
+  bathesDetailedIds: [],
   selectedBath: null,
   // fetch
   moreBathes: false,
@@ -150,9 +157,21 @@ export default function bathReducer(
       };
 
     // Bath
-    case constants.SELECT_BATH:
+    case constants.GET_BATH:
       return {
         ...state,
+        loading: true,
+        errors: null,
+      };
+
+    case constants.SELECT_BATH:
+      const isNew = state.bathesDetailedIds.indexOf(payload.id) === -1;
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        bathesDetailedIds: isNew ? [...state.bathesDetailedIds, payload.id] : [...state.bathesDetailedIds],
+        bathesDetailed: isNew ? [...state.bathesDetailed, payload] : [...state.bathesDetailed],
         selectedBath: payload,
       };
 

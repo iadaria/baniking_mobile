@@ -1,6 +1,7 @@
 import * as constants from './bathConstants';
 import { EBathSort, IBath, IMap, TPartBathParams, IBathAction, IBathParamsVariety } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
+import { IBathDetailed } from '../../../app/models/bath';
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,
@@ -55,7 +56,12 @@ export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) =
 });
 
 // Bath
-export const selectBath = (payload: IBath) => ({
+export const getBath = (bathId: number) => ({
+  type: constants.GET_BATH,
+  payload: bathId,
+});
+
+export const selectBath = (payload: IBathDetailed) => ({
   type: constants.SELECT_BATH,
   payload,
 });

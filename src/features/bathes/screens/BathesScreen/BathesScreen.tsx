@@ -85,7 +85,10 @@ export function BathesScreenContainer({
   // by Daria need delete
   useEffect(() => {
     if (bathes?.length) {
-      navigation.navigate(routes.bathesTab.BathScreen, { ...bathes[0] });
+      navigation.navigate(routes.bathesTab.BathScreen, {
+        id: 1010,
+        distance: 2000,
+      });
       // navigation.navigate(routes.bathesTab.BathesFilterScreen);
     }
   }, [bathes, navigation]);
@@ -165,8 +168,14 @@ export function BathesScreenContainer({
     }
   }
 
-  const handleOpenBath = (bath: IBath) => {
-    navigation.navigate(routes.bathesTab.BathScreen, { ...bath });
+  // for test
+  const handleOpenBath = (bath: IBath, distance: number) => {
+    navigation.navigate(routes.bathesTab.BathScreen, {
+      id: bath.id,
+      latitude: bath.latitude,
+      longitude: bath.longitude,
+      distance: distance,
+    });
   };
 
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
@@ -178,7 +187,7 @@ export function BathesScreenContainer({
       const map = maps.find((map: IMap) => map.bathId === item.id);
       const distance: number = map?.distance || 0;
       return (
-        <TouchableOpacity onPress={handleOpenBath.bind(null, item)}>
+        <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
           <BathItem
             key={`item-${index}`}
             bath={item}

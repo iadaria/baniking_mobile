@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
   gradient: {
     flex: 1,
     paddingVertical: wp(2),
-   // justifyContent: 'center',
+    // justifyContent: 'center',
   },
   imageStyle: {
     borderRadius: 7,

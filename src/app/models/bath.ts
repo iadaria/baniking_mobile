@@ -200,3 +200,63 @@ export const bathZones = [
 ];
 export const bathServices = ['Бассейн с видом', 'Терраса', 'Патио', 'Кофемашина'];
 export const bathSteamRooms = ['Финская сауна', 'Японская баня', 'Турецкая парная'];
+
+export interface IBathDetailed extends IBath {
+  type: string;
+  views: number;
+  city_name: string;
+  has_laundry: boolean;
+  laundry_address: string | null;
+  parking_address: string | null;
+  has_hotel: boolean;
+  hotel_address: string | null;
+  description: string | null;
+  history: string | null;
+  features: string | null;
+  service: string | null;
+  traditions: string | null;
+  steam_room: string | null;
+  schedule: ISchedule;
+  zones: Map<string, string>;
+  services: Map<string, string>;
+  steam_rooms: Map<string, string>;
+  propositions: IProposition | null;
+  photos: Map<string, string>;
+  bathers: IBather[];
+}
+
+export interface ISchedule {
+  is_round_the_clock: boolean;
+  on_mo: boolean;
+  mo_hours_from: string | null;
+  mo_hours_to: string | null;
+  on_tu: boolean;
+  tu_hours_from: string | null;
+  tu_hours_to: string | null;
+  on_we: boolean;
+  we_hours_from: string | null;
+  we_hours_to: string | null;
+  on_th: boolean;
+  th_hours_from: string | null;
+  th_hours_to: string | null;
+  on_fr: boolean;
+  fr_hours_from: string | null;
+  fr_hours_to: string | null;
+  on_sa: boolean;
+  sa_hours_from: string | null;
+  sa_hours_to: string | null;
+  on_su: boolean;
+  su_hours_from: string | null;
+  su_hours_to: string | null;
+}
+
+export interface IBather {
+  name: string;
+  position: string;
+  avatar: string;
+}
+
+export interface IProposition {
+  description: string | null;
+  discount: string | null;
+}
