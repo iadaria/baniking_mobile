@@ -1,5 +1,6 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
 const { width, height } = Dimensions.get('window');
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export const isIos = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
@@ -49,3 +50,4 @@ export const heightScreen: number = Dimensions.get('window').height;
 export const multiplier = heightScreen > 700 ? 1 : heightScreen > 600 ? 0.85 : 0.78;
 export const logoMultiplier = heightScreen > 700 ? 1 : 0.75;
 export const multiHeightLine = heightScreen > 700 ? 1 : 0.5;
+export const appHeaderHeight = isAndroid ? hp(7) : hp(8);

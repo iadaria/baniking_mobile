@@ -5,12 +5,13 @@ import { IBath } from '~/src/app/models/bath';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import BathDestinationMap from './BathDestinationMap';
 import { styles } from './styles';
-import { ImageBackground, TouchableOpacity } from 'react-native';
+import { ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import routes from '~/src/navigation/helpers/routes';
 import { getRandomBathImage } from '~/src/app/utils/bathUtility';
 import { useDispatch } from 'react-redux';
 import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
+import { AppHeader } from './AppHeader';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -24,7 +25,9 @@ export function BathScreen({ route, navigation }: IProps) {
 
   useEffect(() => {
     dispatch(transparentHeader());
-    return () => dispatch(nonTransparentHeader());
+    return () => {
+      dispatch(nonTransparentHeader());
+    };
   }, [dispatch]);
 
   function handleOpenDestinationMap() {
@@ -42,16 +45,26 @@ export function BathScreen({ route, navigation }: IProps) {
   }
   return (
     // <ImageBackground source={randomImg} style={{ flex: 1, resizeMode: 'cover' }}>
-    <Block full debug>
-      <ImageBackground source={randomImg} style={{ flex: 0.5, resizeMode: 'contain', paddingTop: wp(20) }}>
-        <AppText>Test</AppText>
-        <AppText>Test</AppText>
-        <AppText>Test</AppText>
-        <AppText>Test</AppText>
-        <AppText>Test</AppText>
-        <AppText>Test</AppText>
+    <ScrollView style={styles.scrollView}>
+      <ImageBackground source={randomImg} style={styles.bathBackground}>
+        <AppHeader navigation={navigation} onPress={() => dispatch(nonTransparentHeader())} />
+        <Block base>
+          <AppText h1>Баня</AppText>
+          <AppText>NORDIK SPA & LOUNGE</AppText>
+          <AppText>Test</AppText>
+          <AppText>Test</AppText>
+          <AppText>Test</AppText>
+          <AppText>Test</AppText>
+        </Block>
       </ImageBackground>
-    </Block>
+      <Block base>
+        <AppText margin={[10]}>Test</AppText>
+        <AppText margin={[10]}>Test</AppText>
+        <AppText margin={[10]}>Test</AppText>
+        <AppText margin={[10]}>Test</AppText>
+        <AppText margin={[10]}>Test</AppText>
+      </Block>
+    </ScrollView>
   );
 
   /* return (

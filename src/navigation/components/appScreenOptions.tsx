@@ -35,9 +35,11 @@ export const appScreenOptions = ({
   onOpenDrawer,
   pullBackward,
 }: IAppScreenOptionsProps) => {
+  if (isTransparent) return { headerShown: false };
   return {
     ...defaultScreenOptions,
-    ...{ headerTransparent: isTransparent },
+    ...{ headerShown: !isTransparent },
+    // ...{ headerTransparent: isTransparent },
     headerTitle: () => <AppHeaderTitle points={points} />,
     headerLeft: () => {
       if (isBackward && backwardStack.length > 0) {

@@ -7,7 +7,7 @@ import { sizes } from '~/src/app/common/constants';
 import { handleMargins, handlePaddings } from '~/src/app/utils/ui';
 import { styles } from './styles';
 
-export function Block(props: IUiBlock) {
+export function Block<T>(props: IUiBlock<T>) {
   const {
     full,
     flex,

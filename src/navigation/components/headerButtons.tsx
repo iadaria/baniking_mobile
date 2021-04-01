@@ -10,6 +10,7 @@ interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   backwardStack: string[];
   pullBackward: () => void;
+  onPress?: () => void;
 }
 
 export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) => {
@@ -32,7 +33,7 @@ export const HeaderLeftClose = ({ onCloseDrawer }: { onCloseDrawer: () => void }
   );
 };
 
-export const HeaderBackward = ({ navigation, backwardStack, pullBackward }: IProps) => {
+export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPress }: IProps) => {
   const [screen, setScreen] = React.useState(backwardStack[backwardStack.length - 1]);
   React.useEffect(() => {
     setScreen(backwardStack[backwardStack.length - 1]);
@@ -45,6 +46,7 @@ export const HeaderBackward = ({ navigation, backwardStack, pullBackward }: IPro
           navigation.goBack();
           navigation.navigate(screen);
           pullBackward();
+          onPress && onPress();
         }}>
         <BackwardIcon />
       </TouchableOpacity>
