@@ -15,6 +15,7 @@ import { IBathDetailed } from '../../../app/models/bath';
 export interface IBathState {
   // Common
   loading: boolean;
+  loadingSelectBath: boolean;
   errors: IErrors | null;
   // Bathes
   totalBathes: number;
@@ -43,6 +44,7 @@ export interface IBathState {
 const initialState: IBathState = {
   // common
   loading: false,
+  loadingSelectBath: false,
   errors: null,
   // bathes
   totalBathes: 0,
@@ -160,7 +162,7 @@ export default function bathReducer(
     case constants.GET_BATH:
       return {
         ...state,
-        loading: true,
+        loadingSelectBath: true,
         errors: null,
       };
 
@@ -168,7 +170,7 @@ export default function bathReducer(
       const isNew = state.bathesDetailedIds.indexOf(payload.id) === -1;
       return {
         ...state,
-        loading: false,
+        loadingSelectBath: false,
         errors: null,
         bathesDetailedIds: isNew ? [...state.bathesDetailedIds, payload.id] : [...state.bathesDetailedIds],
         bathesDetailed: isNew ? [...state.bathesDetailed, payload] : [...state.bathesDetailed],

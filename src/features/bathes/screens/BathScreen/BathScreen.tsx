@@ -36,9 +36,9 @@ interface IParams {
 }
 
 function BathScreenContainer({ loading, selectedBath, persistImages, getBath, route, navigation }: IProps) {
-  const [cachedMainImage, setCachedMainImage] = useState(getRandomBathImage());
+  const [cachedMainImage, setCachedMainImage] = useState<object>(getRandomBathImage());
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
-  const { name, short_description, address, rating, image } = selectedBath || {};
+  const { name, short_description, address, rating, image, price, description } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
@@ -51,11 +51,13 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
   }, [bathParams.id, getBath]);
 
   useEffect(() => {
-    if (!image) return;
+    if (!image) {
+      return;
+    }
     const [isCached, indexOf] = isCachedImage(image, persistImages.set);
     console.log('[BathScreen/cached]', image, indexOf);
     if (isCached) {
-      setCachedMainImage(persistImages.images[indexOf].path);
+      setCachedMainImage({ uri: persistImages.images[indexOf].path });
     }
   }, [image, persistImages]);
 
@@ -74,17 +76,22 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
     );
   }
 
-  if (loading) {
+  if (loading || !selectedBath) {
     return <AppActivityIndicator />;
   }
 
   return (
     <ScrollView style={styles.scrollView}>
       {/* Заголовок */}
-      <BathHeader distance={bathParams?.distance} navigation={navigation} headBath={headBath} />
+      <BathHeader
+        distance={bathParams?.distance}
+        navigation={navigation}
+        headBath={headBath}
+        cachedMainImage={cachedMainImage}
+      />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
-        <AppText medium>8 000</AppText>
+        <AppText medium>{price}</AppText>
         <AppText secondary medium tag>
           {' / час'}
         </AppText>
@@ -98,11 +105,8 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
       </Block>
       {/* Описание */}
       <Block margin={[0, sizes.offset.base]}>
-        <AppText height={15} tag>
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-          Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-          Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a
-          Lorem Ipsum passage, and going through the cites of the word in classical literature.
+        <AppText height={15} tag light>
+          {description}
         </AppText>
       </Block>
       {/* Зоны */}
@@ -115,7 +119,7 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
 const BathScreenConnected = connect(
   ({ bath, system, persist }: IRootState) => ({
     connection: system.connection,
-    loading: bath.loading,
+    loading: bath.loadingSelectBath,
     selectedBath: bath.selectedBath,
     persistImages: persist.image,
   }),

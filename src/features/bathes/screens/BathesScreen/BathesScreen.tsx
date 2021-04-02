@@ -22,6 +22,7 @@ import {
   clearBathes as clearBathesAction,
   setFilter as setFilterAction,
 } from '~/src/features/bathes/store/bathActions';
+import { transparentHeader as transparentHeaderAction } from '~/src/app/store/system/systemActions';
 import { IPersistImage } from '~/src/app/models/persist';
 import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
 import { FilterIcon, ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
@@ -53,6 +54,7 @@ interface IProps {
   openModal: (payload: IModalState) => void;
   clearBathes: () => void;
   setFilter: (payload: { params: TPartBathParams }) => void;
+  transparentHeader: () => void;
 
   navigation: StackNavigationProp<ParamListBase>;
 }
@@ -73,6 +75,7 @@ export function BathesScreenContainer({
   params,
   clearBathes,
   setFilter,
+  transparentHeader,
   navigation,
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
@@ -85,13 +88,14 @@ export function BathesScreenContainer({
   // by Daria need delete
   useEffect(() => {
     if (bathes?.length) {
+      transparentHeader();
       navigation.navigate(routes.bathesTab.BathScreen, {
         id: 1010,
         distance: 2000,
       });
       // navigation.navigate(routes.bathesTab.BathesFilterScreen);
     }
-  }, [bathes, navigation]);
+  }, [bathes, navigation, transparentHeader]);
 
   usePermission({
     permission_type: PERMISSION_TYPE.location,
@@ -170,6 +174,7 @@ export function BathesScreenContainer({
 
   // for test
   const handleOpenBath = (bath: IBath, distance: number) => {
+    transparentHeader();
     navigation.navigate(routes.bathesTab.BathScreen, {
       id: bath.id,
       latitude: bath.latitude,
@@ -308,6 +313,7 @@ const BathesScreenConnected = connect(
     openModal: openModalAction,
     clearBathes: clearBathesAction,
     setFilter: setFilterAction,
+    transparentHeader: transparentHeaderAction,
   },
 )(BathesScreenContainer);
 

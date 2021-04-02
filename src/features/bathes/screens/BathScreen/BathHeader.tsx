@@ -7,7 +7,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { colors, sizes } from '~/src/app/common/constants';
+import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
 import { getRandomBathImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { AppHeader } from './AppHeader';
@@ -24,13 +24,15 @@ export interface IHeadBath {
 interface IProps {
   distance?: number;
   navigation: StackNavigationProp<ParamListBase>;
-  headBath?: IHeadBath;
+  headBath: IHeadBath;
+  cachedMainImage: object;
 }
 
-export default function BathHeader({ distance, navigation, headBath }: IProps) {
+export default function BathHeader({ distance, navigation, headBath, cachedMainImage }: IProps) {
   const dispatch = useDispatch();
   const [randomImg] = useState(getRandomBathImage());
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
+  const { name, rating, short_description, address, image } = headBath || {};
 
   // Прозрачный заголовок
   useEffect(() => {
@@ -40,14 +42,8 @@ export default function BathHeader({ distance, navigation, headBath }: IProps) {
     };
   }, [dispatch]);
 
-  // Отображаем изображение
-  /* useEffect(() => {
-    if (isCachedImage(image, ))
-  }, []);
- */
-  const cachedMainImage = headBath?.image && { uri: headBath?.image };
   return (
-    <ImageBackground source={cachedMainImage || randomImg} style={styles.bathBackground}>
+    <ImageBackground source={cachedMainImage} style={styles.bathBackground}>
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25, 0.2)']}
         start={{ x: 0.1, y: 0 }}
@@ -56,20 +52,16 @@ export default function BathHeader({ distance, navigation, headBath }: IProps) {
         <AppHeader navigation={navigation} onPress={() => dispatch(nonTransparentHeader())} />
         <Block padding={[sizes.offset.base, sizes.offset.base, 0]}>
           <AppText h1>Баня</AppText>
-          <AppText margin={[8, 0, 0]} trajan h1>
-            {headBath?.name}
+          <AppText margin={[8, 0, 0]} transform="uppercase" height={28 * multiplier} trajan h1>
+            {name}
           </AppText>
           <AppText margin={[1, 0, 0]} secondary>
-            {headBath?.short_description && `${headBath?.short_description.substring(0, 45)} ...`}
+            {short_description && `${short_description.substring(0, 45)} ...`}
           </AppText>
-          {!isNonRating(headBath?.rating || 0.0) ? (
-            <Stars rating={headBath?.rating || 0.0} />
-          ) : (
-            <Block style={{ height: wp(5) }} />
-          )}
+          {!isNonRating(rating || 0.0) ? <Stars rating={rating || 0.0} /> : <Block style={{ height: wp(5) }} />}
         </Block>
         <Block margin={[0, 0, 3, 0]} padding={[0, sizes.offset.base]} center row>
-          <AppText tag>{headBath?.address}</AppText>
+          <AppText tag>{address}</AppText>
           <TouchableOpacity style={styles.route}>
             <AppText medium secondary>
               {kms && `${kms} км `}

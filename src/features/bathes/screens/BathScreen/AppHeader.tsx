@@ -1,7 +1,7 @@
-import { ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { connect } from 'react-redux';
+import { ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Block } from '~/src/app/common/components/UI';
 import { appBarHeight } from '~/src/app/common/constants/platform';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -22,16 +22,16 @@ interface IAppScreenOptionsProps {
   onPress: () => void;
 }
 
-function AppHeaderContainer({
+const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
   isBackward,
   backwardStack,
   points,
   navigation,
   // route,
-  isTransparent,
+  //isTransparent,
   pullBackward,
   onPress,
-}: IAppScreenOptionsProps) {
+}: IAppScreenOptionsProps) => {
   let headerLeft;
   if (isBackward && backwardStack.length > 0) {
     headerLeft = (
@@ -45,7 +45,7 @@ function AppHeaderContainer({
   }
 
   return (
-    <Block style={{ paddingTop: appBarHeight, justifyContent: 'space-between'}} row>
+    <Block style={{ paddingTop: appBarHeight, justifyContent: 'space-between' }} row>
       {headerLeft}
       <Block style={{ justifyContent: 'space-between' }} flex={0.44} row>
         <AppHeaderTitle points={points} />
@@ -53,7 +53,7 @@ function AppHeaderContainer({
       </Block>
     </Block>
   );
-}
+};
 
 const AppHeaderConnected = connect(
   ({ system, auth }: IRootState) => ({

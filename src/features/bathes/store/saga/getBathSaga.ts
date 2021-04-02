@@ -90,7 +90,7 @@ function* cacheImageBathSaga(bathDetailed: IBathDetailed) {
   const set: string[] = yield select((state: IRootState) => state.persist.image.set);
 
   const bathImages = [bathDetailed.image, ...bathDetailed.photos];
-  const cachedbathImages: IPersistImage[] = yield cacheImages(bathImages, set);
+  const cachedbathImages: IPersistImage[] = yield cacheImages(bathImages, set, 500);
 
   const bathersAvatars = bathDetailed.bathers.map((bather: IBather) => bather.avatar);
   const cachedBathersAvatars: IPersistImage[] = yield cacheImages(bathersAvatars, set, 50);
