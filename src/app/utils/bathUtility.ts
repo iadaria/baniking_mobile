@@ -11,6 +11,8 @@ import {
   TPartDirectionsParams,
   TPartDistanceParams,
 } from '../models/bath';
+import { IPersistImage } from '../models/persist';
+import { getFileName, replaceExtension } from './common';
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -20,12 +22,36 @@ export const getRandomBathImage = () => {
 
 export const isNonRating = (rating: number) => ['0', '0.0'].indexOf(String(rating)) !== -1;
 
-export const cacheImage = async (image: string): Promise<Response> => {
+export const cacheImage = async (image: string, size?: number): Promise<Response> => {
   //const fileName = getFileName(image);
   //const newFileName = 'file://data/user/0/com.baniking_mobile/cache/' + replaceExtension(fileName, '.png');
   //console.log('[cacheImage/newFilename]', newFileName);
-  const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
+  const width = size || Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
+};
+
+export const cacheAvatar = async (avatar: string): Promise<Response> => {
+  return await ImageResizer.createResizedImage(avatar, 50, 50, 'PNG', 100);
+};
+
+// Меняем размер если задан и кэшируем - по умолчаиню размер - это ширина экрана
+export const cacheImages = async (images: string[], set: string[], size?: number): Promise<IPersistImage[]> => {
+  const cachedImages: IPersistImage[] = [];
+  for (let i = 0; i < images.length; i++) {
+    const fileNameExtension = getFileName(images[i]);
+    const fileName = replaceExtension(fileNameExtension, '');
+    const indexOf = set.indexOf(fileName);
+    if (indexOf === -1) {
+      try {
+        const response: Response = await cacheImage(images[i], size);
+        __DEV__ && console.log('getBathSaga persistImage', JSON.stringify(response, null, 4));
+        cachedImages.push({ id: fileName, path: response.uri });
+      } catch (error) {
+        __DEV__ && console.log('getBathSaga/error', error);
+      }
+    }
+  }
+  return cachedImages;
 };
 
 export async function getDirections(params: TPartDirectionsParams): Promise<[number, string]> {

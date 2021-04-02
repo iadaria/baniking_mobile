@@ -1,15 +1,15 @@
 import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { Response } from 'react-native-image-resizer';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { bathesFail, selectBath } from '../bathActions';
 import { GET_BATH } from '../bathConstants';
 import { IBathDetailed, IProposition, ISchedule } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
-import { getFileName, replaceExtension } from '~/src/app/utils/common';
-import { cacheImage } from '~/src/app/utils/bathUtility';
+import { cacheImages } from '~/src/app/utils/bathUtility';
 import { persistImage } from '~/src/features/persist/store/appPersistActions';
+import { IBather } from '../../../../app/models/bath';
+import { IPersistImage } from '~/src/app/models/persist';
 
 interface IAction {
   payload: number;
@@ -24,6 +24,7 @@ interface IResult {
   steam_rooms: string[][];
   photos: string[][];
   propositions: IProposition[];
+  bathers: IBather[];
 }
 
 var countBathRequest = 0;
@@ -52,6 +53,7 @@ function* getBathSaga({ payload }: IAction) {
       services: [].concat(...response.services),
       steam_rooms: [].concat(...response.steam_rooms),
       propositions: response.propositions,
+      bathers: response.bathers,
     };
     //__DEV__ && console.log('[getBathSaga/bathDetailed]', JSON.stringify(bathDetailed, null, 4));
     yield put(selectBath(bathDetailed));
@@ -83,22 +85,20 @@ function* getBathSaga({ payload }: IAction) {
   }
 }
 
+// Меняем размер и кэшируем изображения бань и банщиков
 function* cacheImageBathSaga(bathDetailed: IBathDetailed) {
   const set: string[] = yield select((state: IRootState) => state.persist.image.set);
-  const imagesForCache = [bathDetailed.image, ...bathDetailed.photos];
-  for (let i = 0; i < imagesForCache.length; i++) {
-    const fileNameExtension = getFileName(imagesForCache[i]);
-    const fileName = replaceExtension(fileNameExtension, '');
-    const indexOf = set.indexOf(fileName);
-    if (indexOf === -1) {
-      try {
-        const response: Response = yield cacheImage(imagesForCache[i]);
-        yield put(persistImage({ id: fileName, path: response.uri }));
-        __DEV__ && console.log('getBathSaga persistImage', fileName);
-      } catch (error) {
-        __DEV__ && console.log('getBathSaga/error', error);
-      }
-    }
+
+  const bathImages = [bathDetailed.image, ...bathDetailed.photos];
+  const cachedbathImages: IPersistImage[] = yield cacheImages(bathImages, set);
+
+  const bathersAvatars = bathDetailed.bathers.map((bather: IBather) => bather.avatar);
+  const cachedBathersAvatars: IPersistImage[] = yield cacheImages(bathersAvatars, set, 50);
+
+  const imagesForPersist = [...cachedbathImages, ...cachedBathersAvatars];
+
+  for (let i = 0; i < imagesForPersist.length; i++) {
+    yield put(persistImage(imagesForPersist[i]));
   }
 }
 
