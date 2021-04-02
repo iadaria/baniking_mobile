@@ -9,9 +9,10 @@ import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
-import { getRandomBathImage, isNonRating } from '~/src/app/utils/bathUtility';
+import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
+import { IPersistImages } from '~/src/app/models/persist';
 
 export interface IHeadBath {
   name: string;
@@ -25,12 +26,17 @@ interface IProps {
   distance?: number;
   navigation: StackNavigationProp<ParamListBase>;
   headBath: IHeadBath;
-  cachedMainImage?: object;
+  persistImages: IPersistImages;
 }
 
-export default function BathHeader({ distance, navigation, headBath, cachedMainImage }: IProps) {
+interface ICachedImage {
+  uri: string;
+}
+
+export default function BathHeader({ distance, navigation, headBath, persistImages }: IProps) {
   const dispatch = useDispatch();
   const [randomImg] = useState(getRandomBathImage());
+  const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
   const { name, rating, short_description, address, image } = headBath || {};
 
@@ -41,6 +47,17 @@ export default function BathHeader({ distance, navigation, headBath, cachedMainI
       dispatch(nonTransparentHeader());
     };
   }, [dispatch]);
+
+  // Получаем из кэша главное изображение для заголовка
+  useEffect(() => {
+    if (image && !cachedMainImage) {
+      const [isCached, indexOf] = isCachedImage(image, persistImages.set);
+      console.log('[BathScreen/useEffect/image]', image, indexOf);
+      if (isCached) {
+        setCachedMainImage({ uri: persistImages.images[indexOf].path });
+      }
+    }
+  }, [image, cachedMainImage, persistImages]);
 
   return (
     <ImageBackground source={cachedMainImage || randomImg} style={styles.bathBackground}>

@@ -19,7 +19,6 @@ import { IBathDetailed } from '~/src/app/models/bath';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
-import { getRandomBathImage, isCachedImage } from '~/src/app/utils/bathUtility';
 import BathSlider from './BathSlider';
 
 export interface IProps {
@@ -31,10 +30,6 @@ export interface IProps {
   persistImages: IPersistImages;
   getBath: (bathId: number) => void;
   clearSelectedBath: () => void;
-}
-
-interface ICachedImage {
-  uri: string;
 }
 
 interface IParams {
@@ -53,8 +48,6 @@ function BathScreenContainer({
   route,
   navigation,
 }: IProps) {
-  const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
-  //const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const { name, short_description, address, rating, image, price, description, photos } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
@@ -77,32 +70,6 @@ function BathScreenContainer({
       //clearSelectedBath(); // delete comment
     };
   }, [clearSelectedBath]);
-
-  // Получаем из кэша главное изображение
-  useEffect(() => {
-    if (image && !cachedMainImage) {
-      const [isCached, indexOf] = isCachedImage(image, persistImages.set);
-      console.log('[BathScreen/useEffect/image]', image, indexOf);
-      if (isCached) {
-        setCachedMainImage({ uri: persistImages.images[indexOf].path });
-      }
-    }
-  }, [image, cachedMainImage, persistImages]);
-
-  // Получаем из кэша фотки бани
-  /* useEffect(() => {
-    if (photos && !cachedBathPhotos.length) {
-      const newCachedBathPhotos: ICachedImage[] = [];
-      photos.forEach((photo: string) => {
-        const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
-        //__DEV__ && console.log('[BathScreen/useEffect/photos] isCached', isCached, photo, indexOf);
-        if (isCached) {
-          newCachedBathPhotos.push({ uri: persistImages.images[indexOf].path });
-        }
-      });
-      setCachedBathPhotos(newCachedBathPhotos);
-    }
-  }, [photos, cachedBathPhotos, persistImages]); */
 
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
@@ -130,7 +97,7 @@ function BathScreenContainer({
         distance={bathParams?.distance}
         navigation={navigation}
         headBath={headBath}
-        cachedMainImage={cachedMainImage}
+        persistImages={persistImages}
       />
       {/* Фото */}
       <AppText margin={[1, sizes.offset.base, 0]} secondary tag>

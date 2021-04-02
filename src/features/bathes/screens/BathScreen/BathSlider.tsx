@@ -34,11 +34,10 @@ export default function BathSlider({ photos, persistImages }: IProps) {
     }
   }, [photos, cachedBathPhotos, persistImages]);
 
-
   const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
 
   const renderItem = useCallback(({ item }: { item: ICachedImage }) => {
-    __DEV__ && console.log('[BathSlider/renderItem]', item);
+    // __DEV__ && console.log('[BathSlider/renderItem]', item);
     return (
       <TouchableOpacity>
         <Image style={styles.photoListItem} source={item} resizeMethod="resize" />
