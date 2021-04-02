@@ -217,11 +217,11 @@ export interface IBathDetailed extends IBath {
   traditions: string | null;
   steam_room: string | null;
   schedule: ISchedule;
-  zones: Map<string, string>;
-  services: Map<string, string>;
-  steam_rooms: Map<string, string>;
-  propositions: IProposition | null;
-  photos: Map<string, string>;
+  zones: string[];
+  services: string[];
+  steam_rooms: string[];
+  propositions: IProposition[] | null;
+  photos: string[];
   bathers: IBather[];
 }
 

@@ -5,7 +5,6 @@ import { DestinationMap } from './screens/DestinationMap';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { useBackward } from '~/src/app/hooks/useBackward';
 import { BathesFilterScreen } from './screens/BathesFilterScreen';
-import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
 
 interface IScreenOptionsProps {
   route: Route<string, object | undefined>;

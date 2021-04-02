@@ -45,7 +45,7 @@ function AppHeaderContainer({
   }
 
   return (
-    <Block style={{ paddingTop: appBarHeight, justifyContent: 'space-between' }} row>
+    <Block style={{ paddingTop: appBarHeight, justifyContent: 'space-between'}} row>
       {headerLeft}
       <Block style={{ justifyContent: 'space-between' }} flex={0.44} row>
         <AppHeaderTitle points={points} />

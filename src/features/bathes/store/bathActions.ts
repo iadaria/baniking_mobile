@@ -61,9 +61,9 @@ export const getBath = (bathId: number) => ({
   payload: bathId,
 });
 
-export const selectBath = (payload: IBathDetailed) => ({
+export const selectBath = (bathDetailed: IBathDetailed) => ({
   type: constants.SELECT_BATH,
-  payload,
+  payload: bathDetailed,
 });
 
 export const clearSelectedBath = () => ({

@@ -19,6 +19,7 @@ interface IResult {
   count: number;
   baths: IBath[];
 }
+
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
   /* console.log('[fetchBathesSaga]', payload.bathParams);

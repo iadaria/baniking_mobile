@@ -68,6 +68,7 @@ export const methods = {
   // bathes
   getBathes: request('get', (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`, privFetch),
   getBathParams: request('get', '/baths/params', privFetch),
+  getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
   // google
   getPlaceId: request(
     'get',

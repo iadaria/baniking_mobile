@@ -57,7 +57,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
             setThisCachedImage(response.uri);
             uri.current = response.uri;
           })
-          .catch((error) => console.log('[BathItem/useEffect(thisCachedImage)] error', error));
+          .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
     } else {
       //console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
