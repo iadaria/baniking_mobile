@@ -9,14 +9,22 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import BathDestinationMap from './BathDestinationMap';
 import routes from '~/src/navigation/helpers/routes';
 import { SchedulerIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
-import { styles } from './styles';
 import BathHeader from './BathHeader';
 import { IRootState } from '~/src/app/store/rootReducer';
+import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
+import { IBathDetailed } from '~/src/app/models/bath';
+import { sizes } from '~/src/app/common/constants';
+import { styles } from './styles';
+import { IPersistImages } from '~/src/app/models/persist';
+import { getRandomBathImage, isCachedImage } from '~/src/app/utils/bathUtility';
 
 export interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
+  // state
+  loading: boolean;
+  selectedBath: IBathDetailed;
+  persistImages: IPersistImages;
   getBath: (bathId: number) => void;
 }
 
@@ -27,9 +35,11 @@ interface IParams {
   distance: number;
 }
 
-function BathScreenContainer({ getBath, route, navigation }: IProps) {
-  const dispatch = useDispatch();
+function BathScreenContainer({ loading, selectedBath, persistImages, getBath, route, navigation }: IProps) {
+  const [cachedMainImage, setCachedMainImage] = useState(getRandomBathImage());
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
+  const { name, short_description, address, rating, image } = selectedBath || {};
+  const headBath = { name, short_description, address, rating, image };
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
@@ -40,12 +50,22 @@ function BathScreenContainer({ getBath, route, navigation }: IProps) {
     //getBath(bathParams.id); // delete
   }, [bathParams.id, getBath]);
 
+  useEffect(() => {
+    if (!image) return;
+    const [isCached, indexOf] = isCachedImage(image, persistImages.set);
+    console.log('[BathScreen/cached]', image, indexOf);
+    if (isCached) {
+      setCachedMainImage(persistImages.images[indexOf].path);
+    }
+  }, [image, persistImages]);
+
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
   }
 
   let map = null;
   const { latitude = null, longitude = null } = bathParams || {};
+
   if (latitude && longitude) {
     map = (
       <TouchableOpacity style={styles.bathMap} onPress={handleOpenDestinationMap}>
@@ -53,10 +73,15 @@ function BathScreenContainer({ getBath, route, navigation }: IProps) {
       </TouchableOpacity>
     );
   }
+
+  if (loading) {
+    return <AppActivityIndicator />;
+  }
+
   return (
     <ScrollView style={styles.scrollView}>
       {/* Заголовок */}
-      <BathHeader distance={bathParams?.distance} navigation={navigation} />
+      <BathHeader distance={bathParams?.distance} navigation={navigation} headBath={headBath} />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
         <AppText medium>8 000</AppText>
@@ -88,9 +113,11 @@ function BathScreenContainer({ getBath, route, navigation }: IProps) {
 }
 
 const BathScreenConnected = connect(
-  ({ bath, system }: IRootState) => ({
+  ({ bath, system, persist }: IRootState) => ({
     connection: system.connection,
     loading: bath.loading,
+    selectedBath: bath.selectedBath,
+    persistImages: persist.image,
   }),
   {
     getBath: getBathAction,

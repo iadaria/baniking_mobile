@@ -54,6 +54,13 @@ export const cacheImages = async (images: string[], set: string[], size?: number
   return cachedImages;
 };
 
+export const isCachedImage = (image: string, set: string[]): [boolean, number] => {
+  const fileNameExtension = getFileName(image);
+  const fileName = replaceExtension(fileNameExtension, '');
+  const indexOf = set.indexOf(fileName);
+  return [indexOf !== -1, indexOf];
+};
+
 export async function getDirections(params: TPartDirectionsParams): Promise<[number, string]> {
   const newParams = { ...params, key: GOOGLE_API };
   try {
