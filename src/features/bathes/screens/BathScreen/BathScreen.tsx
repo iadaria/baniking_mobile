@@ -54,7 +54,7 @@ function BathScreenContainer({
   navigation,
 }: IProps) {
   const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
-  const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
+  //const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const { name, short_description, address, rating, image, price, description, photos } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
@@ -90,7 +90,7 @@ function BathScreenContainer({
   }, [image, cachedMainImage, persistImages]);
 
   // Получаем из кэша фотки бани
-  useEffect(() => {
+  /* useEffect(() => {
     if (photos && !cachedBathPhotos.length) {
       const newCachedBathPhotos: ICachedImage[] = [];
       photos.forEach((photo: string) => {
@@ -102,7 +102,7 @@ function BathScreenContainer({
       });
       setCachedBathPhotos(newCachedBathPhotos);
     }
-  }, [photos, cachedBathPhotos, persistImages]);
+  }, [photos, cachedBathPhotos, persistImages]); */
 
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
@@ -136,7 +136,7 @@ function BathScreenContainer({
       <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
         Фото
       </AppText>
-      <BathSlider photos={cachedBathPhotos} />
+      <BathSlider photos={photos} persistImages={persistImages} />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
         <AppText medium>{price}</AppText>
