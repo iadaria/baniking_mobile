@@ -36,4 +36,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
+  photoList: {
+    /* borderWidth: 1,
+    borderColor: 'red', */
+    paddingLeft: wp(sizes.offset.base),
+  },
+  photoListItem: {
+    height: wp(25),
+    width: wp(35),
+    borderRadius: 10,
+    marginRight: wp(3),
+  },
 });

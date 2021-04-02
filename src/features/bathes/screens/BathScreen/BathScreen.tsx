@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
@@ -33,6 +33,10 @@ export interface IProps {
   clearSelectedBath: () => void;
 }
 
+interface ICachedImage {
+  uri: string;
+}
+
 interface IParams {
   id: number;
   latitude: number;
@@ -49,9 +53,10 @@ function BathScreenContainer({
   route,
   navigation,
 }: IProps) {
-  const [cachedMainImage, setCachedMainImage] = useState<object>(getRandomBathImage());
+  const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
+  const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
-  const { name, short_description, address, rating, image, price, description } = selectedBath || {};
+  const { name, short_description, address, rating, image, price, description, photos } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
@@ -59,24 +64,45 @@ function BathScreenContainer({
   useEffect(() => {
     // Проверяем если уже полученная ранее информация о бане
     if (!selectedBath) {
+      console.log('[BathScreen/useEffect] getBath(1010)');
       getBath(1010); // delete
     }
-    return function () {
-      clearSelectedBath;
-    };
     //getBath(bathParams.id); // delete
-  }, [bathParams.id, clearSelectedBath, getBath, selectedBath]);
+  }, [bathParams.id, getBath, selectedBath]);
 
+  // Снять выделения бани
   useEffect(() => {
-    if (!image) {
-      return;
+    return function cleanup() {
+      console.log('[BathScreen]/ clearSelectedBath');
+      //clearSelectedBath(); // delete comment
+    };
+  }, [clearSelectedBath]);
+
+  // Получаем из кэша главное изображение
+  useEffect(() => {
+    if (image && !cachedMainImage) {
+      const [isCached, indexOf] = isCachedImage(image, persistImages.set);
+      console.log('[BathScreen/useEffect/image]', image, indexOf);
+      if (isCached) {
+        setCachedMainImage({ uri: persistImages.images[indexOf].path });
+      }
     }
-    const [isCached, indexOf] = isCachedImage(image, persistImages.set);
-    console.log('[BathScreen/cached]', image, indexOf);
-    if (isCached) {
-      setCachedMainImage({ uri: persistImages.images[indexOf].path });
+  }, [image, cachedMainImage, persistImages]);
+
+  // Получаем из кэша фотки бани
+  useEffect(() => {
+    if (photos && !cachedBathPhotos.length) {
+      const newCachedBathPhotos: ICachedImage[] = [];
+      photos.forEach((photo: string) => {
+        const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
+        //__DEV__ && console.log('[BathScreen/useEffect/photos] isCached', isCached, photo, indexOf);
+        if (isCached) {
+          newCachedBathPhotos.push({ uri: persistImages.images[indexOf].path });
+        }
+      });
+      setCachedBathPhotos(newCachedBathPhotos);
     }
-  }, [image, persistImages]);
+  }, [photos, cachedBathPhotos, persistImages]);
 
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
@@ -106,7 +132,11 @@ function BathScreenContainer({
         headBath={headBath}
         cachedMainImage={cachedMainImage}
       />
-      <BathSlider />
+      {/* Фото */}
+      <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
+        Фото
+      </AppText>
+      <BathSlider photos={cachedBathPhotos} />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
         <AppText medium>{price}</AppText>

@@ -25,7 +25,7 @@ interface IProps {
   distance?: number;
   navigation: StackNavigationProp<ParamListBase>;
   headBath: IHeadBath;
-  cachedMainImage: object;
+  cachedMainImage?: object;
 }
 
 export default function BathHeader({ distance, navigation, headBath, cachedMainImage }: IProps) {
@@ -43,7 +43,7 @@ export default function BathHeader({ distance, navigation, headBath, cachedMainI
   }, [dispatch]);
 
   return (
-    <ImageBackground source={cachedMainImage} style={styles.bathBackground}>
+    <ImageBackground source={cachedMainImage || randomImg} style={styles.bathBackground}>
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25, 0.2)']}
         start={{ x: 0.1, y: 0 }}
