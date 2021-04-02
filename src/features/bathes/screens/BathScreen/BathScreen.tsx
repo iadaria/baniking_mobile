@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ParamListBase, Route } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { getBath as getBathAction } from '~/src/features/bathes/store/bathActions';
+import {
+  clearSelectedBath as clearSelectedBathAction,
+  getBath as getBathAction,
+} from '~/src/features/bathes/store/bathActions';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { connect, useDispatch } from 'react-redux';
@@ -17,15 +20,17 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import { getRandomBathImage, isCachedImage } from '~/src/app/utils/bathUtility';
+import BathSlider from './BathSlider';
 
 export interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
   // state
   loading: boolean;
-  selectedBath: IBathDetailed;
+  selectedBath: IBathDetailed | null;
   persistImages: IPersistImages;
   getBath: (bathId: number) => void;
+  clearSelectedBath: () => void;
 }
 
 interface IParams {
@@ -35,7 +40,15 @@ interface IParams {
   distance: number;
 }
 
-function BathScreenContainer({ loading, selectedBath, persistImages, getBath, route, navigation }: IProps) {
+function BathScreenContainer({
+  loading,
+  selectedBath,
+  persistImages,
+  getBath,
+  clearSelectedBath,
+  route,
+  navigation,
+}: IProps) {
   const [cachedMainImage, setCachedMainImage] = useState<object>(getRandomBathImage());
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const { name, short_description, address, rating, image, price, description } = selectedBath || {};
@@ -45,10 +58,14 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
 
   useEffect(() => {
     // Проверяем если уже полученная ранее информация о бане
-    //const oldBathDetailed =
-    getBath(1010); // delete
+    if (!selectedBath) {
+      getBath(1010); // delete
+    }
+    return function () {
+      clearSelectedBath;
+    };
     //getBath(bathParams.id); // delete
-  }, [bathParams.id, getBath]);
+  }, [bathParams.id, clearSelectedBath, getBath, selectedBath]);
 
   useEffect(() => {
     if (!image) {
@@ -89,6 +106,7 @@ function BathScreenContainer({ loading, selectedBath, persistImages, getBath, ro
         headBath={headBath}
         cachedMainImage={cachedMainImage}
       />
+      <BathSlider />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
         <AppText medium>{price}</AppText>
@@ -125,6 +143,7 @@ const BathScreenConnected = connect(
   }),
   {
     getBath: getBathAction,
+    clearSelectedBath: clearSelectedBathAction,
     //persistImage: persistImageAction,
     //openModal: openModalAction,
   },
