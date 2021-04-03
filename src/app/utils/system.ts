@@ -36,6 +36,15 @@ export function numberWithSpaces(x: Number) {
   return parts.join('.');
 }
 
+export function formatPhoneNumber(phoneNumberString: string) {
+  var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  var match = cleaned.match(/^(\d{1})(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return '+' + match[1] + ' (' + match[2] + ') ' + match[3] + '-' + match[4];
+  }
+  return null;
+}
+
 export function getCardNumber(values: string) {
   return values.replace(/^[\d ]*[/d].$/, '');
 }

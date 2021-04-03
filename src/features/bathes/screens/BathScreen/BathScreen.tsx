@@ -24,7 +24,7 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
-import { numberWithSpaces } from '~/src/app/utils/system';
+import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -58,7 +58,19 @@ function BathScreenContainer({
   nonTransparentHeader,
 }: IProps) {
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
-  const { name, short_description, address, rating, image, price, description, photos } = selectedBath || {};
+  const {
+    name,
+    short_description,
+    address,
+    rating,
+    image,
+    price,
+    description,
+    photos,
+    zones,
+    services,
+    steam_rooms,
+  } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
@@ -80,7 +92,7 @@ function BathScreenContainer({
   useEffect(() => {
     return function cleanup() {
       console.log('[BathScreen]/ clearSelectedBath');
-      //clearSelectedBath(); // delete comment
+      clearSelectedBath(); // delete comment
     };
   }, [clearSelectedBath]);
 
@@ -125,8 +137,8 @@ function BathScreenContainer({
           </AppText>
         </Block>
         {/* Телефон */}
-        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '79143528288')}>
-          <AppText secondary>+7 914 352 8288</AppText>
+        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
+          <AppText secondary>{formatPhoneNumber('79143528288')}</AppText>
         </TouchableOpacity>
         {/* Разсписание */}
         <Block style={styles.goldBorder} center row>
@@ -141,9 +153,23 @@ function BathScreenContainer({
             {description}
           </AppText>
         </Block>
+        {/* Зоны */}
+        <Block row wrap>
+          {zones?.map((zone: string, index: number) => (
+            <AppText key={`item-${index}`} style={styles.element} tag>
+              {zone}
+            </AppText>
+          ))}
+        </Block>
+        {/* Сервис */}
+        <Block row wrap>
+          {services?.map((zone: string, index: number) => (
+            <AppText key={`item-${index}`} style={styles.element} tag>
+              {zone}
+            </AppText>
+          ))}
+        </Block>
       </Block>
-      {/* Зоны */}
-      {/* Сервис */}
       {/* Фото */}
       {photos && photos?.length > 0 && (
         <>

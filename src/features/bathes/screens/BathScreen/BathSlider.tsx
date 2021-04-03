@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
@@ -19,22 +19,24 @@ interface IProps {
 
 export default function BathSlider({ photos, persistImages, navigation }: IProps) {
   const dispatch = useDispatch();
-  const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
+  const [cachedPhotos, setCachedPhotos] = useState<ICachedImage[]>([]);
 
   // Получаем из кэша фотки бани
   useEffect(() => {
-    if (photos && photos.length > 0 && cachedBathPhotos.length !== photos.length) {
-      const newCachedBathPhotos: ICachedImage[] = [];
+    const countCached = cachedPhotos.length;
+    // Если фоток больше чем закэшированно
+    if (photos && photos.length > countCached) {
+      const newCachedPhotos: ICachedImage[] = [];
       photos.forEach((photo: string) => {
         const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
         //__DEV__ && console.log('[BathScreen/useEffect/photos] isCached', isCached, photo, indexOf);
         if (isCached) {
-          newCachedBathPhotos.push({ uri: persistImages.images[indexOf].path });
+          newCachedPhotos.push({ uri: persistImages.images[indexOf].path });
         }
       });
       // Проверяем добавилось ли хоть одно изображение
-      newCachedBathPhotos.length !== cachedBathPhotos.length && setCachedBathPhotos(newCachedBathPhotos);
-      __DEV__ && console.log('[BathSlider/newCachedBathPhoto]', newCachedBathPhotos.length);
+      newCachedPhotos.length > countCached && setCachedPhotos(newCachedPhotos);
+      __DEV__ && console.log('[BathSlider/newCachedBathPhoto]', newCachedPhotos.length);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photos, /* cachedBathPhotos, */ persistImages]);
@@ -46,7 +48,7 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
       function handlerShowPhotos() {
         dispatch(nonTransparentHeader());
         navigation.navigate(routes.bathesTab.BathesPhotosScreen, {
-          photos: [...cachedBathPhotos],
+          photos: [...cachedPhotos],
           currentIndex: index,
         });
       }
@@ -57,14 +59,14 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
         </TouchableOpacity>
       );
     },
-    [cachedBathPhotos, dispatch, navigation],
+    [cachedPhotos, dispatch, navigation],
   );
 
   return (
     <FlatList
       contentContainerStyle={{ paddingBottom: 10, paddingTop: 8 }}
       style={styles.photoList}
-      data={cachedBathPhotos}
+      data={cachedPhotos}
       horizontal
       renderItem={renderItem}
       keyExtractor={keyExtractor}

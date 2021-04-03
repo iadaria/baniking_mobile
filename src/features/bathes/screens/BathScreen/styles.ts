@@ -48,4 +48,13 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: wp(3),
   },
+  element: {
+    backgroundColor: '#121213',
+    paddingVertical: wp(2.2),
+    paddingHorizontal: wp(3.5),
+    borderRadius: sizes.radius,
+    alignSelf: 'flex-start',
+    marginRight: wp(1),
+    marginBottom: wp(1),
+  },
 });
