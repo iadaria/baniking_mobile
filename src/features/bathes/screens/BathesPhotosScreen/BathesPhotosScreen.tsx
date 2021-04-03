@@ -65,7 +65,7 @@ export function BathesPhotosScreen({ route }: IProps) {
         onMomentumScrollEnd={onScrollEnd}
         renderItem={({ item }: { item: ICachedImage }) => {
           return (
-            <Block style={styles.image} center middle debug>
+            <Block style={styles.image} center middle>
               <Image source={bathOneImg} style={styles.blurImage} />
               <BlurView
                 style={styles.absolute}
@@ -73,7 +73,7 @@ export function BathesPhotosScreen({ route }: IProps) {
                 blurAmount={isIos ? 1 : 3}
                 reducedTransparencyFallbackColor={colors.title}
               />
-              <Image style={styles.photo} source={item} resizeMode="center" />
+              <Image style={styles.photo} source={item} /* resizeMode="center"  *//>
             </Block>
           );
         }}

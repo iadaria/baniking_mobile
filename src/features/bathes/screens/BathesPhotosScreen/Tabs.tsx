@@ -22,7 +22,7 @@ interface IProps {
 
 export default function Tabs({ data, scrollX, currentIndex }: IProps) {
   return (
-    <Block style={styles.tabsContainer} debug>
+    <Block style={styles.tabsContainer}>
       <View style={styles.tabs}>
         {data.map((item: ICachedImage, index: number) => (
           <Tab key={`tab-${index}`} isCurrentIndex={index === currentIndex} />

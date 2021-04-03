@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
     width: wp(90),
     height: wp(60),
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'green',
+    /* borderWidth: 1,
+    borderColor: 'green', */
   },
   absolute: {
     position: 'absolute',
@@ -31,13 +31,13 @@ export const styles = StyleSheet.create({
   },
   tabsContainer: {
     position: 'absolute',
-    bottom: 100,
+    bottom: wp(20),
     width: windowWidth,
   },
   tab: {
-    width: 20,
+    width: wp(3),
     backgroundColor: 'grey',
-    height: 3,
+    height: wp(1.05),
     marginHorizontal: 3,
     borderRadius: 6,
     /* borderColor: 'green',
@@ -48,11 +48,5 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //justifyContent: 'space-evenly',
-  },
-  indicator: {
-    position: 'absolute',
-    bottom: -10,
-    height: 3,
-    backgroundColor: 'white',
   },
 });
