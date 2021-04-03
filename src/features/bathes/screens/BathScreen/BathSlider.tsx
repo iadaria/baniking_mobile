@@ -1,22 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+import { Image } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { IPersistImages } from '~/src/app/models/persist';
+import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 import { isCachedImage } from '~/src/app/utils/bathUtility';
+import routes from '~/src/navigation/helpers/routes';
 import { styles } from './styles';
-
-interface ICachedImage {
-  uri: string;
-}
+import { useDispatch } from 'react-redux';
+import { nonTransparentHeader } from '~/src/app/store/system/systemActions';
 
 interface IProps {
   photos: string[] | undefined;
   persistImages: IPersistImages;
+  navigation: StackNavigationProp<ParamListBase>;
 }
 
-export default function BathSlider({ photos, persistImages }: IProps) {
-  //__DEV__ && console.log('[BathSlider]', photos);
+export default function BathSlider({ photos, persistImages, navigation }: IProps) {
+  const dispatch = useDispatch();
   const [cachedBathPhotos, setCachedBathPhotos] = useState<ICachedImage[]>([]);
 
   // Получаем из кэша фотки бани
@@ -30,20 +32,27 @@ export default function BathSlider({ photos, persistImages }: IProps) {
           newCachedBathPhotos.push({ uri: persistImages.images[indexOf].path });
         }
       });
-      setCachedBathPhotos(newCachedBathPhotos);
+      // Проверяем добавилось ли хоть одно изображение
+      newCachedBathPhotos.length !== cachedBathPhotos.length && setCachedBathPhotos(newCachedBathPhotos);
     }
   }, [photos, cachedBathPhotos, persistImages]);
 
   const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
-
-  const renderItem = useCallback(({ item }: { item: ICachedImage }) => {
-    // __DEV__ && console.log('[BathSlider/renderItem]', item);
-    return (
-      <TouchableOpacity>
-        <Image style={styles.photoListItem} source={item} resizeMethod="resize" />
-      </TouchableOpacity>
-    );
-  }, []);
+  const renderItem = useCallback(
+    ({ item }: { item: ICachedImage }) => {
+      function handlerShowPhotos() {
+        dispatch(nonTransparentHeader());
+        navigation.navigate(routes.bathesTab.BathesPhotosScreen, [...cachedBathPhotos]);
+      }
+      // __DEV__ && console.log('[BathSlider/renderItem]', item);
+      return (
+        <TouchableOpacity onPress={handlerShowPhotos}>
+          <Image style={styles.photoListItem} source={item} resizeMethod="resize" />
+        </TouchableOpacity>
+      );
+    },
+    [cachedBathPhotos, dispatch, navigation],
+  );
 
   return (
     <FlatList

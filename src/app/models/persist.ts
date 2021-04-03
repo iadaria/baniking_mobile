@@ -1,3 +1,7 @@
+export interface ICachedImage {
+  uri: string;
+}
+
 export interface IPersistImage {
   id: string;
   path: string;

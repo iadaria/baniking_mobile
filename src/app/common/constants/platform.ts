@@ -1,6 +1,6 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
 const { width, height } = Dimensions.get('window');
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { /* widthPercentageToDP as wp,  */ heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export const isIos = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';

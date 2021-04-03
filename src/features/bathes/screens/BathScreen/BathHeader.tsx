@@ -12,7 +12,7 @@ import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/
 import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
-import { IPersistImages } from '~/src/app/models/persist';
+import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 
 export interface IHeadBath {
   name: string;
@@ -29,10 +29,6 @@ interface IProps {
   persistImages: IPersistImages;
 }
 
-interface ICachedImage {
-  uri: string;
-}
-
 export default function BathHeader({ distance, navigation, headBath, persistImages }: IProps) {
   const dispatch = useDispatch();
   const [randomImg] = useState(getRandomBathImage());
@@ -40,19 +36,11 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
   const { name, rating, short_description, address, image } = headBath || {};
 
-  // Прозрачный заголовок
-  useEffect(() => {
-    dispatch(transparentHeader());
-    return () => {
-      dispatch(nonTransparentHeader());
-    };
-  }, [dispatch]);
-
   // Получаем из кэша главное изображение для заголовка
   useEffect(() => {
     if (image && !cachedMainImage) {
       const [isCached, indexOf] = isCachedImage(image, persistImages.set);
-      console.log('[BathScreen/useEffect/image]', image, indexOf);
+      //__DEV__ && console.log('[BathHeader/useEffect/image]', image, indexOf);
       if (isCached) {
         setCachedMainImage({ uri: persistImages.images[indexOf].path });
       }

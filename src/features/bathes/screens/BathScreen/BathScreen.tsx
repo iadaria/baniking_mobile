@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ParamListBase, Route } from '@react-navigation/native';
+import { ParamListBase, Route, useFocusEffect } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   clearSelectedBath as clearSelectedBathAction,
@@ -7,7 +7,7 @@ import {
 } from '~/src/features/bathes/store/bathActions';
 import { TouchableOpacity, ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import BathDestinationMap from './BathDestinationMap';
 import routes from '~/src/navigation/helpers/routes';
@@ -15,13 +15,17 @@ import { SchedulerIcon } from '~/src/assets';
 import BathHeader from './BathHeader';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
+import {
+  nonTransparentHeader as nonTransparentHeaderAction,
+  transparentHeader as transparentHeaderAction,
+} from '~/src/app/store/system/systemActions';
 import { IBathDetailed } from '~/src/app/models/bath';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
 
-export interface IProps {
+interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
   // state
@@ -30,6 +34,8 @@ export interface IProps {
   persistImages: IPersistImages;
   getBath: (bathId: number) => void;
   clearSelectedBath: () => void;
+  transparentHeader: () => void;
+  nonTransparentHeader: () => void;
 }
 
 interface IParams {
@@ -47,12 +53,18 @@ function BathScreenContainer({
   clearSelectedBath,
   route,
   navigation,
+  transparentHeader,
+  nonTransparentHeader,
 }: IProps) {
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const { name, short_description, address, rating, image, price, description, photos } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
+
+  useFocusEffect(() => {
+    transparentHeader();
+  });
 
   useEffect(() => {
     // Проверяем если уже полученная ранее информация о бане
@@ -103,7 +115,7 @@ function BathScreenContainer({
       <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
         Фото
       </AppText>
-      <BathSlider photos={photos} persistImages={persistImages} />
+      <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
       {/* Стоймость */}
       <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
         <AppText medium>{price}</AppText>
@@ -141,7 +153,8 @@ const BathScreenConnected = connect(
   {
     getBath: getBathAction,
     clearSelectedBath: clearSelectedBathAction,
-    //persistImage: persistImageAction,
+    transparentHeader: transparentHeaderAction,
+    nonTransparentHeader: nonTransparentHeaderAction,
     //openModal: openModalAction,
   },
 )(BathScreenContainer);

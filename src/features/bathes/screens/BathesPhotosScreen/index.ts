@@ -1,0 +1,1 @@
+export { BathesPhotosScreen } from './BathesPhotosScreen';

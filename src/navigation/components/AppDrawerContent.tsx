@@ -8,11 +8,11 @@ import {
 } from '@react-navigation/drawer';
 import { AppLogoItem } from './AppLogoItem';
 import { AppDrawerItem } from './AppDrawerItem';
-import { Alert } from 'react-native';
 import { closeDrawer } from '~/src/app/store/system/systemActions';
 import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
 import { askLogout } from '~/src/features/persist/store/appPersistActions';
+import { clearBackward } from '../../app/store/system/systemActions';
 
 /* interface IProps extends DrawerContentComponentProps<DrawerContentOptions> {
   close: () => void;
@@ -29,10 +29,16 @@ export function AppDrawerContent(props: DrawerContentComponentProps<DrawerConten
   const dispatch = useDispatch();
   function pickCloseIcon() {
     dispatch(closeDrawer());
+    dispatch(clearBackward());
   }
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItem label={() => <AppLogoItem />} onPress={() => Alert.alert('Link to help')} />
+      <DrawerItem
+        label={() => <AppLogoItem />}
+        onPress={() => {
+          /* Alert.alert('Link to help') */
+        }}
+      />
       {/* <DrawerItemList {...props} /> */}
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem
