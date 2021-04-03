@@ -1,3 +1,5 @@
+import { View } from 'react-native';
+
 export interface ICachedImage {
   uri: string;
 }

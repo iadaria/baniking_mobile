@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Block } from '~/src/app/common/components/UI';
-import { appBarHeight } from '~/src/app/common/constants/platform';
+import { appBarHeight, isAndroid, statusBarHeight } from '~/src/app/common/constants/platform';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
 import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
 import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
 import { HeaderBackward, HeaderRightButton } from '~/src/navigation/components/headerButtons';
+import { headerHeight } from '../../../../app/common/constants/platform';
 
 interface IAppScreenOptionsProps {
   isBackward: boolean;
@@ -45,7 +46,9 @@ const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
   }
 
   return (
-    <Block style={{ paddingTop: appBarHeight, justifyContent: 'space-between' }} row>
+    <Block
+      style={{ paddingTop: isAndroid ? appBarHeight : statusBarHeight * 1.3, justifyContent: 'space-between' }}
+      row>
       {headerLeft}
       <Block style={{ justifyContent: 'space-between' }} flex={0.44} row>
         <AppHeaderTitle points={points} />

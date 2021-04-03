@@ -87,15 +87,13 @@ export function BathesScreenContainer({
 
   // by Daria need delete
   useEffect(() => {
-    if (bathes?.length) {
-      transparentHeader();
-      navigation.navigate(routes.bathesTab.BathScreen, {
-        id: 1010,
-        distance: 2000,
-      });
-      // navigation.navigate(routes.bathesTab.BathesFilterScreen);
-    }
-  }, [bathes, navigation, transparentHeader]);
+    transparentHeader();
+    navigation.navigate(routes.bathesTab.BathScreen, {
+      id: 1010,
+      distance: 2000,
+    });
+    // navigation.navigate(routes.bathesTab.BathesFilterScreen);
+  }, [navigation, transparentHeader]);
 
   usePermission({
     permission_type: PERMISSION_TYPE.location,

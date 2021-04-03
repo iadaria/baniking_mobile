@@ -59,11 +59,11 @@ function* getBathSaga({ payload }: IAction) {
     yield put(selectBath(bathDetailed));
     yield fork(cacheImageBathSaga, bathDetailed);
   } catch (e) {
-    __DEV__ && console.log('[getBathSaga/error]', JSON.stringify(e, null, 4));
+    ///__DEV__ && console.log('[getBathSaga/error]', JSON.stringify(e, null, 4));
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    __DEV__ && console.log(JSON.stringify(e, null, 4));
-    __DEV__ && console.log('[fetchBathesSaga]', [errors, message]);
+    //__DEV__ && console.log(JSON.stringify(e, null, 4));
+    //__DEV__ && console.log('[fetchBathesSaga]', [errors, message]);
 
     if (errorMessage) {
       yield put(bathesFail(errors));

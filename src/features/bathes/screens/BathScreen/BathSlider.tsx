@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
@@ -23,7 +23,7 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
 
   // Получаем из кэша фотки бани
   useEffect(() => {
-    if (photos && !cachedBathPhotos.length) {
+    if (photos && photos.length > 0 && cachedBathPhotos.length !== photos.length) {
       const newCachedBathPhotos: ICachedImage[] = [];
       photos.forEach((photo: string) => {
         const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
@@ -34,15 +34,21 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
       });
       // Проверяем добавилось ли хоть одно изображение
       newCachedBathPhotos.length !== cachedBathPhotos.length && setCachedBathPhotos(newCachedBathPhotos);
+      __DEV__ && console.log('[BathSlider/newCachedBathPhoto]', newCachedBathPhotos.length);
     }
-  }, [photos, cachedBathPhotos, persistImages]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [photos, /* cachedBathPhotos, */ persistImages]);
 
   const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
   const renderItem = useCallback(
-    ({ item }: { item: ICachedImage }) => {
+    ({ item, index }: { item: ICachedImage; index: number }) => {
+      // Переходим на слайдер и скролим до выбранного фото
       function handlerShowPhotos() {
         dispatch(nonTransparentHeader());
-        navigation.navigate(routes.bathesTab.BathesPhotosScreen, [...cachedBathPhotos]);
+        navigation.navigate(routes.bathesTab.BathesPhotosScreen, {
+          photos: [...cachedBathPhotos],
+          currentIndex: index,
+        });
       }
       // __DEV__ && console.log('[BathSlider/renderItem]', item);
       return (

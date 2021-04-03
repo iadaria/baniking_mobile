@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { windowWidth } from '~/src/app/common/constants';
+import { colors, windowWidth } from '~/src/app/common/constants';
 import { isIos, screenHeight } from '~/src/app/common/constants/platform';
 
 export const styles = StyleSheet.create({
@@ -21,10 +21,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'green',
   },
-  bg: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
   absolute: {
     position: 'absolute',
     opacity: isIos ? 0.95 : 1,
@@ -32,5 +28,31 @@ export const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  tabsContainer: {
+    position: 'absolute',
+    bottom: 100,
+    width: windowWidth,
+  },
+  tab: {
+    width: 20,
+    backgroundColor: 'grey',
+    height: 3,
+    marginHorizontal: 3,
+    borderRadius: 6,
+    /* borderColor: 'green',
+    borderWidth: 1, */
+  },
+  tabs: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    //justifyContent: 'space-evenly',
+  },
+  indicator: {
+    position: 'absolute',
+    bottom: -10,
+    height: 3,
+    backgroundColor: 'white',
   },
 });

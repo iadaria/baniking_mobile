@@ -1,36 +1,68 @@
-import React, { useState } from 'react';
-import { ParamListBase, Route } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Image } from 'react-native';
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import { Animated, Image, ViewToken } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import { ICachedImage } from '~/src/app/models/persist';
 import { styles } from './styles';
 import { Block } from '~/src/app/common/components/UI';
 import { FlatList } from 'react-native-gesture-handler';
-import { colors, isIos } from '~/src/app/common/constants';
+import { colors, isIos, windowWidth } from '~/src/app/common/constants';
 import { bathOneImg } from '~/src/assets';
+import { Route } from '@react-navigation/native';
+import Tabs from './Tabs';
 
 interface IProps {
   route: Route<string, object | undefined>;
-  navigation: StackNavigationProp<ParamListBase>;
+  //navigation: StackNavigationProp<ParamListBase>;
 }
 
-export function BathesPhotosScreen({ route, navigation }: IProps) {
-  const photos = (route?.params || []) as ICachedImage[];
+interface IParams {
+  photos: ICachedImage[];
+  currentIndex: number;
+}
 
-  __DEV__ && console.log('[BathesPhotosScreen]', photos);
+export interface ITab {
+  uri: string;
+  ref: any;
+}
 
-  if (!photos.length) return null;
+export function BathesPhotosScreen({ route }: IProps) {
+  const emptyParams = { photos: [], index: 0 };
+  const { photos, currentIndex } = (route?.params || emptyParams) as IParams;
+  const [newCurrentIndex, setCurrentIndex] = useState(currentIndex);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const ref = useRef<FlatList<any>>();
+
+  const onItemPress = useCallback((itemIndex: number) => {
+    ref?.current?.scrollToOffset({
+      offset: itemIndex * windowWidth,
+    });
+  }, []);
+
+  if (!photos.length) {
+    return null;
+  }
+
+  let onScrollEnd = (e) => {
+    let pageNumber = Math.min(
+      Math.max(Math.floor(e.nativeEvent.contentOffset.x / windowWidth + 0.5), 0),
+      photos.length,
+    );
+    setCurrentIndex(pageNumber);
+  };
 
   return (
     <Block full>
-      <FlatList
+      <Animated.FlatList
+        ref={ref}
         data={photos}
         horizontal
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item: ICachedImage) => item.uri}
         pagingEnabled
         bounces={false}
+        contentOffset={{ x: windowWidth * currentIndex, y: 0 }}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false })}
+        onMomentumScrollEnd={onScrollEnd}
         renderItem={({ item }: { item: ICachedImage }) => {
           return (
             <Block style={styles.image} center middle debug>
@@ -42,11 +74,19 @@ export function BathesPhotosScreen({ route, navigation }: IProps) {
                 reducedTransparencyFallbackColor={colors.title}
               />
               <Image style={styles.photo} source={item} resizeMode="center" />
-              {/* <Block style={styles.bg} /> */}
             </Block>
           );
         }}
       />
+      <Tabs scrollX={scrollX} data={photos} currentIndex={newCurrentIndex} />
     </Block>
   );
 }
+
+/* useEffect(() => {
+    const _tabs: ITab[] = [];
+    photos.forEach((photo: ICachedImage) => {
+      _tabs.push({ uri: photo.uri, ref: createRef() });
+    });
+    _tabs.length > 0 && setTabs(_tabs);
+  }, [photos]); */
