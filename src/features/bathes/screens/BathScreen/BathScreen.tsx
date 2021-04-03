@@ -5,7 +5,7 @@ import {
   clearSelectedBath as clearSelectedBathAction,
   getBath as getBathAction,
 } from '~/src/features/bathes/store/bathActions';
-import { TouchableOpacity, ScrollView } from 'react-native';
+import { TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
@@ -24,6 +24,7 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
+import { numberWithSpaces } from '~/src/app/utils/system';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -66,8 +67,8 @@ function BathScreenContainer({
     transparentHeader();
   });
 
+  // Выбираем баню, проверяем если уже полученная ранее информация о бане
   useEffect(() => {
-    // Проверяем если уже полученная ранее информация о бане
     if (!selectedBath) {
       console.log('[BathScreen/useEffect] getBath(1010)');
       getBath(1010); // delete
@@ -85,6 +86,10 @@ function BathScreenContainer({
 
   function handleOpenDestinationMap() {
     navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
+  }
+
+  function callPhone(_phone: string) {
+    Linking.openURL(`tel:${_phone}`);
   }
 
   let map = null;
@@ -111,34 +116,43 @@ function BathScreenContainer({
         headBath={headBath}
         persistImages={persistImages}
       />
-      {/* Фото */}
-      <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
-        Фото
-      </AppText>
-      <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
-      {/* Стоймость */}
-      <Block style={styles.goldBorder} margin={[3, sizes.offset.base, 1.2]} center row>
-        <AppText medium>{price}</AppText>
-        <AppText secondary medium tag>
-          {' / час'}
-        </AppText>
-      </Block>
-      {/* Разсписание */}
-      <Block style={styles.goldBorder} margin={[0, sizes.offset.base, 1.2]} center row>
-        <SchedulerIcon />
-        <AppText secondary medium tag>
-          {'  круглосуточно'}
-        </AppText>
-      </Block>
-      {/* Описание */}
-      <Block margin={[0, sizes.offset.base]}>
-        <AppText height={15} tag light>
-          {description}
-        </AppText>
+      <Block margin={[3, sizes.offset.base, 1.2]}>
+        {/* Стоймость */}
+        <Block style={styles.goldBorder} center row>
+          <AppText medium>{numberWithSpaces(price || 0)}</AppText>
+          <AppText secondary medium tag>
+            {' / час'}
+          </AppText>
+        </Block>
+        {/* Телефон */}
+        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '79143528288')}>
+          <AppText secondary>+7 914 352 8288</AppText>
+        </TouchableOpacity>
+        {/* Разсписание */}
+        <Block style={styles.goldBorder} center row>
+          <SchedulerIcon />
+          <AppText secondary medium tag>
+            {'  круглосуточно'}
+          </AppText>
+        </Block>
+        {/* Описание */}
+        <Block margin={[1, 0, 0]}>
+          <AppText height={15} tag light>
+            {description}
+          </AppText>
+        </Block>
       </Block>
       {/* Зоны */}
       {/* Сервис */}
       {/* Фото */}
+      {photos && photos?.length > 0 && (
+        <>
+          <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
+            Фото
+          </AppText>
+          <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
+        </>
+      )}
     </ScrollView>
   );
 }

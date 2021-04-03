@@ -35,6 +35,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.secondary,
     borderWidth: 1,
     borderRadius: 10,
+    marginVertical: wp(1),
   },
   photoList: {
     /* borderWidth: 1,

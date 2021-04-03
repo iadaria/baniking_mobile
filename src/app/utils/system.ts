@@ -30,16 +30,10 @@ export function isAllowedImageType(type: string) {
 
 export const getSex = (_sex: number) => (_sex === Sex.Male ? Sex.Male : Sex.Female);
 
-export function numberWithSpaces(x: string) {
-  if (x) {
-    console.log('number', x);
-    const result = x?.match(/[\d]{4}[\d ]{15}/);
-    console.log('[utils/system] result number', result);
-    if (result && result.length > 0) {
-      return result[0];
-    }
-  }
-  return '';
+export function numberWithSpaces(x: Number) {
+  var parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return parts.join('.');
 }
 
 export function getCardNumber(values: string) {
