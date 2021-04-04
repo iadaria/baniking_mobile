@@ -8,7 +8,7 @@ import { IBathDetailed, IProposition, ISchedule } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
 import { cacheImages } from '~/src/app/utils/bathUtility';
 import { persistImage } from '~/src/features/persist/store/appPersistActions';
-import { IBather } from '../../../../app/models/bath';
+import { IBather } from '~/src/app/models/bath';
 import { IPersistImage } from '~/src/app/models/persist';
 
 interface IAction {
@@ -93,7 +93,7 @@ function* cacheImageBathSaga(bathDetailed: IBathDetailed) {
   const cachedbathImages: IPersistImage[] = yield cacheImages(bathImages, set, 500);
 
   const bathersAvatars = bathDetailed.bathers.map((bather: IBather) => bather.avatar);
-  const cachedBathersAvatars: IPersistImage[] = yield cacheImages(bathersAvatars, set, 50);
+  const cachedBathersAvatars: IPersistImage[] = yield cacheImages(bathersAvatars, set, 100);
 
   const imagesForPersist = [...cachedbathImages, ...cachedBathersAvatars];
 

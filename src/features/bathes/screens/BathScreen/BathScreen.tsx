@@ -130,16 +130,7 @@ function BathScreenContainer({
         headBath={headBath}
         persistImages={persistImages}
       />
-      {/* Банщики */}
       <Block margin={[3, sizes.offset.base, 1.2]}>
-        {bathers && bathers.length && (
-          <>
-            <AppText margin={[1, 0]} golder>
-              Банщики
-            </AppText>
-            <BathBathers bathers={bathers} />
-          </>
-        )}
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
           <AppText medium>{numberWithSpaces(price || 0)}</AppText>
@@ -165,7 +156,7 @@ function BathScreenContainer({
           </AppText>
         </Block>
         {/* Зоны */}
-        <AppText margin={1} golder>
+        <AppText margin={[1, 0]} golder>
           Зоны
         </AppText>
         <Block row wrap>
@@ -176,7 +167,7 @@ function BathScreenContainer({
           ))}
         </Block>
         {/* Сервис */}
-        <AppText margin={1} golder>
+        <AppText margin={[1, 0]} golder>
           Сервис
         </AppText>
         <Block row wrap>
@@ -196,6 +187,17 @@ function BathScreenContainer({
           <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
         </>
       )}
+      {/* Банщики */}
+      <Block margin={[0, sizes.offset.base]}>
+        {bathers && bathers.length && (
+          <>
+            <AppText margin={[1, 0]} golder>
+              Банщики
+            </AppText>
+            <BathBathers bathers={bathers} persistImages={persistImages} />
+          </>
+        )}
+      </Block>
     </ScrollView>
   );
 }
