@@ -9,7 +9,7 @@ export interface IUiBlock<T> extends ViewProps {
   content?: boolean;
   base?: boolean;
   row?: boolean;
-  column?: string;
+  column?: boolean;
   center?: boolean;
   middle?: boolean;
   left?: boolean;

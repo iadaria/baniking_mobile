@@ -34,6 +34,7 @@ export interface IUiText extends TextProps {
   white?: boolean;
   primary?: boolean;
   secondary?: boolean;
+  golder?: boolean;
   // style
   debug?: boolean;
   transform?: string;
@@ -73,6 +74,7 @@ export interface ITextStyleProps {
   // colors
   primary: object;
   secondary: object;
+  golder: object;
   white: object;
   disabled: object;
   // fonts

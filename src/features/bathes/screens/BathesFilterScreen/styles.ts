@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginRight: wp(1),
     marginBottom: wp(1),
+    overflow: 'hidden',
   },
   input: {
     width: wp(14),

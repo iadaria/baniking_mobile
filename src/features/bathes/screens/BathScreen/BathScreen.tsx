@@ -25,6 +25,7 @@ import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
 import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
+import BathBathers from './BathBathers';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -70,6 +71,7 @@ function BathScreenContainer({
     zones,
     services,
     steam_rooms,
+    bathers,
   } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
 
@@ -92,7 +94,7 @@ function BathScreenContainer({
   useEffect(() => {
     return function cleanup() {
       console.log('[BathScreen]/ clearSelectedBath');
-      clearSelectedBath(); // delete comment
+      //clearSelectedBath(); // delete comment
     };
   }, [clearSelectedBath]);
 
@@ -128,32 +130,44 @@ function BathScreenContainer({
         headBath={headBath}
         persistImages={persistImages}
       />
+      {/* Банщики */}
       <Block margin={[3, sizes.offset.base, 1.2]}>
+        {bathers && bathers.length && (
+          <>
+            <AppText margin={[1, 0]} golder>
+              Банщики
+            </AppText>
+            <BathBathers bathers={bathers} />
+          </>
+        )}
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
           <AppText medium>{numberWithSpaces(price || 0)}</AppText>
-          <AppText secondary medium tag>
+          <AppText golder medium tag>
             {' / час'}
           </AppText>
         </Block>
         {/* Телефон */}
         <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
-          <AppText secondary>{formatPhoneNumber('79143528288')}</AppText>
+          <AppText golder>{formatPhoneNumber('79143528288')}</AppText>
         </TouchableOpacity>
         {/* Разсписание */}
         <Block style={styles.goldBorder} center row>
           <SchedulerIcon />
-          <AppText secondary medium tag>
+          <AppText golder medium tag>
             {'  круглосуточно'}
           </AppText>
         </Block>
         {/* Описание */}
         <Block margin={[1, 0, 0]}>
-          <AppText height={15} tag light>
+          <AppText height={18} tag light>
             {description}
           </AppText>
         </Block>
         {/* Зоны */}
+        <AppText margin={1} golder>
+          Зоны
+        </AppText>
         <Block row wrap>
           {zones?.map((zone: string, index: number) => (
             <AppText key={`item-${index}`} style={styles.element} tag>
@@ -162,6 +176,9 @@ function BathScreenContainer({
           ))}
         </Block>
         {/* Сервис */}
+        <AppText margin={1} golder>
+          Сервис
+        </AppText>
         <Block row wrap>
           {services?.map((zone: string, index: number) => (
             <AppText key={`item-${index}`} style={styles.element} tag>
@@ -173,7 +190,7 @@ function BathScreenContainer({
       {/* Фото */}
       {photos && photos?.length > 0 && (
         <>
-          <AppText margin={[1, sizes.offset.base, 0]} secondary tag>
+          <AppText margin={[0, sizes.offset.base]} golder>
             Фото
           </AppText>
           <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />

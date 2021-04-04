@@ -48,6 +48,7 @@ export function AppText(props: IUiText) {
     color,
     primary,
     secondary,
+    golder,
     disabled,
     white,
     children,
@@ -97,6 +98,7 @@ export function AppText(props: IUiText) {
     // accent && styles.accent,
     primary && styles.primary,
     secondary && styles.secondary,
+    golder && styles.golder,
     // tertiary && styles.tertiary,
     // custome style
     debug && styles.debug,

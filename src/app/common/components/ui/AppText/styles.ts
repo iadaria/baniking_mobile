@@ -30,6 +30,7 @@ export const styles = StyleSheet.create<ITextStyleProps>({
   // colors
   primary: { color: colors.primary },
   secondary: { color: colors.secondary },
+  golder: { color: colors.golder },
   white: { color: colors.white },
   disabled: { color: colors.text.disabled },
   caption: { color: colors.caption },

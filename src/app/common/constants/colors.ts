@@ -2,6 +2,7 @@
 export const colors = {
   primary: '#171719',
   secondary: '#E7AE6F',
+  golder: '#F5C97D',
   tertiary: '#D9B384',
   title: '#F6F4F5',
   inputText: '#232738',
