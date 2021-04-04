@@ -107,8 +107,10 @@ export function DestinationMap({ route }: IProps) {
 
   // console.log('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
-    map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } });
+    setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 500);
   };
+
+  __DEV__ && console.log('[DestinationMap/] userLocation', userLocation, 'bathLocation', bathLocation);
 
   if (!userLocation || !bathLocation) {
     return null;
@@ -129,9 +131,8 @@ export function DestinationMap({ route }: IProps) {
   return (
     <View style={[styles.container]}>
       <MapScreen
-        //style={[styles.container]}
-        onMapReady={onMapReady}
         style={styles.container}
+        onMapReady={onMapReady}
         ref={map}
         userLatitude={userLocation?.latitude}
         userLongitude={userLocation?.longitude}>

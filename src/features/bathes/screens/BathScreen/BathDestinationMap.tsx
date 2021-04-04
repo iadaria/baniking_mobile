@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
 import { mapStyle } from './mapStyle';
@@ -20,6 +20,7 @@ export default function BathDestinationMap({ latitude, longitude }: IProps) {
   return (
     <MapScreen
       style={{ flex: 1, marginLeft: 1 }}
+      provider={PROVIDER_GOOGLE}
       showsMyLocationButton={false}
       onMapReady={onMapReady}
       customMapStyle={mapStyle}

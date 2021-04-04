@@ -148,9 +148,6 @@ function BathScreenContainer({
 
   if (latitude && longitude) {
     map = (
-      // <TouchableOpacity style={styles.bathMap} /* onPress={handleOpenDestinationMap} */>
-      //   <BathDestinationMap latitude={latitude} longitude={longitude} />
-      // </TouchableOpacity>
       <Block style={styles.bathMap}>
         <BathDestinationMap latitude={latitude} longitude={longitude} />
       </Block>

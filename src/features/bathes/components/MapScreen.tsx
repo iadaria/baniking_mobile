@@ -22,11 +22,11 @@ export default React.forwardRef(
       // style={{ flex: 1, marginLeft: 1}}
       style={[styles.map, style]}
       customMapStyle={customMapStyle}
-      // mapType="standard"
+      mapType="standard"
       showsUserLocation
       followsUserLocation
-      zoomEnabled
-      zoomControlEnabled
+      zoomEnabled={true}
+      zoomControlEnabled={true}
       showsMyLocationButton
       region={{
         latitude: userLatitude,

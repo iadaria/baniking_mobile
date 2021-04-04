@@ -10,7 +10,8 @@ target 'baniking_mobile' do
   pod 'YandexLoginSDK'
   pod 'When'
   pod 'RNInputMask', :path => '../node_modules/react-native-text-input-mask/ios/InputMask'
-  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
 
