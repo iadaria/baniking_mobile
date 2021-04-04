@@ -167,15 +167,6 @@ function BathScreenContainer({
         headBath={headBath}
         persistImages={persistImages}
       />
-      {/* Адрес и инфраструктура */}
-      <AppText margin={[1, BASE]} golder>
-        Адрес и инфраструктура
-      </AppText>
-      {map}
-      <AppText style={styles.address} padding={[2.5, BASE]} tag>
-        <AppText golder tag>{`${city_name}  `}</AppText>
-        {address}
-      </AppText>
       <Block margin={[3, BASE, 1.2]}>
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
@@ -253,6 +244,17 @@ function BathScreenContainer({
             <BathBathers bathers={bathers} persistImages={persistImages} />
           </>
         )}
+      </Block>
+      {/* Адрес и инфраструктура */}
+      <AppText margin={[1, BASE]} golder>
+        Адрес и инфраструктура
+      </AppText>
+      {map}
+      <AppText style={styles.address} padding={[2.5, BASE * 1.3]} tag>
+        <AppText golder tag>{`${city_name}  `}</AppText>
+        {address}
+      </AppText>
+      <Block margin={[1, BASE]}>
         <BathInfrastructure infastructureBath={infastructureBath} />
         <Divider color="#242424" />
         {/* Дополнительная информация */}
