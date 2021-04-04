@@ -16,6 +16,7 @@ import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
 import { MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
+import { windowWidth } from '../../../../app/common/constants/platform';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -107,7 +108,9 @@ export function DestinationMap({ route }: IProps) {
 
   // console.log('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
-    setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 500);
+    setTimeout(() => {
+      map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0, width: windowWidth - 1 } });
+    }, 500);
   };
 
   __DEV__ && console.log('[DestinationMap/] userLocation', userLocation, 'bathLocation', bathLocation);

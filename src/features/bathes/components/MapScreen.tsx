@@ -16,28 +16,31 @@ export default React.forwardRef(
   (
     { userLatitude, userLongitude, children, customMapStyle, style, ...otherProps }: IProps,
     ref: ForwardedRef<MapView>,
-  ) => (
-    <MapView
-      ref={ref}
-      // style={{ flex: 1, marginLeft: 1}}
-      style={[styles.map, style]}
-      customMapStyle={customMapStyle}
-      mapType="standard"
-      showsUserLocation
-      followsUserLocation
-      zoomEnabled={true}
-      zoomControlEnabled={true}
-      showsMyLocationButton
-      region={{
-        latitude: userLatitude,
-        longitude: userLongitude,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
-      }}
-      {...otherProps}>
-      {children}
-    </MapView>
-  ),
+  ) => {
+    return (
+      <MapView
+        ref={ref}
+        // style={{ flex: 1, marginLeft: 1}}
+        style={[styles.map, style]}
+        customMapStyle={customMapStyle}
+        mapType="standard"
+        showsUserLocation={true}
+        followsUserLocation={true}
+        zoomEnabled={true}
+        loadingEnabled={true}
+        zoomControlEnabled={true}
+        showsMyLocationButton={true}
+        region={{
+          latitude: userLatitude,
+          longitude: userLongitude,
+          latitudeDelta: 0.015 * 10,
+          longitudeDelta: 0.0121 * 10,
+        }}
+        {...otherProps}>
+        {children}
+      </MapView>
+    );
+  },
 );
 
 const styles = StyleSheet.create({
