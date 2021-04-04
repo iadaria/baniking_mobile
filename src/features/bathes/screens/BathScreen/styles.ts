@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     bottom: wp(1),
   },
   infoRow: {
-    marginBottom: wp(1.5),
+    marginBottom: wp(2),
     borderWidth: 0.5,
     borderColor: colors.bath.elementBorder,
     padding: wp(3),
@@ -95,10 +95,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoBlock: {
-    marginBottom: wp(1.5),
+    marginBottom: wp(2),
     borderWidth: 0.5,
     borderColor: colors.bath.elementBorder,
-    borderRadius: 7,
+    borderRadius: 10,
     backgroundColor: 'white',
   },
   infoBlockTitle: {
