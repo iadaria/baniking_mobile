@@ -3,14 +3,18 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { ISchedule } from '~/src/app/models/bath';
 import { SchedulerIcon } from '~/src/assets';
-import { styles } from './styles';
 import { getScheduleCurrentWeek } from '~/src/app/utils/bathUtility';
+import { styles } from './styles';
+import { useDispatch } from 'react-redux';
+import { openModal } from '~/src/app/common/modals/modalReducer';
 
 interface IProps {
   schedule?: Partial<ISchedule>;
 }
 
 export default function BathSchedule({ schedule }: IProps) {
+  const dispatch = useDispatch();
+
   if (!schedule) {
     return null;
   }
@@ -41,7 +45,11 @@ export default function BathSchedule({ schedule }: IProps) {
           </>
         )}
       </Block>
-      <TouchableOpacity style={styles.schedule} onPress={() => {}}>
+      <TouchableOpacity
+        style={styles.schedule}
+        onPress={() => {
+          dispatch(openModal({ modalType: 'ScheduleModal', modalProps: { schedule } }));
+        }}>
         <AppText>расписание</AppText>
       </TouchableOpacity>
     </Block>

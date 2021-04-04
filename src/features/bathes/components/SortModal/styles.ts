@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { colors, isIos, sizes, windowWidth } from '~/src/app/common/constants';
+import { isIos, sizes, windowWidth } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   divider: {

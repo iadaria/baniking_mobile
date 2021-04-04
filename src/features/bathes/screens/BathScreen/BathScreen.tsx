@@ -171,6 +171,10 @@ function BathScreenContainer({
         persistImages={persistImages}
       />
       <Block margin={[3, BASE, 1.2]}>
+        {/* Телефон */}
+        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
+          <AppText golder>Тест {formatPhoneNumber('79143528288')}</AppText>
+        </TouchableOpacity>
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
           <AppText medium>{`${numberWithSpaces(price || 0)} \u20BD`}</AppText>
@@ -178,10 +182,6 @@ function BathScreenContainer({
             {' / час'}
           </AppText>
         </Block>
-        {/* Телефон */}
-        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
-          <AppText golder>Тест {formatPhoneNumber('79143528288')}</AppText>
-        </TouchableOpacity>
         {/* Разсписание */}
         <BathSchedule schedule={schedule} />
         {/* Описание */}

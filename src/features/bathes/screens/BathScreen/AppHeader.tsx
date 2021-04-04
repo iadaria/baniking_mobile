@@ -9,7 +9,6 @@ import { pullBackward as pullBackwardAction } from '~/src/app/store/system/syste
 import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
 import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
 import { HeaderBackward, HeaderRightButton } from '~/src/navigation/components/headerButtons';
-import { headerHeight } from '../../../../app/common/constants/platform';
 
 interface IAppScreenOptionsProps {
   isBackward: boolean;
