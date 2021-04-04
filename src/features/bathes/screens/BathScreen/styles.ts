@@ -84,4 +84,29 @@ export const styles = StyleSheet.create({
     right: wp(1),
     bottom: wp(1),
   },
+  infoRow: {
+    marginBottom: wp(1.5),
+    borderWidth: 0.5,
+    borderColor: colors.bath.elementBorder,
+    padding: wp(3),
+    borderRadius: 7,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  infoBlock: {
+    marginBottom: wp(1.5),
+    borderWidth: 0.5,
+    borderColor: colors.bath.elementBorder,
+    borderRadius: 7,
+    backgroundColor: 'white',
+  },
+  infoBlockTitle: {
+    padding: wp(3),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    /* borderWidth: 1,
+    borderColor: 'red', */
+  }
 });

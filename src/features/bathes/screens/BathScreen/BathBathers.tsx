@@ -32,17 +32,21 @@ export default function BathBathers({ bathers, persistImages }: IProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bathers, persistImages]);
 
-  return bathers.map((bather: IBather, index: number) => (
-    <Block key={`item-${index}`} margin={[0, 0, 1.5]} row center>
-      <Block style={styles.avatarBorder}>
-        <Image style={styles.avatar} source={cachedPhotos.get(index) || defaultUserMaleImg} />
-      </Block>
-      <Block margin={[0, 0, 0, 3.5]} column>
-        <AppText trajan>{bather.name}</AppText>
-        <AppText golder lightItalic>
-          {bather.position}
-        </AppText>
-      </Block>
-    </Block>
-  ));
+  return (
+    <>
+      {bathers.map((bather: IBather, index: number) => (
+        <Block key={`item-${index}`} margin={[0, 0, 1.5]} row center>
+          <Block style={styles.avatarBorder}>
+            <Image style={styles.avatar} source={cachedPhotos.get(index) || defaultUserMaleImg} />
+          </Block>
+          <Block margin={[0, 0, 0, 3.5]} column>
+            <AppText trajan>{bather.name}</AppText>
+            <AppText golder lightItalic>
+              {bather.position}
+            </AppText>
+          </Block>
+        </Block>
+      ))}
+    </>
+  );
 }

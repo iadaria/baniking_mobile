@@ -27,6 +27,7 @@ import BathSlider from './BathSlider';
 import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 import BathBathers from './BathBathers';
 import BathInfrastructure from './BathInfrastructure';
+import BathInfo from './BathInfo';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -67,7 +68,6 @@ function BathScreenContainer({
     rating,
     image,
     price,
-    description,
     photos,
     zones,
     services,
@@ -78,6 +78,12 @@ function BathScreenContainer({
     laundry_address,
     has_parking,
     parking_address,
+    description,
+    history,
+    features,
+    service,
+    traditions,
+    steam_room,
   } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
   const infastructureBath = {
@@ -88,6 +94,7 @@ function BathScreenContainer({
     has_parking,
     parking_address,
   };
+  const infoBath = { description, history, features, service, traditions, steam_room };
 
   infastructureBath.has_hotel = true;
   infastructureBath.hotel_address = 'Metropliks, Chita address 25';
@@ -95,6 +102,11 @@ function BathScreenContainer({
   infastructureBath.laundry_address = 'Metropliks, Chita address 25';
   infastructureBath.has_parking = true;
   infastructureBath.parking_address = 'Metropliks, Chita address 25';
+
+  infoBath.history = 'History test';
+  infoBath.service = 'service History test';
+  infoBath.traditions = 'trad History test';
+  infoBath.steam_room = 'steam History test';
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
@@ -143,7 +155,7 @@ function BathScreenContainer({
   }
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
       {/* Заголовок */}
       <BathHeader
         distance={bathParams?.distance}
@@ -152,11 +164,11 @@ function BathScreenContainer({
         persistImages={persistImages}
       />
       <Block margin={[3, sizes.offset.base, 1.2]}>
-        {/* Инфраструктура */}
-        <BathInfrastructure infastructureBath={infastructureBath} />
+        {/* Дополнительная информация */}
+        <BathInfo infoBath={infoBath} />
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
-          <AppText medium>{numberWithSpaces(price || 0)}</AppText>
+          <AppText medium>{`${numberWithSpaces(price || 0)} \u20BD`}</AppText>
           <AppText golder medium tag>
             {' / час'}
           </AppText>
@@ -220,6 +232,11 @@ function BathScreenContainer({
             <BathBathers bathers={bathers} persistImages={persistImages} />
           </>
         )}
+        {/* Адрес и инфраструктура */}
+        <AppText margin={[1, 0]} golder>
+          Адрес и инфраструктура
+        </AppText>
+        <BathInfrastructure infastructureBath={infastructureBath} />
       </Block>
     </ScrollView>
   );

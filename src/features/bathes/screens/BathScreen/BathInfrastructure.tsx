@@ -23,7 +23,7 @@ export default function BathInfrastructure({
   let hotel;
   if (has_hotel) {
     hotel = (
-      <Block margin={[0.5, 1]} style={styles.infrastructure}>
+      <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Отель рядом
         </AppText>
@@ -37,7 +37,7 @@ export default function BathInfrastructure({
   let laundry;
   if (has_laundry) {
     laundry = (
-      <Block margin={[0.5, 1]} style={styles.infrastructure}>
+      <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Прачечная
         </AppText>
@@ -49,9 +49,9 @@ export default function BathInfrastructure({
     );
   }
   let parking;
-  if (has_laundry) {
+  if (has_parking) {
     parking = (
-      <Block margin={[0.5, 1]} style={styles.infrastructure}>
+      <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Парковка
         </AppText>
