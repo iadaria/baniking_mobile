@@ -207,6 +207,7 @@ export interface IBathDetailed extends IBath {
   city_name: string;
   has_laundry: boolean;
   laundry_address: string | null;
+  has_parking: boolean;
   parking_address: string | null;
   has_hotel: boolean;
   hotel_address: string | null;

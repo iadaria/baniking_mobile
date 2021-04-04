@@ -26,6 +26,7 @@ import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
 import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 import BathBathers from './BathBathers';
+import BathInfrastructure from './BathInfrastructure';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -70,10 +71,30 @@ function BathScreenContainer({
     photos,
     zones,
     services,
-    steam_rooms,
     bathers,
+    has_hotel,
+    hotel_address,
+    has_laundry,
+    laundry_address,
+    has_parking,
+    parking_address,
   } = selectedBath || {};
   const headBath = { name, short_description, address, rating, image };
+  const infastructureBath = {
+    has_hotel,
+    hotel_address,
+    has_laundry,
+    laundry_address,
+    has_parking,
+    parking_address,
+  };
+
+  infastructureBath.has_hotel = true;
+  infastructureBath.hotel_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_laundry = true;
+  infastructureBath.laundry_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_parking = true;
+  infastructureBath.parking_address = 'Metropliks, Chita address 25';
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
@@ -131,6 +152,8 @@ function BathScreenContainer({
         persistImages={persistImages}
       />
       <Block margin={[3, sizes.offset.base, 1.2]}>
+        {/* Инфраструктура */}
+        <BathInfrastructure infastructureBath={infastructureBath} />
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
           <AppText medium>{numberWithSpaces(price || 0)}</AppText>

@@ -72,4 +72,16 @@ export const styles = StyleSheet.create({
     width: wp(15),
     borderRadius: 50,
   },
+  infrastructure: {
+    backgroundColor: '#121213',
+    borderColor: '#242424',
+    borderWidth: 1,
+    borderRadius: sizes.radius,
+    overflow: 'hidden',
+  },
+  infrastructureIcon: {
+    position: 'absolute',
+    right: wp(1),
+    bottom: wp(1),
+  },
 });

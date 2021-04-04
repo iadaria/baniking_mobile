@@ -36,6 +36,9 @@ export { default as MarkerIconSvg } from './images/svg/marker.svg';
 export { default as MarkerIcon } from './images/png/marker.png';
 export { default as CloseFilerIcon } from './images/svg/close-filter.svg';
 export { default as SchedulerIcon } from './images/svg/scheduler.svg';
+export { default as HotelIcon } from './images/svg/hotel.svg';
+export { default as LaundryIcon } from './images/svg/laundry.svg';
+export { default as ParkingIcon } from './images/svg/parking.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
