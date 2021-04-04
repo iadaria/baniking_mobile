@@ -13,6 +13,31 @@ import {
 } from '../models/bath';
 import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
+import { ISchedule } from '~/src/app/models/bath';
+
+export const getScheduleCurrentWeek = (schedule: Partial<ISchedule>): [string, string | null] => {
+  if (schedule.is_round_the_clock) {
+    return ['', null];
+  }
+  const arrayOfWeekdays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+  const arrayOfWeekdaysShort = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+
+  const dateObj = new Date();
+
+  const weekdayNumber = dateObj.getDay();
+  const weekdayName = arrayOfWeekdays[weekdayNumber];
+
+  const weekdayShort = arrayOfWeekdaysShort[weekdayNumber];
+
+  const week = `on_${weekdayShort}` as keyof ISchedule;
+  const hours_from = `${weekdayShort}_hours_from` as keyof ISchedule;
+  const hours_to = `${weekdayShort}_hours_to` as keyof ISchedule;
+  const weekDaySchedule = !schedule[week]
+    ? null
+    : (schedule[hours_from] || '') + ' - ' + (schedule[hours_to] || '');
+
+  return [weekdayName, weekDaySchedule];
+};
 
 export const getRandomBathImage = () => {
   const images = [bathOneImg, bathTwoImg, bathThreeImg];
@@ -139,25 +164,3 @@ export function calculateDistance(props: IDistance) {
   return d; // returns the distance in meter
   // console.log('[bathUtility/calculateDisntance]', d / 1000);
 }
-
-/* export function withCachedImage(bathes: IBath[]) {
-  const width = Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
-  // console.log(JSON.stringify(bathes, null, 2))
-  const newBathes = bathes.map(async (bath: IBath) => {
-    if (bath.image) {
-      try {
-        const response: Response = await ImageResizer.createResizedImage(bath.image, width, width, 'PNG', 100);
-        console.log(response);
-        return {
-          ...bath,
-          cachedImage: response.uri,
-        };
-      } catch (error) {
-        console.log('[withCachedImage/error]', error);
-      }
-    }
-    return bath;
-  });
-  console.log(JSON.stringify(newBathes, null, 2));
-  return newBathes;
-} */

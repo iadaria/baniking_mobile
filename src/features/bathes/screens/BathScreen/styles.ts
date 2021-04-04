@@ -112,4 +112,11 @@ export const styles = StyleSheet.create({
   address: {
     backgroundColor: '#121213',
   },
+  schedule: {
+    padding: wp(2),
+    paddingHorizontal: wp(3),
+    borderColor: '#AEAEAE',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
 });

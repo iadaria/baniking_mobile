@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ParamListBase, Route, useFocusEffect } from '@react-navigation/native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+// import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   clearSelectedBath as clearSelectedBathAction,
   getBath as getBathAction,
@@ -10,7 +10,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import BathDestinationMap from './BathDestinationMap';
-import { SchedulerIcon } from '~/src/assets';
 import BathHeader from './BathHeader';
 import { IRootState } from '~/src/app/store/rootReducer';
 import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
@@ -27,6 +26,7 @@ import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 import BathBathers from './BathBathers';
 import BathInfrastructure from './BathInfrastructure';
 import BathInfo from './BathInfo';
+import BathSchedule from './BathSchedule';
 
 const BASE = sizes.offset.base;
 
@@ -101,20 +101,6 @@ function BathScreenContainer({
   };
   const infoBath = { description, history, features, service, traditions, steam_room };
 
-  infastructureBath.has_hotel = true;
-  infastructureBath.hotel_address = 'Metropliks, Chita address 25';
-  infastructureBath.has_laundry = true;
-  infastructureBath.laundry_address = 'Metropliks, Chita address 25';
-  infastructureBath.has_parking = true;
-  infastructureBath.parking_address = 'Metropliks, Chita address 25';
-
-  infoBath.history = 'History test';
-  infoBath.service = 'service History test';
-  infoBath.traditions = 'trad History test';
-  infoBath.steam_room = 'steam History test';
-
-  // schedule.is_round_the_clock = false;
-
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
   useFocusEffect(() => {
@@ -125,7 +111,7 @@ function BathScreenContainer({
   // Выбираем баню, проверяем если уже полученная ранее информация о бане
   useEffect(() => {
     if (!selectedBath) {
-      console.log('[BathScreen/useEffect] getBath(1010)');
+      __DEV__ && console.log('[BathScreen/useEffect] getBath(1010)');
       getBath(1010); // delete
     }
     //getBath(bathParams.id); // delete
@@ -134,7 +120,7 @@ function BathScreenContainer({
   // Снять выделения бани
   useEffect(() => {
     return function cleanup() {
-      console.log('[BathScreen]/ clearSelectedBath');
+      __DEV__ && console.log('[BathScreen]/ clearSelectedBath');
       //clearSelectedBath(); // delete comment
     };
   }, [clearSelectedBath]);
@@ -158,6 +144,23 @@ function BathScreenContainer({
     return <AppActivityIndicator />;
   }
 
+  infastructureBath.has_hotel = true;
+  infastructureBath.hotel_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_laundry = true;
+  infastructureBath.laundry_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_parking = true;
+  infastructureBath.parking_address = 'Metropliks, Chita address 25';
+
+  infoBath.history = 'History test';
+  infoBath.service = 'service History test';
+  infoBath.traditions = 'trad History test';
+  infoBath.steam_room = 'steam History test';
+
+  schedule.is_round_the_clock = false;
+  schedule.on_mo = 1;
+  schedule.mo_hours_from = '10:00';
+  schedule.mo_hours_to = '00:00';
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
       {/* Заголовок */}
@@ -177,17 +180,10 @@ function BathScreenContainer({
         </Block>
         {/* Телефон */}
         <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
-          <AppText golder>{formatPhoneNumber('79143528288')}</AppText>
+          <AppText golder>Тест {formatPhoneNumber('79143528288')}</AppText>
         </TouchableOpacity>
         {/* Разсписание */}
-        <Block style={styles.goldBorder} center row>
-          <SchedulerIcon />
-          {schedule?.is_round_the_clock && (
-            <AppText golder medium tag>
-              {'  круглосуточно'}
-            </AppText>
-          )}
-        </Block>
+        <BathSchedule schedule={schedule} />
         {/* Описание */}
         <Block margin={[1, 0, 0]}>
           <AppText height={18} tag light>
