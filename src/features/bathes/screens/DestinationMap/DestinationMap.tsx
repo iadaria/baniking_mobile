@@ -3,14 +3,14 @@ import { Route } from '@react-navigation/native';
 import MapView, { Polyline as MapPolyline, Marker } from 'react-native-maps';
 import PolyLine from '@mapbox/polyline';
 import NoPermissionPart from './NoPermissionPart';
-import { View, Image } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { View } from 'react-native';
+//import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import usePermission from '~/src/app/hooks/usePermission';
 import { useGeolocation } from '../../hooks/useGeolocation';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBath, TPartDirectionsParams } from '~/src/app/models/bath';
+import { TPartDirectionsParams } from '~/src/app/models/bath';
 import { ILocation } from '~/src/app/models/user';
 import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
@@ -21,26 +21,15 @@ export interface IProps {
   route: Route<string, object | undefined>;
 }
 
-interface IState {
-  hasMapPermission: [boolean, string];
-  userLatitude: number;
-  userLongitude: number;
-  destinationCoords: number[];
-}
-
-const test: ILocation = { latitude: 55.82633, longitude: 37.3262967 };
-// const testBath: IBath = { latitude: 55.822871, longitude: 37.3131741 };
-const testBath: IBath = { latitude: 55.832871, longitude: 37.3031741 };
-
 export function DestinationMap({ route }: IProps) {
   const [customeNeedCheck, setCustomeNeedCheck] = useState<boolean>(false);
   const [localPermission, setLocalPermission] = useState(false);
   //const [fit, setFit] = useState(false);
   const [destinationCoords, setDestinationCoords] = useState<ILocation[]>([]);
-  const { location } = useSelector(({ auth }: IRootState) => auth.currentUser) || test;
+  const { location: userLocation } = useSelector(({ auth }: IRootState) => auth.currentUser) || {};
   const map = createRef<MapView>();
 
-  const bath: IBath | undefined = route?.params || testBath;
+  const bathLocation: ILocation = route?.params || {};
 
   usePermission({
     permission_type: PERMISSION_TYPE.location,
@@ -61,12 +50,12 @@ export function DestinationMap({ route }: IProps) {
   }, [destinationCoords]); */
 
   const requestPoint = useCallback(() => {
-    const { latitude, longitude } = bath || {};
-    const { latitude: userLatitud, longitude: userLongitude } = location || {};
-    if (latitude && longitude && userLatitud && userLongitude) {
+    const { latitude: bathLatitude, longitude: bathLongitude } = bathLocation || {};
+    const { latitude: userLatitud, longitude: userLongitude } = userLocation || {};
+    if (bathLatitude && bathLongitude && userLatitud && userLongitude) {
       const params: TPartDirectionsParams = {
         origin: `${userLatitud},${userLongitude}`,
-        destination: `${latitude},${longitude}`,
+        destination: `${bathLatitude},${bathLongitude}`,
       };
       getPoints(params)
         .then((result: string | null) => {
@@ -89,7 +78,7 @@ export function DestinationMap({ route }: IProps) {
         .catch((error) => console.log('[DestingationMap/getPoitns/error]', error));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bath, location]);
+  }, [bathLocation, userLocation]);
 
   /* useEffect(() => {
     setTimeout(() => {
@@ -98,10 +87,10 @@ export function DestinationMap({ route }: IProps) {
   }, []); */
 
   useEffect(() => {
-    if (bath && location) {
+    if (bathLocation && userLocation) {
       requestPoint();
     }
-  }, [bath, location, requestPoint]);
+  }, [bathLocation, userLocation, requestPoint]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -117,11 +106,11 @@ export function DestinationMap({ route }: IProps) {
   }
 
   // console.log('[DestinationMap/userLocation]', location, localPermission);
-  const test = () => {
+  const onMapReady = () => {
     map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } });
   };
 
-  if (!location) {
+  if (!userLocation || !bathLocation) {
     return null;
   }
 
@@ -141,14 +130,25 @@ export function DestinationMap({ route }: IProps) {
     <View style={[styles.container]}>
       <MapScreen
         //style={[styles.container]}
-        onMapReady={test}
+        onMapReady={onMapReady}
         style={styles.container}
         ref={map}
-        userLatitude={location?.latitude}
-        userLongitude={location?.longitude}>
+        userLatitude={userLocation?.latitude}
+        userLongitude={userLocation?.longitude}>
         {polyline}
         {marker}
       </MapScreen>
     </View>
   );
 }
+
+/* interface IState {
+  hasMapPermission: [boolean, string];
+  userLatitude: number;
+  userLongitude: number;
+  destinationCoords: number[];
+} */
+
+//const test: ILocation = { latitude: 55.82633, longitude: 37.3262967 };
+// const testBath: IBath = { latitude: 55.822871, longitude: 37.3131741 };
+//const testBath: IBath = { latitude: 55.832871, longitude: 37.3031741 };

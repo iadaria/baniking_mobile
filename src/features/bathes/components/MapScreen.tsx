@@ -8,6 +8,8 @@ interface IProps extends MapViewProps {
   children?: React.ReactNode;
   customMapStyle?: MapStyleElement[];
   style?: ViewStyle;
+  /* showsUserLocation?: boolean;
+  showMyLocationButton?: boolean; */
 }
 
 export default React.forwardRef(
@@ -25,7 +27,7 @@ export default React.forwardRef(
       followsUserLocation
       zoomEnabled
       zoomControlEnabled
-      // showsMyLocationButton
+      showsMyLocationButton
       region={{
         latitude: userLatitude,
         longitude: userLongitude,

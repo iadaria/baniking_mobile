@@ -8,9 +8,8 @@ import {
 import { TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import { AppText, Block } from '~/src/app/common/components/UI';
+import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import BathDestinationMap from './BathDestinationMap';
-import routes from '~/src/navigation/helpers/routes';
 import { SchedulerIcon } from '~/src/assets';
 import BathHeader from './BathHeader';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -28,6 +27,8 @@ import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 import BathBathers from './BathBathers';
 import BathInfrastructure from './BathInfrastructure';
 import BathInfo from './BathInfo';
+
+const BASE = sizes.offset.base;
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -64,9 +65,12 @@ function BathScreenContainer({
   const {
     name,
     short_description,
+    city_name,
     address,
     rating,
     image,
+    latitude,
+    longitude,
     price,
     photos,
     zones,
@@ -84,8 +88,9 @@ function BathScreenContainer({
     service,
     traditions,
     steam_room,
+    schedule,
   } = selectedBath || {};
-  const headBath = { name, short_description, address, rating, image };
+  const headBath = { name, short_description, address, rating, image, latitude, longitude };
   const infastructureBath = {
     has_hotel,
     hotel_address,
@@ -108,10 +113,13 @@ function BathScreenContainer({
   infoBath.traditions = 'trad History test';
   infoBath.steam_room = 'steam History test';
 
+  // schedule.is_round_the_clock = false;
+
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
   useFocusEffect(() => {
     transparentHeader();
+    return () => nonTransparentHeader();
   });
 
   // Выбираем баню, проверяем если уже полученная ранее информация о бане
@@ -131,22 +139,21 @@ function BathScreenContainer({
     };
   }, [clearSelectedBath]);
 
-  function handleOpenDestinationMap() {
-    navigation.navigate(routes.bathesTab.DestinationMap, { ...bathParams });
-  }
-
   function callPhone(_phone: string) {
     Linking.openURL(`tel:${_phone}`);
   }
 
   let map = null;
-  const { latitude = null, longitude = null } = bathParams || {};
+  //const { latitude = null, longitude = null } = bathParams || {};
 
   if (latitude && longitude) {
     map = (
-      <TouchableOpacity style={styles.bathMap} onPress={handleOpenDestinationMap}>
+      // <TouchableOpacity style={styles.bathMap} /* onPress={handleOpenDestinationMap} */>
+      //   <BathDestinationMap latitude={latitude} longitude={longitude} />
+      // </TouchableOpacity>
+      <Block style={styles.bathMap}>
         <BathDestinationMap latitude={latitude} longitude={longitude} />
-      </TouchableOpacity>
+      </Block>
     );
   }
 
@@ -163,9 +170,16 @@ function BathScreenContainer({
         headBath={headBath}
         persistImages={persistImages}
       />
-      <Block margin={[3, sizes.offset.base, 1.2]}>
-        {/* Дополнительная информация */}
-        <BathInfo infoBath={infoBath} />
+      {/* Адрес и инфраструктура */}
+      <AppText margin={[1, BASE]} golder>
+        Адрес и инфраструктура
+      </AppText>
+      {map}
+      <AppText style={styles.address} padding={[2.5, BASE]} tag>
+        <AppText golder tag>{`${city_name}  `}</AppText>
+        {address}
+      </AppText>
+      <Block margin={[3, BASE, 1.2]}>
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
           <AppText medium>{`${numberWithSpaces(price || 0)} \u20BD`}</AppText>
@@ -180,9 +194,11 @@ function BathScreenContainer({
         {/* Разсписание */}
         <Block style={styles.goldBorder} center row>
           <SchedulerIcon />
-          <AppText golder medium tag>
-            {'  круглосуточно'}
-          </AppText>
+          {schedule?.is_round_the_clock && (
+            <AppText golder medium tag>
+              {'  круглосуточно'}
+            </AppText>
+          )}
         </Block>
         {/* Описание */}
         <Block margin={[1, 0, 0]}>
@@ -191,39 +207,47 @@ function BathScreenContainer({
           </AppText>
         </Block>
         {/* Зоны */}
-        <AppText margin={[1, 0]} golder>
-          Зоны
-        </AppText>
-        <Block row wrap>
-          {zones?.map((zone: string, index: number) => (
-            <AppText key={`item-${index}`} style={styles.element} tag>
-              {zone}
+        {zones && zones.length && (
+          <>
+            <AppText margin={[1, 0]} golder>
+              Зоны
             </AppText>
-          ))}
-        </Block>
+            <Block row wrap>
+              {zones?.map((zone: string, index: number) => (
+                <AppText key={`item-${index}`} style={styles.element} tag>
+                  {zone}
+                </AppText>
+              ))}
+            </Block>
+          </>
+        )}
         {/* Сервис */}
-        <AppText margin={[1, 0]} golder>
-          Сервис
-        </AppText>
-        <Block row wrap>
-          {services?.map((zone: string, index: number) => (
-            <AppText key={`item-${index}`} style={styles.element} tag>
-              {zone}
+        {services && services.length && (
+          <>
+            <AppText margin={[1, 0]} golder>
+              Сервис
             </AppText>
-          ))}
-        </Block>
+            <Block row wrap>
+              {services?.map((zone: string, index: number) => (
+                <AppText key={`item-${index}`} style={styles.element} tag>
+                  {zone}
+                </AppText>
+              ))}
+            </Block>
+          </>
+        )}
       </Block>
       {/* Фото */}
       {photos && photos?.length > 0 && (
         <>
-          <AppText margin={[0, sizes.offset.base]} golder>
+          <AppText margin={[0, BASE]} golder>
             Фото
           </AppText>
           <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
         </>
       )}
       {/* Банщики */}
-      <Block margin={[0, sizes.offset.base]}>
+      <Block margin={[0, BASE]}>
         {bathers && bathers.length && (
           <>
             <AppText margin={[1, 0]} golder>
@@ -232,11 +256,10 @@ function BathScreenContainer({
             <BathBathers bathers={bathers} persistImages={persistImages} />
           </>
         )}
-        {/* Адрес и инфраструктура */}
-        <AppText margin={[1, 0]} golder>
-          Адрес и инфраструктура
-        </AppText>
         <BathInfrastructure infastructureBath={infastructureBath} />
+        <Divider color="#242424" />
+        {/* Дополнительная информация */}
+        <BathInfo infoBath={infoBath} />
       </Block>
     </ScrollView>
   );

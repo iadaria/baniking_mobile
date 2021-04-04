@@ -44,10 +44,11 @@ export const cacheImages = async (images: string[], set: string[], size?: number
     if (indexOf === -1) {
       try {
         const response: Response = await cacheImage(images[i], size);
-        __DEV__ && console.log('getBathSaga persistImage', JSON.stringify(response, null, 4));
+        //__DEV__ && console.log('[bathUtility/persistImage]', JSON.stringify(response, null, 4));
+        __DEV__ && console.log('[bathUtility/persistImage]', response.name);
         cachedImages.push({ id: fileName, path: response.uri });
       } catch (error) {
-        __DEV__ && console.log('getBathSaga/error', error);
+        __DEV__ && console.log('[bathUtility/persistImage/error]', error);
       }
     }
   }

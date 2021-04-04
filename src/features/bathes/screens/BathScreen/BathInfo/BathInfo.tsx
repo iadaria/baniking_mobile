@@ -12,7 +12,7 @@ interface IInfoBath {
 }
 
 interface IProps {
-  infoBath: IInfoBath;
+  infoBath: Partial<IInfoBath>;
 }
 
 export default function BathInfo({
@@ -47,7 +47,7 @@ export default function BathInfo({
 
   return isInfo ? (
     <>
-      <AppText margin={[1, 0, 2]} golder>
+      <AppText margin={[0.5, 0, 2]} golder>
         Дополнительная информация
       </AppText>
       {descriptionItem}

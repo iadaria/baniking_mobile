@@ -27,17 +27,17 @@ interface IResult {
   bathers: IBather[];
 }
 
-var countBathRequest = 0;
+// var countBathRequest = 0;
 
 function* getBathSaga({ payload }: IAction) {
-  countBathRequest++;
+  /* countBathRequest++;
   if (countBathRequest > 3) {
-    console.log('[getBathSaga] count > 3');
+    __DEV__ && console.log('[getBathSaga] count > 3');
     setTimeout(function () {
       countBathRequest = 0;
     }, 10000);
     return;
-  }
+  } */
 
   const bathId = payload;
   __DEV__ && console.log('[getBathSaga]', bathId);

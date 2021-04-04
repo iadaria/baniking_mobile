@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   bathMap: {
-    // flex: 1,
+    flex: 1,
     marginLeft: 1,
     height: hp(50),
   },
@@ -108,5 +108,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     /* borderWidth: 1,
     borderColor: 'red', */
-  }
+  },
+  address: {
+    backgroundColor: '#121213',
+  },
 });

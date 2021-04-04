@@ -35,8 +35,16 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
         }
       });
       // Проверяем добавилось ли хоть одно изображение
-      newCachedPhotos.length > countCached && setCachedPhotos(newCachedPhotos);
-      __DEV__ && console.log('[BathSlider/newCachedBathPhoto]', photos.length, cachedPhotos.length, newCachedPhotos.length);
+      if (newCachedPhotos.length > countCached) {
+        setCachedPhotos([...newCachedPhotos]);
+      }
+      __DEV__ &&
+        console.log(
+          '[BathSlider/newCachedBathPhoto] photo-length/cached-length/new-length',
+          photos.length,
+          countCached,
+          newCachedPhotos.length,
+        );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photos, /* cachedBathPhotos, */ persistImages]);

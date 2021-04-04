@@ -86,14 +86,14 @@ export function BathesScreenContainer({
   const { page = 0 } = params;
 
   // by Daria need delete
-  useEffect(() => {
-    transparentHeader();
-    navigation.navigate(routes.bathesTab.BathScreen, {
-      id: 1010,
-      distance: 2000,
-    });
-    // navigation.navigate(routes.bathesTab.BathesFilterScreen);
-  }, [navigation, transparentHeader]);
+  // useEffect(() => {
+  //   transparentHeader();
+  //   navigation.navigate(routes.bathesTab.BathScreen, {
+  //     id: 1010,
+  //     distance: 2000,
+  //   });
+  //   // navigation.navigate(routes.bathesTab.BathesFilterScreen);
+  // }, [navigation, transparentHeader]);
 
   usePermission({
     permission_type: PERMISSION_TYPE.location,
@@ -187,7 +187,7 @@ export function BathesScreenContainer({
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
-      const map = maps.find((map: IMap) => map.bathId === item.id);
+      const map = maps.find((_map: IMap) => _map.bathId === item.id);
       const distance: number = map?.distance || 0;
       return (
         <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>

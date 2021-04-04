@@ -13,6 +13,7 @@ import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
+import routes from '~/src/navigation/helpers/routes';
 
 export interface IHeadBath {
   name: string;
@@ -20,12 +21,14 @@ export interface IHeadBath {
   address: string;
   rating: number;
   image: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface IProps {
   distance?: number;
   navigation: StackNavigationProp<ParamListBase>;
-  headBath: IHeadBath;
+  headBath: Partial<IHeadBath>;
   persistImages: IPersistImages;
 }
 
@@ -34,7 +37,7 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
   const [randomImg] = useState(getRandomBathImage());
   const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
-  const { name, rating, short_description, address, image } = headBath || {};
+  const { name, rating, short_description, address, image, latitude, longitude } = headBath || {};
 
   // Получаем из кэша главное изображение для заголовка
   useEffect(() => {
@@ -46,6 +49,10 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
       }
     }
   }, [image, cachedMainImage, persistImages]);
+
+  function handleOpenDestinationMap() {
+    navigation.navigate(routes.bathesTab.DestinationMap, { latitude, longitude });
+  }
 
   return (
     <ImageBackground source={cachedMainImage || randomImg} style={styles.bathBackground}>
@@ -67,7 +74,7 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
         </Block>
         <Block margin={[0, 0, 3, 0]} padding={[0, sizes.offset.base]} center row>
           <AppText tag>{address}</AppText>
-          <TouchableOpacity style={styles.route}>
+          <TouchableOpacity style={styles.route} onPress={handleOpenDestinationMap}>
             <AppText medium secondary>
               {kms && `${kms} км `}
             </AppText>

@@ -18,7 +18,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // console.log('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
-          console.log(position);
+          __DEV__ && console.log(position);
           dispatch(
             setAuthUserData({
               location: {
@@ -34,7 +34,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
-          console.log(error.code, error.message);
+          __DEV__ && console.log(error.code, error.message);
         },
         { enableHighAccuracy: true },
       );
@@ -44,7 +44,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
 
   /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
-    console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
+    __DEV__ && console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
     locationWatchId.current = requestFineLocation();
     return function () {
       if (locationWatchId.current) {

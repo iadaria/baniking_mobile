@@ -50,17 +50,16 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
       } else {
         // Если изображение по имени не найдено в кэше телеофна
         // То создаем изображение с номальным для телеофна размером и сохраняем в кэше
-        //console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
+        //__DEV__ && console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
         cacheImage(image)
           .then((response: Response) => {
-            //__DEV__ && console.log('[BathItem]', response);
             setThisCachedImage(response.uri);
             uri.current = response.uri;
           })
           .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
     } else {
-      //console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
+      __DEV__ && console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

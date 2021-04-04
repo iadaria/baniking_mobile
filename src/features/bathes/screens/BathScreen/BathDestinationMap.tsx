@@ -13,8 +13,19 @@ interface IProps {
 export default function BathDestinationMap({ latitude, longitude }: IProps) {
   const map = createRef<MapView>();
 
+  const onMapReady = () => {
+    setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 1000);
+  };
+
   return (
-    <MapScreen customMapStyle={mapStyle} ref={map} userLatitude={latitude} userLongitude={longitude}>
+    <MapScreen
+      style={{ flex: 1, marginLeft: 1 }}
+      showsMyLocationButton={false}
+      onMapReady={onMapReady}
+      customMapStyle={mapStyle}
+      ref={map}
+      userLatitude={latitude}
+      userLongitude={longitude}>
       <Marker coordinate={{ latitude, longitude }}>
         <MarkerIconSvg width={wp(20)} height={wp(20)} />
       </Marker>
