@@ -22,8 +22,8 @@ interface IResult {
 
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
-  /* console.log('[fetchBathesSaga]', payload.bathParams);
-  console.log('[fetchBathesSaga]', payload); */
+  //console.log('[fetchBathesSaga]', payload.bathParams);
+  __DEV__ && console.log('[fetchBathesSaga]', payload);
   try {
     if (moreBathes) {
       const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
@@ -65,9 +65,11 @@ function* fetchMapsSaga(bathes: IBath[]) {
   const { currentUser }: IAuthState = yield select(({ auth }: IRootState) => auth);
   const { location } = currentUser || {};
 
+  __DEV__ && console.log('[fetchMapsSaga]', location);
+
   if (location) {
     if (!isLatitude(location.latitude) || !isLongitude(location.longitude)) {
-      console.log('[fecthMapsSaga/not correct lat or long]', location);
+      __DEV__ && console.log('[fecthMapsSaga/not correct lat or long]', location);
       return;
     }
 
@@ -76,7 +78,7 @@ function* fetchMapsSaga(bathes: IBath[]) {
       const { latitude, longitude } = bathes[i];
 
       if (!isLatitude(latitude) || !isLongitude(longitude)) {
-        console.log('[fecthMapsSaga/not correct lat or long]', latitude, longitude);
+        __DEV__ && console.log('[fecthMapsSaga/not correct lat or long]', latitude, longitude);
         return;
       }
 
@@ -95,7 +97,7 @@ function* fetchMapsSaga(bathes: IBath[]) {
           lastUpdateDistance: new Date(),
         };
         maps.push(newMap);
-      } else console.log('[fetchMapsSaga] status=', rows[0].elements[0].status);
+      } else __DEV__ && console.log('[fetchMapsSaga] status=', rows[0].elements[0].status);
     }
     yield put(setMaps(maps));
   }

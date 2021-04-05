@@ -80,7 +80,6 @@ export function BathesScreenContainer({
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
-  //const [userLocation, setUserLocation] = useState<ILocation>();
   const [localPermission, setLocalPermission] = useState(false);
 
   const { page = 0 } = params;
@@ -138,6 +137,22 @@ export function BathesScreenContainer({
       handleLoadMore();
     }
   }, [handleLoadMore, page, params]);
+
+  // Если изменились права на локацию, то начинаем запрос заново
+  useEffect(() => {
+    if (localPermission && maps.length === 0) {
+      __DEV__ && console.log('[BathesScreen/useEffect(localPermission && maps === 0)]');
+      const countBathes = bathes?.length || 0;
+      const canMoreBathes = canLoadMore(totalBathes, countBathes, params.page!);
+      const bathParams: TPartBathParams = {
+        ...params,
+        page: 0,
+      };
+      clearBathes();
+      fetchBathes({ bathParams, moreBathes: canMoreBathes });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localPermission, maps]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
 

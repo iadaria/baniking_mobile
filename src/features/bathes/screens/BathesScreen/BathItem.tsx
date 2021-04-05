@@ -59,7 +59,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
           .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
     } else {
-      __DEV__ && console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
+      //__DEV__ && console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

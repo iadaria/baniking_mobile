@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RESULTS, openSettings } from 'react-native-permissions';
 import { AppPermission } from '~/src/app/common/components/AppPersmission';
 import { showAlert } from '~/src/app/common/components/showAlert';
@@ -39,7 +39,7 @@ export default function usePermission({
         setNeedCheck(false); // Отмечаем, что проверка пройдена и не нужна
       });
     } else {
-      console.log(`\n[userPermission/useEffect/${permission_type}] needCheck is false`);
+      __DEV__ && console.log(`\n[userPermission/useEffect/${permission_type}] needCheck is false`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [needCheck]);
