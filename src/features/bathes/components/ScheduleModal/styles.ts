@@ -1,14 +1,16 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { windowWidth, multiplier } from '~/src/app/common/constants';
+import { windowWidth, multiplier, windowHeight } from '~/src/app/common/constants';
+
+__DEV__ && console.log('[ScheduleModal Height]', windowHeight);
 
 export const styles = StyleSheet.create({
   modalView: {
     position: 'relative',
     width: windowWidth - wp(19),
     alignSelf: 'center',
-    margin: 20,
-    marginTop: wp(40),
+    //margin: 20,
+    marginTop: (windowHeight / 100) * 10 * multiplier,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -18,13 +20,13 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    zIndex: 1,
   },
   closeIcon: {
     alignItems: 'center',
   },
   modal: {
-    padding: wp(7),
+    paddingTop: wp(7),
+    paddingBottom: wp(3),
     paddingHorizontal: wp(5),
     marginTop: wp(10) * multiplier,
     borderRadius: 10,

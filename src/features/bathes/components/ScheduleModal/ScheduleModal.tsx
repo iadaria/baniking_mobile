@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
@@ -7,6 +6,9 @@ import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { ISchedule } from '~/src/app/models/bath';
 import { AuthLogoLeft, AuthLogoRight, CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
+import { isAndroid, windowHeight } from '~/src/app/common/constants';
+import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
+import { TouchableOpacity } from 'react-native';
 
 interface IProps {
   schedule?: Partial<ISchedule>;
@@ -17,8 +19,13 @@ export default function ScheduleModal({ schedule }: IProps) {
 
   return (
     <ModalWrapper>
-      <Block style={styles.modalView} debug>
-        <TouchableOpacity style={styles.closeIcon} onPress={() => dispatch(closeModal())}>
+      <Block style={styles.modalView}>
+        <TouchableOpacity
+          style={styles.closeIcon}
+          onPress={() => {
+            isAndroid && dispatch(transparentHeader());
+            dispatch(closeModal());
+          }}>
           <CloseWhiteIcon />
         </TouchableOpacity>
         <Block style={styles.modal}>
@@ -31,10 +38,52 @@ export default function ScheduleModal({ schedule }: IProps) {
             <AuthLogoRight />
           </Block>
           {/* Понедельник */}
-          <Block style={styles.element}>
+          <Block margin={[1, 0]} style={styles.element}>
             <AppText primary tag>{`${schedule?.mo_hours_from} - ${schedule?.mo_hours_to}`}</AppText>
-            <AppText style={styles.label} primary medium tag>
+            <AppText style={styles.label} primary semibold tag>
               Понедельник
+            </AppText>
+          </Block>
+          {/* Вторник */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.tu_hours_from || ''} - ${schedule?.tu_hours_to || ''}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Вторник
+            </AppText>
+          </Block>
+          {/* Среда */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.we_hours_from || ''} - ${schedule?.we_hours_to || ''}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Среда
+            </AppText>
+          </Block>
+          {/* Четверг */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.th_hours_from || ''} - ${schedule?.th_hours_to}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Четверг
+            </AppText>
+          </Block>
+          {/* Пятница */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.fr_hours_from || ''} - ${schedule?.fr_hours_to || ''}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Пятница
+            </AppText>
+          </Block>
+          {/* Суббота */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.sa_hours_from || ''} - ${schedule?.sa_hours_to || ''}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Суббота
+            </AppText>
+          </Block>
+          {/* Воскресенье */}
+          <Block margin={[1, 0]} style={styles.element}>
+            <AppText primary tag>{`${schedule?.su_hours_from || ''} - ${schedule?.su_hours_to || ''}`}</AppText>
+            <AppText style={styles.label} primary semibold tag>
+              Воскресенье
             </AppText>
           </Block>
         </Block>

@@ -160,6 +160,9 @@ function BathScreenContainer({
   schedule.on_mo = 1;
   schedule.mo_hours_from = '10:00';
   schedule.mo_hours_to = '00:00';
+  schedule.on_tu = 1;
+  schedule.tu_hours_from = '10:00';
+  schedule.tu_hours_to = '00:00';
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
