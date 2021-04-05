@@ -33,6 +33,7 @@ import { OrderCallIcon } from '~/src/assets';
 import { IProfile } from '~/src/app/models/profile';
 
 const BASE = sizes.offset.base;
+const TEST_PHONE = '88000000000';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -73,6 +74,7 @@ function BathScreenContainer({
 }: IProps) {
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const {
+    id,
     name,
     short_description,
     city_name,
@@ -140,9 +142,10 @@ function BathScreenContainer({
   }
 
   useEffect(() => {
-    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
+    __DEV__ && console.log('[BaseScreen/useEffect] getProfileSettings()'); // del
     !currentProfile && getProfile();
-  }, [getProfile, currentProfile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getProfile]);
 
   let map = null;
   //const { latitude = null, longitude = null } = bathParams || {};
@@ -193,9 +196,17 @@ function BathScreenContainer({
         <TouchableOpacity
           style={styles.orderCall}
           onPress={() => {
-            getProfile();
+            const { name: userName, phone: userPhone } = currentProfile || {};
+            const orderCallProps = {
+              bathId: id,
+              bathName: name,
+              short_description,
+              bathPhone: '88000000000',
+              userName,
+              userPhone,
+            };
             isAndroid && nonTransparentHeader();
-            openModal({ modalType: 'OrderCallModal', modalProps: { bathName: name, bathPhone: '8800000000' } });
+            openModal({ modalType: 'OrderCallModal', modalProps: orderCallProps });
           }}>
           <AppText primary medium>
             Заказать звонок
@@ -203,8 +214,8 @@ function BathScreenContainer({
           <OrderCallIcon width={wp(10)} />
         </TouchableOpacity>
         {/* Телефон */}
-        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
-          <AppText golder>Тест {formatPhoneNumber('79143528288')}</AppText>
+        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, TEST_PHONE)}>
+          <AppText golder>Тест {formatPhoneNumber(TEST_PHONE)}</AppText>
         </TouchableOpacity>
         {/* Стоймость */}
         <Block style={styles.goldBorder} center row>
@@ -216,7 +227,7 @@ function BathScreenContainer({
         {/* Разсписание */}
         <BathSchedule schedule={schedule} />
         {/* Описание */}
-        <Block margin={[1, 0, 0]}>
+        <Block margin={[2, 0, 0]}>
           <AppText height={18} tag light>
             {description}
           </AppText>

@@ -261,3 +261,8 @@ export interface IProposition {
   description: string | null;
   discount: string | null;
 }
+
+export interface IOrderCall {
+  name: string;
+  phone: string;
+}

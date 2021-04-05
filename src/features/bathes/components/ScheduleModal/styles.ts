@@ -9,17 +9,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     width: windowWidth - wp(19),
     alignSelf: 'center',
-    //margin: 20,
     marginTop: (windowHeight / 100) * 10 * multiplier,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   closeIcon: {
     alignItems: 'center',
