@@ -65,7 +65,7 @@ function* fetchMapsSaga(bathes: IBath[]) {
   const { currentUser }: IAuthState = yield select(({ auth }: IRootState) => auth);
   const { location } = currentUser || {};
 
-  __DEV__ && console.log('[fetchMapsSaga]', location);
+  !!location && __DEV__ && console.log('[fetchMapsSaga]', location);
 
   if (location) {
     if (!isLatitude(location.latitude) || !isLongitude(location.longitude)) {

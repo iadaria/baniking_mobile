@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { ParamListBase, Route, useFocusEffect } from '@react-navigation/native';
-// import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   clearSelectedBath as clearSelectedBathAction,
   getBath as getBathAction,
 } from '~/src/features/bathes/store/bathActions';
+import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import { TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { connect } from 'react-redux';
@@ -17,8 +18,9 @@ import {
   nonTransparentHeader as nonTransparentHeaderAction,
   transparentHeader as transparentHeaderAction,
 } from '~/src/app/store/system/systemActions';
+import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
 import { IBathDetailed } from '~/src/app/models/bath';
-import { sizes } from '~/src/app/common/constants';
+import { isAndroid, sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
@@ -27,6 +29,8 @@ import BathBathers from './BathBathers';
 import BathInfrastructure from './BathInfrastructure';
 import BathInfo from './BathInfo';
 import BathSchedule from './BathSchedule';
+import { OrderCallIcon } from '~/src/assets';
+import { IProfile } from '~/src/app/models/profile';
 
 const BASE = sizes.offset.base;
 
@@ -37,10 +41,13 @@ interface IProps {
   loading: boolean;
   selectedBath: IBathDetailed | null;
   persistImages: IPersistImages;
+  currentProfile: IProfile | null;
   getBath: (bathId: number) => void;
   clearSelectedBath: () => void;
   transparentHeader: () => void;
   nonTransparentHeader: () => void;
+  openModal: (payload: IModalState) => void;
+  getProfile: () => void;
 }
 
 interface IParams {
@@ -60,6 +67,9 @@ function BathScreenContainer({
   navigation,
   transparentHeader,
   nonTransparentHeader,
+  openModal,
+  currentProfile,
+  getProfile,
 }: IProps) {
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const {
@@ -129,6 +139,11 @@ function BathScreenContainer({
     Linking.openURL(`tel:${_phone}`);
   }
 
+  useEffect(() => {
+    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
+    !currentProfile && getProfile();
+  }, [getProfile, currentProfile]);
+
   let map = null;
   //const { latitude = null, longitude = null } = bathParams || {};
 
@@ -174,6 +189,19 @@ function BathScreenContainer({
         persistImages={persistImages}
       />
       <Block margin={[3, BASE, 1.2]}>
+        {/* Заказать звонок */}
+        <TouchableOpacity
+          style={styles.orderCall}
+          onPress={() => {
+            getProfile();
+            isAndroid && nonTransparentHeader();
+            openModal({ modalType: 'OrderCallModal', modalProps: { bathName: name, bathPhone: '8800000000' } });
+          }}>
+          <AppText primary medium>
+            Заказать звонок
+          </AppText>
+          <OrderCallIcon width={wp(10)} />
+        </TouchableOpacity>
         {/* Телефон */}
         <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, '89143528288')}>
           <AppText golder>Тест {formatPhoneNumber('79143528288')}</AppText>
@@ -264,18 +292,20 @@ function BathScreenContainer({
 }
 
 const BathScreenConnected = connect(
-  ({ bath, system, persist }: IRootState) => ({
+  ({ bath, system, persist, profile }: IRootState) => ({
     connection: system.connection,
     loading: bath.loadingSelectBath,
     selectedBath: bath.selectedBath,
     persistImages: persist.image,
+    currentProfile: profile.currentUserProfile,
   }),
   {
     getBath: getBathAction,
     clearSelectedBath: clearSelectedBathAction,
     transparentHeader: transparentHeaderAction,
     nonTransparentHeader: nonTransparentHeaderAction,
-    //openModal: openModalAction,
+    openModal: openModalAction,
+    getProfile: getProfileSettingsAction,
   },
 )(BathScreenContainer);
 

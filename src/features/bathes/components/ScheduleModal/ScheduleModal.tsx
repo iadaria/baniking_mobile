@@ -6,8 +6,8 @@ import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { ISchedule } from '~/src/app/models/bath';
 import { AuthLogoLeft, AuthLogoRight, CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
-import { isAndroid, windowHeight } from '~/src/app/common/constants';
-import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
+import { isAndroid } from '~/src/app/common/constants';
+import { transparentHeader } from '~/src/app/store/system/systemActions';
 import { TouchableOpacity } from 'react-native';
 
 interface IProps {

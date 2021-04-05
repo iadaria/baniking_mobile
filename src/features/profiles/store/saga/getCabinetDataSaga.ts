@@ -6,6 +6,7 @@ import { setCabinetData } from '../profileActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { setTitlePoints } from '~/src/app/store/system/systemActions';
+//import { setAuthUserData } from '~/src/features/auth/store/authActions';
 
 // var countCabinetRequests = 0;
 
@@ -23,6 +24,7 @@ function* getCabinetDataSaga() {
     console.log('\n[getCabinetSaga] **********\n');
     yield put(setCabinetData(cabinet));
     yield put(setTitlePoints(cabinet.user.points));
+    //yield put(setAuthUserData({ name: cabinet.user.full_name, avatar: cabinet.user.avatar }));
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
     let [errors, message, allErrors] = getErrorStrings(e);

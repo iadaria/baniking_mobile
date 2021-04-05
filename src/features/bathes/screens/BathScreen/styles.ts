@@ -119,4 +119,13 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
+  orderCall: {
+    padding: wp(3),
+    paddingHorizontal: wp(4.5),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F3F0EB',
+    borderRadius: 10,
+  },
 });
