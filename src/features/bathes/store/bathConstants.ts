@@ -19,6 +19,10 @@ export const RETAIN_STATE = 'bath/RETAIN_STATE';
 export const SET_SORT = 'bath/SET_SORT';
 export const GET_BATH_PARAMS_VARIETY = 'bath/GET_BATH_PARAMS_VARIETY';
 export const SET_BATH_PARAMS_VARIETY = 'bath/SET_BATH_PARAMS_VARIETY';
+export const CHECK_FILTER = 'bath/CHECK_FILTER';
+export const CHECK_FILTER_FAIL = 'bath/CHECK_FILTER_FAIL';
+export const SET_RESULT_CHECK_FILTER = 'bath/SET_RESULT_CHECK_FILTER';
+export const ACCEPT_FILTER = 'bath/ACCEPT_FILTER';
 
 // Comments
 export const FETCH_BATH_COMMENTS = 'bath/FETCH_BATH_COMMENTS';

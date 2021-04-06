@@ -53,9 +53,24 @@ export const setBathParamsVariety = (paramsVariety: IBathParamsVariety) => ({
   payload: paramsVariety,
 });
 
-// Bathes Filter
+// Filter
+export const checkFilter = () => ({
+  type: constants.CHECK_FILTER,
+});
+
+export const checkFilterFail = (payload: IErrors | null) => ({
+  type: constants.CHECK_FILTER_FAIL,
+  payload,
+});
+
 export const setFilter = (payload: { params: TPartBathParams }) => ({
   type: constants.SET_FILTER,
+  payload,
+});
+
+// page always = 0
+export const setResultCheckFilter = (payload: { count: number }) => ({
+  tyle: constants.CHECK_FILTER,
   payload,
 });
 
@@ -63,6 +78,11 @@ export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) =
   type: constants.SET_SORT,
   payload,
 });
+
+/* export const checkFilter = (params: TPartBathParams) => ({
+  type: constants.CHECK_FILTER,
+  payload: params,
+}); */
 
 // Bath
 export const getBath = (bathId: number) => ({

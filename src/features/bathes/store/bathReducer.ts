@@ -31,10 +31,10 @@ export interface IBathState {
   params: TPartBathParams;
   paramsVariety: IBathParamsVariety | null;
   filtered: boolean;
+  filterLoading: boolean;
+  filterErrors: IErrors | null;
   countFilters: number;
   totalFilteredBathes: number;
-  filteredBathes: IBath[];
-  filteredBathIds: number[];
   // Bathes detailded
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
@@ -73,10 +73,10 @@ const initialState: IBathState = {
   params: defaultBathParams,
   paramsVariety: null,
   filtered: false,
+  filterLoading: false,
+  filterErrors: null,
   countFilters: 0,
   totalFilteredBathes: 0,
-  filteredBathes: [],
-  filteredBathIds: [],
   // comments
   comments: [],
   // maps
@@ -145,11 +145,33 @@ export default function bathReducer(
       };
 
     // Filter & Sort
+    case constants.CHECK_FILTER:
+      return {
+        ...state,
+        filterLoading: true,
+        filterErrors: null,
+      };
+
+    case constants.CHECK_FILTER_FAIL:
+      return {
+        ...state,
+        filterLoading: false,
+        filterErrors: payload,
+      };
+
+    case constants.SET_RESULT_CHECK_FILTER:
+      return {
+        ...state,
+        filterLoading: false,
+        filterErrors: null,
+        totalFilteredBathes: payload.count,
+      };
+
     case constants.SET_FILTER:
       return {
         ...state,
         retainState: false,
-        moreBathes: true,
+        moreBathes: true, // ?
         filtered: Object.keys(payload.params).some((key: string) => FILTER_KEYS.includes(key)),
         params: { ...payload.params, page: 0 },
       };

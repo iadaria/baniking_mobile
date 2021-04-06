@@ -16,9 +16,9 @@ interface IProps {
 }
 
 function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IProps) {
-  const [lowPrice, setLowPrice] = useState(90);
+  const [lowPrice, setLowPrice] = useState(50);
   const [highPrice, setHighPrice] = useState(300);
-  const [lowRating, setLowRating] = useState(2);
+  const [lowRating, setLowRating] = useState(1);
   const [highRating, setHighRating] = useState(5);
 
   const { zones, services, steamRooms } = paramsVariety || {};
@@ -48,7 +48,7 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
           <AppText secondary>Стоимость</AppText> в час
         </AppText>
         <RangeSlider
-          min={10}
+          min={0}
           max={300}
           low={lowPrice}
           high={highPrice}
