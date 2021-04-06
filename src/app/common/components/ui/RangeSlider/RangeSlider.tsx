@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import Slider from 'rn-range-slider';
 import Label from './Label';
 import Rail from './Rail';

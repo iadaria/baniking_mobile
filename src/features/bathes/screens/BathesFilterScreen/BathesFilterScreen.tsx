@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
@@ -13,7 +14,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { CloseFilerIcon } from '~/src/assets';
 import { styles } from './styles';
 // import { ScrollView } from 'react-native-gesture-handler';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { useDebouncedCallback } from 'use-debounce/lib';
 
 interface IProps {
   paramsVariety: IBathParamsVariety | null;
@@ -33,18 +34,71 @@ function BathesFilterScreenContainer({
   checkFilter,
 }: IProps) {
   const [lowPrice, setLowPrice] = useState(1);
+  const [middleLowPrice, setMiddleLowPrice] = useState('1');
+
   const [highPrice, setHighPrice] = useState(10000);
+  const [middleHighPrice, setMiddleHighPrice] = useState('');
+
   const [lowRating, setLowRating] = useState(2);
+  const [middleLowRating, setMiddleLowRating] = useState('2');
+
   const [highRating, setHighRating] = useState(5);
+  const [middleHightRating, setMiddleHighRating] = useState('5');
+
+  const [filterParams, setFilterParams] = useState<TPartBathParams>({ page: 0 });
 
   const { zones, services, steamRooms } = paramsVariety || {};
 
   useEffect(() => {
+    console.log('lowPrice = ', lowPrice, typeof lowPrice);
+  }, [lowPrice]);
+
+  // Получаем параметры для фильтрации
+  useEffect(() => {
     if (!paramsVariety) {
       getBathParamsVariety();
     }
-    //__DEV__ && console.log('FilterScreen', JSON.stringify(paramsVariety, null, 4));
   }, [getBathParamsVariety, paramsVariety]);
+
+  // Филльтр
+  const handleCheckFilter = useCallback(() => {
+    __DEV__ && console.log(`[FilterScreen/handleCheckFilter] fparams=${filterParams}`);
+    checkFilter(filterParams);
+  }, [checkFilter, filterParams]);
+
+  // Вызываем фильтр сразу после создания
+  useEffect(() => {
+    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter');
+    //handleCheckFilter();
+  }, [handleCheckFilter]);
+
+  const debounced = useDebouncedCallback((checkParams: TPartBathParams) => setFilterParams(checkParams), 2000, {
+    maxWait: 3000,
+  });
+
+  const changeText = (
+    text: string,
+    limit: number,
+    setOrigin: (digit: number) => void,
+    setMiddle: (text: string) => void,
+  ) => {
+    if (text === '') {
+      //e.preventDefault();
+      setMiddle('');
+      setOrigin(limit);
+      return false;
+    } else {
+      const digit = parseInt(text);
+      console.log(digit);
+      if (isNaN(digit)) {
+        return;
+      }
+      if (!isNaN(digit) && typeof digit === 'number') {
+        setMiddle(digit.toString());
+        setOrigin(digit);
+      }
+    }
+  };
 
   return (
     <>
@@ -72,25 +126,41 @@ function BathesFilterScreenContainer({
           setHigh={setHighPrice}
         />
         <Block margin={[1, 0, 0]} center row>
+          {/* Минимальная стоимость */}
           <AppText margin={[0, 3, 0, 0]} tag>
             от
           </AppText>
           <AppInput
             style={{ ...styles.input, width: wp(18) }}
-            rightButton={<RightButton onPress={setLowPrice.bind(null, 0)} />}
+            value={middleLowPrice}
+            onChangeText={(text: string) => changeText(text, 1, setLowPrice, setMiddleLowPrice)}
+            rightButton={
+              <RightButton
+                onPress={() => {
+                  setMiddleLowPrice('1');
+                  setLowPrice(1);
+                }}
+              />
+            }
             number
-            value={String(lowPrice)}
-            isScrollToFocused
           />
+          {/* Максимальная стоимость */}
           <AppText margin={[0, 2.5]} tag>
             до
           </AppText>
           <AppInput
             style={{ ...styles.input, width: wp(18) }}
-            rightButton={<RightButton onPress={setHighPrice.bind(null, 300)} />}
+            rightButton={
+              <RightButton
+                onPress={() => {
+                  setMiddleHighPrice('10000');
+                  setHighPrice(10000);
+                }}
+              />
+            }
             number
-            value={String(highPrice)}
-            isScrollToFocused
+            value={middleHighPrice}
+            onChangeText={(text: string) => changeText(text, 10000, setHighPrice, setMiddleHighPrice)}
           />
           <AppText margin={[0, 3]} tag>
             руб/час
@@ -101,7 +171,7 @@ function BathesFilterScreenContainer({
           Рейтинг
         </AppText>
         <RangeSlider
-          min={2}
+          min={1}
           max={5}
           low={lowRating}
           high={highRating}
@@ -114,20 +184,34 @@ function BathesFilterScreenContainer({
           </AppText>
           <AppInput
             style={styles.input}
-            rightButton={<RightButton onPress={setLowRating.bind(null, 0)} />}
+            rightButton={
+              <RightButton
+                onPress={() => {
+                  setMiddleLowRating('2');
+                  setLowRating(2);
+                }}
+              />
+            }
             number
-            value={String(lowRating)}
-            isScrollToFocused
+            value={middleLowRating}
+            onChangeText={(text: string) => changeText(text, 2, setLowRating, setMiddleLowRating)}
           />
           <AppText margin={[0, 2.5]} tag>
             до
           </AppText>
           <AppInput
             style={styles.input}
-            rightButton={<RightButton onPress={setHighRating.bind(null, 5)} />}
+            rightButton={
+              <RightButton
+                onPress={() => {
+                  setMiddleHighRating('5');
+                  setHighRating(5);
+                }}
+              />
+            }
             number
-            value={String(highRating)}
-            isScrollToFocused
+            value={middleHightRating}
+            onChangeText={(text: string) => changeText(text, 5, setHighRating, setMiddleHighPrice)}
           />
           <AppText margin={[0, 3]} tag>
             звезд
@@ -190,9 +274,21 @@ function BathesFilterScreenContainer({
         <Block margin={[10, 0]} />
       </ScrollView>
       <AppButton style={[styles.filterButton]} opacity={0.2} margin={[3, 0, 8]}>
-        <AppText center semibold header>
-          {'Показать  '}
-          {filterLoading ? <ActivityIndicator size="small" /> : totalFilteredBathes}
+        <AppText padding={1.5} center semibold header>
+          {'Показать '}
+          {/* {filterLoading ?  <ActivityIndicator size="small" color="white" /> : totalFilteredBathes}
+          {'  предложения'} */}
+        </AppText>
+        <Block middle center>
+          {filterLoading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <AppText semibold header>
+              {totalFilteredBathes}
+            </AppText>
+          )}
+        </Block>
+        <AppText padding={1.5} center semibold header>
           {' предложения'}
         </AppText>
       </AppButton>

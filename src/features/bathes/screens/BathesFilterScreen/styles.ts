@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors } from '~/src/app/common/constants';
+import { colors, isIos } from '~/src/app/common/constants';
 import { sizes } from '~/src/app/common/constants/sizes';
 
 export const styles = StyleSheet.create({
@@ -40,18 +40,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     width: wp(14),
-    height: hp(sizes.input.big.height * 0.8),
-    paddingVertical: wp(1),
-    paddingLeft: wp(3),
-    borderColor: '#2E2E2E',
-    borderRadius: 5,
-    fontSize: wp(sizes.font.label),
-    color: colors.text.base,
-    backgroundColor: '#121213',
-  },
-  inputLong: {
-    width: wp(18),
-    height: hp(sizes.input.big.height * 0.8),
+    height: hp(sizes.input.big.height * (isIos ? 0.65 : 0.8)),
     paddingVertical: wp(1),
     paddingLeft: wp(3),
     borderColor: '#2E2E2E',
@@ -85,6 +74,9 @@ export const styles = StyleSheet.create({
     bottom: -wp(sizes.offset.base),
     left: wp(sizes.offset.base),
     right: wp(sizes.offset.base),
-    //width: windowWidth - wp(20),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 0,
   },
 });

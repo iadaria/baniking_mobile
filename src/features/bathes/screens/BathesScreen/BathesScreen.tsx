@@ -54,8 +54,6 @@ interface IProps {
   openModal: (payload: IModalState) => void;
   clearBathes: () => void;
   setFilter: (payload: { params: TPartBathParams }) => void;
-  transparentHeader: () => void;
-
   navigation: StackNavigationProp<ParamListBase>;
 }
 
@@ -75,7 +73,6 @@ export function BathesScreenContainer({
   params,
   clearBathes,
   setFilter,
-  transparentHeader,
   navigation,
 }: IProps) {
   const [yForModal, setYForModal] = useState(wp(4));
@@ -109,9 +106,10 @@ export function BathesScreenContainer({
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    console.log(
-      `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
-    );
+    __DEV__ &&
+      console.log(
+        `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
+      );
     if (connection) {
       const countBathes = bathes?.length || 0;
       const canMoreBathes = canLoadMore(totalBathes, countBathes, params.page!);
@@ -130,6 +128,11 @@ export function BathesScreenContainer({
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
     maxWait: 2000,
   });
+
+  function handleFilter(newParams: TPartBathParams) {
+    clearBathes();
+    setFilter({ params: newParams });
+  }
 
   // Вызов если только запускаем приложение - не одной записи еще не получено
   useEffect(() => {
@@ -155,11 +158,6 @@ export function BathesScreenContainer({
   }, [localPermission, maps]);
 
   const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
-
-  function handleFilter(newParams: TPartBathParams) {
-    clearBathes();
-    setFilter({ params: newParams });
-  }
 
   function cancelQuery() {
     setSearchName(undefined);
@@ -326,7 +324,6 @@ const BathesScreenConnected = connect(
     openModal: openModalAction,
     clearBathes: clearBathesAction,
     setFilter: setFilterAction,
-    transparentHeader: transparentHeaderAction,
   },
 )(BathesScreenContainer);
 
