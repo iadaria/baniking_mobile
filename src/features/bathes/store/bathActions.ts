@@ -70,7 +70,7 @@ export const setFilter = (payload: { params: TPartBathParams }) => ({
 
 // page always = 0
 export const setResultCheckFilter = (payload: { count: number }) => ({
-  tyle: constants.CHECK_FILTER,
+  type: constants.SET_RESULT_CHECK_FILTER,
   payload,
 });
 
@@ -78,11 +78,6 @@ export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) =
   type: constants.SET_SORT,
   payload,
 });
-
-/* export const checkFilter = (params: TPartBathParams) => ({
-  type: constants.CHECK_FILTER,
-  payload: params,
-}); */
 
 // Bath
 export const getBath = (bathId: number) => ({

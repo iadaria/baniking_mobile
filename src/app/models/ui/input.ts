@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { LayoutChangeEvent, TextInput, TextInputProps, TextStyle, ViewProps } from 'react-native';
+import { LayoutChangeEvent, StyleProp, TextInput, TextInputProps, TextStyle, ViewProps } from 'react-native';
 
 export interface IAppInputProps<T> extends IUiInput {
   id?: keyof T; // id: keyof typeof defaultInputs;

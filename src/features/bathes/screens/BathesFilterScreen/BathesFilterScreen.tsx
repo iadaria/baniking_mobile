@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { RightButton } from './RightButton';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
-import { IBathParamsVariety, bathType } from '~/src/app/models/bath';
-import { getBathParamsVariety as getBathParamsVarietyAction } from '../../store/bathActions';
+import { IBathParamsVariety, bathType, TPartBathParams } from '~/src/app/models/bath';
+import {
+  getBathParamsVariety as getBathParamsVarietyAction,
+  checkFilter as checkFilterAction,
+} from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CloseFilerIcon } from '~/src/assets';
 import { styles } from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
+import { ActivityIndicator, ScrollView } from 'react-native';
 
 interface IProps {
   paramsVariety: IBathParamsVariety | null;
+  filterLoading: boolean;
+  countFilters: number;
+  totalFilteredBathes: number;
   getBathParamsVariety: () => void;
+  checkFilter: (checkParams: TPartBathParams) => void;
 }
 
-function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IProps) {
-  const [lowPrice, setLowPrice] = useState(50);
-  const [highPrice, setHighPrice] = useState(300);
-  const [lowRating, setLowRating] = useState(1);
+function BathesFilterScreenContainer({
+  paramsVariety,
+  filterLoading,
+  countFilters,
+  totalFilteredBathes,
+  getBathParamsVariety,
+  checkFilter,
+}: IProps) {
+  const [lowPrice, setLowPrice] = useState(1);
+  const [highPrice, setHighPrice] = useState(10000);
+  const [lowRating, setLowRating] = useState(2);
   const [highRating, setHighRating] = useState(5);
 
   const { zones, services, steamRooms } = paramsVariety || {};
@@ -37,7 +53,7 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
         <Block style={{ justifyContent: 'space-between' }} center row>
           <AppText h1>Выбрано фильтров</AppText>
           <AppText margin={[0, 0, 0, 11]} style={styles.button} semibold h2>
-            3
+            {countFilters}
           </AppText>
           <Block style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}>
             <CloseFilerIcon />
@@ -48,8 +64,8 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
           <AppText secondary>Стоимость</AppText> в час
         </AppText>
         <RangeSlider
-          min={0}
-          max={300}
+          min={1}
+          max={10000}
           low={lowPrice}
           high={highPrice}
           setLow={setLowPrice}
@@ -60,7 +76,7 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
             от
           </AppText>
           <AppInput
-            style={styles.input}
+            style={{ ...styles.input, width: wp(18) }}
             rightButton={<RightButton onPress={setLowPrice.bind(null, 0)} />}
             number
             value={String(lowPrice)}
@@ -70,7 +86,7 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
             до
           </AppText>
           <AppInput
-            style={styles.input}
+            style={{ ...styles.input, width: wp(18) }}
             rightButton={<RightButton onPress={setHighPrice.bind(null, 300)} />}
             number
             value={String(highPrice)}
@@ -85,7 +101,7 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
           Рейтинг
         </AppText>
         <RangeSlider
-          min={0}
+          min={2}
           max={5}
           low={lowRating}
           high={highRating}
@@ -175,7 +191,9 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
       </ScrollView>
       <AppButton style={[styles.filterButton]} opacity={0.2} margin={[3, 0, 8]}>
         <AppText center semibold header>
-          Показать ? предложения
+          {'Показать  '}
+          {filterLoading ? <ActivityIndicator size="small" /> : totalFilteredBathes}
+          {' предложения'}
         </AppText>
       </AppButton>
     </>
@@ -185,9 +203,13 @@ function BathesFilterScreenContainer({ paramsVariety, getBathParamsVariety }: IP
 const BathesFilterScreenConnected = connect(
   ({ bath }: IRootState) => ({
     paramsVariety: bath.paramsVariety,
+    filterLoading: bath.filterLoading,
+    countFilters: bath.countFilters,
+    totalFilteredBathes: bath.totalFilteredBathes,
   }),
   {
     getBathParamsVariety: getBathParamsVarietyAction,
+    checkFilter: checkFilterAction,
   },
 )(BathesFilterScreenContainer);
 

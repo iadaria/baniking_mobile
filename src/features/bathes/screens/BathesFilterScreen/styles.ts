@@ -49,6 +49,17 @@ export const styles = StyleSheet.create({
     color: colors.text.base,
     backgroundColor: '#121213',
   },
+  inputLong: {
+    width: wp(18),
+    height: hp(sizes.input.big.height * 0.8),
+    paddingVertical: wp(1),
+    paddingLeft: wp(3),
+    borderColor: '#2E2E2E',
+    borderRadius: 5,
+    fontSize: wp(sizes.font.label),
+    color: colors.text.base,
+    backgroundColor: '#121213',
+  },
   icon: {
     borderWidth: 1,
     borderColor: 'red',
