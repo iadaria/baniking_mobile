@@ -181,23 +181,6 @@ IProps) {
         persistImages={persistImages}
       />
       <Block margin={[3, BASE, 1.2]}>
-        {/* Заказать звонок */}
-        <TouchableOpacity
-          style={styles.orderCall}
-          onPress={() => {
-            const orderCallProps = {
-              bathId: id,
-              bathName: name,
-              short_description,
-              bathPhone: '88000000000',
-            };
-            navigation.navigate(routes.bathesTab.OrderCallScreen, orderCallProps);
-          }}>
-          <AppText primary medium>
-            Заказать звонок
-          </AppText>
-          <OrderCallIcon width={wp(10)} />
-        </TouchableOpacity>
         {/* Телефон */}
         <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, TEST_PHONE)}>
           <AppText golder>Тест {formatPhoneNumber(TEST_PHONE)}</AppText>
@@ -277,11 +260,28 @@ IProps) {
         <AppText golder tag>{`${city_name}  `}</AppText>
         {address}
       </AppText>
-      <Block margin={[1, BASE]}>
+      <Block margin={[1, BASE, 10]}>
         <BathInfrastructure infastructureBath={infastructureBath} />
         <Divider color="#242424" />
         {/* Дополнительная информация */}
         <BathInfo infoBath={infoBath} />
+        {/* Заказать звонок */}
+        <TouchableOpacity
+          style={styles.orderCall}
+          onPress={() => {
+            const orderCallProps = {
+              bathId: id,
+              bathName: name,
+              short_description,
+              bathPhone: '88000000000',
+            };
+            navigation.navigate(routes.bathesTab.OrderCallScreen, orderCallProps);
+          }}>
+          <AppText primary medium>
+            Заказать звонок
+          </AppText>
+          <OrderCallIcon width={wp(10)} />
+        </TouchableOpacity>
       </Block>
     </ScrollView>
   );

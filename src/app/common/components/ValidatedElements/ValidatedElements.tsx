@@ -325,17 +325,3 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 }
 
 export default ValidatedElements;
-
-/* onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
-  setInputPosition({ ids: [id], value: nativeEvent.layout.y });
-},
-onFocusedScroll: () => handleOnFocusedScroll(id),
-*/
-/* onFocus: (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-  onFocus && onFocus(e);
-  handleOnFocus(id);
-}, */
-
-/* if (!scrollView) {
-    return <ScrollView ref={_scrollView}>{renderChildren()}</ScrollView>;
-  } */

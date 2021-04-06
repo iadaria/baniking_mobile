@@ -9,7 +9,10 @@ import {
   transparentHeader as transparentHeaderAction,
 } from '~/src/app/store/system/systemActions';
 import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
-import { initOrderCallInputs as initOrderCallInputsAction } from '~/src/features/bathes/store/bathActions';
+import {
+  initOrderCallInputs as initOrderCallInputsAction,
+  orderCall as orderCallAction,
+} from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
@@ -17,11 +20,11 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, isIos, multiplier } from '~/src/app/common/constants';
 import { formatPhoneNumber } from '~/src/app/utils/system';
 import OrderCallForm from './OrderCallForm';
-import { bathOneImg, CloseWhiteIcon } from '~/src/assets';
-import { styles } from './styles';
 import { IOrderCallInputs } from '../../contracts/orderCallInputs';
 import { IOrderCall } from '~/src/app/models/bath';
 import routes from '~/src/navigation/helpers/routes';
+import { bathOneImg, CloseWhiteIcon } from '~/src/assets';
+import { styles } from './styles';
 
 interface IOrderCallParams {
   bathId: number;
@@ -34,11 +37,12 @@ interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
   currentProfile: IProfile | null;
+  defaultOrderCallInputs: IOrderCallInputs;
   getProfile: () => void;
   transparentHeader: () => void;
   nonTransparentHeader: () => void;
   initOrderCallInputs: (orderCall: IOrderCall) => void;
-  defaultOrderCallInputs: IOrderCallInputs;
+  orderCall: (orderCallParams: IOrderCallParams) => void;
 }
 
 function OrderCallScreenContainer({
@@ -47,22 +51,15 @@ function OrderCallScreenContainer({
   currentProfile,
   getProfile,
   transparentHeader,
-  nonTransparentHeader,
   initOrderCallInputs,
   defaultOrderCallInputs,
+  orderCall,
 }: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const [blockPosition, setBlockPosition] = useState<number>(0);
 
-  const orderCall: IOrderCallParams | undefined = (route?.params || {}) as IOrderCallParams;
-  const { bathId, bathName = 'Test', short_description = 'Short', bathPhone = '88000000000' } = orderCall;
-  const { name: userName, phone: userPhone } = currentProfile || {};
-
-  /* useEffect(() => {
-    return () => {
-      console.log('[OrderCallScreen/unmount]');
-    };
-  }, []); */
+  const params: IOrderCallParams | undefined = (route?.params || {}) as IOrderCallParams;
+  const { bathId, bathName, short_description, bathPhone } = params;
 
   useFocusEffect(() => {
     transparentHeader();
@@ -70,21 +67,12 @@ function OrderCallScreenContainer({
 
   useEffect(() => {
     if (currentProfile) {
+      __DEV__ && console.log('[OrderCallScreen/useEffect] getProfileSettings()');
       initOrderCallInputs({ name: currentProfile.name, phone: currentProfile.phone });
+    } else {
+      getProfile();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentProfile, initOrderCallInputs]);
-
-  useEffect(() => {
-    __DEV__ && console.log('[OrderCallScreen/useEffect] getProfileSettings()');
-    !currentProfile && getProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getProfile]);
-
-  useEffect(() => {
-    __DEV__ && console.log('[OrderCallScreen/useEffect] blockPosition', blockPosition);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockPosition]);
+  }, [currentProfile, getProfile, initOrderCallInputs]);
 
   return (
     <Block safe full>
@@ -128,12 +116,12 @@ function OrderCallScreenContainer({
             safe
             style={styles.modal}>
             <OrderCallForm
-              name={userName}
-              phone={userPhone}
+              navigation={navigation}
+              bathId={bathId}
+              orderCall={orderCall}
               scrollViewRef={scrollViewRef}
               blockPosition={blockPosition}
               defaultInputs={defaultOrderCallInputs}
-              //scrollPosition={scrollPosition}
             />
           </Block>
           <Block margin={[5, 0]} />
@@ -152,7 +140,7 @@ const OrderCallConnected = connect(
     initOrderCallInputs: initOrderCallInputsAction,
     getProfile: getProfileSettingsAction,
     transparentHeader: transparentHeaderAction,
-    nonTransparentHeader: nonTransparentHeaderAction,
+    orderCall: orderCallAction,
   },
 )(OrderCallScreenContainer);
 

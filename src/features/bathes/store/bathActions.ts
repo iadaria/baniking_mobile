@@ -1,8 +1,16 @@
 import * as constants from './bathConstants';
-import { EBathSort, IBath, IMap, TPartBathParams, IBathAction, IBathParamsVariety, IOrderCallParams } from '~/src/app/models/bath';
+import {
+  EBathSort,
+  IBath,
+  IMap,
+  TPartBathParams,
+  IBathAction,
+  IBathParamsVariety,
+  IOrderCallParams,
+} from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
-import { IOrderCall } from '../../../app/models/bath';
+import { IOrderCall } from '~/src/app/models/bath';
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,

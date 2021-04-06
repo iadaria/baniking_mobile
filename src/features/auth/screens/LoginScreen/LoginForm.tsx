@@ -39,7 +39,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         persist: isPersist,
       };
 
-      console.log('***** data *******', data);
+      __DEV__ && console.log('***** data *******', data);
       emailLogin(data);
       setRecreate(!recreate);
     }

@@ -14,7 +14,7 @@ function* orderCallSaga({ payload }: IAction) {
   try {
     __DEV__ && console.log('[orderCallSaga]', payload);
 
-    yield methods.orderCall(payload, null);
+    // yield methods.orderCall(payload, null);
   } catch (e) {
     console.log(JSON.stringify(e, null, 4));
 

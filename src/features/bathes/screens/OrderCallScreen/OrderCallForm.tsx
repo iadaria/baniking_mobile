@@ -1,29 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
-import { defaultOrderCallInputs, IOrderCallInputs } from '../../contracts/orderCallInputs';
-import { IOrderCall } from '~/src/app/models/bath';
+import { IOrderCallInputs } from '../../contracts/orderCallInputs';
+import { IOrderCall, IOrderCallParams } from '~/src/app/models/bath';
 import { ScrollView } from 'react-native';
-import { Node } from 'react-native-reanimated';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+import routes from '~/src/navigation/helpers/routes';
 
 interface IProps {
-  name: string;
-  phone: string;
+  navigation: StackNavigationProp<ParamListBase>;
+  bathId: number;
   scrollViewRef: React.RefObject<ScrollView>;
   blockPosition: number;
   scrollPosition?: number;
   defaultInputs: IOrderCallInputs;
+  orderCall: (orderCallParams: IOrderCallParams) => void;
 }
 
-export default function OrderCallForm({ name, phone, scrollViewRef, blockPosition, defaultInputs }: IProps) {
-  const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<IOrderCall>>({ name: 'Daria', phone: phone });
+export default function OrderCallForm({
+  navigation,
+  bathId,
+  scrollViewRef,
+  blockPosition,
+  defaultInputs,
+  orderCall,
+}: IProps) {
+  //const [recreate, setRecreate] = React.useState<boolean>(true);
+  const valuesRef = React.useRef<IOrderCall>({ name: defaultInputs.name, phone: defaultInputs.phone });
   const timeIds: NodeJS.Timeout[] = [];
 
   useEffect(() => {
     return () => {
-      __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
+      // __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,6 +41,17 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
 
   const handleOrderCall = () => {
     if (valuesRef.current) {
+      const orderCallParams = {
+        bathId,
+        name: valuesRef.current.name!,
+        phone: valuesRef.current.phone!,
+      };
+      orderCall(orderCallParams);
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.navigate(routes.bathesTab.BathScreen);
+      }
     }
   };
 
@@ -42,15 +63,15 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
         y: blockPosition + plus,
         animated: true,
       });
-    }, 300);
+    }, 500);
     __DEV__ && console.log('[OrderCallForm/timeId]', timeId);
     timeIds.push(timeId);
   };
 
   return (
     <ValidatedElements
-      key={Number(recreate)}
-      defaultInputs={defaultOrderCallInputs}
+      //key={Number(recreate)}
+      defaultInputs={defaultInputs}
       scrollView={scrollViewRef}
       checkAfterInit={true}
       valuesRef={valuesRef}>
@@ -66,7 +87,6 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
         id="name"
         label="Имя"
         placeholder="Введите имя"
-        defaultValue="Daria"
         maxLength={16}
         onFocus={scrollToBlock.bind(null, 100)}
       />
@@ -75,7 +95,6 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
         id="phone"
         label="Телефон"
         placeholder="+7(___)___-__-__"
-        defaultValue={phone}
         mask="+7([000])[000]-[00]-[00]"
         onFocus={scrollToBlock.bind(null, 150)}
         phone
