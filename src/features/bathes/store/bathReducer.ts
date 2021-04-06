@@ -24,18 +24,21 @@ export interface IBathState {
   bathes: IBath[];
   bathIds: number[];
   oldBathes: IBath[];
+  // Srot & Filter
+  moreBathes: boolean;
+  sort: EBathSort;
+  retainState: boolean;
+  params: TPartBathParams;
+  paramsVariety: IBathParamsVariety | null;
+  filtered: boolean;
+  countFilters: number;
+  totalFilteredBathes: number;
+  filteredBathes: IBath[];
+  filteredBathIds: number[];
   // Bathes detailded
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
   selectedBath: IBathDetailed | null;
-  // Srot & Filter
-  moreBathes: boolean;
-  sort: EBathSort;
-  filtered: boolean;
-  countFilters: number;
-  params: TPartBathParams;
-  paramsVariety: IBathParamsVariety | null;
-  retainState: boolean;
   // Comments
   comments: string[];
   // Maps
@@ -66,11 +69,14 @@ const initialState: IBathState = {
   // fetch
   moreBathes: false,
   sort: EBathSort.None,
-  filtered: false,
-  countFilters: 0,
+  retainState: false,
   params: defaultBathParams,
   paramsVariety: null,
-  retainState: false,
+  filtered: false,
+  countFilters: 0,
+  totalFilteredBathes: 0,
+  filteredBathes: [],
+  filteredBathIds: [],
   // comments
   comments: [],
   // maps
@@ -87,7 +93,6 @@ export default function bathReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IBathState {
   switch (type) {
-    // Common
     // Bathes
     case constants.SET_BATHES:
       const newBathes: IBath[] = payload.bathes.filter((bath: IBath) => state.bathIds.indexOf(bath.id) === -1);

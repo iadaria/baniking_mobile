@@ -54,7 +54,7 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
     ({ item, index }: { item: ICachedImage; index: number }) => {
       // Переходим на слайдер и скролим до выбранного фото
       function handlerShowPhotos() {
-        dispatch(nonTransparentHeader());
+        //dispatch(nonTransparentHeader());
         navigation.navigate(routes.bathesTab.BathesPhotosScreen, {
           photos: [...cachedPhotos],
           currentIndex: index,
@@ -67,7 +67,7 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
         </TouchableOpacity>
       );
     },
-    [cachedPhotos, dispatch, navigation],
+    [cachedPhotos, /* dispatch,  */navigation],
   );
 
   return (

@@ -7,8 +7,10 @@ import { Block } from '~/src/app/common/components/UI';
 import { FlatList } from 'react-native-gesture-handler';
 import { colors, isIos, windowWidth } from '~/src/app/common/constants';
 import { bathOneImg } from '~/src/assets';
-import { Route } from '@react-navigation/native';
+import { Route, useFocusEffect } from '@react-navigation/native';
 import Tabs from './Tabs';
+import { useDispatch } from 'react-redux';
+import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
 
 interface IProps {
   route: Route<string, object | undefined>;
@@ -26,6 +28,7 @@ export interface ITab {
 }
 
 export function BathesPhotosScreen({ route }: IProps) {
+  const dispatch = useDispatch();
   const emptyParams = { photos: [], index: 0 };
   const { photos, currentIndex } = (route?.params || emptyParams) as IParams;
   const [newCurrentIndex, setCurrentIndex] = useState(currentIndex);
@@ -37,6 +40,10 @@ export function BathesPhotosScreen({ route }: IProps) {
       offset: itemIndex * windowWidth,
     });
   }, []); */
+
+  useFocusEffect(() => {
+    dispatch(nonTransparentHeader());
+  });
 
   if (!photos.length) {
     return null;

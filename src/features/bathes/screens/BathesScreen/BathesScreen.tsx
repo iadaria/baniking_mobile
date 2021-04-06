@@ -187,7 +187,7 @@ export function BathesScreenContainer({
 
   // for test
   const handleOpenBath = (bath: IBath, distance: number) => {
-    transparentHeader();
+    // transparentHeader();
     navigation.navigate(routes.bathesTab.BathScreen, {
       id: bath.id,
       latitude: bath.latitude,

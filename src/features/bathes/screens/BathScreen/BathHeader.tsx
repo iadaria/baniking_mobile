@@ -61,7 +61,7 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
         start={{ x: 0.1, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}>
-        <AppHeader navigation={navigation} onPress={() => dispatch(nonTransparentHeader())} />
+        <AppHeader navigation={navigation} onPress={() => {} /* dispatch(nonTransparentHeader()) */} />
         <Block padding={[sizes.offset.base * multiplier, sizes.offset.base, 0]}>
           <AppText h1>Баня</AppText>
           <AppText margin={[6 * multiplier, 0, 0]} transform="uppercase" height={28 * multiplier} trajan h1>

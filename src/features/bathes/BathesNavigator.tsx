@@ -24,11 +24,11 @@ export default function BathesNavigator({ navigation, route }: IScreenOptionsPro
   return (
     <Bathes.Navigator headerMode="screen" screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />
+      <Bathes.Screen name="BathesFilterScreen" component={BathesFilterScreen} />
       <Bathes.Screen name="OrderCallScreen" component={OrderCallScreen} />
       <Bathes.Screen name="BathesPhotosScreen" component={BathesPhotosScreen} />
       <Bathes.Screen name="BathScreen" component={BathScreen} />
       <Bathes.Screen name="DestinationMap" component={DestinationMap} />
-      <Bathes.Screen name="BathesFilterScreen" component={BathesFilterScreen} />
     </Bathes.Navigator>
   );
 }
