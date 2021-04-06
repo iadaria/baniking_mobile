@@ -39,6 +39,15 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const [isErrors, setIsErrors] = useState<boolean>();
   const inputRefs: RefObject<TextInput>[] = [];
   const buttonRef = useRef<TouchableOpacity>();
+  const timeIds: NodeJS.Timeout[] = [];
+
+  useEffect(() => {
+    return () => {
+      __DEV__ && console.log('[ValidatedElements/useEffect/timeIds change]', timeIds);
+      timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     __DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
@@ -209,13 +218,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       /* __DEV__ &&
         console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
-      setTimeout(() => {
+      let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
           x: 0,
           y: yCoordinate! - SCROLL_OFFSET_TOP,
           animated: true,
         });
       }, delay);
+      timeIds.push(timeId);
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 10;
@@ -224,13 +234,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
         ); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
-      setTimeout(() => {
+      let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
           x: 0,
           y: newCoordinat,
           animated: true,
         });
       }, delay);
+      timeIds.push(timeId);
     }
   };
 

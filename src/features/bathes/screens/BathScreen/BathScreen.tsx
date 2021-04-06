@@ -185,18 +185,13 @@ IProps) {
         <TouchableOpacity
           style={styles.orderCall}
           onPress={() => {
-            //const { name: userName, phone: userPhone } = currentProfile || {};
             const orderCallProps = {
               bathId: id,
               bathName: name,
               short_description,
               bathPhone: '88000000000',
-              /* userName,
-              userPhone, */
             };
             navigation.navigate(routes.bathesTab.OrderCallScreen, orderCallProps);
-            //isAndroid && nonTransparentHeader();
-            //openModal({ modalType: 'OrderCallModal', modalProps: orderCallProps });
           }}>
           <AppText primary medium>
             Заказать звонок

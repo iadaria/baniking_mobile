@@ -95,11 +95,7 @@ export const methods = {
     pubFetch,
   ),
   // orderCall
-  orderCall: request(
-    'post',
-    (orderCallParams: IOrderCallParams) => `/baths/orderCall${objToUrl(orderCallParams)}`,
-    privFetch,
-  ),
+  orderCall: request('post', '/baths/orderCall', privFetch),
 };
 
 // for debugger

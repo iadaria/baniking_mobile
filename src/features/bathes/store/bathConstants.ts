@@ -29,3 +29,4 @@ export const SET_MAPS = 'bath/SET_MAPS';
 export const CLEAR_MAPS = 'bath/CLEAR_MAPS';
 // OrderCall
 export const INIT_ORDER_CALL_INPUTS = 'bath/INIT_ORDER_CALL_INPUTS';
+export const ORDER_CALL = 'bath/ORDER_CALL';

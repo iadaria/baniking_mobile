@@ -3,19 +3,19 @@ import { methods } from '~/src/app/api';
 import { IBathParamsResponse } from '~/src/app/models/bath';
 import { GET_BATH_PARAMS_VARIETY } from '../bathConstants';
 import { setBathParamsVariety } from '../bathActions';
-import { IBathParamsVariety } from '../../../../app/models/bath';
+import { IBathParamsVariety } from '~/src/app/models/bath';
 
-var countParams = 0;
+// var countParams = 0;
 
 function* getBathParamsSaga() {
-  countParams++;
+  /* countParams++;
   if (countParams > 3) {
     console.log('[getBathParamsSAga] count > 3');
     setTimeout(function () {
       countParams = 0;
     }, 30000);
     return;
-  }
+  } */
   try {
     const params: IBathParamsResponse = yield call(methods.getBathParams, null, null);
     //console.log({ params });

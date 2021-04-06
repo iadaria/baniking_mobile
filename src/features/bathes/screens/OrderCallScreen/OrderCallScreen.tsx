@@ -58,9 +58,14 @@ function OrderCallScreenContainer({
   const { bathId, bathName = 'Test', short_description = 'Short', bathPhone = '88000000000' } = orderCall;
   const { name: userName, phone: userPhone } = currentProfile || {};
 
+  /* useEffect(() => {
+    return () => {
+      console.log('[OrderCallScreen/unmount]');
+    };
+  }, []); */
+
   useFocusEffect(() => {
     transparentHeader();
-    return () => nonTransparentHeader();
   });
 
   useEffect(() => {
@@ -98,11 +103,9 @@ function OrderCallScreenContainer({
             onPress={() => {
               if (navigation.canGoBack()) {
                 navigation.goBack();
-              } /* else {
-                navigation.navigate(routes.bathesTab.BathScreen, {
-                  id: bathId,
-                });
-              } */
+              } else {
+                navigation.navigate(routes.bathesTab.BathScreen);
+              }
             }}>
             <CloseWhiteIcon />
           </TouchableOpacity>

@@ -29,6 +29,7 @@ export function DestinationMap({ route }: IProps) {
   const [destinationCoords, setDestinationCoords] = useState<ILocation[]>([]);
   const { location: userLocation } = useSelector(({ auth }: IRootState) => auth.currentUser) || {};
   const map = createRef<MapView>();
+  const timeIds: NodeJS.Timeout[] = [];
 
   const bathLocation: ILocation = route?.params || {};
 
@@ -50,6 +51,14 @@ export function DestinationMap({ route }: IProps) {
     console.log('[DestinationMap/points]', destinationCoords);
   }, [destinationCoords]); */
 
+  useEffect(() => {
+    return () => {
+      __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
+      timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const requestPoint = useCallback(() => {
     const { latitude: bathLatitude, longitude: bathLongitude } = bathLocation || {};
     const { latitude: userLatitud, longitude: userLongitude } = userLocation || {};
@@ -67,12 +76,13 @@ export function DestinationMap({ route }: IProps) {
               longitude: point[1],
             }));
             setDestinationCoords(latLng);
-            setTimeout(() => {
+            let timeId = setTimeout(() => {
               map.current?.fitToElements(true);
               map.current?.fitToCoordinates(latLng, {
                 edgePadding: { top: 40, bottom: 40, left: 40, right: 40 },
               });
             }, 1500);
+            timeIds.push(timeId);
           }
           // setPoints(result);
         })
@@ -94,12 +104,14 @@ export function DestinationMap({ route }: IProps) {
   }, [bathLocation, userLocation, requestPoint]);
 
   useEffect(() => {
-    setTimeout(() => {
+    let timeId: NodeJS.Timeout;
+    timeId = setTimeout(() => {
       map.current?.fitToElements(true);
       map.current?.fitToCoordinates(destinationCoords, {
         edgePadding: { top: 40, bottom: 40, left: 40, right: 40 },
       });
     }, 1000);
+    return () => clearTimeout(timeId);
   }, [destinationCoords, map]);
 
   if (!localPermission) {
@@ -108,9 +120,10 @@ export function DestinationMap({ route }: IProps) {
 
   // console.log('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
-    setTimeout(() => {
+    let timeId = setTimeout(() => {
       map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0, width: windowWidth - 1 } });
     }, 500);
+    timeIds.push(timeId);
   };
 
   __DEV__ && console.log('[DestinationMap/] userLocation', userLocation, 'bathLocation', bathLocation);

@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { createRef, useEffect } from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MarkerIconSvg } from '~/src/assets';
@@ -12,9 +12,15 @@ interface IProps {
 
 export default function BathDestinationMap({ latitude, longitude }: IProps) {
   const map = createRef<MapView>();
+  let timeId: NodeJS.Timeout;
+
+  useEffect(() => {
+    return () => clearTimeout(timeId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onMapReady = () => {
-    setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 1000);
+    timeId = setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 1000);
   };
 
   return (

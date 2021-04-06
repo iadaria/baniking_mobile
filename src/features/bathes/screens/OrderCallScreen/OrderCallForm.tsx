@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultOrderCallInputs, IOrderCallInputs } from '../../contracts/orderCallInputs';
 import { IOrderCall } from '~/src/app/models/bath';
 import { ScrollView } from 'react-native';
+import { Node } from 'react-native-reanimated';
 
 interface IProps {
   name: string;
@@ -17,8 +18,16 @@ interface IProps {
 
 export default function OrderCallForm({ name, phone, scrollViewRef, blockPosition, defaultInputs }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
-
   const valuesRef = React.useRef<Partial<IOrderCall>>({ name: 'Daria', phone: phone });
+  const timeIds: NodeJS.Timeout[] = [];
+
+  useEffect(() => {
+    return () => {
+      __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
+      timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOrderCall = () => {
     if (valuesRef.current) {
@@ -27,13 +36,15 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
 
   const scrollToBlock = (plus: number) => {
     __DEV__ && console.log('to', blockPosition);
-    setTimeout(() => {
+    const timeId = setTimeout(() => {
       scrollViewRef?.current?.scrollTo({
         x: 0,
         y: blockPosition + plus,
         animated: true,
       });
     }, 300);
+    __DEV__ && console.log('[OrderCallForm/timeId]', timeId);
+    timeIds.push(timeId);
   };
 
   return (

@@ -46,6 +46,7 @@ export default function usePermission({
 
   // Проверка на разрешение использования ресурса и запрос на разрешение
   useEffect(() => {
+    let timeId: NodeJS.Timeout;
     const [granted, permit] = permission;
     if (!granted && !needCheck) {
       if (!granted && (permit === RESULTS.BLOCKED || permit === RESULTS.UNAVAILABLE)) {
@@ -55,7 +56,7 @@ export default function usePermission({
           'Изменить разрешение',
           () => {
             openSettings();
-            setTimeout(setNeedCheck.bind(false, true), 6000);
+            timeId = setTimeout(setNeedCheck.bind(false, true), 6000);
           },
           true,
         );
@@ -65,6 +66,7 @@ export default function usePermission({
         showAlert('Разрешение', warning_message);
       }
     }
+    return () => clearTimeout(timeId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permission, needCheck]);
 
