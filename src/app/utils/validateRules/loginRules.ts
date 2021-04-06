@@ -37,7 +37,7 @@ export const loginRules = {
       tooShort: '^Пароль должен быть длинной не менее %{count} символов',
       // message: '^Password must be at least 6 characters long',
       maximum: 16,
-      tooLong: '^Password needs to have %{count} words or less',
+      tooLong: '^Длина пароля не должна превышать %{count} символов',
       /* tokenizer: function (value) {
         return value.split(/\s+/g);
       }, */

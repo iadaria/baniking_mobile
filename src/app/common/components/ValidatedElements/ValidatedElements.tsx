@@ -95,9 +95,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     __DEV__ && console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
-  }, [scrollPosition]); */
+  }, [scrollPosition]);
 
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
@@ -184,11 +184,16 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    // __DEV__ && console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
+    __DEV__ &&
+      console.log(
+        `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`,
+      );
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      // __DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
+      const _new = yCoordinate! - SCROLL_OFFSET_TOP;
+      /* __DEV__ &&
+        console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -199,10 +204,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       }, delay);
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
-      const newCoordinat = yCoordinate! - 100;
-      /* __DEV__ && console.log(
-        `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
-      ); */
+      const newCoordinat = yCoordinate! - 10;
+      _/* _DEV__ &&
+        console.log(
+          `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
+        ); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -250,18 +256,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
           newRef: inputRef,
           onChangeText: (value: string) => handleInputChange({ id, value }),
           value: inputs[id].value,
-          error: inputs[id].errorLabel, // || (equalTo && inputs[id].value !== inputs[equalTo!].value ? errorMessage : null),
+          error: inputs[id].errorLabel,
           touched: Boolean(inputs[id].touched),
         });
 
         if (scrollView && isScrollToFocused) {
-          // const delay = Platform.OS === 'ios' ? 0 : 0;
           return React.cloneElement(_child, {
             onLayout: ({ nativeEvent }: LayoutChangeEvent) => {
-              /* const { x, y, height, width } = nativeEvent.layout;
-              __DEV__ && console.log(
-                `[ValidateElements/renderChild/onLayout] ${id}: x=${x}, y=${y} widtht=${width} height=${height}`,
-              ); */
               setInputPosition({ ids: [id], value: nativeEvent.layout.y });
             },
             onFocusedScroll: () => handleOnFocusedScroll(id),

@@ -1,26 +1,29 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { windowWidth, multiplier, windowHeight } from '~/src/app/common/constants';
+import { windowWidth, multiplier, isIos } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   modalView: {
-    //flexGrow: 1,
-    //position: 'relative',
-    //marginTop: (windowHeight / 100) * 10 * multiplier,
-    //flex: 1,
+    padding: wp(10),
+  },
+  absolute: {
     position: 'absolute',
-    top: wp(20),
-    width: windowWidth - wp(19),
-    alignSelf: 'center',
-    //marginTop: (windowHeight / 100) * 10 * multiplier,
-    // paddingTop: (windowHeight / 100) * 10 * multiplier,
-    borderColor: 'green',
-    borderWidth: 1,
+    opacity: isIos ? 0.95 : 1,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  blurImage: {
+    width: windowWidth,
+    position: 'absolute',
+    top: 0,
   },
   closeIcon: {
     alignItems: 'center',
   },
   modal: {
+    flexGrow: 1,
     paddingTop: wp(7),
     paddingBottom: wp(3),
     paddingHorizontal: wp(5),
@@ -45,5 +48,5 @@ export const styles = StyleSheet.create({
   item: {
     backgroundColor: 'white',
     padding: wp(5),
-  }
+  },
 });

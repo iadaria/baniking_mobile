@@ -6,7 +6,7 @@ import { IInputStyleProps } from '~/src/app/models/ui';
 export const styles = StyleSheet.create<IInputStyleProps>({
   block: {
     borderWidth: 0.8,
-    borderRadius: sizes.input.big.radius,
+    borderRadius: sizes.radius,
     borderColor: colors.input.border,
   },
   input: {

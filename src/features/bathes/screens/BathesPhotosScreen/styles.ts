@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { colors, windowWidth } from '~/src/app/common/constants';
+import { windowWidth } from '~/src/app/common/constants';
 import { isIos, screenHeight } from '~/src/app/common/constants/platform';
 
 export const styles = StyleSheet.create({

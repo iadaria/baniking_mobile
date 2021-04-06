@@ -7,8 +7,6 @@ import { getScheduleCurrentWeek } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
 import { useDispatch } from 'react-redux';
 import { openModal } from '~/src/app/common/modals/modalReducer';
-import { nonTransparentHeader } from '~/src/app/store/system/systemActions';
-import { isAndroid } from '~/src/app/common/constants';
 
 interface IProps {
   schedule?: Partial<ISchedule>;
@@ -50,7 +48,6 @@ export default function BathSchedule({ schedule }: IProps) {
       <TouchableOpacity
         style={styles.schedule}
         onPress={() => {
-          isAndroid && dispatch(nonTransparentHeader());
           dispatch(openModal({ modalType: 'ScheduleModal', modalProps: { schedule } }));
         }}>
         <AppText tag>расписание</AppText>

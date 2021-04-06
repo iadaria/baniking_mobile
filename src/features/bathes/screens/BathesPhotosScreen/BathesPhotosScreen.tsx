@@ -1,5 +1,5 @@
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Image, ViewToken } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Animated, Image } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import { ICachedImage } from '~/src/app/models/persist';
 import { styles } from './styles';
@@ -32,11 +32,11 @@ export function BathesPhotosScreen({ route }: IProps) {
   const scrollX = useRef(new Animated.Value(0)).current;
   const ref = useRef<FlatList<any>>();
 
-  const onItemPress = useCallback((itemIndex: number) => {
+  /* const onItemPress = useCallback((itemIndex: number) => {
     ref?.current?.scrollToOffset({
       offset: itemIndex * windowWidth,
     });
-  }, []);
+  }, []); */
 
   if (!photos.length) {
     return null;
@@ -73,7 +73,7 @@ export function BathesPhotosScreen({ route }: IProps) {
                 blurAmount={isIos ? 1 : 3}
                 reducedTransparencyFallbackColor={colors.title}
               />
-              <Image style={styles.photo} source={item} /* resizeMode="center"  *//>
+              <Image style={styles.photo} source={item} />
             </Block>
           );
         }}
@@ -82,11 +82,3 @@ export function BathesPhotosScreen({ route }: IProps) {
     </Block>
   );
 }
-
-/* useEffect(() => {
-    const _tabs: ITab[] = [];
-    photos.forEach((photo: ICachedImage) => {
-      _tabs.push({ uri: photo.uri, ref: createRef() });
-    });
-    _tabs.length > 0 && setTabs(_tabs);
-  }, [photos]); */

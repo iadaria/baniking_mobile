@@ -4,7 +4,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
-import { socialLogin, emailRegister as emailRegisterAction } from '~/src/features/auth/store/authActions';
+import { emailRegister as emailRegisterAction } from '~/src/features/auth/store/authActions';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity } from 'react-native';
 import { AuthLogo } from '~/src/assets';

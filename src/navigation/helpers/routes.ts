@@ -26,6 +26,7 @@ export default {
     DestinationMap: 'DestinationMap',
     BathesFilterScreen: 'BathesFilterScreen',
     BathesPhotosScreen: 'BathesPhotosScreen',
+    OrderCallScreen: 'OrderCallScreen',
   },
   settingsTab: {
     // BaseSettingsScreen: 'BaseSettingsScreen',
