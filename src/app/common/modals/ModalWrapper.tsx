@@ -10,7 +10,12 @@ export default function ModalWrapper({ children, header }: any) {
   const dispatch = useDispatch();
 
   return (
-    <Modal animationType="fade" transparent={true} visible={true} onRequestClose={() => dispatch(closeModal())}>
+    <Modal
+      statusBarTranslucent
+      animationType="fade"
+      transparent={true}
+      visible={true}
+      onRequestClose={() => dispatch(closeModal())}>
       <BlurView
         style={styles.absolute}
         blurType="dark"

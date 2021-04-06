@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
-import { defaultOrderCallInputs } from '../../contracts/orderCallInputs';
+import { defaultOrderCallInputs, IOrderCallInputs } from '../../contracts/orderCallInputs';
 import { IOrderCall } from '~/src/app/models/bath';
 import { ScrollView } from 'react-native';
 
@@ -12,9 +12,10 @@ interface IProps {
   scrollViewRef: React.RefObject<ScrollView>;
   blockPosition: number;
   scrollPosition?: number;
+  defaultInputs: IOrderCallInputs;
 }
 
-export default function OrderCallForm({ name, phone, scrollViewRef, blockPosition }: IProps) {
+export default function OrderCallForm({ name, phone, scrollViewRef, blockPosition, defaultInputs }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
 
   const valuesRef = React.useRef<Partial<IOrderCall>>({ name: 'Daria', phone: phone });
@@ -23,8 +24,6 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
     if (valuesRef.current) {
     }
   };
-
-  __DEV__ && console.log('[OrderCallForm] name', name);
 
   const scrollToBlock = (plus: number) => {
     __DEV__ && console.log('to', blockPosition);
@@ -42,7 +41,7 @@ export default function OrderCallForm({ name, phone, scrollViewRef, blockPositio
       key={Number(recreate)}
       defaultInputs={defaultOrderCallInputs}
       scrollView={scrollViewRef}
-      //scrollPosition={scrollPosition}
+      checkAfterInit={true}
       valuesRef={valuesRef}>
       <Block margin={[0, 0, 3]} row middle center>
         <AuthLogoLeft />

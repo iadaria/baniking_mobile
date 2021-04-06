@@ -2,6 +2,7 @@ import * as constants from './bathConstants';
 import { EBathSort, IBath, IMap, TPartBathParams, IBathAction, IBathParamsVariety } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
+import { IOrderCall } from '../../../app/models/bath';
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,
@@ -80,5 +81,12 @@ export const setMaps = (payload: IMap[]) => ({
 export const clearMaps = () => ({
   type: constants.CLEAR_MAPS,
 });
+
+export const initOrderCallInputs = (payload: IOrderCall) => {
+  return {
+    type: constants.INIT_ORDER_CALL_INPUTS,
+    payload,
+  };
+};
 
 // Comments

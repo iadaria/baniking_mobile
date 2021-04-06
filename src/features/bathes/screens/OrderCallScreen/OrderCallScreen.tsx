@@ -9,6 +9,7 @@ import {
   transparentHeader as transparentHeaderAction,
 } from '~/src/app/store/system/systemActions';
 import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
+import { initOrderCallInputs as initOrderCallInputsAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IProfile } from '~/src/app/models/profile';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
@@ -18,6 +19,9 @@ import { formatPhoneNumber } from '~/src/app/utils/system';
 import OrderCallForm from './OrderCallForm';
 import { bathOneImg, CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
+import { IOrderCallInputs } from '../../contracts/orderCallInputs';
+import { IOrderCall } from '~/src/app/models/bath';
+import routes from '~/src/navigation/helpers/routes';
 
 interface IOrderCallParams {
   bathId: number;
@@ -33,6 +37,8 @@ interface IProps {
   getProfile: () => void;
   transparentHeader: () => void;
   nonTransparentHeader: () => void;
+  initOrderCallInputs: (orderCall: IOrderCall) => void;
+  defaultOrderCallInputs: IOrderCallInputs;
 }
 
 function OrderCallScreenContainer({
@@ -42,18 +48,27 @@ function OrderCallScreenContainer({
   getProfile,
   transparentHeader,
   nonTransparentHeader,
+  initOrderCallInputs,
+  defaultOrderCallInputs,
 }: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const [blockPosition, setBlockPosition] = useState<number>(0);
 
   const orderCall: IOrderCallParams | undefined = (route?.params || {}) as IOrderCallParams;
-  const { bathName = 'Test', short_description = 'Short', bathPhone = '88000000000' } = orderCall;
+  const { bathId, bathName = 'Test', short_description = 'Short', bathPhone = '88000000000' } = orderCall;
   const { name: userName, phone: userPhone } = currentProfile || {};
 
   useFocusEffect(() => {
-    //transparentHeader();
+    transparentHeader();
     return () => nonTransparentHeader();
   });
+
+  useEffect(() => {
+    if (currentProfile) {
+      initOrderCallInputs({ name: currentProfile.name, phone: currentProfile.phone });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentProfile, initOrderCallInputs]);
 
   useEffect(() => {
     __DEV__ && console.log('[OrderCallScreen/useEffect] getProfileSettings()');
@@ -78,7 +93,17 @@ function OrderCallScreenContainer({
       <KeyboardWrapper>
         <ScrollView alwaysBounceVertical ref={scrollViewRef} style={styles.modalView}>
           {/* <Block safe full> */}
-          <TouchableOpacity style={styles.closeIcon} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.closeIcon}
+            onPress={() => {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+              } /* else {
+                navigation.navigate(routes.bathesTab.BathScreen, {
+                  id: bathId,
+                });
+              } */
+            }}>
             <CloseWhiteIcon />
           </TouchableOpacity>
           <AppText margin={[6 * multiplier, 0, 0]} transform="uppercase" height={28 * multiplier} trajan center h1>
@@ -104,6 +129,7 @@ function OrderCallScreenContainer({
               phone={userPhone}
               scrollViewRef={scrollViewRef}
               blockPosition={blockPosition}
+              defaultInputs={defaultOrderCallInputs}
               //scrollPosition={scrollPosition}
             />
           </Block>
@@ -115,10 +141,12 @@ function OrderCallScreenContainer({
 }
 
 const OrderCallConnected = connect(
-  ({ profile }: IRootState) => ({
+  ({ profile, bath }: IRootState) => ({
+    defaultOrderCallInputs: bath.inputs.orderCall,
     currentProfile: profile.currentUserProfile,
   }),
   {
+    initOrderCallInputs: initOrderCallInputsAction,
     getProfile: getProfileSettingsAction,
     transparentHeader: transparentHeaderAction,
     nonTransparentHeader: nonTransparentHeaderAction,

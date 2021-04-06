@@ -266,3 +266,9 @@ export interface IOrderCall {
   name: string;
   phone: string;
 }
+
+export interface IOrderCallParams {
+  bathId: number;
+  name: string;
+  phone: string;
+}

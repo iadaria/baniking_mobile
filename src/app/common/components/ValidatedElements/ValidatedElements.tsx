@@ -15,6 +15,7 @@ interface IProps<T, V> {
   scrollPosition?: number;
   valuesRef: MutableRefObject<V>;
   nameForm?: string;
+  checkAfterInit?: boolean;
   // initInputs?: V;
   errors?: IErrors | null;
 }
@@ -31,7 +32,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   valuesRef,
   nameForm,
   errors,
+  checkAfterInit,
 }: IProps<T, V>): JSX.Element {
+  const [initialized, setInitialized] = useState(false);
   const [inputs, setInputs] = useState<T>(defaultInputs);
   const [isErrors, setIsErrors] = useState<boolean>();
   const inputRefs: RefObject<TextInput>[] = [];
@@ -69,7 +72,18 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     ); */
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputs]);
+  }, [inputs, initialized]);
+
+  // Инициализируем проверку после монтирования
+  useEffect(() => {
+    let timeId: NodeJS.Timeout;
+    if (checkAfterInit) {
+      timeId = setInterval(() => setInitialized(true), 1000);
+    }
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, [checkAfterInit, defaultInputs]);
 
   useEffect(() => {
     // Если после submit со стороны сервера пришли ошибки - отображаем их
@@ -95,9 +109,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     __DEV__ && console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
-  }, [scrollPosition]);
+  }, [scrollPosition]); */
 
   function handleAllValidate(): T /* IInputs */ {
     const updatedInputs = { ...inputs };
@@ -205,7 +219,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 10;
-      _/* _DEV__ &&
+      _; /* _DEV__ &&
         console.log(
           `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
         ); */

@@ -27,3 +27,5 @@ export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
 export const FETCH_MAPS = 'bath/FETCH_MAPS';
 export const SET_MAPS = 'bath/SET_MAPS';
 export const CLEAR_MAPS = 'bath/CLEAR_MAPS';
+// OrderCall
+export const INIT_ORDER_CALL_INPUTS = 'bath/INIT_ORDER_CALL_INPUTS';
