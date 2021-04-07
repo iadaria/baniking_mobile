@@ -61,8 +61,6 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
           })
           .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
-    } else {
-      //__DEV__ && console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
     return () => {
       isMounted = false;

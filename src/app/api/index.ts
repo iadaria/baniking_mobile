@@ -42,7 +42,7 @@ export const objToUrl = (obj: TObjToUrl) => {
         .join('&')}`
     : '';
 
-  __DEV__ && console.log('\n[api/index(objToUrl)]', result);
+  //__DEV__ && console.log('\n[api/index(objToUrl)]', result);
   return result;
 };
 

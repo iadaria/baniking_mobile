@@ -9,10 +9,14 @@ interface IProps {
   // setUserLocation: (location: ILocation) => void;
 }
 
+const TEST_LATITUDE = 55.8263 // TEST NEED DEL
+const TEST_LONGITUDE = 37.3263 // TEST NEED DEL
+
 export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) {
   const dispatch = useDispatch();
   const locationWatchId = useRef<number>();
-  /** Функция для определения текущего местоположения */
+  
+  /** Функция подписная с обновлением для определения текущего местоположения */
   const requestFineLocation = useCallback(() => {
     if (permission) {
       // __DEV__ && console.log('!!! detect geolocation');
@@ -22,15 +26,11 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
           dispatch(
             setAuthUserData({
               location: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                latitude: TEST_LATITUDE, //position.coords.latitude,
+                longitude: TEST_LONGITUDE, //position.coords.longitude,
               },
             }),
           );
-          /* setUserLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          }); */
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
@@ -39,17 +39,47 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
         { enableHighAccuracy: true },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [permission]);
+  }, [dispatch, permission]);
+
+  /** Функция ЕДИНОРАЗОВАЯ для определения текущего местоположения */
+  const requestFineLocationNow = useCallback(() => {
+    if (permission) {
+      // __DEV__ && console.log('!!! detect geolocation');
+      return Geolocation.getCurrentPosition(
+        (position: Geolocation.GeoPosition) => {
+          __DEV__ && console.log(position);
+          dispatch(
+            setAuthUserData({
+              location: {
+                latitude: TEST_LATITUDE, //position.coords.latitude,
+                longitude: TEST_LONGITUDE, //position.coords.longitude,
+              },
+            }),
+          );
+        },
+        (error: Geolocation.GeoError) => {
+          // See error code charts below.
+          __DEV__ && console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true },
+      );
+    }
+  }, [dispatch, permission]);
 
   /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
     __DEV__ && console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
     locationWatchId.current = requestFineLocation();
+    requestFineLocationNow();
     return function () {
       if (locationWatchId.current) {
         Geolocation.clearWatch(locationWatchId.current);
       }
     };
-  }, [permission, requestFineLocation]);
+  }, [permission, requestFineLocation, requestFineLocationNow]);
 }
+
+/* setUserLocation({
+  latitude: position.coords.latitude,
+  longitude: position.coords.longitude,
+}); */
