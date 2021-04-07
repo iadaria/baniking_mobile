@@ -9,13 +9,13 @@ interface IProps {
   // setUserLocation: (location: ILocation) => void;
 }
 
-const TEST_LATITUDE = 55.8263 // TEST NEED DEL
-const TEST_LONGITUDE = 37.3263 // TEST NEED DEL
+const TEST_LATITUDE = 55.8263; // TEST NEED DEL
+const TEST_LONGITUDE = 37.3263; // TEST NEED DEL
 
 export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) {
   const dispatch = useDispatch();
   const locationWatchId = useRef<number>();
-  
+
   /** Функция подписная с обновлением для определения текущего местоположения */
   const requestFineLocation = useCallback(() => {
     if (permission) {

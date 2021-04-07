@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { AppText, Block } from '~/src/app/common/components/UI';
+import { multiplier, sizes } from '~/src/app/common/constants';
 
 export function RulesScreen() {
   return (
-    <View>
-      <Text>Rules Screen</Text>
-    </View>
+    <Block padding={[sizes.offset.base * multiplier, sizes.offset.base, 0]}>
+      <AppText h1>Правило приложения</AppText>
+      <AppText margin={[6 * multiplier, 0, 0]}>Правила</AppText>
+    </Block>
   );
 }
 

@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
-import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
+//import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
 import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
