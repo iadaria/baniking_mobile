@@ -5,9 +5,10 @@ import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { checkFilterFail, setCheckFilterResult } from '../bathActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { objToUrl } from '~/src/app/api/index';
 
 interface IAction {
-  payload: TPartBathParams;
+  payload: { params: TPartBathParams; count: number };
   type: string;
 }
 
@@ -17,11 +18,12 @@ interface IResult {
 }
 
 function* checkFilterSaga({ payload }: IAction) {
-  __DEV__ && console.log('[CheckFilterSaga]', payload);
+  //__DEV__ && console.log('[CheckFilterSaga]', payload);
   try {
-    const { count }: IResult = yield call(methods.getBathes, null, payload);
-
-    yield put(setCheckFilterResult({ count, params: payload }));
+    const { params } = payload;
+    //console.log('[checkFilterSaga]', objToUrl(payload));
+    const { count: bathCount }: IResult = yield call(methods.getBathes, null, params);
+    yield put(setCheckFilterResult({ count: bathCount /* , params  */}));
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';

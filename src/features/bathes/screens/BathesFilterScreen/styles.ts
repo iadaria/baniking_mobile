@@ -38,6 +38,17 @@ export const styles = StyleSheet.create({
     marginBottom: wp(1),
     overflow: 'hidden',
   },
+  elementSelected: {
+    backgroundColor: colors.secondary,
+    color: 'white',
+    paddingVertical: wp(2.2),
+    paddingHorizontal: wp(3.5),
+    borderRadius: sizes.radius,
+    alignSelf: 'flex-start',
+    marginRight: wp(1),
+    marginBottom: wp(1),
+    overflow: 'hidden',
+  },
   input: {
     width: wp(14),
     height: hp(sizes.input.big.height * (isIos ? 0.65 : 0.8)),

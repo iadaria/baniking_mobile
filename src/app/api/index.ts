@@ -28,13 +28,23 @@ export const tokenToHeaders = (token: string) => {
 // Свойства объекта могут иметь значения: строка, номер или массив чисел
 type TObjToUrl = null | { [key: string]: string | number | Array<number> };
 
+function arrayToQuery(name_array: string, array: any[]) {
+  //return array.map((key: any) => name_array + '=' + key).join('&');
+  return array.map((key: any, index: number) => `${name_array}[${index}]=${key}`).join('&');
+}
+
 // const defaultLists = { page: 1, pageSize: 50, order: -1, read: 0 };
-const objToUrl = (obj: TObjToUrl) =>
-  obj
+export const objToUrl = (obj: TObjToUrl) => {
+  const result = obj
     ? `?${Object.keys(obj)
-        .map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
+        //.map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
+        .map((key) => (Array.isArray(obj[key]) ? arrayToQuery(key, obj[key] as any[]) : `${key}=${obj[key]}`))
         .join('&')}`
     : '';
+
+  __DEV__ && console.log('\n[api/index(objToUrl)]', result);
+  return result;
+};
 
 const request = (method: Methods, _endpoint: string | Function, entity: any) => async (
   data: null | any,
@@ -73,6 +83,7 @@ export const methods = {
   getQr: request('get', '/cabinet/qr', privFetch),
   // bathes
   getBathes: request('get', (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`, privFetch),
+  getFilterBathes: request('get', '/baths', privFetch),
   getBathParams: request('get', '/baths/params', privFetch),
   getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
   // google

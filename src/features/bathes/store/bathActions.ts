@@ -54,9 +54,14 @@ export const setBathParamsVariety = (paramsVariety: IBathParamsVariety) => ({
 });
 
 // Filter
-export const checkFilter = (params: TPartBathParams) => ({
+export const checkFilter = (payload: { params: TPartBathParams; countFilters: number }) => ({
   type: constants.CHECK_FILTER,
-  payload: params,
+  payload,
+});
+
+export const acceptFilter = (payload: { params: TPartBathParams; count: number }) => ({
+  type: constants.ACCEPT_FILTER,
+  payload,
 });
 
 export const checkFilterFail = (payload: IErrors | null) => ({
@@ -65,7 +70,7 @@ export const checkFilterFail = (payload: IErrors | null) => ({
 });
 
 // page always = 0
-export const setCheckFilterResult = (payload: { count: number; params: TPartBathParams }) => ({
+export const setCheckFilterResult = (payload: { count: number; params?: TPartBathParams }) => ({
   type: constants.SET_CHECK_FILTER_RESULT,
   payload,
 });
@@ -74,7 +79,6 @@ export const setFilter = (payload: { params: TPartBathParams }) => ({
   type: constants.SET_FILTER,
   payload,
 });
-
 
 export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) => ({
   type: constants.SET_SORT,

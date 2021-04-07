@@ -33,9 +33,9 @@ export interface IBathState {
   filtered: boolean;
   filterLoading: boolean;
   filterErrors: IErrors | null;
-  countFilters: number;
+  filterCount: number;
   totalFilteredBathes: number;
-  filterParams: TPartBathParams;
+  //filterParams: TPartBathParams;
   // Bathes detailded
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
@@ -76,9 +76,9 @@ const initialState: IBathState = {
   filtered: false,
   filterLoading: false,
   filterErrors: null,
-  countFilters: 0,
+  filterCount: 0,
   totalFilteredBathes: 0,
-  filterParams: defaultBathParams,
+  //filterParams: defaultBathParams,
   // comments
   comments: [],
   // maps
@@ -152,7 +152,15 @@ export default function bathReducer(
         ...state,
         filterLoading: true,
         filterErrors: null,
-        filterParams: payload,
+        //filterParams: payload.params,
+        //countFilters: payload.countFilters,
+      };
+
+    case constants.ACCEPT_FILTER:
+      return {
+        ...state,
+        params: { ...state.params, ...payload.params },
+        filterCount: payload.count,
       };
 
     case constants.CHECK_FILTER_FAIL:
@@ -168,7 +176,7 @@ export default function bathReducer(
         filterLoading: false,
         filterErrors: null,
         totalFilteredBathes: payload.count,
-        filterParams: payload.params,
+        //filterParams: payload.params,
       };
 
     case constants.SET_FILTER:

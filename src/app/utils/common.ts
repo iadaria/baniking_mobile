@@ -13,3 +13,8 @@ export const getFileName = (file: string) => {
 export const replaceExtension = (file: string, ext: string) => {
   return file.replace(/\.[^/.]+$/, ext);
 };
+
+export function isElementExist(where: number[], what: number): [number | undefined, boolean] {
+  const _indexOf = where.indexOf(what);
+  return [_indexOf, _indexOf !== -1 && _indexOf !== undefined];
+}

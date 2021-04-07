@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
@@ -9,35 +9,53 @@ import { IBathParamsVariety, bathType, TPartBathParams } from '~/src/app/models/
 import {
   getBathParamsVariety as getBathParamsVarietyAction,
   checkFilter as checkFilterAction,
+  acceptFilter as acceptFilterAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CloseFilerIcon } from '~/src/assets';
-import { styles } from './styles';
-// import { ScrollView } from 'react-native-gesture-handler';
 import { useDebouncedCallback } from 'use-debounce/lib';
+import FilterRooms from './FilterRooms';
+import FilterServices from './FilterServices';
+import FilterZones from './FilterZones';
+import FilterTypes from './FilterTypes';
+import { styles } from './styles';
 
 interface IProps {
   paramsVariety: IBathParamsVariety | null;
   filterLoading: boolean;
-  countFilters: number;
+  filterCount: number;
   totalFilteredBathes: number;
+  bathParams: TPartBathParams;
+  filterParams: TPartBathParams;
   getBathParamsVariety: () => void;
-  checkFilter: (checkParams: TPartBathParams) => void;
+  checkFilter: ({ params, countFilters }: { params: TPartBathParams; countFilters: number }) => void;
+  acceptFilter: ({ params, count }: { params: TPartBathParams; count: number }) => void;
 }
+
+const DEFAULT_PARAMS: TPartBathParams = {
+  page: 0,
+  steam_rooms_ids: [],
+  services_ids: [],
+  zones_ids: [],
+  types: [],
+};
 
 function BathesFilterScreenContainer({
   paramsVariety,
   filterLoading,
-  countFilters,
+  filterCount,
   totalFilteredBathes,
+  bathParams,
+  filterParams,
   getBathParamsVariety,
   checkFilter,
+  acceptFilter,
 }: IProps) {
   const [lowPrice, setLowPrice] = useState(1);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');
 
   const [highPrice, setHighPrice] = useState(10000);
-  const [middleHighPrice, setMiddleHighPrice] = useState('');
+  const [middleHighPrice, setMiddleHighPrice] = useState('10000');
 
   const [lowRating, setLowRating] = useState(2);
   const [middleLowRating, setMiddleLowRating] = useState('2');
@@ -45,13 +63,14 @@ function BathesFilterScreenContainer({
   const [highRating, setHighRating] = useState(5);
   const [middleHightRating, setMiddleHighRating] = useState('5');
 
-  const [filterParams, setFilterParams] = useState<TPartBathParams>({ page: 0 });
+  const [params, setParams] = useState<TPartBathParams>({
+    search_query: bathParams.search_query ? bathParams.search_query : '',
+    ...DEFAULT_PARAMS,
+    ...filterParams,
+  });
+  const [count, setCount] = useState(filterCount);
 
   const { zones, services, steamRooms } = paramsVariety || {};
-
-  useEffect(() => {
-    console.log('lowPrice = ', lowPrice, typeof lowPrice);
-  }, [lowPrice]);
 
   // Получаем параметры для фильтрации
   useEffect(() => {
@@ -60,21 +79,51 @@ function BathesFilterScreenContainer({
     }
   }, [getBathParamsVariety, paramsVariety]);
 
-  // Филльтр
-  const handleCheckFilter = useCallback(() => {
-    __DEV__ && console.log(`[FilterScreen/handleCheckFilter] fparams=${filterParams}`);
-    checkFilter(filterParams);
-  }, [checkFilter, filterParams]);
-
   // Вызываем фильтр сразу после создания
   useEffect(() => {
     __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter');
-    //handleCheckFilter();
-  }, [handleCheckFilter]);
+    debounced(params, filterCount);
+    // сбрасываем все
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const debounced = useDebouncedCallback((checkParams: TPartBathParams) => setFilterParams(checkParams), 2000, {
-    maxWait: 3000,
+  /* useEffect(() => {
+    __DEV__ && console.log('[FilterScreen/change] fparams=', params);
+  }, [params]); */
+
+  const debounced = useDebouncedCallback(
+    (checkParams: TPartBathParams, count: number) => checkFilter({ params: checkParams, countFilters: count }),
+    2000,
+    {
+      maxWait: 3000,
+    },
+  );
+  const debouncedParams = useDebouncedCallback((checkParams: TPartBathParams) => setParams(checkParams), 500, {
+    maxWait: 1000,
   });
+
+  // Вызываем запрос при изменении параметров
+  useEffect(() => {
+    __DEV__ && console.log('\n[FilterScreen/debounced] with filters', JSON.stringify(params, null, 4));
+    debounced(params, count);
+    // Пусть зависит только от параметров - нет от количества параметров
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounced, params]);
+
+  // Вызываем запрос при изменении цены и рейтинга
+  useEffect(() => {
+    const newParams: TPartBathParams = { ...params, price_from: lowPrice, price_to: highPrice, rating: lowRating };
+    lowPrice === 1 && delete newParams.price_from;
+    highPrice === 10000 && delete newParams.price_to;
+    lowRating === 2 && delete newParams.rating;
+
+    debouncedParams(newParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lowPrice, highPrice, lowRating, debouncedParams]);
+
+  function handleAcceptFilter() {
+    acceptFilter({ params, count });
+  }
 
   const changeText = (
     text: string,
@@ -89,7 +138,7 @@ function BathesFilterScreenContainer({
       return false;
     } else {
       const digit = parseInt(text);
-      console.log(digit);
+      // console.log(digit);
       if (isNaN(digit)) {
         return;
       }
@@ -107,13 +156,31 @@ function BathesFilterScreenContainer({
         <Block style={{ justifyContent: 'space-between' }} center row>
           <AppText h1>Выбрано фильтров</AppText>
           <AppText margin={[0, 0, 0, 11]} style={styles.button} semibold h2>
-            {countFilters}
+            {count}
           </AppText>
-          <Block style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}>
+          <TouchableOpacity
+            style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
+            onPress={() => {
+              if (count > 0) {
+                setCount(0);
+                setParams({
+                  search_query: bathParams.search_query ? bathParams.search_query : undefined,
+                  ...DEFAULT_PARAMS,
+                });
+              }
+              setLowPrice(1);
+              setMiddleLowPrice('1');
+              setHighPrice(10000);
+              setMiddleHighPrice('10000');
+              setLowRating(2);
+              setMiddleLowRating('2');
+              setHighRating(5);
+              setMiddleHighRating('5');
+              //}
+            }}>
             <CloseFilerIcon />
-          </Block>
+          </TouchableOpacity>
         </Block>
-        {/* Стоимость */}
         <AppText margin={[3, 0, 0]}>
           <AppText secondary>Стоимость</AppText> в час
         </AppText>
@@ -122,8 +189,14 @@ function BathesFilterScreenContainer({
           max={10000}
           low={lowPrice}
           high={highPrice}
-          setLow={setLowPrice}
-          setHigh={setHighPrice}
+          setLow={function (value: number) {
+            setLowPrice(value);
+            String(value) !== middleLowPrice && setMiddleLowPrice(String(value));
+          }}
+          setHigh={function (value: number) {
+            setHighPrice(value);
+            String(value) !== middleHighPrice && setMiddleHighPrice(String(value));
+          }}
         />
         <Block margin={[1, 0, 0]} center row>
           {/* Минимальная стоимость */}
@@ -175,8 +248,14 @@ function BathesFilterScreenContainer({
           max={5}
           low={lowRating}
           high={highRating}
-          setLow={setLowRating}
-          setHigh={setHighRating}
+          setLow={function (value: number) {
+            setLowRating(value);
+            String(value) !== middleLowRating && setMiddleLowRating(String(value));
+          }}
+          setHigh={function (value: number) {
+            setHighRating(value);
+            String(value) !== middleHightRating && setMiddleHighRating(String(value));
+          }}
         />
         <Block id="rating" margin={[1, 0, 0]} center row>
           <AppText margin={[0, 3, 0, 0]} tag>
@@ -217,63 +296,33 @@ function BathesFilterScreenContainer({
             звезд
           </AppText>
         </Block>
+
         {/* Виды парной */}
-        <AppText margin={[3, 0, 2]} secondary>
-          Виды парной
-        </AppText>
-        <Block row wrap>
-          {steamRooms &&
-            Array.from(steamRooms, ([key, value]) => (
-              <AppText key={`item-${key}`} style={[styles.element]} tag>
-                {value}
-              </AppText>
-            ))}
-        </Block>
+        <FilterRooms
+          steamRooms={steamRooms}
+          filterParams={params}
+          setFilterParams={setParams}
+          setFilterCount={setCount}
+        />
         {/* Сервис */}
-        <AppText margin={[3, 0, 2]} secondary>
-          Сервис
-        </AppText>
-        <Block row wrap>
-          {services &&
-            Array.from(services, ([key, value]) => (
-              <AppText key={`item-${key}`} style={[styles.element]} tag>
-                {value}
-              </AppText>
-            ))}
-        </Block>
+        <FilterServices
+          services={services}
+          filterParams={params}
+          setFilterParams={setParams}
+          setFilterCount={setCount}
+        />
         {/* Аквазоны */}
-        <AppText margin={[3, 0, 2]} secondary>
-          Аквазоны
-        </AppText>
-        <Block row wrap>
-          {zones &&
-            Array.from(zones, ([key, value]) => (
-              <AppText key={`item-${key}`} style={[styles.element]} tag>
-                {value}
-              </AppText>
-            ))}
-        </Block>
-        {/* Уровни */}
-        <AppText margin={[3, 0, 2]} secondary>
-          Уровни
-        </AppText>
-        <Block row wrap>
-          {/* {bathType.forEach((value, key, map) => console.log(value, key))} */}
-          {steamRooms &&
-            Array.from(steamRooms, ([key, value]) => (
-              <AppText key={`item-${key}`} style={[styles.element]} tag>
-                {value}
-              </AppText>
-            ))}
-          {Array.from(bathType, ([key, value]) => (
-            <AppText key={`${key}`} style={[styles.element]} tag>
-              {value}
-            </AppText>
-          ))}
-        </Block>
+        <FilterZones zones={zones} filterParams={params} setFilterParams={setParams} setFilterCount={setCount} />
+        {/* Типы */}
+        <FilterTypes
+          bathTypes={bathType}
+          filterParams={params}
+          setFilterParams={setParams}
+          setFilterCount={setCount}
+        />
         <Block margin={[10, 0]} />
       </ScrollView>
-      <AppButton style={[styles.filterButton]} opacity={0.2} margin={[3, 0, 8]}>
+      <AppButton style={[styles.filterButton]} opacity={0.2} margin={[3, 0, 8]} onPress={handleAcceptFilter}>
         <AppText padding={1.5} center semibold header>
           {'Показать '}
           {/* {filterLoading ?  <ActivityIndicator size="small" color="white" /> : totalFilteredBathes}
@@ -300,13 +349,29 @@ const BathesFilterScreenConnected = connect(
   ({ bath }: IRootState) => ({
     paramsVariety: bath.paramsVariety,
     filterLoading: bath.filterLoading,
-    countFilters: bath.countFilters,
+    filterCount: bath.filterCount,
     totalFilteredBathes: bath.totalFilteredBathes,
+    //filterParams: bath.filterParams,
+    bathParams: bath.params,
   }),
   {
     getBathParamsVariety: getBathParamsVarietyAction,
     checkFilter: checkFilterAction,
+    acceptFilter: acceptFilterAction,
   },
 )(BathesFilterScreenContainer);
 
 export { BathesFilterScreenConnected as BathesFilterScreen };
+
+// // Филльтр
+// const handleCheckFilter = useCallback(() => {
+//   __DEV__ && console.log(`[FilterScreen/handleCheckFilter] fparams=${params}`);
+//   //checkFilter(filterParams);
+//   //debounced(filterParams);
+// }, [debounced, params]);
+
+/* const DEFAULT_PRICE_AND_RATING: TPartBathParams = {
+  price_from: 1,
+  price_to: 10000,
+  rating: 2,
+}; */

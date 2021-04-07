@@ -44,6 +44,7 @@ export interface IBathParams {
   price_from: number;
   price_to: number;
   types: number[];
+  //types: EBathType[];
   steam_rooms_ids: number[];
   services_ids: number[];
   zones_ids: number[];
