@@ -19,11 +19,11 @@ import { IRootState } from '~/src/app/store/rootReducer';
 interface IProps {
   bath: IBath;
   distance: number;
-  updateBath: (bath: IBath) => void;
+  //updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
 }
 
-export default function BathItem({ bath, distance, updateBath, persistImage }: IProps) {
+export default function BathItem({ bath, distance, persistImage }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
@@ -38,6 +38,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
   const indexOf = set.indexOf(fileName);
 
   useEffect(() => {
+    let isMounted = true;
     // Если нет кэшированного изображения
     if (!thisCachedImage) {
       // Если изображение по имени найдено в кэше телефона
@@ -53,27 +54,23 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
         //__DEV__ && console.log('/n [BathItem/useEffect] NEED cached image', bath.id);
         cacheImage(image)
           .then((response: Response) => {
-            setThisCachedImage(response.uri);
-            uri.current = response.uri;
+            if (isMounted) {
+              setThisCachedImage(response.uri);
+              uri.current = response.uri;
+            }
           })
           .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
       }
     } else {
       //__DEV__ && console.log('/n [BathItem/useEffect] NOT need cached image', bath.id);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [thisCachedImage]);
+    return () => {
+      isMounted = false;
+    };
+  }, [image, images, indexOf, thisCachedImage]);
 
   // Сохраняем в кэше изображение, когда компонент выходит и поля видимости
   const returnUpdate = useCallback(() => {
-    /* if (uri.current && !cachedImage) {
-      //__DEV__ && console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
-      updateBath({
-        ...bath,
-        cachedImage: uri.current,
-      });
-    } */
     if (uri.current && indexOf === -1) {
       persistImage({ id: fileName, path: uri.current });
       //__DEV__ && console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
@@ -143,3 +140,11 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
     </AnimatedImage>
   );
 }
+
+/* if (uri.current && !cachedImage) {
+      //__DEV__ && console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
+      updateBath({
+        ...bath,
+        cachedImage: uri.current,
+      });
+    } */

@@ -9,7 +9,7 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   getBathes as getBathesAction,
   fetchBathes as fetchBathesAction,
-  updateBath as updateBathAction,
+  //updateBath as updateBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBath, IBathAction, IMap, TPartBathParams } from '~/src/app/models/bath';
@@ -22,7 +22,7 @@ import {
   clearBathes as clearBathesAction,
   setFilter as setFilterAction,
 } from '~/src/features/bathes/store/bathActions';
-import { transparentHeader as transparentHeaderAction } from '~/src/app/store/system/systemActions';
+//import { transparentHeader as transparentHeaderAction } from '~/src/app/store/system/systemActions';
 import { IPersistImage } from '~/src/app/models/persist';
 import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
 import { FilterIcon, ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
@@ -49,7 +49,7 @@ interface IProps {
 
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
-  updateBath: (bath: IBath) => void;
+  // updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
   openModal: (payload: IModalState) => void;
   clearBathes: () => void;
@@ -67,7 +67,6 @@ export function BathesScreenContainer({
   maps,
   filtered,
   fetchBathes,
-  updateBath,
   persistImage,
   openModal,
   params,
@@ -107,7 +106,8 @@ export function BathesScreenContainer({
   // TODO Test
   const handleLoadMore = useCallback(() => {
     __DEV__ &&
-      __DEV__ && console.log(
+      __DEV__ &&
+      console.log(
         `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
       );
     if (connection) {
@@ -204,20 +204,14 @@ export function BathesScreenContainer({
       const distance: number = map?.distance || 0;
       return (
         <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
-          <BathItem
-            key={`item-${index}`}
-            bath={item}
-            distance={distance}
-            updateBath={updateBath}
-            persistImage={persistImage}
-          />
+          <BathItem key={`item-${index}`} bath={item} distance={distance} persistImage={persistImage} />
         </TouchableOpacity>
       );
     },
     // В зависимостях должно быть userLocation
     // т/к удаленность зависит от изменения локации пользователя
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateBath, persistImage, /* userLocation, */ maps],
+    [persistImage, /* userLocation, */ maps],
   );
 
   let emptyComponent = null;
@@ -319,7 +313,7 @@ const BathesScreenConnected = connect(
   {
     getBathes: getBathesAction,
     fetchBathes: fetchBathesAction,
-    updateBath: updateBathAction,
+    //updateBath: updateBathAction,
     persistImage: persistImageAction,
     openModal: openModalAction,
     clearBathes: clearBathesAction,
