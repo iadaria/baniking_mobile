@@ -13,19 +13,19 @@ interface IAction {
 
 function* changePasswordSaga({ payload }: IAction) {
   try {
-    console.log('[changePasswordSaga] **** ', payload);
+    __DEV__ && console.log('[changePasswordSaga] **** ', payload);
     const response = yield methods.changePassword(payload, null);
-    console.log('[changePasswordSaga]', response);
+    __DEV__ && console.log('[changePasswordSaga]', response);
 
     yield put(settingsSuccess());
     yield showAlert('Сообщение', 'Ваш пароль изменен');
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
 
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(settingsFail(errors));
 
-    console.log([errors, message, allErrors]);
+    __DEV__ && console.log([errors, message, allErrors]);
 
     if (errors && errors?.new_password_confirmation.includes('не совпадают')) {
       errors.new_password_confirmation = 'Значение должно совпадать с новым паролем';

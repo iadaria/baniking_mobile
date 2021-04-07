@@ -16,7 +16,7 @@ export function TestTextInput<T>(props: ITestInputProps<T>): JSX.Element {
   const [isFocused, setIsFocused] = React.useState(false);
 
   React.useEffect(() => {
-    console.log(
+    __DEV__ && console.log(
       `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}, focused=${isFocused}'`,
     );
   }, [props, isTouched, props.touched, isFocused]);
@@ -30,7 +30,7 @@ export function TestTextInput<T>(props: ITestInputProps<T>): JSX.Element {
   }
 
   function renderError() {
-    console.log(
+    __DEV__ && console.log(
       `[TestInput/renderError] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}'`,
     );
     const { error } = props;

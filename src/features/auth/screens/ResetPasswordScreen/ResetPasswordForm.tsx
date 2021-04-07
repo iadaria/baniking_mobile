@@ -25,7 +25,7 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
 
   const handleResetPassword = () => {
     if (valuesRef.current) {
-      console.log('values1', valuesRef.current);
+      __DEV__ && console.log('values1', valuesRef.current);
       resetPassword(valuesRef?.current.email!);
       setRecreate(!recreate);
     }

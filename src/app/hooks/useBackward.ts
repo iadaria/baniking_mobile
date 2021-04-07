@@ -23,7 +23,7 @@ export function useBackward({ navigation, route, screens, screen }: IProps) {
     if (name) {
       dispatch(setCurrentScreen(name));
     }
-    //console.log('[useBackward/screen !!!!!!!]', navigation?.state?.routeName);
+    //__DEV__ && console.log('[useBackward/screen !!!!!!!]', navigation?.state?.routeName);
     if (name && screen && screens.includes(name) && !exceptsTo.includes(name)) {
       //dispatch(pushBackward('SettingsMenuScreen'));
       dispatch(pushBackward(screen));
@@ -49,4 +49,4 @@ export function useBackward({ navigation, route, screens, screen }: IProps) {
 // const excepts = ['SettingsMenuScreen', 'LoginScreen', 'RegisterScreen', ''];
 // const excepts = [''];
 
-// console.log(name);
+// __DEV__ && console.log(name);

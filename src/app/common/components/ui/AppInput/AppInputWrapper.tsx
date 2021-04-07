@@ -41,7 +41,7 @@ export const AppInputWrapper = <T extends {}>({
     (secure || !!rightButton) && { flexDirection: 'row', alignItems: 'center' },
     center && { justifyContent: 'center' },
   ];
-  // console.log('[AppInputWrapper] inputStyle', inputStyle);
+  // __DEV__ && console.log('[AppInputWrapper] inputStyle', inputStyle);
 
   return (
     <>

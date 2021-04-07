@@ -15,7 +15,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
   /** Функция для определения текущего местоположения */
   const requestFineLocation = useCallback(() => {
     if (permission) {
-      // console.log('!!! detect geolocation');
+      // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
           __DEV__ && console.log(position);

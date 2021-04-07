@@ -6,7 +6,7 @@ import { ASK_LOGOUT } from '../appPersistConstants';
 import { authLogout } from '../../../auth/store/authActions';
 
 function* logoutSaga() {
-  yield console.log('!![logoutSaga] ask logout');
+  yield __DEV__ && console.log('!![logoutSaga] ask logout');
 
   yield put(logout());
   yield put(authLogout());

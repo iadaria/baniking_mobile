@@ -19,9 +19,9 @@ function* getProfileSettingsSaga() {
       }),
     );
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
     let [errors, message, allErrors] = getErrorStrings(e);
-    console.log('[getdProfileSettingsSaga]', [errors, message]);
+    __DEV__ && console.log('[getdProfileSettingsSaga]', [errors, message]);
 
     let errorMessage = allErrors ? allErrors : 'Ошибка при получении данных';
 

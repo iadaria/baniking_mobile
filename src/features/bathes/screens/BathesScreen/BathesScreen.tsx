@@ -107,7 +107,7 @@ export function BathesScreenContainer({
   // TODO Test
   const handleLoadMore = useCallback(() => {
     __DEV__ &&
-      console.log(
+      __DEV__ && console.log(
         `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
       );
     if (connection) {
@@ -248,7 +248,7 @@ export function BathesScreenContainer({
             style={styles.searchInput}
             placeholder="Что вы ищите?"
             onChangeText={(name: string) => {
-              console.log('[BathesScreen]', name);
+              __DEV__ && console.log('[BathesScreen]', name);
               const newName = String(name).toLowerCase();
               setSearchName(name);
               const newParams: TPartBathParams = {

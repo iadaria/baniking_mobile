@@ -13,7 +13,7 @@ import { setTitlePoints } from '~/src/app/store/system/systemActions';
 function* getCabinetDataSaga() {
   /* countCabinetRequests++;
   if (countCabinetRequests > 3) {
-    console.log('[getCabinetDataSaga] count > 3');
+    __DEV__ && console.log('[getCabinetDataSaga] count > 3');
     setTimeout(function () {
       countCabinetRequests = 0;
     }, 10000);
@@ -21,15 +21,15 @@ function* getCabinetDataSaga() {
   } */
   try {
     const cabinet: IResponseCabinet = yield call(methods.getCabinet, null, null);
-    console.log('\n[getCabinetSaga] **********\n');
+    __DEV__ && console.log('\n[getCabinetSaga] **********\n');
     yield put(setCabinetData(cabinet));
     yield put(setTitlePoints(cabinet.user.points));
     //yield put(setAuthUserData({ name: cabinet.user.full_name, avatar: cabinet.user.avatar }));
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
     let [errors, message, allErrors] = getErrorStrings(e);
 
-    console.log([errors, message, allErrors]);
+    __DEV__ && console.log([errors, message, allErrors]);
 
     const errorMessage =
       allErrors || message ? allErrors || message : 'Ошибка при получении данных личного профиля';

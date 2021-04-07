@@ -8,7 +8,7 @@ import { setAuthToken } from '../authActions';
 
 function* checkAuthSaga() {
   const token: string | null = yield select((state: IRootState) => state.persist.token);
-  console.log('[checkAuthSaga] token = ', token);
+  __DEV__ && console.log('[checkAuthSaga] token = ', token);
   if (token) {
     yield tokenToHeaders(token);
     yield put(setAuthToken(token));

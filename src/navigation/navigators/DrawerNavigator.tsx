@@ -99,7 +99,7 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
         component={QrNavigator}
         options={
           (/* props: IScreenOptionsProps */) => {
-            // console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
+            // __DEV__ && console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
             return {
               drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
             };

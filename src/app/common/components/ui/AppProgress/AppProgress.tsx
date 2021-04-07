@@ -37,7 +37,7 @@ interface IProgressBarProps {
 export function AppProgress(props: IProgressBarProps) {
   const { completed } = props;
 
-  // console.log('[AppProgress] steps', JSON.stringify(generateSteps(completed), null, 2));
+  // __DEV__ && console.log('[AppProgress] steps', JSON.stringify(generateSteps(completed), null, 2));
 
   const steps: IStep[] = generateSteps(completed);
 

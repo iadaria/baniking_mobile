@@ -28,7 +28,7 @@ export default function BathBathers({ bathers, persistImages }: IProps) {
       // Проверяем добавилось ли хоть одно изображение
       newCachedPhotos.size > countCached && setCachedPhotos(newCachedPhotos);
       /* __DEV__ &&
-        console.log(
+        __DEV__ && console.log(
           '[BathBathers/newCached] photo-length/cached-length/new-length',
           bathers.length,
           cachedPhotos.size,

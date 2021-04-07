@@ -21,13 +21,13 @@ export default function SocialLoginBlock() {
             LoginManager.logInWithPermissions(['public_profile']).then(
               function (result) {
                 if (result.isCancelled) {
-                  console.log('Login cancelled');
+                  __DEV__ && console.log('Login cancelled');
                 } else {
-                  console.log('Login success with permissions: ' + result.grantedPermissions.toString());
+                  __DEV__ && console.log('Login success with permissions: ' + result.grantedPermissions.toString());
                 }
               },
               function (error) {
-                console.log('Login fail with error: ' + error);
+                __DEV__ && console.log('Login fail with error: ' + error);
               },
             );
           }}>
@@ -41,9 +41,9 @@ export default function SocialLoginBlock() {
           onPress={async () => {
             try {
               const auth = await VKLogin.login(['friends', 'photos', 'email']);
-              console.log(auth);
+              __DEV__ && console.log(auth);
             } catch (error) {
-              console.log(error);
+              __DEV__ && console.log(error);
             }
           }}>
           <VkIcon />

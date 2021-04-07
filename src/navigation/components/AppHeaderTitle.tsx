@@ -12,7 +12,7 @@ interface IProps {
 export default function AppHeaderTitle({ points }: IProps) {
   useEffect(() => {
     if (!points) {
-      console.log('[AppHeaderTitle/useEffect/AppHeaderTitle render] points = ', points);
+      __DEV__ && console.log('[AppHeaderTitle/useEffect/AppHeaderTitle render] points = ', points);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points]);

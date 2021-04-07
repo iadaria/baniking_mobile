@@ -66,7 +66,7 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
       <Block margin={[7, 0, 0]} row middle>
         <TouchableOpacity
           onPress={() => {
-            console.log('naviation to 10 mettings');
+            __DEV__ && console.log('naviation to 10 mettings');
           }}>
           <AppText center light secondary>
             {`еще ${countBeforeNext} ${getMeetingsDeclension(countBeforeNext)} `}

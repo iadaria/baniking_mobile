@@ -48,7 +48,7 @@ export function DestinationMap({ route }: IProps) {
   });
 
   /* useEffect(() => {
-    console.log('[DestinationMap/points]', destinationCoords);
+    __DEV__ && console.log('[DestinationMap/points]', destinationCoords);
   }, [destinationCoords]); */
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export function DestinationMap({ route }: IProps) {
           }
           // setPoints(result);
         })
-        .catch((error) => console.log('[DestingationMap/getPoitns/error]', error));
+        .catch((error) => __DEV__ && console.log('[DestingationMap/getPoitns/error]', error));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bathLocation, userLocation]);
@@ -118,7 +118,7 @@ export function DestinationMap({ route }: IProps) {
     return <NoPermissionPart setNeedCheck={setCustomeNeedCheck.bind(null, true)} />;
   }
 
-  // console.log('[DestinationMap/userLocation]', location, localPermission);
+  // __DEV__ && console.log('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
     let timeId = setTimeout(() => {
       map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0, width: windowWidth - 1 } });

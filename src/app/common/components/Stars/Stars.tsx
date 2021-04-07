@@ -27,7 +27,7 @@ export function Stars({ rating }: IProps) {
     }
 
     const _active = _rating / _star > 1 ? 1 : _rating % 1;
-    // console.log(`\n rating=${_rating} star=${_star} active=${_active} rating/star=${_rating / _star}`);
+    // __DEV__ && console.log(`\n rating=${_rating} star=${_star} active=${_active} rating/star=${_rating / _star}`);
     return _active;
   };
 

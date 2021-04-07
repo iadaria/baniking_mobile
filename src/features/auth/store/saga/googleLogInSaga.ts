@@ -49,17 +49,17 @@ function* googleLogInSaga() {
     };
     yield put(setAuthUserData(userData as IUserAuth));
     // debug
-    console.log('*****', userInfo);
-    console.log('!!!!!!', access_token);
+    __DEV__ && console.log('*****', userInfo);
+    __DEV__ && console.log('!!!!!!', access_token);
   } catch (error) {
 
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       yield put(socialLoginCanceled());
-      console.log('[googleLoginSaga/Google] user canceled the login flow');
+      __DEV__ && console.log('[googleLoginSaga/Google] user canceled the login flow');
     }
 
     yield put(authFail(null));
-    console.log('[googleLoginSaga/error]', error);
+    __DEV__ && console.log('[googleLoginSaga/error]', error);
   }
 }
 

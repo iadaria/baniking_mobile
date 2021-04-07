@@ -19,7 +19,7 @@ export interface ISortModal {
 export default function SortModal({ y }: ISortModal) {
   const dispatch = useDispatch();
   const { params, sort } = useSelector(({ bath }: IRootState) => bath);
-  // console.log('[SortModal]', y);
+  // __DEV__ && console.log('[SortModal]', y);
   let _y = !y || y < 100 ? 130 : y;
   _y = isIos ? _y + statusBarHeight : y;
 

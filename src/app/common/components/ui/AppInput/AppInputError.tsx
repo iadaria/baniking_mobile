@@ -24,10 +24,10 @@ export default function AppInputError<T>(props: IProps<T>) {
   const { error, isFocused, isTouched, isVirgin, color, margin /*  id */ } = props;
   const errorColor = { color: isFocused ? color || colors.primary : colors.error };
 
-  // console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
+  // __DEV__ && console.log(`[AppInputError: id='${id}' error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
   // Не показывать ошибку если это первый вводй и поля еще ниразу не touched
   if (!!error && isVirgin && isFocused) {
-    // console.log(`[AppInputError/if: error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
+    // __DEV__ && console.log(`[AppInputError/if: error='${!!error}'], isVirgin=${isVirgin}, isFocused=${isFocused}`);
     return null;
   }
 

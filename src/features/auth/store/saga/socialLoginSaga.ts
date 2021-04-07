@@ -41,17 +41,17 @@ function* socialLoginSaga({ payload }: IAction) {
       const userInfo: GoogleUser = yield GoogleSignin.signIn();
       const access_token: IGoogleToken = yield GoogleSignin.getTokens();
       yield put(addSo)
-      console.log('*****', userInfo);
-      console.log('!!!!!!', access_token);
+      __DEV__ && console.log('*****', userInfo);
+      __DEV__ && console.log('!!!!!!', access_token);
     }
   } catch (error) {
     // Google
     if (isGoogle(payload)) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('[socialLoginSaga/Google] user canceled the login flow');
+        __DEV__ && console.log('[socialLoginSaga/Google] user canceled the login flow');
       }
     }
-    console.log('[socialLoginSaga/error]', error);
+    __DEV__ && console.log('[socialLoginSaga/error]', error);
   }
 }
 

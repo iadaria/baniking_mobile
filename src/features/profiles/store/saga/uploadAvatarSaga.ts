@@ -28,9 +28,9 @@ function* uploadAvatarSaga({ payload }: IAction) {
     /* const result = */ yield methods.uploadAvatar(formData, null, {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    // console.log('result', result);
+    // __DEV__ && console.log('result', result);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 2));
+    __DEV__ && console.log(JSON.stringify(e, null, 2));
 
     let [errors, message] = getErrorStrings(e);
 
@@ -38,7 +38,7 @@ function* uploadAvatarSaga({ payload }: IAction) {
       yield put(uploadAvatarFail(errors));
     }
 
-    console.log('uploadAvatarSaga', [errors, message]);
+    __DEV__ && console.log('uploadAvatarSaga', [errors, message]);
     const errorMessage = 'При сохранении аватара возникла ошибка';
 
     yield showAlert('Ошибка', errorMessage);

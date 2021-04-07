@@ -60,7 +60,7 @@ const request = (method: Methods, _endpoint: string | Function, entity: any) => 
     }
     return res.data || res;
   } catch (error) {
-    console.log(`%c===> request error: ${method} ${endpoint || ''}\n`, 'color: red; font-weight: 600', error);
+    __DEV__ && console.log(`%c===> request error: ${method} ${endpoint || ''}\n`, 'color: red; font-weight: 600', error);
 
     throw error.response || error;
   }

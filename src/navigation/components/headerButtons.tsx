@@ -57,7 +57,7 @@ export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPres
 
 export const HeaderRightButton = (/* props: StackHeaderLeftButtonProps */) => (
   <Block margin={[0, sizes.offset.base, 0, 0]}>
-    <TouchableOpacity onPress={() => console.log('menu button is clicked')}>
+    <TouchableOpacity onPress={() => __DEV__ && console.log('menu button is clicked')}>
       <Notify fill={colors.disable} opacity={0.25} width={wp(10) * multiplier} />
     </TouchableOpacity>
   </Block>

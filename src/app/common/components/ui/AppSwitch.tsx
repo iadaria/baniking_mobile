@@ -22,7 +22,7 @@ export function AppSwitch(props: IUiSwitch) {
         return newState;
       });
     } catch (e) {
-      console.log('[AppSwitch/toggleSwitch]', e);
+      __DEV__ && console.log('[AppSwitch/toggleSwitch]', e);
     }
   };
 

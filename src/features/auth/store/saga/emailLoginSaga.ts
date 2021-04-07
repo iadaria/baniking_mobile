@@ -26,7 +26,7 @@ interface IResult {
 
 function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    console.log('payload', payload);
+    __DEV__ && console.log('payload', payload);
 
     const { login, password, device_name, persist } = payload;
     const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
@@ -42,10 +42,10 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
 
     RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 2));
+    __DEV__ && console.log(JSON.stringify(e, null, 2));
 
     let [errors, message, allErrors] = getErrorStrings(e);
-    console.log([errors, message, allErrors]);
+    __DEV__ && console.log([errors, message, allErrors]);
 
     const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении qr кода';
 

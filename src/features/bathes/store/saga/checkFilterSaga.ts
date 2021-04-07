@@ -21,7 +21,7 @@ function* checkFilterSaga({ payload }: IAction) {
   //__DEV__ && console.log('[CheckFilterSaga]', payload);
   try {
     const { params } = payload;
-    //console.log('[checkFilterSaga]', objToUrl(payload));
+    //__DEV__ && console.log('[checkFilterSaga]', objToUrl(payload));
     const { count: bathCount }: IResult = yield call(methods.getBathes, null, params);
     yield put(setCheckFilterResult({ count: bathCount /* , params  */}));
   } catch (e) {

@@ -26,7 +26,7 @@ interface IResult {
 
 function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    console.log('payload *************', payload);
+    __DEV__ && console.log('payload *************', payload);
 
     const { name, email, phone, agreement, device_name } = payload;
 
@@ -39,7 +39,7 @@ function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICreden
       yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
     }
   } catch (e) {
-    console.log(JSON.stringify(e, null, 2));
+    __DEV__ && console.log(JSON.stringify(e, null, 2));
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
@@ -47,7 +47,7 @@ function* registerEmailSaga({ payload }: IAction) /* : Generator<Promise<ICreden
       yield put(authFail(errors));
     } */
 
-    console.log([errors, message]);
+    __DEV__ && console.log([errors, message]);
 
     const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 

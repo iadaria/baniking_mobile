@@ -12,7 +12,7 @@ const getListeners = (...args) =>
 //  https://github.com/rt2zz/redux-persist/issues/794
 export default function* rootSaga() {
   // yield all(getListeners(auth));
-  console.log('Waiting for rehydration');
+  __DEV__ && console.log('Waiting for rehydration');
   yield take(REHYDRATE); // Wait for rehydrate to prevent sagas from running with empty store
 
   yield all(getListeners(auth, profile, settings, bath, preferences));

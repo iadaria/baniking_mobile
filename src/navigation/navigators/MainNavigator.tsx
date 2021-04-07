@@ -51,7 +51,7 @@ function MainNavigatorContainer({
 }: IProps) {
   useEffect(() => {
     if (authenticated) {
-      // console.log('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
+      // __DEV__ && console.log('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
       getCabinetData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,9 +134,9 @@ export default connect(
           headerRight: () => <HeaderRightButton />,
         };
       }}> */
-/* console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
+/* __DEV__ && console.log('[MainNavigator/useEffect(autenticated === true)] getCabinetData');
       timerId = setTimeout(function () {
-        console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
+        __DEV__ && console.log('[MainNavigator/useEffect/setInterval] getCabinetData');
         getCabinetData();
       }, 1000);
     }

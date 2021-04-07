@@ -23,7 +23,7 @@ function* getQrCode() {
     if (qr_data.length > 0 && qr_data[1]) {
       // Расшифровываем данные получение в виде qr  изображения
       const { values } = yield RNQRGenerator.detect({ base64: qr_data[1] });
-      // console.log({ values });
+      // __DEV__ && console.log({ values });
 
       // Создаем стиль для нашего qr кода - размер, цвет
       const qrOptions: QRCodeGenerateOptions = {
@@ -52,10 +52,10 @@ function* getQrCode() {
     yield put(cabinetDataFail(null));
   } catch (error) {
     yield put(cabinetDataFail(null));
-    console.log('getQrCodeSaga', JSON.stringify(error, null, 4));
+    __DEV__ && console.log('getQrCodeSaga', JSON.stringify(error, null, 4));
     let [errors, message, allErrors] = getErrorStrings(error);
 
-    console.log([errors, message, allErrors]);
+    __DEV__ && console.log([errors, message, allErrors]);
 
     const errorMessage = allErrors || message ? allErrors || message : 'Ошибка при получении qr кода';
 
@@ -76,6 +76,6 @@ const path = `${extension}${RNFS.CachesDirectoryPath}/${name}.png`;
 const exists = yield RNFS.exists(path);
 if (exists) {
   yield put(setQrCode(path));
-  console.log(path);
+  __DEV__ && console.log(path);
 }
 */

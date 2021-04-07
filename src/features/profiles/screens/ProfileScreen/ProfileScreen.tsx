@@ -68,7 +68,7 @@ function ProfileScreenContainer({
   const [sex, setSex] = useState<Sex>(initSex!);
 
   function handleSaveSettings() {
-    console.log('******** current values', valuesRef);
+    __DEV__ && console.log('******** current values', valuesRef);
     if (valuesRef?.current) {
       sendProfile({
         name: valuesRef.current?.name,
@@ -80,13 +80,13 @@ function ProfileScreenContainer({
       });
     }
     if (avatarIsChanged) {
-      console.log('avatar changed **** ');
+      __DEV__ && console.log('avatar changed **** ');
       uploadAvatar(avatarImage);
     }
   }
 
   useEffect(() => {
-    // console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
+    // __DEV__ && console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
     getProfile();
   }, [getProfile]);
 
@@ -94,14 +94,14 @@ function ProfileScreenContainer({
     if (currentProfile) {
       initProfileInputs(currentProfile);
       setSex(currentProfile.sex);
-      console.log('currentPfoieSettings', JSON.stringify(currentProfile, null, 2));
+      __DEV__ && console.log('currentPfoieSettings', JSON.stringify(currentProfile, null, 2));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile, initProfileInputs]);
 
   useEffect(() => {
     if (currentProfile?.avatar) {
-      console.log('ProfileScreen/useEffect/curreProfile] set image');
+      __DEV__ && console.log('ProfileScreen/useEffect/curreProfile] set image');
       const _image = currentProfile.avatar;
       Image.getSize(_image, (width: number, height: number) => {
         setAvatarImage({
@@ -123,7 +123,7 @@ function ProfileScreenContainer({
   }, [currentProfile?.avatar]);
 
   useEffect(() => {
-    console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
+    __DEV__ && console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
   }, [avatarImage]);
 
   if (loading) {

@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function Star({id, active, deactive }: IProps) {
-  // console.log('[Star] active, deactive', active, deactive);
+  // __DEV__ && console.log('[Star] active, deactive', active, deactive);
   return (
     <Svg id={id} width="16" height="15.313">
       <Defs>

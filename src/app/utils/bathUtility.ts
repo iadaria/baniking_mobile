@@ -50,7 +50,7 @@ export const isNonRating = (rating: number) => ['0', '0.0'].indexOf(String(ratin
 export const cacheImage = async (image: string, size?: number): Promise<Response> => {
   //const fileName = getFileName(image);
   //const newFileName = 'file://data/user/0/com.baniking_mobile/cache/' + replaceExtension(fileName, '.png');
-  //console.log('[cacheImage/newFilename]', newFileName);
+  //__DEV__ && console.log('[cacheImage/newFilename]', newFileName);
   const width = size || Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };
@@ -100,7 +100,7 @@ export async function getDirections(params: TPartDirectionsParams): Promise<[num
       return [legs[0].distance.value, overview_polyline.points];
     }
   } catch (error) {
-    console.log('[getDirectionsSaga]', error);
+    __DEV__ && console.log('[getDirectionsSaga]', error);
   }
   return [0, ''];
 }
@@ -118,7 +118,7 @@ export async function getPoints(params: TPartDirectionsParams): Promise<string |
       return overview_polyline.points;
     }
   } catch (error) {
-    console.log('[getDirectionsSaga]', error);
+    __DEV__ && console.log('[getDirectionsSaga]', error);
   }
   return null;
 }
@@ -132,7 +132,7 @@ export async function getDistance(params: TPartDistanceParams): Promise<number |
       return distance.value;
     }
   } catch (error) {
-    console.log('[getDirectionsSaga]', error);
+    __DEV__ && console.log('[getDirectionsSaga]', error);
   }
   return null;
 }
@@ -162,5 +162,5 @@ export function calculateDistance(props: IDistance) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
   return d; // returns the distance in meter
-  // console.log('[bathUtility/calculateDisntance]', d / 1000);
+  // __DEV__ && console.log('[bathUtility/calculateDisntance]', d / 1000);
 }

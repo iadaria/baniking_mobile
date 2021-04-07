@@ -25,12 +25,12 @@
     "brew": "brew update && brew upgrade",
     "bundle-android-debug": "cd android && ./gradlew bundleDebug && cd ..",
     "bundle-android-release": "cd android && ./gradlew bundleRelease && cd ..",
+    "android-build": "cd android && ./gradlew build && cd ..",
     "build-android-debug": "cd android && ./gradlew assembleDebug && cd ../",
     "build-android-release": "cd android && ./gradlew assembleRelease && cd ../",
-    "android-build": "cd android && ./gradlew build && cd ..",
-    "android-unistall": "adb uninstall \"com.baniking_mobile\"",
     "android-debug": "npx react-native run-android",
-    "android-release": "npx react-native run-android --variant=release"
+    "android-release": "npx react-native run-android --variant=release",
+    "android-unistall": "adb uninstall \"com.baniking_mobile\""
   },
   "dependencies": {
     "@mapbox/polyline": "^1.1.1",

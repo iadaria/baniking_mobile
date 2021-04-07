@@ -17,7 +17,7 @@ import Network from '~/src/app/common/components/Network';
 
 export default function AppNavigation() {
   const initialize = async (): Promise<void> => {
-    console.log('\n[heightScreen]', heightScreen);
+    __DEV__ && console.log('\n[heightScreen]', heightScreen);
     // await initLanguage();
     store.dispatch(checkAuth());
   };

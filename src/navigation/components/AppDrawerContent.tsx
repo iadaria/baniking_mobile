@@ -24,7 +24,7 @@ interface ILabelProps {
 }
 
 export function AppDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
-  // console.log(props);
+  // __DEV__ && console.log(props);
   const { navigation } = props;
   const dispatch = useDispatch();
   function pickCloseIcon() {

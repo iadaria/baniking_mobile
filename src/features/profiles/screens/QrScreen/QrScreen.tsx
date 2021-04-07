@@ -17,7 +17,7 @@ interface IProps {
 
 export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps) {
   useEffect(() => {
-    console.log('Screen height', Dimensions.get('window').height);
+    __DEV__ && console.log('Screen height', Dimensions.get('window').height);
     if (!qr) {
       getQrCode();
     }

@@ -15,15 +15,15 @@ interface IAction {
 function* resetPasswordSaga({ payload }: IAction) {
   try {
     const response = yield methods.reset({ email: payload }, null);
-    console.log('[Auth reset password] response = ', response);
+    __DEV__ && console.log('[Auth reset password] response = ', response);
     yield put(authSuccess());
     yield RootNavigation.navigate(routes.authNavigator.LoginScreen);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
-    console.log([errors, message, allErrors]);
+    __DEV__ && console.log([errors, message, allErrors]);
 
     const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 

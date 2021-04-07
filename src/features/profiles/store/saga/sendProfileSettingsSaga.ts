@@ -13,17 +13,17 @@ interface IAction {
 
 function* sendProfileSettingsSaga({ payload }: IAction) {
   try {
-    console.log('[sendProfileSettingsSaga]payload ********', payload);
+    __DEV__ && console.log('[sendProfileSettingsSaga]payload ********', payload);
 
     yield methods.updateProfile(payload, null);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
 
     let [errors, message] = getErrorStrings(e);
 
     yield put(sendProfileFail(errors));
 
-    console.log('[sendProfileSettingsSaga]', [errors, message]);
+    __DEV__ && console.log('[sendProfileSettingsSaga]', [errors, message]);
 
     const errorMessage = 'Ошибка при сохранении основных настроек профиля';
 
@@ -46,5 +46,5 @@ export default function* listener() {
         },
       },
     }; */
-// console.log('success saving');
+// __DEV__ && console.log('success saving');
 // throw error;

@@ -22,7 +22,7 @@ interface IResult {
 
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
-  //console.log('[fetchBathesSaga]', payload.bathParams);
+  //__DEV__ && console.log('[fetchBathesSaga]', payload.bathParams);
   __DEV__ && console.log('[fetchBathesSaga]', payload);
   try {
     if (moreBathes) {
@@ -37,8 +37,8 @@ function* fetchBathesSaga({ payload }: IAction) {
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    console.log(JSON.stringify(e, null, 4));
-    console.log('[fetchBathesSaga]', [errors, message]);
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log('[fetchBathesSaga]', [errors, message]);
 
     if (errorMessage) {
       yield put(bathesFail(errors));

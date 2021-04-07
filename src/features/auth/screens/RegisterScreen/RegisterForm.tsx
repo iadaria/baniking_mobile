@@ -57,7 +57,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
       agreement: valuesRef.current.agreement,
     };
 
-    console.log('***** data *******', data);
+    __DEV__ && console.log('***** data *******', data);
     emailRegister(data);
     setRecreate(!recreate);
   }

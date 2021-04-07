@@ -39,7 +39,7 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
         setCachedPhotos([...newCachedPhotos]);
       }
       /* __DEV__ &&
-        console.log(
+        __DEV__ && console.log(
           '[BathSlider/newCachedBathPhoto] photo-length/cached-length/new-length',
           photos.length,
           countCached,

@@ -138,7 +138,7 @@ function BathesFilterScreenContainer({
       return false;
     } else {
       const digit = parseInt(text);
-      // console.log(digit);
+      // __DEV__ && console.log(digit);
       if (isNaN(digit)) {
         return;
       }

@@ -70,7 +70,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   }, [props.touched, states.isTouched]);
 
   /*   React.useEffect(() => {
-    console.log(
+    __DEV__ && console.log(
       `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
     );
   }, [props, props.touched, states]); */

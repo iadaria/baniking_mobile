@@ -25,7 +25,7 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
       const image = await takePhotoFromCamera();
       updateAvatarState(image);
     } catch (e) {
-      console.log(e);
+      __DEV__ && console.log(e);
     }
     setShowMenu(false);
   }
@@ -33,10 +33,10 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
   async function choosePhoto() {
     try {
       const image = await choosePhotoFromLibrary();
-      // console.log('photo', JSON.stringify(image, null, 2));
+      // __DEV__ && console.log('photo', JSON.stringify(image, null, 2));
       updateAvatarState(image);
     } catch (e) {
-      console.log(e);
+      __DEV__ && console.log(e);
     }
     setShowMenu(false);
   }
@@ -44,7 +44,7 @@ export const AvatarMenu = ({ setShowMenu, setAvatarImage, setAvatarIsChanged }: 
   async function deletePhoto() {
     const _image = USER_IMAGE_PATH;
     RNImage.getSize(_image, (width: number, height: number) => {
-      // console.log(width, height);
+      // __DEV__ && console.log(width, height);
       setAvatarImage({
         file: _image,
         width,

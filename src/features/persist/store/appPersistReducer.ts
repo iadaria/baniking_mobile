@@ -70,7 +70,7 @@ export default function appPersistReducer(
 
     // Images
     case constants.PERSIST_IMAGE:
-      // console.log('[appPersistReducer]', state.image);
+      // __DEV__ && console.log('[appPersistReducer]', state.image);
       const { images, set } = state.image as IPersistImages;
       const has = [...set].includes(payload.id);
       return {

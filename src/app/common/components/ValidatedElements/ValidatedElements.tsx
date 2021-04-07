@@ -208,7 +208,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
     __DEV__ &&
-      console.log(
+      __DEV__ && console.log(
         `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`,
       );
 
@@ -216,7 +216,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
       const _new = yCoordinate! - SCROLL_OFFSET_TOP;
       /* __DEV__ &&
-        console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`); */
+        __DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`); */
       const delay = Platform.OS === 'ios' ? 10 : 150;
       let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -230,7 +230,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 10;
       _; /* _DEV__ &&
-        console.log(
+        __DEV__ && console.log(
           `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
         ); */
       const delay = Platform.OS === 'ios' ? 10 : 150;

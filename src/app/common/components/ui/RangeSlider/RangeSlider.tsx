@@ -26,7 +26,7 @@ export default function RangeSlider({ min: _min, max: _max, low, high, setLow, s
   const renderRailSelected = useCallback(() => <RailSelected />, []);
   const renderLabel = useCallback((value) => <Label text={value} />, []);
   const handleValueChange = useCallback((_low, _high) => {
-    // console.log('_low _high', _low, _high);
+    // __DEV__ && console.log('_low _high', _low, _high);
     setLow(_low);
     setHigh(_high);
     // eslint-disable-next-line react-hooks/exhaustive-deps

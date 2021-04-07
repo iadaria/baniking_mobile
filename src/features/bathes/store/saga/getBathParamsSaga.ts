@@ -10,7 +10,7 @@ import { IBathParamsVariety } from '~/src/app/models/bath';
 function* getBathParamsSaga() {
   /* countParams++;
   if (countParams > 3) {
-    console.log('[getBathParamsSAga] count > 3');
+    __DEV__ && console.log('[getBathParamsSAga] count > 3');
     setTimeout(function () {
       countParams = 0;
     }, 30000);
@@ -18,7 +18,7 @@ function* getBathParamsSaga() {
   } */
   try {
     const params: IBathParamsResponse = yield call(methods.getBathParams, null, null);
-    //console.log({ params });
+    //__DEV__ && console.log({ params });
     const paramsVariety: IBathParamsVariety = {
       types: params.types,
       zones: new Map(Object.entries(params.zones) || {}),
@@ -26,9 +26,9 @@ function* getBathParamsSaga() {
       steamRooms: new Map(Object.entries(params.steamRooms) || {}),
     };
     yield put(setBathParamsVariety(paramsVariety));
-    //console.log(paramsVariety);
+    //__DEV__ && console.log(paramsVariety);
   } catch (error) {
-    console.log('[getBathParamsSaga]', error);
+    __DEV__ && console.log('[getBathParamsSaga]', error);
   }
 }
 

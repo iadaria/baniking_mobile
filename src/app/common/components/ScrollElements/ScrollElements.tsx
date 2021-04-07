@@ -32,17 +32,17 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
   const inputRefs: RefObject<JSX.Element>[] = [];
 
   /* useEffect(() => {
-    console.log('[ValidateElements/useEffect]', JSON.stringify(inputs, null, 4));
+    __DEV__ && console.log('[ValidateElements/useEffect]', JSON.stringify(inputs, null, 4));
   }, [inputs]); */
 
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    // console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
+    // __DEV__ && console.log(`\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} Detect need scroll?`);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      // console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
+      // __DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll!`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       setTimeout(() => {
         scrollViewRef?.current?.scrollTo({
@@ -55,7 +55,7 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 100;
       const delay = Platform.OS === 'ios' ? 10 : 150;
-      /* console.log(
+      /* __DEV__ && console.log(
         `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
       ); */
       setTimeout(() => {
@@ -69,7 +69,7 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
   };
 
   /* useEffect(() => {
-    console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
+    __DEV__ && console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
   }, [scrollPosition]); */
 
   function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {

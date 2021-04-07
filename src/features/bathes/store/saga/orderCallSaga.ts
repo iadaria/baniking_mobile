@@ -16,13 +16,13 @@ function* orderCallSaga({ payload }: IAction) {
 
     // yield methods.orderCall(payload, null);
   } catch (e) {
-    console.log(JSON.stringify(e, null, 4));
+    __DEV__ && console.log(JSON.stringify(e, null, 4));
 
     let [errors, message] = getErrorStrings(e);
 
     //yield put(orderCallFail(errors));
 
-    console.log('[sendProfileSettingsSaga]', [errors, message]);
+    __DEV__ && console.log('[sendProfileSettingsSaga]', [errors, message]);
 
     const errorMessage = 'Ошибка отправки запроса';
 

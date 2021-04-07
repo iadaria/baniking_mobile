@@ -42,7 +42,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
     if (!thisCachedImage) {
       // Если изображение по имени найдено в кэше телефона
       if (indexOf !== -1) {
-        //console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
+        //__DEV__ && console.log('/n [BathItem/useEffect] GOT from persist', bath.id);
         const _cachedImage = images[indexOf];
         setThisCachedImage(_cachedImage.path);
         uri.current = _cachedImage.path;
@@ -68,7 +68,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
   // Сохраняем в кэше изображение, когда компонент выходит и поля видимости
   const returnUpdate = useCallback(() => {
     /* if (uri.current && !cachedImage) {
-      //console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
+      //__DEV__ && console.log(`/n [BathItem/useEffect/render] Bath updating id=${bath.id} uri=${uri.current}`);
       updateBath({
         ...bath,
         cachedImage: uri.current,
@@ -76,7 +76,7 @@ export default function BathItem({ bath, distance, updateBath, persistImage }: I
     } */
     if (uri.current && indexOf === -1) {
       persistImage({ id: fileName, path: uri.current });
-      //console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
+      //__DEV__ && console.log('/n [BathItem/useEffect] PERSIST image when return', bath.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri.current, cacheImage]);

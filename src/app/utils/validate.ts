@@ -46,7 +46,7 @@ interface InputValidationStateProps {
 }
 
 export function getValidatedInput({ input, value, touched }: InputValidationStateProps): IInput {
-  // console.log(`[getValidatedInput] touched = ${touched} and input.touched = ${input.touched}`);
+  // __DEV__ && console.log(`[getValidatedInput] touched = ${touched} and input.touched = ${input.touched}`);
   return {
     ...input,
     value,

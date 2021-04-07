@@ -5,15 +5,15 @@ import { AppPermission, PERMISSION_TYPE } from '~/src/app/common/components/AppP
 
 export function NotificationsScreen() {
   async function handleNotifyPermission() {
-    console.log('[NotificationsScreen/handleNotificationsPermission]');
+    __DEV__ && console.log('[NotificationsScreen/handleNotificationsPermission]');
     const result = await AppPermission.requestNotifyPermission();
     if (!result) {
       try {
-        console.log('result', result);
+        __DEV__ && console.log('result', result);
         Linking.openSettings();
         // Linking.openURL('baniking_mobile://app/notifications');
       } catch (error) {
-        console.log('[NotificationsScreen/handleNotifyPersmissions/link]', error);
+        __DEV__ && console.log('[NotificationsScreen/handleNotifyPersmissions/link]', error);
       }
     }
   }

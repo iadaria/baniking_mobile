@@ -30,9 +30,9 @@ const PERMISSION_TYPE = {
 
 class AppPermission {
   checkPermission = async (type: any): Promise<[boolean, string]> => {
-    console.log('[AppPermission/checkPermission] type', type);
+    __DEV__ && console.log('[AppPermission/checkPermission] type', type);
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
-    console.log('[AppPermission/checkPermission] permissions', permissions);
+    __DEV__ && console.log('[AppPermission/checkPermission] permissions', permissions);
 
     if (!permissions) {
       return [true, ''];
@@ -40,21 +40,21 @@ class AppPermission {
 
     try {
       const result = await check(permissions);
-      console.log('[AppPermission/checkPermission] result', result);
+      __DEV__ && console.log('[AppPermission/checkPermission] result', result);
       if (result === RESULTS.GRANTED) {
         return [true, ''];
       }
       return this.requestPermission(permissions);
     } catch (error) {
-      console.log('[AppPermission/checkPermission] error', error);
+      __DEV__ && console.log('[AppPermission/checkPermission] error', error);
       return [false, ''];
     }
   };
 
   checkPermissionWithoutRequest = async (type: any): Promise<[boolean, string]> => {
-    console.log('[AppPermission/checkPermission] type', type);
+    __DEV__ && console.log('[AppPermission/checkPermission] type', type);
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
-    console.log('[AppPermission/checkPermission] permissions', permissions);
+    __DEV__ && console.log('[AppPermission/checkPermission] permissions', permissions);
 
     if (!permissions) {
       return [true, ''];
@@ -62,26 +62,26 @@ class AppPermission {
 
     try {
       const result = await check(permissions);
-      console.log('[AppPermission/checkPermission] result', result);
+      __DEV__ && console.log('[AppPermission/checkPermission] result', result);
       if (result === RESULTS.GRANTED) {
         return [true, ''];
       }
       return [false, result];
     } catch (error) {
-      console.log('[AppPermission/checkPermission] error', error);
+      __DEV__ && console.log('[AppPermission/checkPermission] error', error);
       return [false, ''];
     }
   };
 
   requestPermission = async (permissions: Permission): Promise<[boolean, string]> => {
-    console.log('[AppPermission/requestPersmission] permission', permissions);
+    __DEV__ && console.log('[AppPermission/requestPersmission] permission', permissions);
     try {
       const result = await request(permissions);
-      console.log('[AppPermission/requestPersmission] result', result);
+      __DEV__ && console.log('[AppPermission/requestPersmission] result', result);
       return [result === RESULTS.GRANTED, result];
       // return result === RESULTS.GRANTED;
     } catch (error) {
-      console.log('[AppPermission/requestPersmission] error', error);
+      __DEV__ && console.log('[AppPermission/requestPersmission] error', error);
       return [false, ''];
     }
   };
@@ -92,7 +92,7 @@ class AppPermission {
     }
 
     const { status, settings } = await requestNotifications(['alert', 'sound', 'badge']);
-    console.log('[AppPermission/requestNotifyPermission] status/settings', status, settings);
+    __DEV__ && console.log('[AppPermission/requestNotifyPermission] status/settings', status, settings);
     return status === RESULTS.GRANTED;
   };
 }
