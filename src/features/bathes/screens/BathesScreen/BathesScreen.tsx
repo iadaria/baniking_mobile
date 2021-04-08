@@ -108,10 +108,11 @@ export function BathesScreenContainer({
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    /* __DEV__ &&
-      console.log(
-        `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
-      ); */
+    const cv = `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(
+      params,
+    )}, page=${page}`;
+    __DEV__ && console.log(cv);
+
     if (connection) {
       const countBathes = bathes?.length || 0;
       const canMoreBathes = canLoadMore(totalBathes, countBathes, params.page!);
