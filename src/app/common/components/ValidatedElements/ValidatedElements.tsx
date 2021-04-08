@@ -75,10 +75,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     !_isErrors && _allRequired && setIsErrors(false);
 
-    /* __DEV__ && console.log(
+    /* const cv =
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
-        ` allRequire = ${_allRequired} --------- `,
-    ); */
+      ` allRequire = ${_allRequired} --------- `; */
+    //__DEV__ && console.log(cv);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs, initialized]);
@@ -207,16 +207,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   const handleOnFocusedScroll = (id: keyof T) => {
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
-    __DEV__ &&
-      __DEV__ && console.log(
-        `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`,
-      );
+
+    const cv = `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`;
+    __DEV__ && console.log(cv);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      const _new = yCoordinate! - SCROLL_OFFSET_TOP;
-      /* __DEV__ &&
-        __DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`); */
+      //const _new = yCoordinate! - SCROLL_OFFSET_TOP;
+      //__DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -229,9 +227,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 10;
-      /* __DEV__ && console.log(
-          `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
-        ); */
+
+      //const cv = `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`;
+      //__DEV__ && console.log(cv);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
