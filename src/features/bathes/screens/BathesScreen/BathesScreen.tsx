@@ -85,11 +85,8 @@ export function BathesScreenContainer({
 
   useEffect(() => {
     let t = new Date();
-    __DEV__ &&
-      console.log(
-        '[BathesScreen/useEffect (didMount)]',
-        `^^ ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()} ^^`,
-      );
+    let v = `^^ ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()} ^^`;
+    __DEV__ && console.log('[BathesScreen/useEffect (didMount)]', v);
   }, []);
 
   usePermission({
