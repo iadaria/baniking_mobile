@@ -123,7 +123,8 @@ function ProfileScreenContainer({
   }, [currentProfile?.avatar]);
 
   useEffect(() => {
-    __DEV__ && console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
+    __DEV__ &&
+      console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', JSON.stringify(avatarImage, null, 2));
   }, [avatarImage]);
 
   if (loading) {

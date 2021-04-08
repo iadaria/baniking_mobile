@@ -9,7 +9,6 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   getBathes as getBathesAction,
   fetchBathes as fetchBathesAction,
-  //updateBath as updateBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBath, IBathAction, IMap, TPartBathParams } from '~/src/app/models/bath';
@@ -22,10 +21,9 @@ import {
   clearBathes as clearBathesAction,
   setFilter as setFilterAction,
 } from '~/src/features/bathes/store/bathActions';
-//import { transparentHeader as transparentHeaderAction } from '~/src/app/store/system/systemActions';
 import { IPersistImage } from '~/src/app/models/persist';
 import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
-import { FilterIcon, ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
+import { ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import NotFound from './NotFound';
@@ -35,9 +33,11 @@ import routes from '~/src/navigation/helpers/routes';
 import usePermission from '~/src/app/hooks/usePermission';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useGeolocation } from '../../hooks/useGeolocation';
-import { ILocation } from '../../../../app/models/user';
+import FilterButton from './FilterButton';
 
 interface IProps {
+  navigation: StackNavigationProp<ParamListBase>;
+
   connection: boolean | null;
   loading: boolean;
   totalBathes: number;
@@ -55,7 +55,6 @@ interface IProps {
   openModal: (payload: IModalState) => void;
   clearBathes: () => void;
   setFilter: (payload: { params: TPartBathParams }) => void;
-  navigation: StackNavigationProp<ParamListBase>;
 }
 
 // TODO 1)if filter and total === 0; 2) notfound upon keyboard
@@ -265,11 +264,7 @@ export function BathesScreenContainer({
             </TouchableOpacity>
           )}
         </Block>
-        <TouchableOpacity
-          style={styles.filter}
-          onPress={() => navigation.navigate(routes.bathesTab.BathesFilterScreen)}>
-          <FilterIcon />
-        </TouchableOpacity>
+        <FilterButton navigation={navigation} params={params} />
       </Block>
       {/* Sort */}
       <TouchableOpacity

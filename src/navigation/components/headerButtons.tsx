@@ -17,11 +17,9 @@ interface IProps {
 
 export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) => {
   return (
-    // <Block /* margin={[0, 0, 0, sizes.offset.base]}  */debug>
     <TouchableOpacity style={styles.menu} onPress={onOpenDrawer}>
       <MenuHumberger />
     </TouchableOpacity>
-    // </Block>
   );
 };
 
@@ -40,7 +38,6 @@ export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPres
   }, [backwardStack]);
 
   return (
-    // <Block margin={[0, 0, 0, sizes.offset.base]}>
     <TouchableOpacity
       style={styles.menu}
       onPress={() => {
@@ -51,7 +48,6 @@ export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPres
       }}>
       <BackwardIcon width={wp(8) * multiplier} />
     </TouchableOpacity>
-    // </Block>
   );
 };
 
@@ -67,7 +63,5 @@ const styles = StyleSheet.create({
   menu: {
     padding: wp(sizes.offset.base * 0.5),
     paddingLeft: wp(sizes.offset.base),
-    /* borderWidth: 1,
-    borderColor: 'red', */
   },
 });

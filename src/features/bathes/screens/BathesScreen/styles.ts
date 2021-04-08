@@ -30,6 +30,15 @@ export const styles = StyleSheet.create({
     padding: wp(3),
     borderRadius: 7,
   },
+  badge: {
+    position: 'absolute',
+    top: -wp(2),
+    right: -wp(2),
+    width: wp(4.5),
+    height: wp(4.5),
+    borderRadius: 40,
+    backgroundColor: colors.secondary,
+  },
   sort: {
     marginLeft: wp(4),
     borderWidth: 0.5,

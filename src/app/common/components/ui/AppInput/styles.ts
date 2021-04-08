@@ -33,7 +33,9 @@ export const styles = StyleSheet.create<IInputStyleProps>({
     paddingHorizontal: wp(1),
   },
   label: {},
-  center: { /* textAlign: 'center' */ },
+  center: {
+    /* textAlign: 'center' */
+  },
   secure: {
     /* paddingHorizontal: 50,  marginLeft: wp(WIDTH_EYE_BUTTON) */
   },

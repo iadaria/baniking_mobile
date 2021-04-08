@@ -13,7 +13,16 @@ import {
 } from '../models/bath';
 import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
-import { ISchedule } from '~/src/app/models/bath';
+import { ISchedule, TPartBathParams } from '~/src/app/models/bath';
+
+export function calculateFilterCount(bathParams: TPartBathParams): number {
+  let filterCount = 0;
+  bathParams?.steam_rooms_ids && (filterCount += bathParams.steam_rooms_ids?.length);
+  bathParams?.services_ids && (filterCount += bathParams.services_ids.length);
+  bathParams?.zones_ids && (filterCount += bathParams.zones_ids.length);
+  bathParams?.types && (filterCount += bathParams.types.length);
+  return filterCount;
+}
 
 export const getScheduleCurrentWeek = (schedule: Partial<ISchedule>): [string, string | null] => {
   if (schedule.is_round_the_clock) {

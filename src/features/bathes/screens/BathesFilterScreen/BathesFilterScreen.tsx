@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
 import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { RightButton } from './RightButton';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
@@ -11,6 +13,7 @@ import {
   checkFilter as checkFilterAction,
   acceptFilter as acceptFilterAction,
 } from '~/src/features/bathes/store/bathActions';
+import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CloseFilerIcon } from '~/src/assets';
 import { useDebouncedCallback } from 'use-debounce/lib';
@@ -21,13 +24,16 @@ import FilterTypes from './FilterTypes';
 import { styles } from './styles';
 
 interface IProps {
+  navigation: StackNavigationProp<ParamListBase>;
   paramsVariety: IBathParamsVariety | null;
   filterLoading: boolean;
   filterCount: number;
   totalFilteredBathes: number;
   bathParams: TPartBathParams;
   filterParams: TPartBathParams;
+  backwardStack: string[];
   getBathParamsVariety: () => void;
+  pullBackward: () => void;
   checkFilter: ({ params, countFilters }: { params: TPartBathParams; countFilters: number }) => void;
   acceptFilter: ({ params, count }: { params: TPartBathParams; count: number }) => void;
 }
@@ -41,12 +47,15 @@ const DEFAULT_PARAMS: TPartBathParams = {
 };
 
 function BathesFilterScreenContainer({
+  navigation,
   paramsVariety,
   filterLoading,
   filterCount,
   totalFilteredBathes,
   bathParams,
   filterParams,
+  backwardStack,
+  pullBackward,
   getBathParamsVariety,
   checkFilter,
   acceptFilter,
@@ -93,13 +102,13 @@ function BathesFilterScreenContainer({
 
   const debounced = useDebouncedCallback(
     (checkParams: TPartBathParams, count: number) => checkFilter({ params: checkParams, countFilters: count }),
-    2000,
+    1000,
     {
-      maxWait: 3000,
+      maxWait: 2000,
     },
   );
-  const debouncedParams = useDebouncedCallback((checkParams: TPartBathParams) => setParams(checkParams), 500, {
-    maxWait: 1000,
+  const debouncedParams = useDebouncedCallback((checkParams: TPartBathParams) => setParams(checkParams), 300, {
+    maxWait: 600,
   });
 
   // Вызываем запрос при изменении параметров
@@ -122,7 +131,10 @@ function BathesFilterScreenContainer({
   }, [lowPrice, highPrice, lowRating, debouncedParams]);
 
   function handleAcceptFilter() {
+    const prevScreen = backwardStack[backwardStack.length - 1];
     acceptFilter({ params, count });
+    navigation.navigate(prevScreen);
+    pullBackward();
   }
 
   const changeText = (
@@ -322,11 +334,9 @@ function BathesFilterScreenContainer({
         />
         <Block margin={[10, 0]} />
       </ScrollView>
-      <AppButton style={[styles.filterButton]} opacity={0.2} margin={[3, 0, 8]} onPress={handleAcceptFilter}>
+      <AppButton style={[styles.filterButton]} margin={[3, 0, 8]} onPress={handleAcceptFilter}>
         <AppText padding={1.5} center semibold header>
           {'Показать '}
-          {/* {filterLoading ?  <ActivityIndicator size="small" color="white" /> : totalFilteredBathes}
-          {'  предложения'} */}
         </AppText>
         <Block middle center>
           {filterLoading ? (
@@ -346,18 +356,19 @@ function BathesFilterScreenContainer({
 }
 
 const BathesFilterScreenConnected = connect(
-  ({ bath }: IRootState) => ({
+  ({ bath, system }: IRootState) => ({
     paramsVariety: bath.paramsVariety,
     filterLoading: bath.filterLoading,
     filterCount: bath.filterCount,
     totalFilteredBathes: bath.totalFilteredBathes,
-    //filterParams: bath.filterParams,
+    backwardStack: system.header.backwardStack,
     bathParams: bath.params,
   }),
   {
     getBathParamsVariety: getBathParamsVarietyAction,
     checkFilter: checkFilterAction,
     acceptFilter: acceptFilterAction,
+    pullBackward: pullBackwardAction,
   },
 )(BathesFilterScreenContainer);
 
