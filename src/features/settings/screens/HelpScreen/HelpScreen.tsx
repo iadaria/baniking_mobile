@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { multiplier, sizes } from '~/src/app/common/constants';
 import { TextInput } from 'react-native';
 

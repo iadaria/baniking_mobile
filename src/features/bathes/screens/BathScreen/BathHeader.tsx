@@ -14,6 +14,7 @@ import { AppHeader } from './AppHeader';
 import { styles } from './styles';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 import routes from '~/src/navigation/helpers/routes';
+import { MAX_DISTANCE } from '../../../../app/common/constants/common';
 
 export interface IHeadBath {
   name: string;
@@ -74,7 +75,11 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
         </Block>
         <Block margin={[0, 0, 3, 0]} padding={[0, sizes.offset.base]} center row>
           <AppText tag>{address}</AppText>
-          <TouchableOpacity style={styles.route} onPress={handleOpenDestinationMap}>
+          <TouchableOpacity
+            style={styles.route}
+            onPress={() => {
+              distance && distance < MAX_DISTANCE && handleOpenDestinationMap();
+            }}>
             <AppText medium secondary>
               {kms && `${kms} км `}
             </AppText>

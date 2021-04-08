@@ -22,7 +22,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
-          __DEV__ && console.log(position);
+          __DEV__ && console.log('[requestFineLocation/position]', position);
           dispatch(
             setAuthUserData({
               location: {
@@ -47,7 +47,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.getCurrentPosition(
         (position: Geolocation.GeoPosition) => {
-          __DEV__ && console.log(position);
+          __DEV__ && console.log('[requestFineLocation/position] now', position);
           dispatch(
             setAuthUserData({
               location: {
@@ -68,7 +68,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
 
   /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
-    __DEV__ && console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
+    //__DEV__ && console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
     locationWatchId.current = requestFineLocation();
     requestFineLocationNow();
     return function () {

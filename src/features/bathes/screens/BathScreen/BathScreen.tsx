@@ -30,6 +30,7 @@ import routes from '~/src/navigation/helpers/routes';
 import { OrderCallIcon } from '~/src/assets';
 import { colors, sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
+import { MAX_DISTANCE } from '../../../../app/common/constants/common';
 
 const BASE = sizes.offset.base;
 const TEST_PHONE = '88000000000';
@@ -139,7 +140,7 @@ IProps) {
   let map = null;
   //const { latitude = null, longitude = null } = bathParams || {};
 
-  if (latitude && longitude) {
+  if (latitude && longitude && bathParams.distance < MAX_DISTANCE) {
     map = (
       <Block style={styles.bathMap}>
         <BathDestinationMap latitude={latitude} longitude={longitude} />

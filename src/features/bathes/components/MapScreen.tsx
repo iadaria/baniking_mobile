@@ -1,6 +1,7 @@
 import React, { ForwardedRef } from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import MapView, { MapStyleElement, MapViewProps } from 'react-native-maps';
+import { colors } from '~/src/app/common/constants';
 
 interface IProps extends MapViewProps {
   userLatitude: number;
@@ -28,6 +29,8 @@ export default React.forwardRef(
         followsUserLocation={true}
         zoomEnabled={true}
         loadingEnabled={true}
+        loadingBackgroundColor={colors.primary}
+        loadingIndicatorColor={colors.secondary}
         zoomControlEnabled={true}
         showsMyLocationButton={true}
         region={{

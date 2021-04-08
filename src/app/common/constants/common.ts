@@ -9,3 +9,5 @@ export const appPatterns = {
 };
 
 export const WIDTH_EYE_BUTTON = 13;
+
+export const MAX_DISTANCE = 20000;
