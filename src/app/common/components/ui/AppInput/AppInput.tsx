@@ -69,11 +69,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.touched, states.isTouched]);
 
-  /*   React.useEffect(() => {
-    __DEV__ && console.log(
-      `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`,
-    );
-  }, [props, props.touched, states]); */
+  React.useEffect(() => {
+    //const cv = `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`;
+    //__DEV__ && console.log(cv);
+  }, [props, props.touched, states]);
 
   const isSecure = toggleSecure ? false : secure;
 
