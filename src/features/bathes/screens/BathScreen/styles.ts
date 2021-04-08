@@ -120,6 +120,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   orderCall: {
+    marginTop: wp(3),
     padding: wp(3),
     paddingHorizontal: wp(4.5),
     flexDirection: 'row',

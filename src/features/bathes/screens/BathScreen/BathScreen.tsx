@@ -28,7 +28,7 @@ import BathInfo from './BathInfo';
 import BathSchedule from './BathSchedule';
 import routes from '~/src/navigation/helpers/routes';
 import { OrderCallIcon } from '~/src/assets';
-import { colors, sizes } from '~/src/app/common/constants';
+import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { MAX_DISTANCE } from '../../../../app/common/constants/common';
 
@@ -38,7 +38,6 @@ const TEST_PHONE = '88000000000';
 interface IProps {
   route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
-  // state
   loading: boolean;
   selectedBath: IBathDetailed | null;
   persistImages: IPersistImages;
@@ -97,17 +96,18 @@ IProps) {
     traditions,
     steam_room,
     schedule,
-  } = selectedBath || {};
-  const headBath = { name, short_description, address, rating, image, latitude, longitude };
-  const infastructureBath = {
-    has_hotel,
-    hotel_address,
-    has_laundry,
-    laundry_address,
-    has_parking,
-    parking_address,
-  };
-  const infoBath = { description, history, features, service, traditions, steam_room };
+  } = selectedBath || { zones: [], services: [], bathers: [], photos: [] };
+  const headBath = { name, short_description, address, rating, image, latitude, longitude } || {};
+  const infastructureBath =
+    {
+      has_hotel,
+      hotel_address,
+      has_laundry,
+      laundry_address,
+      has_parking,
+      parking_address,
+    } || {};
+  const infoBath = { description, history, features, service, traditions, steam_room } || {};
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
@@ -120,16 +120,16 @@ IProps) {
   useEffect(() => {
     if (!selectedBath) {
       __DEV__ && console.log('[BathScreen/useEffect] getBath(1010)');
-      getBath(1010); // delete
+      //getBath(1010); // delete
+      getBath(bathParams.id);
     }
-    //getBath(bathParams.id); // delete
   }, [bathParams.id, getBath, selectedBath]);
 
   // Снять выделения бани
   useEffect(() => {
     return function cleanup() {
       __DEV__ && console.log('[BathScreen]/ clearSelectedBath');
-      //clearSelectedBath(); // delete comment
+      clearSelectedBath();
     };
   }, [clearSelectedBath]);
 
@@ -138,7 +138,6 @@ IProps) {
   }
 
   let map = null;
-  //const { latitude = null, longitude = null } = bathParams || {};
 
   if (latitude && longitude && bathParams.distance < MAX_DISTANCE) {
     map = (
@@ -151,26 +150,6 @@ IProps) {
   if (loading || !selectedBath) {
     return <AppActivityIndicator />;
   }
-
-  infastructureBath.has_hotel = true;
-  infastructureBath.hotel_address = 'Metropliks, Chita address 25';
-  infastructureBath.has_laundry = true;
-  infastructureBath.laundry_address = 'Metropliks, Chita address 25';
-  infastructureBath.has_parking = true;
-  infastructureBath.parking_address = 'Metropliks, Chita address 25';
-
-  infoBath.history = 'History test';
-  infoBath.service = 'service History test';
-  infoBath.traditions = 'trad History test';
-  infoBath.steam_room = 'steam History test';
-
-  schedule.is_round_the_clock = false;
-  schedule.on_mo = 1;
-  schedule.mo_hours_from = '10:00';
-  schedule.mo_hours_to = '00:00';
-  schedule.on_tu = 1;
-  schedule.tu_hours_from = '10:00';
-  schedule.tu_hours_to = '00:00';
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -242,16 +221,15 @@ IProps) {
         </>
       )}
       {/* Банщики */}
-      <Block margin={[0, BASE]}>
-        {bathers && bathers.length && (
-          <>
-            <AppText margin={[1, 0]} golder>
-              Банщики
-            </AppText>
-            <BathBathers bathers={bathers} persistImages={persistImages} />
-          </>
-        )}
-      </Block>
+
+      {bathers && bathers?.length > 0 && (
+        <Block margin={[0, BASE]}>
+          <AppText margin={[1, 0]} golder>
+            Банщики
+          </AppText>
+          <BathBathers bathers={bathers} persistImages={persistImages} />
+        </Block>
+      )}
       {/* Адрес и инфраструктура */}
       <AppText margin={[1, BASE]} golder>
         Адрес и инфраструктура
@@ -274,7 +252,7 @@ IProps) {
               bathId: id,
               bathName: name,
               short_description,
-              bathPhone: '88000000000',
+              bathPhone: TEST_PHONE,
             };
             navigation.navigate(routes.bathesTab.OrderCallScreen, orderCallProps);
           }}>
@@ -294,7 +272,6 @@ const BathScreenConnected = connect(
     loading: bath.loadingSelectBath,
     selectedBath: bath.selectedBath,
     persistImages: persist.image,
-    //currentProfile: profile.currentUserProfile,
   }),
   {
     getBath: getBathAction,
@@ -302,8 +279,27 @@ const BathScreenConnected = connect(
     transparentHeader: transparentHeaderAction,
     nonTransparentHeader: nonTransparentHeaderAction,
     openModal: openModalAction,
-    //getProfile: getProfileSettingsAction,
   },
 )(BathScreenContainer);
 
 export { BathScreenConnected as BathScreen };
+
+/* infastructureBath.has_hotel = true;
+  infastructureBath.hotel_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_laundry = true;
+  infastructureBath.laundry_address = 'Metropliks, Chita address 25';
+  infastructureBath.has_parking = true;
+  infastructureBath.parking_address = 'Metropliks, Chita address 25';
+
+  infoBath.history = 'History test';
+  infoBath.service = 'service History test';
+  infoBath.traditions = 'trad History test';
+  infoBath.steam_room = 'steam History test';
+
+  schedule.is_round_the_clock = false;
+  schedule.on_mo = 1;
+  schedule.mo_hours_from = '10:00';
+  schedule.mo_hours_to = '00:00';
+  schedule.on_tu = 1;
+  schedule.tu_hours_from = '10:00';
+  schedule.tu_hours_to = '00:00'; */

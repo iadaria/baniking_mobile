@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -8,13 +7,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
-//import { nonTransparentHeader, transparentHeader } from '~/src/app/store/system/systemActions';
 import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/bathUtility';
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 import routes from '~/src/navigation/helpers/routes';
-import { MAX_DISTANCE } from '../../../../app/common/constants/common';
+import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 
 export interface IHeadBath {
   name: string;
@@ -34,7 +32,6 @@ interface IProps {
 }
 
 export default function BathHeader({ distance, navigation, headBath, persistImages }: IProps) {
-  const dispatch = useDispatch();
   const [randomImg] = useState(getRandomBathImage());
   const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
@@ -77,6 +74,7 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
           <AppText tag>{address}</AppText>
           <TouchableOpacity
             style={styles.route}
+            activeOpacity={distance && distance < MAX_DISTANCE ? undefined : 1}
             onPress={() => {
               distance && distance < MAX_DISTANCE && handleOpenDestinationMap();
             }}>
