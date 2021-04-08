@@ -9,4 +9,8 @@
     <string name="ucrop_rotate">Rotate</string>
     <string name="ucrop_scale">Zoom</string>
     <string name="ucrop_label_original">Original</string>
+     <color name="system_ui_scrim_light">#E3ffffff</color>
+    <color name="system_ui_scrim_dark">#C3000000</color>
+    <color name="status_bar_scrim">@color/system_ui_scrim_dark</color>
+    <color name="nav_bar_scrim">@color/status_bar_scrim</color>
 </resources>
