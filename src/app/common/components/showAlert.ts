@@ -19,7 +19,9 @@ export const showAlert = (
   if (cancel) {
     buttons.push({
       text: 'Отмена',
-      onPress: () => __DEV__ && console.log('Cancel Pressed'),
+      onPress: () => {
+        __DEV__ && console.log('Cancel Pressed');
+      },
       style: 'cancel',
     });
   }
