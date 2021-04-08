@@ -37,7 +37,7 @@ export interface IUiInput extends TextInputProps {
 
 export interface IInputStyleProps {
   input: object;
-  toggle: object;
+  //toggle: object;
   label: object;
   labelWrapper: object;
   // styles

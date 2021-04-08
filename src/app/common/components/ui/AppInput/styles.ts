@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colors, sizes, WIDTH_EYE_BUTTON } from '~/src/app/common/constants';
+import { colors, sizes } from '~/src/app/common/constants';
 import { IInputStyleProps } from '~/src/app/models/ui';
 
 export const styles = StyleSheet.create<IInputStyleProps>({
@@ -15,14 +15,14 @@ export const styles = StyleSheet.create<IInputStyleProps>({
     height: hp(sizes.input.big.height),
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
   },
-  toggle: {
+  /* toggle: {
     position: 'absolute',
     alignItems: 'flex-end',
     width: sizes.offset.base * 2,
     height: sizes.offset.base * 2,
     top: sizes.offset.base,
     right: 0,
-  },
+  }, */
   labelWrapper: {
     position: 'absolute',
     left: 0,
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create<IInputStyleProps>({
     paddingHorizontal: wp(1),
   },
   label: {},
-  center: { textAlign: 'center' },
+  center: { /* textAlign: 'center' */ },
   secure: {
     /* paddingHorizontal: 50,  marginLeft: wp(WIDTH_EYE_BUTTON) */
   },

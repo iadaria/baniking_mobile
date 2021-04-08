@@ -5,7 +5,7 @@ import { RegisterScreen, LoginScreen, ResetPasswordScreen } from './screens';
 export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
-    <Auth.Navigator screenOptions={{ headerShown: false }} initialRouteName="RegisterScreen">
+    <Auth.Navigator screenOptions={{ headerShown: false }}>
       {/* <Auth.Screen name="Screen" component={BaseSettingsScreen} /> */}
       <Auth.Screen name="LoginScreen" component={LoginScreen} />
       <Auth.Screen name="RegisterScreen" component={RegisterScreen} />

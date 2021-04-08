@@ -50,7 +50,7 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
           Ваш email
         </AppText>
       </Block>
-      <AppInput center id="email" placeholder="Введите e-mail" />
+      <AppInput center id="email" placeholder="Введите e-mail j" />
       {/* Button */}
       <AppButton onPress={handleResetPassword}>
         <AppText center medium>

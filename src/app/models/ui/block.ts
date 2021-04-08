@@ -87,19 +87,3 @@ export interface IUiColor {
   black?: string;
   white?: string;
 }
-
-/* export interface IUiInput {
-  label?: string;
-  error?: boolean;
-  secure?: boolean;
-  rightLabel?: JSX.Element;
-  rightStyle?: object;
-  onRightPress?: Function;
-  email?: boolean;
-  phone?: boolean;
-  number?: boolean;
-  style?: object;
-  children?: ReactNode;
-  [key: string]: any;
-}
- */

@@ -102,7 +102,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
       </Block>
       <AppInput
         id="phone"
-        placeholder="+7(___)___-__-__"
+        placeholder="+7(___)___-__-__   "
         center
         mask="+7([000])[000]-[00]-[00]"
         phone

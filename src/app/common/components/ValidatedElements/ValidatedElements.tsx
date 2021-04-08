@@ -229,8 +229,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       // Или фокус в поле которое выше середине экрана
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 10;
-      _; /* _DEV__ &&
-        __DEV__ && console.log(
+      /* __DEV__ && console.log(
           `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
         ); */
       const delay = Platform.OS === 'ios' ? 10 : 150;

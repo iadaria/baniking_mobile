@@ -37,5 +37,7 @@ const styles = StyleSheet.create({
     width: wp(WIDTH_EYE_BUTTON),
     right: 0,
     height: hp(sizes.input.big.height),
+    /* borderWidth: 1,
+    borderColor: 'blue', */
   },
 });

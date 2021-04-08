@@ -8,6 +8,7 @@ import { sizes } from '~/src/app/common/constants/sizes';
 import { IAppInputStates } from './AppInput';
 import { StyleProp, ViewStyle } from 'react-native';
 import { styles } from './styles';
+import { isAndroid } from '~/src/app/common/constants/platform';
 
 interface IProps<T> {
   states: IAppInputStates;
@@ -38,8 +39,8 @@ export const AppInputWrapper = <T extends {}>({
   rightButton,
 }: IProps<T>): JSX.Element => {
   const dynamicStyle: StyleProp<ViewStyle> = [
-    (secure || !!rightButton) && { flexDirection: 'row', alignItems: 'center' },
-    center && { justifyContent: 'center' },
+    ((center && isAndroid) || secure || !!rightButton) && { flexDirection: 'row', alignItems: 'center' },
+    (center || secure) && { justifyContent: 'center' },
   ];
   // __DEV__ && console.log('[AppInputWrapper] inputStyle', inputStyle);
 

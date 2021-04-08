@@ -3,9 +3,20 @@ import { name } from './emptyRules';
 export const profileRules = {
   surname: {
     ...name('Фамилия'),
-    length: {
+    /* length: {
       minimum: 2,
       maximum: 32,
+    }, */
+    length: function (value: string) {
+      if (value) {
+        return {
+          minimum: 2,
+          tooShort: '^Фамилия должна быть длинной не менее %{count} символов',
+          maximum: 32,
+          tooLong: '^Фамилия должна быть длинной менее %{count} символов',
+        };
+      }
+      return false;
     },
   },
   middle_name: {

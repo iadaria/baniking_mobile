@@ -170,6 +170,7 @@ export function BathesScreenContainer({
     switch (length) {
       case 0:
         if (hasQuery(params)) {
+          delete newParams.search_query;
           handleFilter(newParams);
         }
         break;
