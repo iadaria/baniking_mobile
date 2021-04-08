@@ -97,7 +97,9 @@ function* fetchMapsSaga(bathes: IBath[]) {
           lastUpdateDistance: new Date(),
         };
         maps.push(newMap);
-      } else __DEV__ && console.log('[fetchMapsSaga] status=', rows[0].elements[0].status);
+      } else {
+        __DEV__ && console.log('[fetchMapsSaga] status=', rows[0].elements[0].status);
+      }
     }
     yield put(setMaps(maps));
   }
