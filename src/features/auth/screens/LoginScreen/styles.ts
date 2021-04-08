@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { colors } from '~/src/app/common/constants';
 
@@ -35,5 +36,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: wp(0.8),
+  },
+  element: {
+    height: hp(6.5),
+    borderRadius: 10,
+    //minWidth: wp(35),
   },
 });

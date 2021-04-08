@@ -11,6 +11,7 @@ import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
+import { styles } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -50,7 +51,7 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
           Ваш email
         </AppText>
       </Block>
-      <AppInput center id="email" placeholder="Введите e-mail j" />
+      <AppInput style={styles.element} center id="email" placeholder="Введите e-mail " />
       {/* Button */}
       <AppButton onPress={handleResetPassword}>
         <AppText center medium>

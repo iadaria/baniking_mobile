@@ -39,8 +39,12 @@ export const AppInputWrapper = <T extends {}>({
   rightButton,
 }: IProps<T>): JSX.Element => {
   const dynamicStyle: StyleProp<ViewStyle> = [
-    ((center && isAndroid) || secure || !!rightButton) && { flexDirection: 'row', alignItems: 'center' },
-    (center || secure) && { justifyContent: 'center' },
+    ((center && isAndroid) || secure || !!rightButton) && {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'nowrap',
+    },
+    (center || (secure && center)) && { justifyContent: 'center' },
   ];
   // __DEV__ && console.log('[AppInputWrapper] inputStyle', inputStyle);
 

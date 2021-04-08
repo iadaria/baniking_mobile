@@ -7,14 +7,12 @@ import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { connect } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
-import {
-  // socialLogin as socialLoginAction,
-  emailLogin as emailLoginAction,
-} from '~/src/features/auth/store/authActions';
+import { emailLogin as emailLoginAction } from '~/src/features/auth/store/authActions';
 import { ICredential } from '~/src/app/models/user';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
+import { styles } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -64,7 +62,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput center id="login" placeholder="Введите e-mail " maxLength={50} />
+      <AppInput style={styles.element} id="login" placeholder="Введите e-mail " maxLength={50} center />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Пароль
@@ -77,7 +75,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           </AppText>
         </TouchableOpacity>
       </Block>
-      <AppInput id="password" placeholder="Введите пароль" maxLength={50} center secure />
+      <AppInput style={styles.element} id="password" placeholder="Введите пароль" maxLength={50} center secure />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>
           <SwitcherIcon width={23 * multiplier} fill={isPersist ? colors.secondary : colors.caption} />

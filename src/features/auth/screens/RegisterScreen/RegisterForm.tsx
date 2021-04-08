@@ -9,6 +9,7 @@ import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 import { sizes } from '~/src/app/common/constants';
+import { styles } from './styles';
 // import i18next from 'i18next';
 
 const supportedURLOne = 'https://google.com';
@@ -84,7 +85,14 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="name" placeholder="Введите имя" center maxLength={16} isScrollToFocused />
+      <AppInput
+        style={styles.element}
+        id="name"
+        placeholder="Введите имя"
+        center
+        maxLength={16}
+        isScrollToFocused
+      />
       {/* Email */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -92,7 +100,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput id="email" placeholder="Введите email" center email maxLength={50} />
+      <AppInput style={styles.element} id="email" placeholder="Введите email" center email maxLength={50} />
       {/* Phone */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -101,6 +109,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
+        style={styles.element}
         id="phone"
         placeholder="+7(___)___-__-__   "
         center
