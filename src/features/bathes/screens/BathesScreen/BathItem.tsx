@@ -59,7 +59,9 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
               uri.current = response.uri;
             }
           })
-          .catch((error) => __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error));
+          .catch((error) => {
+            __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error);
+          });
       }
     }
     return () => {
