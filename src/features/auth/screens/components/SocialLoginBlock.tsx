@@ -18,7 +18,7 @@ export default function SocialLoginBlock() {
         <TouchableOpacity
           style={styles.socialButton}
           onPress={() => {
-            LoginManager.logInWithPermissions(['public_profile']).then(
+            /* LoginManager.logInWithPermissions(['public_profile']).then(
               function (result) {
                 if (result.isCancelled) {
                   __DEV__ && console.log('Login cancelled');
@@ -29,7 +29,7 @@ export default function SocialLoginBlock() {
               function (error) {
                 __DEV__ && console.log('Login fail with error: ' + error);
               },
-            );
+            ); */
           }}>
           <FacebookIcon />
         </TouchableOpacity>
@@ -39,19 +39,19 @@ export default function SocialLoginBlock() {
         <TouchableOpacity
           style={styles.socialButton}
           onPress={async () => {
-            try {
+            /* try {
               const auth = await VKLogin.login(['friends', 'photos', 'email']);
               __DEV__ && console.log(auth);
             } catch (error) {
               __DEV__ && console.log(error);
-            }
+            } */
           }}>
           <VkIcon />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.socialButton}
           onPress={() => {
-            yandexLogin();
+            //yandexLogin();
           }}>
           <YandexIcon />
         </TouchableOpacity>

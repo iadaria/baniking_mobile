@@ -97,7 +97,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     setBorderColor(textFocus ? colors.text.base : colors.secondary);
   }
 
-  const inputTextAlign = isSecure ? 'center' : undefined; //left';
+  const inputTextAlign = isSecure && center ? 'center' : undefined;
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
   const blockStyle: ViewStyle = {};
   style?.backgroundColor && (blockStyle.backgroundColor = style?.backgroundColor);

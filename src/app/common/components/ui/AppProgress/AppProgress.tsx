@@ -7,6 +7,7 @@ import { generateSteps } from '~/src/app/utils/meetings';
 import { colors } from '~/src/app/common/constants/colors';
 import { AppText } from '../AppText';
 import { Block } from '../Block';
+import { caclulateePercent } from '../../../../utils/meetings';
 
 interface ICaptionProps {
   level: Level;
@@ -49,7 +50,7 @@ export function AppProgress(props: IProgressBarProps) {
   ]; */
 
   const completedStyle = {
-    width: `${completed}%`,
+    width: `${caclulateePercent(completed)}%`,
   };
 
   return (

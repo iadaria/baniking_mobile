@@ -1,5 +1,14 @@
 import { Level, Levels } from '../models/profile';
 
+export function caclulateePercent(meetings_count: number): number {
+  let percent = 0;
+  meetings_count > 3 && (percent += 33.33);
+  meetings_count > 5 && (percent += 33.33);
+  meetings_count > 10 && (percent += 33.33);
+  meetings_count > 15 && (percent += 33.33);
+  return percent;
+}
+
 export interface IDeclension {
   digits: number[];
   declension: string;
