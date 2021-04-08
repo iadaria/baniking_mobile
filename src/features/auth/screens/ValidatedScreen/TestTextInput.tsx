@@ -16,9 +16,8 @@ export function TestTextInput<T>(props: ITestInputProps<T>): JSX.Element {
   const [isFocused, setIsFocused] = React.useState(false);
 
   React.useEffect(() => {
-    __DEV__ && console.log(
-      `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}, focused=${isFocused}'`,
-    );
+    const cv = `[TestInput/useEffect] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}, focused=${isFocused}'`;
+    __DEV__ && console.log(cv);
   }, [props, isTouched, props.touched, isFocused]);
 
   function renderLabel() {
@@ -30,9 +29,8 @@ export function TestTextInput<T>(props: ITestInputProps<T>): JSX.Element {
   }
 
   function renderError() {
-    __DEV__ && console.log(
-      `[TestInput/renderError] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}'`,
-    );
+    const cv = `[TestInput/renderError] id=${props.id} error='${props.error}, isTouched=${isTouched}, props.touched=${props.touched}'`;
+    __DEV__ && console.log(cv);
     const { error } = props;
     if (error && (isTouched || props.touched) && !isFocused) {
       return <Text style={styles.error}>{error}</Text>;
