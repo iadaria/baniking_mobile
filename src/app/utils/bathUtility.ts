@@ -15,6 +15,25 @@ import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
 import { ISchedule, TPartBathParams } from '~/src/app/models/bath';
 
+export function initializeFilterParams(bathParams: TPartBathParams): TPartBathParams {
+  const { steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
+  const initializedFilterParams: TPartBathParams = {
+    steam_rooms_ids: steam_rooms_ids || [],
+    services_ids: services_ids || [],
+    zones_ids: zones_ids || [],
+    types: types || [],
+    page: 1,
+  };
+
+  const { search_query, price_from, price_to, rating } = bathParams;
+  search_query && (initializedFilterParams.search_query = search_query);
+  price_from && (initializedFilterParams.price_from = price_from);
+  price_to && (initializedFilterParams.price_to = price_to);
+  rating && (initializedFilterParams.rating = rating);
+
+  return initializedFilterParams;
+}
+
 export function calculateFilterCount(bathParams: TPartBathParams): number {
   let filterCount = 0;
   bathParams?.steam_rooms_ids && (filterCount += bathParams.steam_rooms_ids?.length);

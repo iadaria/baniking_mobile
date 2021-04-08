@@ -63,6 +63,7 @@ function FilterAcceptButtonContainer({
 
 const FilterAcceptButtonConnected = connect(
   ({ bath, system }: IRootState) => ({
+    filterLoading: bath.filterLoading,
     totalFilteredBathes: bath.totalFilteredBathes,
     backwardStack: system.header.backwardStack,
   }),

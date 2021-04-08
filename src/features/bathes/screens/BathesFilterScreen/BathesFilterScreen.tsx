@@ -21,16 +21,15 @@ import FilterZones from './FilterZones';
 import FilterTypes from './FilterTypes';
 import { styles } from './styles';
 import { FilterAcceptButton } from './FilterAcceptButton';
+import { calculateFilterCount } from '~/src/app/utils/bathUtility';
+import { initializeFilterParams } from '../../../../app/utils/bathUtility';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   paramsVariety: IBathParamsVariety | null;
-  filterCount: number;
   bathParams: TPartBathParams;
   getBathParamsVariety: () => void;
   checkFilter: ({ filterParams }: { filterParams: TPartBathParams }) => void;
-  //filterParams: TPartBathParams;
-  //checkFilter: ({ filterParams, filterCount }: { filterParams: TPartBathParams; filterCount: number }) => void;
 }
 
 const DEFAULT_PARAMS: TPartBathParams = {
@@ -44,42 +43,31 @@ const DEFAULT_PARAMS: TPartBathParams = {
 function BathesFilterScreenContainer({
   navigation,
   paramsVariety,
-  filterCount,
+  //filterCount,
   bathParams,
   getBathParamsVariety,
   checkFilter,
 }: IProps) {
-  const [lowPrice, setLowPrice] = useState(1);
+  //const [initialized, setInitialized] = useState(false);
+
+  const [lowPrice, setLowPrice] = useState(bathParams?.price_from || 1);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');
 
-  const [highPrice, setHighPrice] = useState(10000);
+  const [highPrice, setHighPrice] = useState(bathParams?.price_to || 10000);
   const [middleHighPrice, setMiddleHighPrice] = useState('10000');
 
-  const [lowRating, setLowRating] = useState(2);
+  const [lowRating, setLowRating] = useState(bathParams?.rating);
   const [middleLowRating, setMiddleLowRating] = useState('2');
 
   const [highRating, setHighRating] = useState(5);
   const [middleHightRating, setMiddleHighRating] = useState('5');
 
-  const { search_query, steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
-  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>({
-    steam_rooms_ids: steam_rooms_ids || [],
-    services_ids: services_ids || [],
-    zones_ids: zones_ids || [],
-    types: types || [],
-    page: 0,
-  });
+  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>(initializeFilterParams(bathParams));
+
+  const filterCount = calculateFilterCount(thisFilterParams);
   const [thisFilterCount, setThisFilterCount] = useState(filterCount);
 
   const { zones, services, steamRooms } = paramsVariety || {};
-
-  // Вызываем фильтр сразу после создания страницы
-  useEffect(() => {
-    search_query && (thisFilterParams.search_query = search_query);
-    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter');
-    debounced(thisFilterParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Получаем параметры для фильтрации
   useEffect(() => {
@@ -102,6 +90,17 @@ function BathesFilterScreenContainer({
       maxWait: 600,
     },
   );
+
+  // Инициализируем и вызываем фильтр сразу после создания страницы
+  useEffect(() => {
+    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter', thisFilterParams);
+    debounced(thisFilterParams);
+
+    return () => {
+      __DEV__ && console.log('[BathFilerScreen] unmount');
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Вызываем запрос при изменении параметров
   useEffect(() => {
@@ -337,7 +336,6 @@ function BathesFilterScreenContainer({
 const BathesFilterScreenConnected = connect(
   ({ bath }: IRootState) => ({
     paramsVariety: bath.paramsVariety,
-    filterCount: bath.filterCount,
     bathParams: bath.params,
   }),
   {
