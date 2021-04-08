@@ -1,12 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
-// import RNRestart from 'react-native-restart';
-import AsyncStorage from '@react-native-community/async-storage';
 import { logout } from '../appPersistActions';
 import { ASK_LOGOUT } from '../appPersistConstants';
 import { authLogout } from '../../../auth/store/authActions';
 
 function* logoutSaga() {
-  yield __DEV__ && console.log('!![logoutSaga] ask logout');
+  __DEV__ && console.log('!![logoutSaga] ask logout');
 
   yield put(logout());
   yield put(authLogout());
