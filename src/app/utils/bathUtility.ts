@@ -93,9 +93,6 @@ export const getRandomBathImage = () => {
 export const isNonRating = (rating: number) => ['0', '0.0'].indexOf(String(rating)) !== -1;
 
 export const cacheImage = async (image: string, size?: number): Promise<Response> => {
-  //const fileName = getFileName(image);
-  //const newFileName = 'file://data/user/0/com.baniking_mobile/cache/' + replaceExtension(fileName, '.png');
-  //__DEV__ && console.log('[cacheImage/newFilename]', newFileName);
   const width = size || Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };

@@ -162,11 +162,13 @@ function BathesFilterScreenContainer({
           <TouchableOpacity
             style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
             onPress={() => {
-              if (thisFilterCount > 0) {
-                setThisFilterCount(0);
-                const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
-                debouncedParams(cleanedFilterParams);
-              }
+              setThisFilterCount(0);
+              const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
+              __DEV__ && console.log('[BathesFilter] cleaned', cleanFilterParams);
+
+              //debouncedParams(cleanedFilterParams);
+              setThisFilterParams({ ...cleanedFilterParams });
+
               setLowPrice(1);
               setMiddleLowPrice('1');
               setHighPrice(10000);
