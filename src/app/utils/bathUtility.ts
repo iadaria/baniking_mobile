@@ -15,6 +15,23 @@ import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
 import { ISchedule, TPartBathParams } from '~/src/app/models/bath';
 
+export function cleanFilterParams(bathParams: TPartBathParams): TPartBathParams {
+  const { search_query, sort_field, sort_type } = bathParams;
+  const cleanedFilterParams: TPartBathParams = {
+    steam_rooms_ids: [],
+    services_ids: [],
+    zones_ids: [],
+    types: [],
+    page: 1,
+  };
+
+  search_query && (cleanedFilterParams.search_query = search_query);
+  sort_field && (cleanedFilterParams.sort_field = sort_field);
+  sort_type && (cleanedFilterParams.sort_type = sort_type);
+
+  return cleanedFilterParams;
+}
+
 export function initializeFilterParams(bathParams: TPartBathParams): TPartBathParams {
   const { steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
   const initializedFilterParams: TPartBathParams = {

@@ -22,7 +22,7 @@ import FilterTypes from './FilterTypes';
 import { styles } from './styles';
 import { FilterAcceptButton } from './FilterAcceptButton';
 import { calculateFilterCount } from '~/src/app/utils/bathUtility';
-import { initializeFilterParams } from '../../../../app/utils/bathUtility';
+import { initializeFilterParams, cleanFilterParams } from '../../../../app/utils/bathUtility';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -56,7 +56,7 @@ function BathesFilterScreenContainer({
   const [highPrice, setHighPrice] = useState(bathParams?.price_to || 10000);
   const [middleHighPrice, setMiddleHighPrice] = useState('10000');
 
-  const [lowRating, setLowRating] = useState(bathParams?.rating);
+  const [lowRating, setLowRating] = useState(bathParams?.rating || 2);
   const [middleLowRating, setMiddleLowRating] = useState('2');
 
   const [highRating, setHighRating] = useState(5);
@@ -84,7 +84,7 @@ function BathesFilterScreenContainer({
     },
   );
   const debouncedParams = useDebouncedCallback(
-    (checkParams: TPartBathParams) => setThisFilterParams(checkParams),
+    (checkParams: TPartBathParams) => setThisFilterParams({ ...checkParams }),
     300,
     {
       maxWait: 600,
@@ -109,7 +109,7 @@ function BathesFilterScreenContainer({
   }, [debounced, thisFilterParams]);
 
   useEffect(() => {
-    __DEV__ && console.log('\nBath params', JSON.stringify(bathParams, null, 4));
+    __DEV__ && console.log('[FilterScreen] Bath params', JSON.stringify(bathParams, null, 4));
   }, [bathParams]);
 
   // Вызываем запрос при изменении цены и рейтинга
@@ -164,10 +164,8 @@ function BathesFilterScreenContainer({
             onPress={() => {
               if (thisFilterCount > 0) {
                 setThisFilterCount(0);
-                setThisFilterParams({
-                  search_query: bathParams.search_query ? bathParams.search_query : undefined,
-                  ...DEFAULT_PARAMS,
-                });
+                const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
+                debouncedParams(cleanedFilterParams);
               }
               setLowPrice(1);
               setMiddleLowPrice('1');

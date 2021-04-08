@@ -105,8 +105,13 @@ export function BathesScreenContainer({
     //setUserLocation,
   });
 
+  useEffect(() => {
+    __DEV__ && console.log('[BathesScreen] Bath params', JSON.stringify(params, null, 4));
+  }, [params]);
+
   // TODO Test
   const handleLoadMore = useCallback(() => {
+    //__DEV__ && console.log('[BathesScreen] Bath params', JSON.stringify(params, null, 4));
     /* __DEV__ &&
       console.log(
         `[BathesScreen/haldeLoadMore] connection=${connection} params=${JSON.stringify(params)}, page=${page}`,
