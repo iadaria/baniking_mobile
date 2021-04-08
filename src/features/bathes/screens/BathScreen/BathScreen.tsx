@@ -30,7 +30,7 @@ import routes from '~/src/navigation/helpers/routes';
 import { OrderCallIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
-import { MAX_DISTANCE } from '../../../../app/common/constants/common';
+import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 
 const BASE = sizes.offset.base;
 const TEST_PHONE = '88000000000';
