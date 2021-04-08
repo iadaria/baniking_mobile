@@ -55,9 +55,9 @@ function ScrollElements<T extends { [key: string]: IInput }>({ children, default
     } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
       const newCoordinat = yCoordinate! - 100;
       const delay = Platform.OS === 'ios' ? 10 : 150;
-      /* __DEV__ && console.log(
-        `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`,
-      ); */
+
+      //const cv = `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`;
+      //__DEV__ && console.log(cv);
       setTimeout(() => {
         scrollViewRef?.current?.scrollTo({
           x: 0,
