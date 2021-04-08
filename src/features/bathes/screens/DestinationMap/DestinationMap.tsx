@@ -86,7 +86,9 @@ export function DestinationMap({ route }: IProps) {
           }
           // setPoints(result);
         })
-        .catch((error) => __DEV__ && console.log('[DestingationMap/getPoitns/error]', error));
+        .catch((error) => {
+          __DEV__ && console.log('[DestingationMap/getPoitns/error]', error);
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bathLocation, userLocation]);
