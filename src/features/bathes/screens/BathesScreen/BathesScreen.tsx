@@ -46,6 +46,7 @@ interface IProps {
   params: TPartBathParams;
   retainState: boolean;
   filtered: boolean;
+  filterCount: number;
   maps: IMap[];
 
   getBathes: () => void;
@@ -66,6 +67,7 @@ export function BathesScreenContainer({
   bathes,
   maps,
   filtered,
+  filterCount,
   fetchBathes,
   persistImage,
   openModal,
@@ -264,7 +266,7 @@ export function BathesScreenContainer({
             </TouchableOpacity>
           )}
         </Block>
-        <FilterButton navigation={navigation} params={params} />
+        <FilterButton navigation={navigation} filterCount={filterCount} />
       </Block>
       {/* Sort */}
       <TouchableOpacity
@@ -303,6 +305,7 @@ const BathesScreenConnected = connect(
     moreBathes: bath.moreBathes,
     retainState: bath.retainState,
     filtered: bath.filtered,
+    filterCount: bath.filterCount,
   }),
   {
     getBathes: getBathesAction,

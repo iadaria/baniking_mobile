@@ -8,7 +8,7 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { objToUrl } from '~/src/app/api/index';
 
 interface IAction {
-  payload: { params: TPartBathParams; count: number };
+  payload: { filterParams: TPartBathParams };
   type: string;
 }
 
@@ -18,12 +18,13 @@ interface IResult {
 }
 
 function* checkFilterSaga({ payload }: IAction) {
-  //__DEV__ && console.log('[CheckFilterSaga]', payload);
+  __DEV__ && console.log('[CheckFilterSaga]', payload);
   try {
-    const { params } = payload;
+    const { filterParams } = payload;
     //__DEV__ && console.log('[checkFilterSaga]', objToUrl(payload));
-    const { count: bathCount }: IResult = yield call(methods.getBathes, null, params);
-    yield put(setCheckFilterResult({ count: bathCount /* , params  */}));
+    const { count: bathCount }: IResult = yield call(methods.getBathes, null, filterParams);
+    yield put(setCheckFilterResult({ bathCount /* , params  */}));
+    //__DEV__ && console.log('[checkFilterSaga / bathCount]', bathCount);
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';

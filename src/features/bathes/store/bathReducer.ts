@@ -159,8 +159,8 @@ export default function bathReducer(
     case constants.ACCEPT_FILTER:
       return {
         ...state,
-        params: { ...state.params, ...payload.params },
-        filterCount: payload.count,
+        params: { ...state.params, ...payload.filterParams },
+        filterCount: payload.filterCount,
       };
 
     case constants.CHECK_FILTER_FAIL:
@@ -175,7 +175,7 @@ export default function bathReducer(
         ...state,
         filterLoading: false,
         filterErrors: null,
-        totalFilteredBathes: payload.count,
+        totalFilteredBathes: payload.bathCount,
         //filterParams: payload.params,
       };
 

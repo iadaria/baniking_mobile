@@ -1,29 +1,18 @@
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { AppText, Block } from '~/src/app/common/components/UI';
 import routes from '~/src/navigation/helpers/routes';
 import { FilterIcon } from '~/src/assets';
 import { styles } from './styles';
-import { calculateFilterCount } from '~/src/app/utils/bathUtility';
-import { TPartBathParams } from '~/src/app/models/bath';
-import { colors } from '~/src/app/common/constants';
-import { AppText, Block } from '~/src/app/common/components/UI';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-
-  params: TPartBathParams;
+  filterCount: number;
 }
 
-export default function FilterButton({ navigation, params }: IProps) {
-  const initialFilterCount = calculateFilterCount(params);
-  const [filterCount, setFilterCount] = useState(initialFilterCount);
-
-  useEffect(() => {
-    setFilterCount(calculateFilterCount(params));
-  }, [params]);
-
+export default function FilterButton({ navigation, filterCount }: IProps) {
   const isFiltered = filterCount > 0;
 
   return (

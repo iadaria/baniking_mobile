@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
-import { RightButton } from './RightButton';
-import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import { IBathParamsVariety, bathType, TPartBathParams } from '~/src/app/models/bath';
 import {
   getBathParamsVariety as getBathParamsVarietyAction,
   checkFilter as checkFilterAction,
-  acceptFilter as acceptFilterAction,
 } from '~/src/features/bathes/store/bathActions';
-import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { RightButton } from './RightButton';
+import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CloseFilerIcon } from '~/src/assets';
 import { useDebouncedCallback } from 'use-debounce/lib';
@@ -22,20 +20,17 @@ import FilterServices from './FilterServices';
 import FilterZones from './FilterZones';
 import FilterTypes from './FilterTypes';
 import { styles } from './styles';
+import { FilterAcceptButton } from './FilterAcceptButton';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   paramsVariety: IBathParamsVariety | null;
-  filterLoading: boolean;
   filterCount: number;
-  totalFilteredBathes: number;
   bathParams: TPartBathParams;
-  filterParams: TPartBathParams;
-  backwardStack: string[];
   getBathParamsVariety: () => void;
-  pullBackward: () => void;
-  checkFilter: ({ params, countFilters }: { params: TPartBathParams; countFilters: number }) => void;
-  acceptFilter: ({ params, count }: { params: TPartBathParams; count: number }) => void;
+  checkFilter: ({ filterParams }: { filterParams: TPartBathParams }) => void;
+  //filterParams: TPartBathParams;
+  //checkFilter: ({ filterParams, filterCount }: { filterParams: TPartBathParams; filterCount: number }) => void;
 }
 
 const DEFAULT_PARAMS: TPartBathParams = {
@@ -49,16 +44,10 @@ const DEFAULT_PARAMS: TPartBathParams = {
 function BathesFilterScreenContainer({
   navigation,
   paramsVariety,
-  filterLoading,
   filterCount,
-  totalFilteredBathes,
   bathParams,
-  filterParams,
-  backwardStack,
-  pullBackward,
   getBathParamsVariety,
   checkFilter,
-  acceptFilter,
 }: IProps) {
   const [lowPrice, setLowPrice] = useState(1);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');
@@ -72,14 +61,25 @@ function BathesFilterScreenContainer({
   const [highRating, setHighRating] = useState(5);
   const [middleHightRating, setMiddleHighRating] = useState('5');
 
-  const [params, setParams] = useState<TPartBathParams>({
-    search_query: bathParams.search_query ? bathParams.search_query : '',
-    ...DEFAULT_PARAMS,
-    ...filterParams,
+  const { search_query, steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
+  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>({
+    steam_rooms_ids: steam_rooms_ids || [],
+    services_ids: services_ids || [],
+    zones_ids: zones_ids || [],
+    types: types || [],
+    page: 0,
   });
-  const [count, setCount] = useState(filterCount);
+  const [thisFilterCount, setThisFilterCount] = useState(filterCount);
 
   const { zones, services, steamRooms } = paramsVariety || {};
+
+  // Вызываем фильтр сразу после создания страницы
+  useEffect(() => {
+    search_query && (thisFilterParams.search_query = search_query);
+    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter');
+    debounced(thisFilterParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Получаем параметры для фильтрации
   useEffect(() => {
@@ -88,40 +88,39 @@ function BathesFilterScreenContainer({
     }
   }, [getBathParamsVariety, paramsVariety]);
 
-  // Вызываем фильтр сразу после создания
-  useEffect(() => {
-    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter');
-    debounced(params, filterCount);
-    // сбрасываем все
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /* useEffect(() => {
-    __DEV__ && console.log('[FilterScreen/change] fparams=', params);
-  }, [params]); */
-
   const debounced = useDebouncedCallback(
-    (checkParams: TPartBathParams, count: number) => checkFilter({ params: checkParams, countFilters: count }),
+    (checkParams: TPartBathParams) => checkFilter({ filterParams: checkParams }),
     1000,
     {
       maxWait: 2000,
     },
   );
-  const debouncedParams = useDebouncedCallback((checkParams: TPartBathParams) => setParams(checkParams), 300, {
-    maxWait: 600,
-  });
+  const debouncedParams = useDebouncedCallback(
+    (checkParams: TPartBathParams) => setThisFilterParams(checkParams),
+    300,
+    {
+      maxWait: 600,
+    },
+  );
 
   // Вызываем запрос при изменении параметров
   useEffect(() => {
-    __DEV__ && console.log('\n[FilterScreen/debounced] with filters', JSON.stringify(params, null, 4));
-    debounced(params, count);
-    // Пусть зависит только от параметров - нет от количества параметров
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounced, params]);
+    __DEV__ && console.log('\n[FilterScreen/debounced] with filters', JSON.stringify(thisFilterParams, null, 4));
+    debounced(thisFilterParams);
+  }, [debounced, thisFilterParams]);
+
+  useEffect(() => {
+    __DEV__ && console.log('\nBath params', JSON.stringify(bathParams, null, 4));
+  }, [bathParams]);
 
   // Вызываем запрос при изменении цены и рейтинга
   useEffect(() => {
-    const newParams: TPartBathParams = { ...params, price_from: lowPrice, price_to: highPrice, rating: lowRating };
+    const newParams: TPartBathParams = {
+      ...thisFilterParams,
+      price_from: lowPrice,
+      price_to: highPrice,
+      rating: lowRating,
+    };
     lowPrice === 1 && delete newParams.price_from;
     highPrice === 10000 && delete newParams.price_to;
     lowRating === 2 && delete newParams.rating;
@@ -130,13 +129,6 @@ function BathesFilterScreenContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowPrice, highPrice, lowRating, debouncedParams]);
 
-  function handleAcceptFilter() {
-    const prevScreen = backwardStack[backwardStack.length - 1];
-    acceptFilter({ params, count });
-    navigation.navigate(prevScreen);
-    pullBackward();
-  }
-
   const changeText = (
     text: string,
     limit: number,
@@ -144,13 +136,11 @@ function BathesFilterScreenContainer({
     setMiddle: (text: string) => void,
   ) => {
     if (text === '') {
-      //e.preventDefault();
       setMiddle('');
       setOrigin(limit);
       return false;
     } else {
       const digit = parseInt(text);
-      // __DEV__ && console.log(digit);
       if (isNaN(digit)) {
         return;
       }
@@ -168,14 +158,14 @@ function BathesFilterScreenContainer({
         <Block style={{ justifyContent: 'space-between' }} center row>
           <AppText h1>Выбрано фильтров</AppText>
           <AppText margin={[0, 0, 0, 11]} style={styles.button} semibold h2>
-            {count}
+            {thisFilterCount}
           </AppText>
           <TouchableOpacity
             style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
             onPress={() => {
-              if (count > 0) {
-                setCount(0);
-                setParams({
+              if (thisFilterCount > 0) {
+                setThisFilterCount(0);
+                setThisFilterParams({
                   search_query: bathParams.search_query ? bathParams.search_query : undefined,
                   ...DEFAULT_PARAMS,
                 });
@@ -312,77 +302,48 @@ function BathesFilterScreenContainer({
         {/* Виды парной */}
         <FilterRooms
           steamRooms={steamRooms}
-          filterParams={params}
-          setFilterParams={setParams}
-          setFilterCount={setCount}
+          filterParams={thisFilterParams}
+          setFilterParams={setThisFilterParams}
+          setFilterCount={setThisFilterCount}
         />
         {/* Сервис */}
         <FilterServices
           services={services}
-          filterParams={params}
-          setFilterParams={setParams}
-          setFilterCount={setCount}
+          filterParams={thisFilterParams}
+          setFilterParams={setThisFilterParams}
+          setFilterCount={setThisFilterCount}
         />
         {/* Аквазоны */}
-        <FilterZones zones={zones} filterParams={params} setFilterParams={setParams} setFilterCount={setCount} />
+        <FilterZones
+          zones={zones}
+          filterParams={thisFilterParams}
+          setFilterParams={setThisFilterParams}
+          setFilterCount={setThisFilterCount}
+        />
         {/* Типы */}
         <FilterTypes
           bathTypes={bathType}
-          filterParams={params}
-          setFilterParams={setParams}
-          setFilterCount={setCount}
+          filterParams={thisFilterParams}
+          setFilterParams={setThisFilterParams}
+          setFilterCount={setThisFilterCount}
         />
         <Block margin={[10, 0]} />
       </ScrollView>
-      <AppButton style={[styles.filterButton]} margin={[3, 0, 8]} onPress={handleAcceptFilter}>
-        <AppText padding={1.5} center semibold header>
-          {'Показать '}
-        </AppText>
-        <Block middle center>
-          {filterLoading ? (
-            <ActivityIndicator size="small" color="white" />
-          ) : (
-            <AppText semibold header>
-              {totalFilteredBathes}
-            </AppText>
-          )}
-        </Block>
-        <AppText padding={1.5} center semibold header>
-          {' предложения'}
-        </AppText>
-      </AppButton>
+      <FilterAcceptButton navigation={navigation} filterParams={thisFilterParams} filterCount={thisFilterCount} />
     </>
   );
 }
 
 const BathesFilterScreenConnected = connect(
-  ({ bath, system }: IRootState) => ({
+  ({ bath }: IRootState) => ({
     paramsVariety: bath.paramsVariety,
-    filterLoading: bath.filterLoading,
     filterCount: bath.filterCount,
-    totalFilteredBathes: bath.totalFilteredBathes,
-    backwardStack: system.header.backwardStack,
     bathParams: bath.params,
   }),
   {
     getBathParamsVariety: getBathParamsVarietyAction,
     checkFilter: checkFilterAction,
-    acceptFilter: acceptFilterAction,
-    pullBackward: pullBackwardAction,
   },
 )(BathesFilterScreenContainer);
 
 export { BathesFilterScreenConnected as BathesFilterScreen };
-
-// // Филльтр
-// const handleCheckFilter = useCallback(() => {
-//   __DEV__ && console.log(`[FilterScreen/handleCheckFilter] fparams=${params}`);
-//   //checkFilter(filterParams);
-//   //debounced(filterParams);
-// }, [debounced, params]);
-
-/* const DEFAULT_PRICE_AND_RATING: TPartBathParams = {
-  price_from: 1,
-  price_to: 10000,
-  rating: 2,
-}; */
