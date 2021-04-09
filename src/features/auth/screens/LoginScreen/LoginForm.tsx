@@ -87,7 +87,6 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         placeholder="Введите пароль "
         maxLength={50}
         secure
-        //center
       />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>

@@ -255,7 +255,7 @@ export interface ISchedule {
 export interface IBather {
   name: string;
   position: string;
-  avatar: string;
+  avatar: string | null;
 }
 
 export interface IProposition {

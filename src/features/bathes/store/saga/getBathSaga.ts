@@ -6,7 +6,7 @@ import { bathesFail, selectBath } from '../bathActions';
 import { GET_BATH } from '../bathConstants';
 import { IBathDetailed, IProposition, ISchedule } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
-import { cacheImages } from '~/src/app/utils/bathUtility';
+import checkPhotos, { cacheImages, checkPhoto } from '~/src/app/utils/bathUtility';
 import { persistImage } from '~/src/features/persist/store/appPersistActions';
 import { IBather } from '~/src/app/models/bath';
 import { IPersistImage } from '~/src/app/models/persist';
@@ -45,6 +45,13 @@ function* getBathSaga({ payload }: IAction) {
   try {
     const response: IResult = yield call(methods.getBath, null, bathId);
     //__DEV__ && console.log('[getBathSaga]', JSON.stringify(response.bath, null, 4));
+    /* const _bathers =
+      response.bathers.map((bather: IBather) => ({
+        name: bather.name,
+        position: bather.position,
+        avatar: checkPhoto(bather.avatar || ''),
+      })) || []; */
+    //__DEV__ && console.log('_bathers', _bathers);
     const bathDetailed: IBathDetailed = {
       ...response.bath,
       schedule: response.schedule,

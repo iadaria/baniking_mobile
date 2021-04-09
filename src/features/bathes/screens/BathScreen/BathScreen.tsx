@@ -120,8 +120,8 @@ IProps) {
   useEffect(() => {
     if (!selectedBath) {
       __DEV__ && console.log('[BathScreen/useEffect] getBath(1010)');
-      //getBath(1010); // delete
-      getBath(bathParams.id);
+      getBath(1010); // delete
+      //getBath(bathParams.id);
     }
   }, [bathParams.id, getBath, selectedBath]);
 

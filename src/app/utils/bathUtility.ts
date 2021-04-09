@@ -15,6 +15,26 @@ import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
 import { ISchedule, TPartBathParams } from '~/src/app/models/bath';
 
+export function checkPhoto(photo: string): string | null {
+  const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
+  const substring = photo.substr(photo.length - 3);
+
+  __DEV__ && console.log(substring);
+  return formats.includes(substring) ? photo : null;
+}
+
+export function checkPhotos(photos: string[]): string[] {
+  const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
+  const correctPhotos =
+    photos.filter((photo: string) => {
+      const substring = photo.substr(photo.length - 3);
+      __DEV__ && console.log(substring);
+      return formats.includes(substring);
+    }) || [];
+
+  return correctPhotos;
+}
+
 export function cleanFilterParams(bathParams: TPartBathParams): TPartBathParams {
   const { search_query, sort_field, sort_type } = bathParams;
   const cleanedFilterParams: TPartBathParams = {
