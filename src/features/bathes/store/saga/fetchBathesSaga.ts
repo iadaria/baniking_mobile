@@ -8,7 +8,7 @@ import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { GOOGLE_API } from '@env';
 import { IAuthState } from '~/src/features/auth/store/authReducer';
-import { isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
+import { isLatitude, isLongitude, calculateDistance } from '~/src/app/utils/bathUtility';
 
 interface IAction {
   payload: IBathAction;
@@ -79,6 +79,18 @@ function* fetchMapsSaga(bathes: IBath[]) {
 
       if (!isLatitude(latitude) || !isLongitude(longitude)) {
         __DEV__ && console.log('[fecthMapsSaga/not correct lat or long]', latitude, longitude);
+        return;
+      }
+
+      const check_distance = calculateDistance({
+        lant1: location.latitude,
+        long1: location.longitude,
+        lant2: latitude,
+        long2: longitude,
+      });
+
+      //__DEV__ && console.log('JJJJJJJ', check_distance / 1000);
+      if (check_distance / 1000 > 500) {
         return;
       }
 

@@ -31,6 +31,7 @@ import { OrderCallIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { MAX_DISTANCE } from '~/src/app/common/constants/common';
+import { calculateDistance, isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
 
 const BASE = sizes.offset.base;
 const TEST_PHONE = '88000000000';
@@ -120,8 +121,8 @@ IProps) {
   useEffect(() => {
     if (!selectedBath) {
       __DEV__ && console.log('[BathScreen/useEffect] getBath(1010)');
-      getBath(1010); // delete
-      //getBath(bathParams.id);
+      //getBath(999); // delete
+      getBath(bathParams.id);
     }
   }, [bathParams.id, getBath, selectedBath]);
 
@@ -139,7 +140,21 @@ IProps) {
 
   let map = null;
 
-  if (latitude && longitude && bathParams.distance < MAX_DISTANCE) {
+  /* __DEV__ && console.log('FFFFFF', longitude, isLongitude(longitude));
+  __DEV__ &&
+    console.log(
+      'FFFFFF',
+      longitude,
+      calculateDistance({ lant1: 55.8263, long1: 37.3263, lant2: latitude, long2: longitude }) / 1000,
+    );
+ */
+  if (
+    latitude &&
+    longitude &&
+    isLatitude(latitude) &&
+    isLongitude(longitude) &&
+    bathParams.distance < MAX_DISTANCE
+  ) {
     map = (
       <Block style={styles.bathMap}>
         <BathDestinationMap latitude={latitude} longitude={longitude} />
@@ -181,7 +196,7 @@ IProps) {
           </AppText>
         </Block>
         {/* Зоны */}
-        {zones && zones.length && (
+        {zones && zones?.length > 0 && (
           <>
             <AppText margin={[1, 0]} golder>
               Зоны
@@ -196,7 +211,7 @@ IProps) {
           </>
         )}
         {/* Сервис */}
-        {services && services.length && (
+        {services && services?.length > 0 && (
           <>
             <AppText margin={[1, 0]} golder>
               Сервис

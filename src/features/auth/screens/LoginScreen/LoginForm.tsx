@@ -82,11 +82,12 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </TouchableOpacity>
       </Block>
       <AppInput
-        style={{ borderRadius: 10,  paddingLeft: wp(30)}}
+        style={{ borderRadius: 10,  /* paddingLeft: wp(30) */}}
         id="password"
         placeholder="Введите пароль "
         maxLength={50}
         secure
+        center
       />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>

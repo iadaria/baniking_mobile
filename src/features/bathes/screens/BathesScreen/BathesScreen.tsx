@@ -245,7 +245,7 @@ export function BathesScreenContainer({
             placeholder="Что вы ищите?"
             onChangeText={(name: string) => {
               __DEV__ && console.log('[BathesScreen]', name);
-              const newName = String(name).toLowerCase();
+              const newName = String(name).toLowerCase().trim();
               setSearchName(name);
               const newParams: TPartBathParams = {
                 ...params,

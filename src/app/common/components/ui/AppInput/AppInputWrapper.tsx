@@ -43,6 +43,7 @@ export const AppInputWrapper = <T extends {}>({
       flexDirection: 'row',
       //alignItems: 'center',
     },
+    (center || secure) && { justifyContent: 'center' },
     //secure && { justifyContent: 'center' },
   ];
   // __DEV__ && console.log('[AppInputWrapper] inputStyle', inputStyle);

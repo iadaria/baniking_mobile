@@ -44,14 +44,7 @@ function* getBathSaga({ payload }: IAction) {
 
   try {
     const response: IResult = yield call(methods.getBath, null, bathId);
-    //__DEV__ && console.log('[getBathSaga]', JSON.stringify(response.bath, null, 4));
-    /* const _bathers =
-      response.bathers.map((bather: IBather) => ({
-        name: bather.name,
-        position: bather.position,
-        avatar: checkPhoto(bather.avatar || ''),
-      })) || []; */
-    //__DEV__ && console.log('_bathers', _bathers);
+    __DEV__ && console.log('[getBathSaga]', JSON.stringify(response, null, 4));
     const bathDetailed: IBathDetailed = {
       ...response.bath,
       schedule: response.schedule,
@@ -66,11 +59,8 @@ function* getBathSaga({ payload }: IAction) {
     yield put(selectBath(bathDetailed));
     yield fork(cacheImageBathSaga, bathDetailed);
   } catch (e) {
-    ///__DEV__ && console.log('[getBathSaga/error]', JSON.stringify(e, null, 4));
     const [errors, message, allErrors] = getErrorStrings(e);
-    let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    //__DEV__ && console.log(JSON.stringify(e, null, 4));
-    //__DEV__ && console.log('[fetchBathesSaga]', [errors, message]);
+    let errorMessage = allErrors ? allErrors : message;
 
     if (errorMessage) {
       yield put(bathesFail(errors));
