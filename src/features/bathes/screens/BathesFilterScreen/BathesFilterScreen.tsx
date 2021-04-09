@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { LayoutChangeEvent, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -23,6 +23,7 @@ import { styles } from './styles';
 import { FilterAcceptButton } from './FilterAcceptButton';
 import { calculateFilterCount } from '~/src/app/utils/bathUtility';
 import { initializeFilterParams, cleanFilterParams } from '../../../../app/utils/bathUtility';
+import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -48,7 +49,8 @@ function BathesFilterScreenContainer({
   getBathParamsVariety,
   checkFilter,
 }: IProps) {
-  //const [initialized, setInitialized] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [blockPosition, setBlockPosition] = useState<number>(0);
 
   const [lowPrice, setLowPrice] = useState(bathParams?.price_from || 1);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');
@@ -68,6 +70,7 @@ function BathesFilterScreenContainer({
   const [thisFilterCount, setThisFilterCount] = useState(filterCount);
 
   const { zones, services, steamRooms } = paramsVariety || {};
+  const timeIds: NodeJS.Timeout[] = [];
 
   // Получаем параметры для фильтрации
   useEffect(() => {
@@ -98,6 +101,7 @@ function BathesFilterScreenContainer({
 
     return () => {
       __DEV__ && console.log('[BathFilerScreen] unmount');
+      timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -150,184 +154,211 @@ function BathesFilterScreenContainer({
     }
   };
 
+  const scrollToBlock = (plus: number) => {
+    __DEV__ && console.log('to', blockPosition);
+    const timeId = setTimeout(() => {
+      scrollViewRef?.current?.scrollTo({
+        x: 0,
+        y: blockPosition + plus,
+        animated: true,
+      });
+    }, 500);
+    __DEV__ && console.log('[OrderCallForm/timeId]', timeId);
+    timeIds.push(timeId);
+  };
+
   return (
     <>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollStyle}>
-        {/* Заголовок */}
-        <Block style={{ justifyContent: 'space-between' }} center row>
-          <AppText h1>Выбрано фильтров</AppText>
-          <AppText margin={[0, 0, 0, 11]} style={styles.button} semibold h2>
-            {thisFilterCount}
-          </AppText>
-          <TouchableOpacity
-            style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
-            onPress={() => {
-              setThisFilterCount(0);
-              const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
-              __DEV__ && console.log('[BathesFilter] cleaned', cleanFilterParams);
+      {/* <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollStyle}> */}
+      <KeyboardWrapper>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentScrollStyle}
+          alwaysBounceVertical
+          ref={scrollViewRef}>
+          {/* Заголовок */}
+          <Block style={{ justifyContent: 'space-between' }} center row>
+            <AppText h1>Выбрано фильтров</AppText>
+            <AppText margin={[0, 0, 0, 11]} style={styles.button} semibold h2>
+              {thisFilterCount}
+            </AppText>
+            <TouchableOpacity
+              style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
+              onPress={() => {
+                setThisFilterCount(0);
+                const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
+                __DEV__ && console.log('[BathesFilter] cleaned', cleanFilterParams);
 
-              //debouncedParams(cleanedFilterParams);
-              setThisFilterParams({ ...cleanedFilterParams });
+                //debouncedParams(cleanedFilterParams);
+                setThisFilterParams({ ...cleanedFilterParams });
 
-              setLowPrice(1);
-              setMiddleLowPrice('1');
-              setHighPrice(10000);
-              setMiddleHighPrice('10000');
-              setLowRating(2);
-              setMiddleLowRating('2');
-              setHighRating(5);
-              setMiddleHighRating('5');
-              //}
-            }}>
-            <CloseFilerIcon />
-          </TouchableOpacity>
-        </Block>
-        <AppText margin={[3, 0, 0]}>
-          <AppText secondary>Стоимость</AppText> в час
-        </AppText>
-        <RangeSlider
-          min={1}
-          max={10000}
-          low={lowPrice}
-          high={highPrice}
-          setLow={function (value: number) {
-            setLowPrice(value);
-            String(value) !== middleLowPrice && setMiddleLowPrice(String(value));
-          }}
-          setHigh={function (value: number) {
-            setHighPrice(value);
-            String(value) !== middleHighPrice && setMiddleHighPrice(String(value));
-          }}
-        />
-        <Block margin={[1, 0, 0]} center row>
-          {/* Минимальная стоимость */}
-          <AppText margin={[0, 3, 0, 0]} tag>
-            от
+                setLowPrice(1);
+                setMiddleLowPrice('1');
+                setHighPrice(10000);
+                setMiddleHighPrice('10000');
+                setLowRating(2);
+                setMiddleLowRating('2');
+                setHighRating(5);
+                setMiddleHighRating('5');
+                //}
+              }}>
+              <CloseFilerIcon />
+            </TouchableOpacity>
+          </Block>
+          <AppText margin={[3, 0, 0]}>
+            <AppText secondary>Стоимость</AppText> в час
           </AppText>
-          <AppInput
-            style={{ ...styles.input, width: wp(18) }}
-            value={middleLowPrice}
-            onChangeText={(text: string) => changeText(text, 1, setLowPrice, setMiddleLowPrice)}
-            rightButton={
-              <RightButton
-                onPress={() => {
-                  setMiddleLowPrice('1');
-                  setLowPrice(1);
-                }}
-              />
-            }
-            number
+          <RangeSlider
+            min={1}
+            max={10000}
+            low={lowPrice}
+            high={highPrice}
+            setLow={function (value: number) {
+              setLowPrice(value);
+              String(value) !== middleLowPrice && setMiddleLowPrice(String(value));
+            }}
+            setHigh={function (value: number) {
+              setHighPrice(value);
+              String(value) !== middleHighPrice && setMiddleHighPrice(String(value));
+            }}
           />
-          {/* Максимальная стоимость */}
-          <AppText margin={[0, 2.5]} tag>
-            до
+          <Block margin={[1, 0, 0]} center row>
+            {/* Минимальная стоимость */}
+            <AppText margin={[0, 3, 0, 0]} tag>
+              от
+            </AppText>
+            <AppInput
+              style={{ ...styles.input, width: wp(25) }}
+              value={middleLowPrice}
+              onChangeText={(text: string) => changeText(text, 1, setLowPrice, setMiddleLowPrice)}
+              rightButton={
+                <RightButton
+                  onPress={() => {
+                    setMiddleLowPrice('1');
+                    setLowPrice(1);
+                  }}
+                />
+              }
+              number
+            />
+            {/* Максимальная стоимость */}
+            <AppText margin={[0, 2.5]} tag>
+              до
+            </AppText>
+            <AppInput
+              style={{ ...styles.input, width: wp(25) }}
+              rightButton={
+                <RightButton
+                  onPress={() => {
+                    setMiddleHighPrice('10000');
+                    setHighPrice(10000);
+                  }}
+                />
+              }
+              number
+              value={middleHighPrice}
+              onChangeText={(text: string) => changeText(text, 10000, setHighPrice, setMiddleHighPrice)}
+            />
+            <AppText margin={[0, 3]} tag>
+              руб/час
+            </AppText>
+          </Block>
+          {/* Рейтинг */}
+          <AppText margin={[3, 0, 0]} secondary>
+            Рейтинг
           </AppText>
-          <AppInput
-            style={{ ...styles.input, width: wp(18) }}
-            rightButton={
-              <RightButton
-                onPress={() => {
-                  setMiddleHighPrice('10000');
-                  setHighPrice(10000);
-                }}
-              />
-            }
-            number
-            value={middleHighPrice}
-            onChangeText={(text: string) => changeText(text, 10000, setHighPrice, setMiddleHighPrice)}
+          <RangeSlider
+            min={1}
+            max={5}
+            low={lowRating}
+            high={highRating}
+            setLow={function (value: number) {
+              setLowRating(value);
+              String(value) !== middleLowRating && setMiddleLowRating(String(value));
+            }}
+            setHigh={function (value: number) {
+              setHighRating(value);
+              String(value) !== middleHightRating && setMiddleHighRating(String(value));
+            }}
           />
-          <AppText margin={[0, 3]} tag>
-            руб/час
-          </AppText>
-        </Block>
-        {/* Рейтинг */}
-        <AppText margin={[3, 0, 0]} secondary>
-          Рейтинг
-        </AppText>
-        <RangeSlider
-          min={1}
-          max={5}
-          low={lowRating}
-          high={highRating}
-          setLow={function (value: number) {
-            setLowRating(value);
-            String(value) !== middleLowRating && setMiddleLowRating(String(value));
-          }}
-          setHigh={function (value: number) {
-            setHighRating(value);
-            String(value) !== middleHightRating && setMiddleHighRating(String(value));
-          }}
-        />
-        <Block id="rating" margin={[1, 0, 0]} center row>
-          <AppText margin={[0, 3, 0, 0]} tag>
-            от
-          </AppText>
-          <AppInput
-            style={styles.input}
-            rightButton={
-              <RightButton
-                onPress={() => {
-                  setMiddleLowRating('2');
-                  setLowRating(2);
-                }}
-              />
-            }
-            number
-            value={middleLowRating}
-            onChangeText={(text: string) => changeText(text, 2, setLowRating, setMiddleLowRating)}
-          />
-          <AppText margin={[0, 2.5]} tag>
-            до
-          </AppText>
-          <AppInput
-            style={styles.input}
-            rightButton={
-              <RightButton
-                onPress={() => {
-                  setMiddleHighRating('5');
-                  setHighRating(5);
-                }}
-              />
-            }
-            number
-            value={middleHightRating}
-            onChangeText={(text: string) => changeText(text, 5, setHighRating, setMiddleHighPrice)}
-          />
-          <AppText margin={[0, 3]} tag>
-            звезд
-          </AppText>
-        </Block>
+          <Block
+            onLayout={({ nativeEvent }: LayoutChangeEvent) => setBlockPosition(nativeEvent.layout.y)}
+            id="rating"
+            margin={[1, 0, 0]}
+            center
+            row>
+            <AppText margin={[0, 3, 0, 0]} tag>
+              от
+            </AppText>
+            <AppInput
+              style={{ ...styles.input, width: wp(25) }}
+              onFocus={scrollToBlock.bind(null, -60)}
+              rightButton={
+                <RightButton
+                  onPress={() => {
+                    setMiddleLowRating('2');
+                    setLowRating(2);
+                  }}
+                />
+              }
+              number
+              value={middleLowRating}
+              onChangeText={(text: string) => changeText(text, 2, setLowRating, setMiddleLowRating)}
+            />
+            <AppText margin={[0, 2.5]} tag>
+              до
+            </AppText>
+            <AppInput
+              style={{ ...styles.input, width: wp(25) }}
+              onFocus={scrollToBlock.bind(null, -60)}
+              rightButton={
+                <RightButton
+                  onPress={() => {
+                    setMiddleHighRating('5');
+                    setHighRating(5);
+                  }}
+                />
+              }
+              number
+              value={middleHightRating}
+              onChangeText={(text: string) => changeText(text, 5, setHighRating, setMiddleHighPrice)}
+            />
+            <AppText margin={[0, 3]} tag>
+              звезд
+            </AppText>
+          </Block>
 
-        {/* Виды парной */}
-        <FilterRooms
-          steamRooms={steamRooms}
-          filterParams={thisFilterParams}
-          setFilterParams={setThisFilterParams}
-          setFilterCount={setThisFilterCount}
-        />
-        {/* Сервис */}
-        <FilterServices
-          services={services}
-          filterParams={thisFilterParams}
-          setFilterParams={setThisFilterParams}
-          setFilterCount={setThisFilterCount}
-        />
-        {/* Аквазоны */}
-        <FilterZones
-          zones={zones}
-          filterParams={thisFilterParams}
-          setFilterParams={setThisFilterParams}
-          setFilterCount={setThisFilterCount}
-        />
-        {/* Типы */}
-        <FilterTypes
-          bathTypes={bathType}
-          filterParams={thisFilterParams}
-          setFilterParams={setThisFilterParams}
-          setFilterCount={setThisFilterCount}
-        />
-        <Block margin={[10, 0]} />
-      </ScrollView>
+          {/* Виды парной */}
+          <FilterRooms
+            steamRooms={steamRooms}
+            filterParams={thisFilterParams}
+            setFilterParams={setThisFilterParams}
+            setFilterCount={setThisFilterCount}
+          />
+          {/* Сервис */}
+          <FilterServices
+            services={services}
+            filterParams={thisFilterParams}
+            setFilterParams={setThisFilterParams}
+            setFilterCount={setThisFilterCount}
+          />
+          {/* Аквазоны */}
+          <FilterZones
+            zones={zones}
+            filterParams={thisFilterParams}
+            setFilterParams={setThisFilterParams}
+            setFilterCount={setThisFilterCount}
+          />
+          {/* Типы */}
+          <FilterTypes
+            bathTypes={bathType}
+            filterParams={thisFilterParams}
+            setFilterParams={setThisFilterParams}
+            setFilterCount={setThisFilterCount}
+          />
+          <Block margin={[10, 0]} />
+        </ScrollView>
+      </KeyboardWrapper>
       <FilterAcceptButton navigation={navigation} filterParams={thisFilterParams} filterCount={thisFilterCount} />
     </>
   );

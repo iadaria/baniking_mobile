@@ -66,12 +66,16 @@ export const styles = StyleSheet.create({
     padding: wp(3),
   },
   toggle: {
+    position: 'absolute',
+    /* borderColor: 'red',
+    borderWidth: 1, */
+    top: 0,
+    bottom: 0,
+    right: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    right: -1,
-    top: -1,
-    width: wp(8),
-    height: hp(sizes.input.big.height * 0.9),
+    width: wp(6),
+    //height: hp(sizes.input.big.height * 0.9), */
   },
   slider: {
     /* borderWidth: 1,
