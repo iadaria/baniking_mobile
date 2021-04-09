@@ -22,7 +22,7 @@ export const sizes = {
 
   input: {
     hight: 5.25,
-    heightEdit: 5.5,
+    heightEdit: 6.5,
     text: 4,
     top: 1.11, // 10:8,68
     paddingHorizontal: 4,

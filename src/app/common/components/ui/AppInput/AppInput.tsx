@@ -81,7 +81,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     //center && { textAlign: 'center'},
     //center && { alignSelf: 'center', flexWrap: 'nowrap' },
     style,
-    { borderColor: 'purple', borderWidth: 1 },
+    //{ borderColor: 'purple', borderWidth: 1 },
     // ecure && styles.secure,
   ];
 
