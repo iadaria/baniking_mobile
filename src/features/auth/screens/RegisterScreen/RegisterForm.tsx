@@ -87,11 +87,12 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10, paddingLeft: wp(30) }}
+        style={{ borderRadius: 10/* , paddingLeft: wp(30) */ }}
         id="name"
         placeholder="Введите имя"
         maxLength={16}
-        isScrollToFocused
+        //isScrollToFocused
+        center
       />
       {/* Email */}
       <Block row middle center>
@@ -101,9 +102,10 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10, paddingLeft: wp(28) }}
+        style={{ borderRadius: 10 /* , paddingLeft: wp(28)  */}}
         id="email"
         placeholder="Введите email"
+        center
         email
         maxLength={50}
       />
@@ -118,7 +120,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         style={{ borderRadius: 10, paddingLeft: wp(25) }}
         id="phone"
         placeholder="+7(___)___-__-__   "
-        mask="+7([000])[000]-[00]-[00]"
+        mask="+7 ([000]) [000]-[00]-[00]"
         phone
         isScrollToFocused
       />

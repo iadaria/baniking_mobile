@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
   Keyboard,
   ViewStyle,
+  TextInputChangeEventData,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
 import { colors } from '~/src/app/common/constants';
@@ -24,6 +25,7 @@ export interface IAppInputStates extends TextInputProps {
 // TextInput.defaultProps.selectionColor = colors.secondary;
 
 export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
+  const [showPlaceholder, setShowPlaceholder] = useState(!!props.center && !props.secure);
   const [toggleSecure, setToggleSecure] = useState(false);
   const [states, setStates] = useState<IAppInputStates>({
     isTouched: false,
@@ -78,6 +80,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
+    showPlaceholder && { zIndex: 1 },
     //center && { textAlign: 'center'},
     //center && { alignSelf: 'center', flexWrap: 'nowrap' },
     style,
@@ -97,7 +100,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     setBorderColor(textFocus ? colors.text.base : colors.secondary);
   }
 
-  const inputTextAlign = center && isSecure ? 'center' : undefined;
+  const inputTextAlign = center || (center && isSecure) ? 'center' : undefined;
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
   const blockStyle: ViewStyle = {};
   style?.backgroundColor && (blockStyle.backgroundColor = style?.backgroundColor);
@@ -123,6 +126,15 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       isTouched: false,
       isFocused: true,
     });
+  }
+
+  function handleChange(e: NativeSyntheticEvent<TextInputChangeEventData>) {
+    const { text } = e.nativeEvent;
+    if (text && text.length > 0) {
+      setShowPlaceholder(false);
+    } else {
+      setShowPlaceholder(true);
+    }
   }
 
   // https://semver.org
@@ -170,7 +182,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       borderColor={borderColor}
       blockStyle={blockStyle}
       rightButton={rightButton}
-      isFocused={states.isFocused}>
+      showPlaceholder={showPlaceholder}
+      placeholder={placeholder}>
       <TextInput
         ref={newRef}
         style={inputStyles}
@@ -183,7 +196,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         keyboardType={inputType}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        placeholder={placeholder}
+        onChange={center && !secure ? handleChange : undefined}
+        placeholder={center && !secure ? undefined : placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
         underlineColorAndroid="transparent"
         scrollEnabled={true}

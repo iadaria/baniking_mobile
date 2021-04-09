@@ -64,10 +64,11 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </AppText>
       </Block>
       <AppInput
-        style={{ borderRadius: 10, paddingLeft: wp(30) }}
+        style={{ borderRadius: 10/* , paddingLeft: wp(30) */ }}
         id="login"
         placeholder="Введите e-mail"
         maxLength={50}
+        center
       />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>

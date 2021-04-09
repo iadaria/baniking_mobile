@@ -12,7 +12,6 @@ import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
-import { styles } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -53,13 +52,13 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
         </AppText>
       </Block>
       <AppInput
-        style={{ borderRadius: 10, paddingLeft: wp(29) }}
+        style={{ borderRadius: 10 /* , paddingLeft: wp(29)  */}}
         center
         id="email"
         placeholder="Введите e-mail "
       />
       {/* Button */}
-      <AppButton onPress={handleResetPassword}>
+      <AppButton margin={[2, 0, 1]} onPress={handleResetPassword}>
         <AppText center medium>
           Восстановить
         </AppText>

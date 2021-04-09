@@ -8,6 +8,7 @@ import { sizes } from '~/src/app/common/constants/sizes';
 import { IAppInputStates } from './AppInput';
 import { StyleProp, ViewStyle } from 'react-native';
 import { styles } from './styles';
+import AppPlaceholder from './AppPlaceholder';
 
 interface IProps<T> {
   states: IAppInputStates;
@@ -21,11 +22,11 @@ interface IProps<T> {
   blockStyle: StyleProp<ViewStyle>;
   center?: boolean;
   rightButton?: ReactNode;
-  isFocused?: boolean;
+  showPlaceholder?: boolean;
+  placeholder?: string;
 }
 
 export const AppInputWrapper = <T extends {}>({
-  isFocused,
   states,
   toggleSecure,
   setToggleSecure,
@@ -37,16 +38,16 @@ export const AppInputWrapper = <T extends {}>({
   center,
   children,
   rightButton,
+  showPlaceholder,
+  placeholder,
 }: IProps<T>): JSX.Element => {
   const dynamicStyle: StyleProp<ViewStyle> = [
     (secure || !!rightButton) && {
       flexDirection: 'row',
       //alignItems: 'center',
     },
-    (center || secure) && { justifyContent: 'center' },
-    //secure && { justifyContent: 'center' },
+    center && secure && { justifyContent: 'center' },
   ];
-  // __DEV__ && console.log('[AppInputWrapper] inputStyle', inputStyle);
 
   return (
     <>
@@ -58,6 +59,7 @@ export const AppInputWrapper = <T extends {}>({
         {children}
         {rightButton}
         <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
+        <AppPlaceholder showPlaceholder={showPlaceholder} placeholder={placeholder} />
       </Block>
       <AppInputError
         margin={[0, 0, sizes.input.top, 0]}
