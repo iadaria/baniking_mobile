@@ -276,6 +276,14 @@ export default function bathReducer(
         maps: [...state.maps, ...newMaps],
       };
 
+    case constants.ADD_MAP:
+      const exists = state.mapIds.includes(payload.bathId);
+      return {
+        ...state,
+        mapIds: !exists ? [...state.mapIds, payload.bathId] : state.mapIds,
+        maps: !exists ? [...state.maps, payload] : state.maps,
+      };
+
     case constants.CLEAR_MAPS:
       return {
         ...state,

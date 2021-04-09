@@ -30,6 +30,7 @@ export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
 // Maps
 export const FETCH_MAPS = 'bath/FETCH_MAPS';
 export const SET_MAPS = 'bath/SET_MAPS';
+export const ADD_MAP = 'bath/ADD_MAP';
 export const CLEAR_MAPS = 'bath/CLEAR_MAPS';
 // OrderCall
 export const INIT_ORDER_CALL_INPUTS = 'bath/INIT_ORDER_CALL_INPUTS';

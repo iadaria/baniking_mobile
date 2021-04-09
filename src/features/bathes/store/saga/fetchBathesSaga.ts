@@ -82,18 +82,6 @@ function* fetchMapsSaga(bathes: IBath[]) {
         return;
       }
 
-      const check_distance = calculateDistance({
-        lant1: location.latitude,
-        long1: location.longitude,
-        lant2: latitude,
-        long2: longitude,
-      });
-
-      //__DEV__ && console.log('JJJJJJJ', check_distance / 1000);
-      if (check_distance / 1000 > 500) {
-        return;
-      }
-
       const placeParams: TPartDistanceParams = {
         origins: `${location.latitude},${location.longitude}`,
         destinations: `${latitude},${longitude}`,
@@ -120,3 +108,15 @@ function* fetchMapsSaga(bathes: IBath[]) {
 export default function* listener() {
   yield takeEvery(FETCH_BATHES, fetchBathesSaga);
 }
+
+/* const check_distance = calculateDistance({
+        lant1: location.latitude,
+        long1: location.longitude,
+        lant2: latitude,
+        long2: longitude,
+      }); */
+
+//__DEV__ && console.log('JJJJJJJ', check_distance / 1000);
+/* if (check_distance / 1000 > 500) {
+        return;
+      } */

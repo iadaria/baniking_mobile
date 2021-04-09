@@ -107,6 +107,11 @@ export const setMaps = (payload: IMap[]) => ({
   payload,
 });
 
+export const addMap = (payload: IMap) => ({
+  type: constants.ADD_MAP,
+  payload,
+});
+
 export const clearMaps = () => ({
   type: constants.CLEAR_MAPS,
 });
