@@ -1,4 +1,5 @@
 import React from 'react';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
@@ -62,7 +63,12 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput style={styles.element} id="login" placeholder="Введите e-mail " maxLength={50} center />
+      <AppInput
+        style={{ borderRadius: 10, paddingLeft: wp(30) }}
+        id="login"
+        placeholder="Введите e-mail"
+        maxLength={50}
+      />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Пароль
@@ -75,7 +81,14 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           </AppText>
         </TouchableOpacity>
       </Block>
-      <AppInput style={styles.element} id="password" placeholder="Введите пароль" maxLength={50} center secure />
+      <AppInput
+        style={{ borderRadius: 10,  paddingLeft: wp(30)}}
+        id="password"
+        placeholder="Введите пароль "
+        maxLength={50}
+        secure
+        //center
+      />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>
           <SwitcherIcon width={23 * multiplier} fill={isPersist ? colors.secondary : colors.caption} />

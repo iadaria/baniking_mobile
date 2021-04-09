@@ -1,4 +1,5 @@
 import React from 'react';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { AppChecker, AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
@@ -86,10 +87,9 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={styles.element}
+        style={{ borderRadius: 10, paddingLeft: wp(30) }}
         id="name"
         placeholder="Введите имя"
-        center
         maxLength={16}
         isScrollToFocused
       />
@@ -100,7 +100,13 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput style={styles.element} id="email" placeholder="Введите email" center email maxLength={50} />
+      <AppInput
+        style={{ borderRadius: 10, paddingLeft: wp(28) }}
+        id="email"
+        placeholder="Введите email"
+        email
+        maxLength={50}
+      />
       {/* Phone */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
@@ -109,10 +115,9 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={styles.element}
+        style={{ borderRadius: 10, paddingLeft: wp(25) }}
         id="phone"
         placeholder="+7(___)___-__-__   "
-        center
         mask="+7([000])[000]-[00]-[00]"
         phone
         isScrollToFocused

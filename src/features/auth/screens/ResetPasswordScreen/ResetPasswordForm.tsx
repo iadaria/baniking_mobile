@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -51,7 +52,12 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
           Ваш email
         </AppText>
       </Block>
-      <AppInput style={styles.element} center id="email" placeholder="Введите e-mail " />
+      <AppInput
+        style={{ borderRadius: 10, paddingLeft: wp(29) }}
+        center
+        id="email"
+        placeholder="Введите e-mail "
+      />
       {/* Button */}
       <AppButton onPress={handleResetPassword}>
         <AppText center medium>

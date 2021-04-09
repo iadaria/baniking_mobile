@@ -78,10 +78,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
-    //center && styles.center,
-    center && { alignSelf: 'center', flexWrap: 'nowrap' },
+    //center && { textAlign: 'center'},
+    //center && { alignSelf: 'center', flexWrap: 'nowrap' },
     style,
-    //{ borderColor: 'purple', borderWidth: 1 },
+    { borderColor: 'purple', borderWidth: 1 },
     // ecure && styles.secure,
   ];
 
@@ -97,7 +97,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     setBorderColor(textFocus ? colors.text.base : colors.secondary);
   }
 
-  const inputTextAlign = isSecure && center ? 'center' : undefined;
+  //const inputTextAlign = center && isSecure ? 'center' : undefined;
   const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
   const blockStyle: ViewStyle = {};
   style?.backgroundColor && (blockStyle.backgroundColor = style?.backgroundColor);
@@ -141,6 +141,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         <TextInputMask
           ref={newRef}
           style={inputStyles}
+          //textAlign={inputTextAlign}
           keyboardType={inputType}
           mask={mask}
           autoCompleteType="off"
@@ -168,11 +169,12 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       center={center}
       borderColor={borderColor}
       blockStyle={blockStyle}
-      rightButton={rightButton}>
+      rightButton={rightButton}
+      isFocused={states.isFocused}>
       <TextInput
         ref={newRef}
         style={inputStyles}
-        textAlign={inputTextAlign}
+        //textAlign={inputTextAlign}
         secureTextEntry={isSecure}
         // multiline
         autoCompleteType="off"
