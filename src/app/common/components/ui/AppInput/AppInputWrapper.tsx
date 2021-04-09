@@ -52,7 +52,7 @@ export const AppInputWrapper = <T extends {}>({
   return (
     <>
       <Block
-        style={[styles.block, blockStyle, { borderColor }, dynamicStyle]}
+        style={[styles.block, blockStyle, { borderColor } /* , dynamicStyle */]}
         onLayout={props.onLayout}
         margin={[sizes.input.top, 0, !props.error ? sizes.input.top : 0]}>
         {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}

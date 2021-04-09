@@ -25,7 +25,7 @@ export interface IAppInputStates extends TextInputProps {
 // TextInput.defaultProps.selectionColor = colors.secondary;
 
 export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
-  const [showPlaceholder, setShowPlaceholder] = useState(!!props.center && !props.secure);
+  const [showPlaceholder, setShowPlaceholder] = useState(props.center);
   const [toggleSecure, setToggleSecure] = useState(false);
   const [states, setStates] = useState<IAppInputStates>({
     isTouched: false,
@@ -82,10 +82,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
     styles.input,
     showPlaceholder && { zIndex: 1 },
     //center && { textAlign: 'center'},
-    //center && { alignSelf: 'center', flexWrap: 'nowrap' },
     style,
     //{ borderColor: 'purple', borderWidth: 1 },
-    // ecure && styles.secure,
   ];
 
   const setBorderColor = (_borderColor: string) => (borderColor = _borderColor);
@@ -196,8 +194,8 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         keyboardType={inputType}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        onChange={center && !secure ? handleChange : undefined}
-        placeholder={center && !secure ? undefined : placeholder}
+        onChange={center ? handleChange : undefined}
+        placeholder={center ? undefined : placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
         underlineColorAndroid="transparent"
         scrollEnabled={true}
