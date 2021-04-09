@@ -120,7 +120,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         style={{ borderRadius: 10, paddingLeft: wp(25) }}
         id="phone"
         placeholder="+7(___)___-__-__   "
-        mask="+7 ([000]) [000]-[00]-[00]"
+        mask="+7([000])[000]-[00]-[00]"
         phone
         isScrollToFocused
       />

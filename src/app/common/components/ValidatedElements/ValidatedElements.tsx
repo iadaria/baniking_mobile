@@ -50,7 +50,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }, []);
 
   useEffect(() => {
-    //__DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    __DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;

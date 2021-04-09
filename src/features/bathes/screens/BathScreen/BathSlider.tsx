@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { Image } from 'react-native';
+import { ActivityIndicator, Image } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 import { isCachedImage } from '~/src/app/utils/bathUtility';
 import routes from '~/src/navigation/helpers/routes';
 import { styles } from './styles';
-import { useDispatch } from 'react-redux';
-import { nonTransparentHeader } from '~/src/app/store/system/systemActions';
+import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
+import { colors } from '~/src/app/common/constants';
 
 interface IProps {
   photos: string[] | undefined;
@@ -18,7 +18,6 @@ interface IProps {
 }
 
 export default function BathSlider({ photos, persistImages, navigation }: IProps) {
-  const dispatch = useDispatch();
   const [cachedPhotos, setCachedPhotos] = useState<ICachedImage[]>([]);
 
   // Получаем из кэша фотки бани
@@ -67,8 +66,16 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
         </TouchableOpacity>
       );
     },
-    [cachedPhotos, /* dispatch,  */navigation],
+    [cachedPhotos, /* dispatch,  */ navigation],
   );
+
+  if (photos && photos.length > cachedPhotos.length) {
+    return (
+      <Block margin={[4, 0]} center middle>
+        <ActivityIndicator size="small" color={colors.secondary} />
+      </Block>
+    );
+  }
 
   return (
     <FlatList

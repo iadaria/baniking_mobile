@@ -6,7 +6,7 @@ import { bathesFail, selectBath } from '../bathActions';
 import { GET_BATH } from '../bathConstants';
 import { IBathDetailed, IProposition, ISchedule } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
-import checkPhotos, { cacheImages, checkPhoto } from '~/src/app/utils/bathUtility';
+import checkPhotos, { cacheImage, cacheImages, checkPhoto } from '~/src/app/utils/bathUtility';
 import { persistImage } from '~/src/features/persist/store/appPersistActions';
 import { IBather } from '~/src/app/models/bath';
 import { IPersistImage } from '~/src/app/models/persist';
@@ -86,13 +86,14 @@ function* getBathSaga({ payload }: IAction) {
 function* cacheImageBathSaga(bathDetailed: IBathDetailed) {
   const set: string[] = yield select((state: IRootState) => state.persist.image.set);
 
-  const bathImages = [bathDetailed.image, ...bathDetailed.photos];
-  const cachedbathImages: IPersistImage[] = yield cacheImages(bathImages, set, 500);
+  //const bathImages = [/* bathDetailed.image,  */ ...bathDetailed.photos];
+  const cachedMainImages: IPersistImage[] = yield cacheImages([bathDetailed.image], set, 700);
+  const cachedbathImages: IPersistImage[] = yield cacheImages(bathDetailed.photos, set, 500);
 
   const bathersAvatars = bathDetailed.bathers.map((bather: IBather) => bather.avatar);
   const cachedBathersAvatars: IPersistImage[] = yield cacheImages(bathersAvatars, set, 100);
 
-  const imagesForPersist = [...cachedbathImages, ...cachedBathersAvatars];
+  const imagesForPersist = [...cachedMainImages, ...cachedbathImages, ...cachedBathersAvatars];
 
   for (let i = 0; i < imagesForPersist.length; i++) {
     yield put(persistImage(imagesForPersist[i]));
