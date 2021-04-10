@@ -2,7 +2,7 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { call, put, select, fork, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { IBath, IBathAction } from '~/src/app/models/bath';
+import { IBath, IBathAction, TPartBathParams } from '~/src/app/models/bath';
 import { setBathes, bathesFail, reuseBathes } from '../bathActions';
 import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -23,11 +23,14 @@ function* fetchBathesSaga({ payload }: IAction) {
   __DEV__ && console.log('***[fetchBathesSaga] params', bathParams);
   try {
     if (moreBathes) {
-      const { baths, count }: IResult = yield call(
-        methods.getBathes,
-        { search_query: bathParams.search_query },
-        bathParams,
-      );
+      /* const requestParams: TPartBathParams = { ...bathParams };
+      const requestBody: TPartBathParams = {};
+      if (bathParams.hasOwnProperty('search_query')) {
+        requestBody.search_query = bathParams.search_query;
+        delete bathParams.search_query;
+      } */
+
+      const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
 
       const bathes = [...baths];
 

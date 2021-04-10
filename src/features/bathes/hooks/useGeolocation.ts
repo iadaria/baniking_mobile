@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 //import { ILocation } from '~/src/app/models/user';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ILocation } from '~/src/app/models/user';
+import { IRootState } from '~/src/app/store/rootReducer';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
+import { IAuthState } from '../../auth/store/authReducer';
 
 interface IProps {
   permission: boolean;
@@ -14,6 +17,7 @@ const TEST_LONGITUDE = 37.3263; // TEST NEED DEL
 
 export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) {
   const dispatch = useDispatch();
+  const { currentUser }: IAuthState = useSelector(({ auth }: IRootState) => auth);
   const locationWatchId = useRef<number>();
 
   /** Функция подписная с обновлением для определения текущего местоположения */
@@ -22,17 +26,24 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
+          const { latitude: oldLt, longitude: oldLg } = currentUser?.location || {
+            latitude: null,
+            longitude: null,
+          };
+          const { latitude: newLt, longitude: newhLg } = position.coords;
           __DEV__ && console.log('[requestFineLocation/position]', position);
-          dispatch(
-            setAuthUserData({
-              location: {
-                //latitude: TEST_LATITUDE, //position.coords.latitude,
-                latitude: position.coords.latitude,
-                //longitude: TEST_LONGITUDE, //position.coords.longitude,
-                longitude: position.coords.longitude,
-              },
-            }),
-          );
+          if (oldLt?.toFixed(3) !== newLt.toFixed(3) || oldLg?.toFixed(3) !== newhLg.toFixed(3)) {
+            dispatch(
+              setAuthUserData({
+                location: {
+                  //latitude: TEST_LATITUDE, //position.coords.latitude,
+                  latitude: position.coords.latitude,
+                  //longitude: TEST_LONGITUDE, //position.coords.longitude,
+                  longitude: position.coords.longitude,
+                },
+              }),
+            );
+          }
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
@@ -53,8 +64,8 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
           dispatch(
             setAuthUserData({
               location: {
-                latitude: TEST_LATITUDE, //position.coords.latitude,
-                longitude: TEST_LONGITUDE, //position.coords.longitude,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
               },
             }),
           );

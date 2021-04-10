@@ -20,6 +20,7 @@ import { persistImage as persistImageAction } from '~/src/features/persist/store
 import {
   clearBathes as clearBathesAction,
   setFilter as setFilterAction,
+  fetchMaps as fetchMapsAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IPersistImage } from '~/src/app/models/persist';
 import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
@@ -34,6 +35,7 @@ import usePermission from '~/src/app/hooks/usePermission';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useGeolocation } from '../../hooks/useGeolocation';
 import FilterButton from './FilterButton';
+import { ILocation } from '~/src/app/models/user';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -47,10 +49,12 @@ interface IProps {
   retainState: boolean;
   filtered: boolean;
   filterCount: number;
+  location: ILocation | null;
   maps: IMap[];
 
   getBathes: () => void;
   fetchBathes: (payload: IBathAction) => void;
+  fetchMaps: (bathes: IBath[]) => void;
   // updateBath: (bath: IBath) => void;
   persistImage: (image: IPersistImage) => void;
   openModal: (payload: IModalState) => void;
@@ -65,7 +69,9 @@ export function BathesScreenContainer({
   loading,
   totalBathes,
   bathes,
+  location,
   maps,
+  fetchMaps,
   filtered,
   filterCount,
   fetchBathes,
@@ -102,9 +108,9 @@ export function BathesScreenContainer({
     //setUserLocation,
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     __DEV__ && console.log('[BathesScreen] Bath params', JSON.stringify(params, null, 4));
-  }, [params]); */
+  }, [params]);
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
@@ -142,6 +148,15 @@ export function BathesScreenContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localPermission, maps]);
 
+  //Кадый раз когда изменяется локация обновляем maps
+  useEffect(() => {
+    if (location && bathes) {
+      __DEV__ && console.log('****** [BathesScreen] location call update maps', location);
+      fetchMaps(bathes);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchMaps, location]);
+
   const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
     maxWait: 2000,
   });
@@ -174,7 +189,8 @@ export function BathesScreenContainer({
       case 0:
         if (hasQuery(params)) {
           delete newParams.search_query;
-          handleFilter(newParams);
+          //handleFilter(newParams);
+          debounced(newParams);
         }
         break;
       case 1:
@@ -298,7 +314,8 @@ export function BathesScreenContainer({
 }
 
 const BathesScreenConnected = connect(
-  ({ bath, system }: IRootState) => ({
+  ({ bath, system, auth }: IRootState) => ({
+    location: auth.currentUser?.location,
     connection: system.connection,
     loading: bath.loading,
     totalBathes: bath.totalBathes,
@@ -318,6 +335,7 @@ const BathesScreenConnected = connect(
     openModal: openModalAction,
     clearBathes: clearBathesAction,
     setFilter: setFilterAction,
+    fetchMaps: fetchMapsAction,
   },
 )(BathesScreenContainer);
 
