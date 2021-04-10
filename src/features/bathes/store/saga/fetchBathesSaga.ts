@@ -20,17 +20,11 @@ interface IResult {
 
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
-  __DEV__ && console.log('***[fetchBathesSaga] params', bathParams);
+  __DEV__ && console.log('***[fetchBathesSaga] params', bathParams, '\n');
   try {
     if (moreBathes) {
-      /* const requestParams: TPartBathParams = { ...bathParams };
-      const requestBody: TPartBathParams = {};
-      if (bathParams.hasOwnProperty('search_query')) {
-        requestBody.search_query = bathParams.search_query;
-        delete bathParams.search_query;
-      } */
 
-      const { baths, count }: IResult = yield call(methods.getBathes, null, bathParams);
+      const { baths, count }: IResult = yield call(methods.getBathes, bathParams, bathParams);
 
       const bathes = [...baths];
 

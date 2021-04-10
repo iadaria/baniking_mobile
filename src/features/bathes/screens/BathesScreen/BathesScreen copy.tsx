@@ -85,6 +85,7 @@ export function BathesScreenContainer({
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
   const [localPermission, setLocalPermission] = useState(false);
+  // const [userLocation, setUserLocation] = useState<ILocation>();
 
   const { page = 0 } = params;
 
@@ -108,13 +109,13 @@ export function BathesScreenContainer({
   });
 
   //Кадый раз когда изменяется локация обновляем maps
-  useEffect(() => {
+  /* useEffect(() => {
     if (location && bathes) {
       __DEV__ && console.log('****** [BathesScreen] location call update maps', location);
       fetchMaps(bathes);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchMaps, location]);
+  }, [fetchMaps, location]); */
 
   useEffect(() => {
     __DEV__ && console.log('[BathesScreen/useEffect(params)] Was changed Bath params', params);
@@ -122,13 +123,12 @@ export function BathesScreenContainer({
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
+    const cv = `[BathesScreen/haldeLoadMore] params=${JSON.stringify(params)}, page=${page}`;
+    __DEV__ && console.log(cv);
 
     if (connection) {
       const countBathes = bathes?.length || 0;
       const canMoreBathes = canLoadMore(totalBathes, countBathes, params.page!);
-      const cv = `[BathesScreen/haldeLoadMore] params=${params}, canMore=${canMoreBathes}`;
-      __DEV__ && console.log(cv);
-      __DEV__ && console.log('[BathesScreen] total=', totalBathes, 'count now', bathes?.length);
       if (canMoreBathes) {
         const nextPage = params.page! + 1;
         const bathParams: TPartBathParams = {
@@ -136,6 +136,8 @@ export function BathesScreenContainer({
           page: nextPage,
         };
         fetchBathes({ bathParams, moreBathes: canMoreBathes });
+      } else {
+        __DEV__ && console.log('[BathesScreen] not more Batehs');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -21,9 +21,15 @@ function* checkFilterSaga({ payload }: IAction) {
   __DEV__ && console.log('[CheckFilterSaga]', payload);
   try {
     const { filterParams } = payload;
+    /* const requestParams: TPartBathParams = { ...filterParams };
+    const requestBody: TPartBathParams = {};
+    if (filterParams.hasOwnProperty('search_query')) {
+      requestBody.search_query = filterParams.search_query;
+      delete requestParams.search_query;
+    } */
     //__DEV__ && console.log('[checkFilterSaga]', objToUrl(payload));
-    const { count: bathCount }: IResult = yield call(methods.getBathes, null, filterParams);
-    yield put(setCheckFilterResult({ bathCount /* , params  */}));
+    const { count: bathCount }: IResult = yield call(methods.getBathes, filterParams, filterParams);
+    yield put(setCheckFilterResult({ bathCount /* , params  */ }));
     //__DEV__ && console.log('[checkFilterSaga / bathCount]', bathCount);
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
