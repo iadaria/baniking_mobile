@@ -40,7 +40,7 @@ function* socialLoginSaga({ payload }: IAction) {
     if (isGoogle(payload)) {
       const userInfo: GoogleUser = yield GoogleSignin.signIn();
       const access_token: IGoogleToken = yield GoogleSignin.getTokens();
-      yield put(addSo)
+      //yield put(addSo)
       __DEV__ && console.log('*****', userInfo);
       __DEV__ && console.log('!!!!!!', access_token);
     }

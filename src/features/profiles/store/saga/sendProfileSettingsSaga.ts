@@ -19,13 +19,17 @@ function* sendProfileSettingsSaga({ payload }: IAction) {
   } catch (e) {
     __DEV__ && console.log(JSON.stringify(e, null, 4));
 
-    let [errors, message] = getErrorStrings(e);
+    let [errors, message, allErrors] = getErrorStrings(e);
 
     yield put(sendProfileFail(errors));
 
-    __DEV__ && console.log('[sendProfileSettingsSaga]', [errors, message]);
+    __DEV__ && console.log('[sendProfileSettingsSaga]', [errors, message, allErrors]);
 
-    const errorMessage = 'Ошибка при сохранении основных настроек профиля';
+    const errorMessage = allErrors
+      ? allErrors
+      : message
+      ? message
+      : 'Ошибка при сохранении основных настроек профиля';
 
     yield showAlert('Ошибка', errorMessage);
   }

@@ -116,6 +116,11 @@ export const clearMaps = () => ({
   type: constants.CLEAR_MAPS,
 });
 
+export const fetchMaps = (bathes: IBath[]) => ({
+  type: constants.FETCH_MAPS,
+  payload: bathes,
+});
+
 // Order
 
 export const initOrderCallInputs = (payload: IOrderCall) => {

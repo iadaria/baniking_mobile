@@ -269,11 +269,13 @@ export default function bathReducer(
 
     // Maps
     case constants.SET_MAPS:
-      const newMaps: IMap[] = payload.filter((map: IMap) => state.mapIds.indexOf(map.bathId) === -1);
+      const newMapIds = payload.map((map: IMap) => map.bathId);
+      const oldMapsWithoutNew = state.maps.filter((map: IMap) => !newMapIds.includes(map.bathId));
+      //const newMaps: IMap[] = payload.filter((map: IMap) => state.mapIds.indexOf(map.bathId) === -1);
       return {
         ...state,
-        mapIds: [...state.mapIds, ...newMaps.map((map: IMap) => map.bathId)],
-        maps: [...state.maps, ...newMaps],
+        mapIds: [...oldMapsWithoutNew.map((map: IMap) => map.bathId), ...newMapIds],
+        maps: [...oldMapsWithoutNew, ...payload],
       };
 
     case constants.ADD_MAP:

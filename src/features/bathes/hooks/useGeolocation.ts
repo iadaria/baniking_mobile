@@ -26,8 +26,10 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
           dispatch(
             setAuthUserData({
               location: {
-                latitude: TEST_LATITUDE, //position.coords.latitude,
-                longitude: TEST_LONGITUDE, //position.coords.longitude,
+                //latitude: TEST_LATITUDE, //position.coords.latitude,
+                latitude: position.coords.latitude,
+                //longitude: TEST_LONGITUDE, //position.coords.longitude,
+                longitude: position.coords.longitude,
               },
             }),
           );

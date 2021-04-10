@@ -102,9 +102,9 @@ export function BathesScreenContainer({
     //setUserLocation,
   });
 
-  useEffect(() => {
+  /* useEffect(() => {
     __DEV__ && console.log('[BathesScreen] Bath params', JSON.stringify(params, null, 4));
-  }, [params]);
+  }, [params]); */
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
@@ -244,12 +244,13 @@ export function BathesScreenContainer({
             style={styles.searchInput}
             placeholder="Что вы ищите?"
             onChangeText={(name: string) => {
-              __DEV__ && console.log('[BathesScreen]', name);
-              const newName = String(name).toLowerCase().trim();
-              setSearchName(name);
+              const newName = String(name);
+              setSearchName(newName);
+              const modifiedName = '%' + newName.toLowerCase().trim().replace(' ', '%') + '%';
+              __DEV__ && console.log('[BathesScreen]', modifiedName);
               const newParams: TPartBathParams = {
                 ...params,
-                search_query: newName,
+                search_query: modifiedName,
               };
               switchEnter(newName.length, newParams);
             }}

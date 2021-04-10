@@ -44,7 +44,7 @@ function* getBathSaga({ payload }: IAction) {
 
   try {
     const response: IResult = yield call(methods.getBath, null, bathId);
-    __DEV__ && console.log('[getBathSaga]', JSON.stringify(response, null, 4));
+    //__DEV__ && console.log('[getBathSaga]', JSON.stringify(response, null, 4));
     const bathDetailed: IBathDetailed = {
       ...response.bath,
       schedule: response.schedule,
