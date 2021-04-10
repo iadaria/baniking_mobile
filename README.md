@@ -1,1 +1,4 @@
-# Приложение на React ![dsfNative](/readme/bani2.png)
+# Приложение на React Native 
+
+
+![dsfNative](/readme/bani2.png)
