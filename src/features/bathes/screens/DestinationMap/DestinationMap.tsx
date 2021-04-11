@@ -123,7 +123,7 @@ export function DestinationMap({ route }: IProps) {
   // __DEV__ && console.log('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
     let timeId = setTimeout(() => {
-      map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0, width: windowWidth - 1 } });
+      map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } });
     }, 500);
     timeIds.push(timeId);
   };

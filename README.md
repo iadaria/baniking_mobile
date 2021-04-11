@@ -18,4 +18,9 @@
 ### Анимация, работа с изображениями
 
 
-![dsfNative](/readme/bani1.gif) 
+![Amimation](/readme/bani1.gif) 
+
+### Работа с картой google map
+
+
+![GoogleMap](/readme/bani2.gif) 
