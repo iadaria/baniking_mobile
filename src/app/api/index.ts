@@ -1,15 +1,16 @@
 import axios from 'axios';
+import { HOST_API } from 'react-native-dotenv';
 import {
   TPartBathParams,
   IGooglePlaceParams,
   IDirectionsParams,
   IDistanceParams,
-  IOrderCallParams,
 } from '../models/bath';
+import { log } from '../utils/debug';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
-export const URL_API = 'https://baniking.ru/api/v1';
+export const URL_API = HOST_API;
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.timeout = 120000;
@@ -30,7 +31,9 @@ type TObjToUrl = null | { [key: string]: string | number | Array<number> };
 
 function arrayToQuery(name_array: string, array: any[]) {
   //return array.map((key: any) => name_array + '=' + key).join('&');
-  return array.map((key: any, index: number) => `${name_array}[${index}]=${key}`).join('&');
+  return array
+    .map((key: any, index: number) => `${name_array}[${index}]=${key}`)
+    .join('&');
 }
 
 // const defaultLists = { page: 1, pageSize: 50, order: -1, read: 0 };
@@ -38,20 +41,25 @@ export const objToUrl = (obj: TObjToUrl) => {
   const result = obj
     ? `?${Object.keys(obj)
         //.map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
-        .map((key) => (Array.isArray(obj[key]) ? arrayToQuery(key, obj[key] as any[]) : `${key}=${obj[key]}`))
+        .map((key) =>
+          Array.isArray(obj[key])
+            ? arrayToQuery(key, obj[key] as any[])
+            : `${key}=${obj[key]}`,
+        )
         .join('&')}`
     : '';
 
-  //__DEV__ && console.log('\n[api/index(objToUrl)]', result);
+  //log('\n[api/index(objToUrl)]', result);
   return result;
 };
 
-const request = (method: Methods, _endpoint: string | Function, entity: any) => async (
-  data: null | any,
-  params: any,
-  headers?: any,
-) => {
-  const endpoint = typeof _endpoint === 'function' ? _endpoint(params) : _endpoint;
+const request = (
+  method: Methods,
+  _endpoint: string | Function,
+  entity: any,
+) => async (data: null | any, params: any, headers?: any) => {
+  const endpoint =
+    typeof _endpoint === 'function' ? _endpoint(params) : _endpoint;
 
   try {
     const res = await entity[method](endpoint, data, headers && { headers });
@@ -60,7 +68,7 @@ const request = (method: Methods, _endpoint: string | Function, entity: any) => 
     }
     return res.data || res;
   } catch (error) {
-    __DEV__ && console.log(`%c===> request error: ${method} ${endpoint || ''}\n`, 'color: red; font-weight: 600', error);
+    log(`%c===> request error: ${method} ${endpoint || ''}\n`, error);
 
     throw error.response || error;
   }
@@ -70,6 +78,8 @@ export const methods = {
   // User
   login: request('post', '/login', pubFetch),
   register: request('post', '/register', pubFetch),
+  verify: request('post', '/verification/verify', pubFetch),
+  registerComplete: request('post', '/registration/complete', pubFetch),
   reset: request('post', '/passwords/reset', privFetch),
   // settings
   changePassword: request('put', '/password', privFetch),
@@ -82,7 +92,11 @@ export const methods = {
   // qr
   getQr: request('get', '/cabinet/qr', privFetch),
   // bathes
-  getBathes: request('get', (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`, privFetch),
+  getBathes: request(
+    'get',
+    (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`,
+    privFetch,
+  ),
   getFilterBathes: request('get', '/baths', privFetch),
   getBathParams: request('get', '/baths/params', privFetch),
   getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
@@ -90,19 +104,25 @@ export const methods = {
   getPlaceId: request(
     'get',
     (placeParams: IGooglePlaceParams) =>
-      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json${objToUrl(placeParams)}`,
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json${objToUrl(
+        placeParams,
+      )}`,
     pubFetch,
   ),
   getDirections: request(
     'get',
     (directionParams: IDirectionsParams) =>
-      `https://maps.googleapis.com/maps/api/directions/json${objToUrl(directionParams)}`,
+      `https://maps.googleapis.com/maps/api/directions/json${objToUrl(
+        directionParams,
+      )}`,
     pubFetch,
   ),
   getDistance: request(
     'get',
     (distanceParams: IDistanceParams) =>
-      `https://maps.googleapis.com/maps/api/distancematrix/json${objToUrl(distanceParams)}`,
+      `https://maps.googleapis.com/maps/api/distancematrix/json${objToUrl(
+        distanceParams,
+      )}`,
     pubFetch,
   ),
   // orderCall

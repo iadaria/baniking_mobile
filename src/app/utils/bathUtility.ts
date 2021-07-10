@@ -1,4 +1,4 @@
-import { GOOGLE_API } from '@env';
+import { GOOGLE_API } from 'react-native-dotenv';
 import { Dimensions } from 'react-native';
 import ImageResizer, { Response } from 'react-native-image-resizer';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -35,7 +35,9 @@ export function checkPhotos(photos: string[]): string[] {
   return correctPhotos;
 }
 
-export function cleanFilterParams(bathParams: TPartBathParams): TPartBathParams {
+export function cleanFilterParams(
+  bathParams: TPartBathParams,
+): TPartBathParams {
   const { search_query, sort_field, sort_type } = bathParams;
   const cleanedFilterParams: TPartBathParams = {
     steam_rooms_ids: [],
@@ -52,7 +54,9 @@ export function cleanFilterParams(bathParams: TPartBathParams): TPartBathParams 
   return cleanedFilterParams;
 }
 
-export function initializeFilterParams(bathParams: TPartBathParams): TPartBathParams {
+export function initializeFilterParams(
+  bathParams: TPartBathParams,
+): TPartBathParams {
   const { steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
   const initializedFilterParams: TPartBathParams = {
     steam_rooms_ids: steam_rooms_ids || [],
@@ -73,18 +77,29 @@ export function initializeFilterParams(bathParams: TPartBathParams): TPartBathPa
 
 export function calculateFilterCount(bathParams: TPartBathParams): number {
   let filterCount = 0;
-  bathParams?.steam_rooms_ids && (filterCount += bathParams.steam_rooms_ids?.length);
+  bathParams?.steam_rooms_ids &&
+    (filterCount += bathParams.steam_rooms_ids?.length);
   bathParams?.services_ids && (filterCount += bathParams.services_ids.length);
   bathParams?.zones_ids && (filterCount += bathParams.zones_ids.length);
   bathParams?.types && (filterCount += bathParams.types.length);
   return filterCount;
 }
 
-export const getScheduleCurrentWeek = (schedule: Partial<ISchedule>): [string, string | null] => {
+export const getScheduleCurrentWeek = (
+  schedule: Partial<ISchedule>,
+): [string, string | null] => {
   if (schedule.is_round_the_clock) {
     return ['', null];
   }
-  const arrayOfWeekdays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+  const arrayOfWeekdays = [
+    'Воскресенье',
+    'Понедельник',
+    'Вторник',
+    'Среда',
+    'Четверг',
+    'Пятница',
+    'Суббота',
+  ];
   const arrayOfWeekdaysShort = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
 
   const dateObj = new Date();
@@ -110,10 +125,15 @@ export const getRandomBathImage = () => {
   return images[randomDigit];
 };
 
-export const isNonRating = (rating: number) => ['0', '0.0'].indexOf(String(rating)) !== -1;
+export const isNonRating = (rating: number) =>
+  ['0', '0.0'].indexOf(String(rating)) !== -1;
 
-export const cacheImage = async (image: string, size?: number): Promise<Response> => {
-  const width = size || Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
+export const cacheImage = async (
+  image: string,
+  size?: number,
+): Promise<Response> => {
+  const width =
+    size || Dimensions.get('screen').width - wp(sizes.offset.base) * 2;
   return await ImageResizer.createResizedImage(image, width, width, 'PNG', 100);
 };
 
@@ -122,7 +142,11 @@ export const cacheAvatar = async (avatar: string): Promise<Response> => {
 };
 
 // Меняем размер если задан и кэшируем - по умолчаиню размер - это ширина экрана
-export const cacheImages = async (images: string[], set: string[], size?: number): Promise<IPersistImage[]> => {
+export const cacheImages = async (
+  images: string[],
+  set: string[],
+  size?: number,
+): Promise<IPersistImage[]> => {
   const cachedImages: IPersistImage[] = [];
   for (let i = 0; i < images.length; i++) {
     const fileNameExtension = getFileName(images[i]);
@@ -142,17 +166,25 @@ export const cacheImages = async (images: string[], set: string[], size?: number
   return cachedImages;
 };
 
-export const isCachedImage = (image: string, set: string[]): [boolean, number] => {
+export const isCachedImage = (
+  image: string,
+  set: string[],
+): [boolean, number] => {
   const fileNameExtension = getFileName(image);
   const fileName = replaceExtension(fileNameExtension, '');
   const indexOf = set.indexOf(fileName);
   return [indexOf !== -1, indexOf];
 };
 
-export async function getDirections(params: TPartDirectionsParams): Promise<[number, string]> {
+export async function getDirections(
+  params: TPartDirectionsParams,
+): Promise<[number, string]> {
   const newParams = { ...params, key: GOOGLE_API };
   try {
-    const { geocoded_waypoints, routes }: IDirectionsResponse = await methods.getDirections(null, newParams);
+    const {
+      geocoded_waypoints,
+      routes,
+    }: IDirectionsResponse = await methods.getDirections(null, newParams);
     if (
       geocoded_waypoints.length > 1 &&
       geocoded_waypoints[0].geocoder_status === 'OK' &&
@@ -167,10 +199,15 @@ export async function getDirections(params: TPartDirectionsParams): Promise<[num
   return [0, ''];
 }
 
-export async function getPoints(params: TPartDirectionsParams): Promise<string | null> {
+export async function getPoints(
+  params: TPartDirectionsParams,
+): Promise<string | null> {
   const newParams = { ...params, key: GOOGLE_API };
   try {
-    const { geocoded_waypoints, routes }: IDirectionsResponse = await methods.getDirections(null, newParams);
+    const {
+      geocoded_waypoints,
+      routes,
+    }: IDirectionsResponse = await methods.getDirections(null, newParams);
     if (
       geocoded_waypoints.length > 1 &&
       geocoded_waypoints[0].geocoder_status === 'OK' &&
@@ -185,10 +222,15 @@ export async function getPoints(params: TPartDirectionsParams): Promise<string |
   return null;
 }
 
-export async function getDistance(params: TPartDistanceParams): Promise<number | null> {
+export async function getDistance(
+  params: TPartDistanceParams,
+): Promise<number | null> {
   const newParams = { ...params, key: GOOGLE_API, units: 'metric' };
   try {
-    const { rows, status }: IDistanceResponse = await methods.getDistance(null, newParams);
+    const { rows, status }: IDistanceResponse = await methods.getDistance(
+      null,
+      newParams,
+    );
     if (status === 'OK' && rows[0].elements[0].status === 'OK') {
       const { distance } = rows[0].elements[0];
       return distance.value;
@@ -211,7 +253,8 @@ var rad = function (x: number) {
 };
 
 export const isLatitude = (num: number) => isFinite(num) && Math.abs(num) <= 90;
-export const isLongitude = (num: number) => isFinite(num) && Math.abs(num) <= 180;
+export const isLongitude = (num: number) =>
+  isFinite(num) && Math.abs(num) <= 180;
 
 export function calculateDistance(props: IDistance) {
   const { lant1, long1, lant2, long2 } = props;
@@ -220,7 +263,10 @@ export function calculateDistance(props: IDistance) {
   var dLong = rad(long2 - long1);
   var a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(rad(lant1)) * Math.cos(rad(lant2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    Math.cos(rad(lant1)) *
+      Math.cos(rad(lant2)) *
+      Math.sin(dLong / 2) *
+      Math.sin(dLong / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
   return d; // returns the distance in meter

@@ -115,6 +115,7 @@ export default function authReducer(
         errors: payload,
       };
 
+    case constants.REQUEST_SUCCESS:
     case constants.AUTH_SUCCESS:
       return {
         ...state,

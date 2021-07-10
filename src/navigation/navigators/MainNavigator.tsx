@@ -71,7 +71,11 @@ function MainNavigatorContainer({
 
   return (
     <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
-      <Main.Screen options={{ headerShown: false }} name="AuthNavigator" component={AuthNavigator} />
+      <Main.Screen
+        options={{ headerShown: false }}
+        name="AuthNavigator"
+        component={AuthNavigator}
+      />
       <Main.Screen
         options={({ navigation, route }: IScreenOptionsProps) => {
           return appScreenOptions({

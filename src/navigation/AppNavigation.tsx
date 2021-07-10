@@ -1,30 +1,27 @@
 import React, { useEffect } from 'react';
-import store from '~/src/app/store';
-import { checkAuth } from '~/src/features/auth/store/authActions';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import { heightScreen } from '~/src/app/common/constants/platform';
+import store from '~/src/app/store';
 import MainNavigator from '~/src/navigation/navigators/MainNavigator';
-import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
-import { appDefaultTheme } from './components/appDefaultTheme';
 import ModalManager from '~/src/app/common/modals/ModalManager';
 import Network from '~/src/app/common/components/Network';
-// import i18next from 'i18next';
-// import { initLanguage } from '../i18n';
+import { checkAuth } from '~/src/features/auth/store/authActions';
+import { heightScreen } from '~/src/app/common/constants/platform';
+import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
+import { appDefaultTheme } from './components/appDefaultTheme';
+import { logline } from '../app/utils/debug';
 
 //LogBox.ignoreLogs(['Require cycle:']);
 
 export default function AppNavigation() {
   const initialize = async (): Promise<void> => {
-    __DEV__ && console.log('\n[heightScreen]', heightScreen);
-    // await initLanguage();
+    logline('\n[heightScreen]', heightScreen);
     store.dispatch(checkAuth());
   };
 
   useEffect(() => {
     initialize();
-    // return () => i18next.off('languageChanged');
   }, []);
 
   return (

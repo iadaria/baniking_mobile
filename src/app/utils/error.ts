@@ -17,7 +17,9 @@ export interface IErrors {
   [key: string]: string;
 }
 
-export const getErrorStrings = (error: IResponseError): [IErrors | null, string, string?] => {
+export const getErrorStrings = (
+  error: IResponseError,
+): [IErrors | null, string, string?] => {
   //const errors: string[] = [];
   let errors: IErrors | null = {};
   let allErrors: string = '';
@@ -41,37 +43,6 @@ export const getErrorStrings = (error: IResponseError): [IErrors | null, string,
     }
     // values.map((_error: string[]) => errors[](..._error));
   }
-
-  /* if (error.local) {
-    return [[''], error.local];
-  }
-  if (!error.data) {
-    return [errors, firstErrorMsg];
-  }
-
-  if (error.data.meta && !error.data.meta.success && error.data.meta.message) {
-    errors.push(error.data.meta.message);
-    return [errors, firstErrorMsg];
-  }
-
-  if (!error.data.data) {
-    return [errors, firstErrorMsg];
-  }
-  if (typeof error.data.data !== 'object') {
-    return [errors, firstErrorMsg];
-  }
-  if (!error.data.data.length) {
-    return [errors, firstErrorMsg];
-  }
-
-  error.data.data.forEach((element) => {
-    if (!firstErrorMsg && element.msg) {
-      firstErrorMsg = element.msg;
-    }
-    if (element.param) {
-      errors.push(element.param);
-    }
-  }); */
 
   return [errors, firstErrorMsg, allErrors];
 };

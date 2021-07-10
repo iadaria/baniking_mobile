@@ -1,4 +1,8 @@
-import { ICredential, SocialProvider } from '~/src/app/models/user';
+import {
+  ICredential,
+  SocialProvider,
+  VerifyPayload,
+} from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
@@ -13,6 +17,11 @@ export const checkAuth = () => ({
 
 export const emailRegister = (payload: Partial<ICredential>) => ({
   type: constants.EMAIL_REGISTER,
+  payload: payload,
+});
+
+export const verify = (payload: VerifyPayload) => ({
+  type: constants.VERIFY,
   payload: payload,
 });
 
@@ -62,6 +71,9 @@ export const authFail = (errors: IErrors | null) => ({
 
 export const authSuccess = () => ({
   type: constants.AUTH_SUCCESS,
+});
+export const requestSuccess = () => ({
+  type: constants.REQUEST_SUCCESS,
 });
 
 export const authLogout = () => ({

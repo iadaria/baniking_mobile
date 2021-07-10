@@ -45,20 +45,26 @@ interface InputValidationStateProps {
   touched: boolean;
 }
 
-export function getValidatedInput({ input, value, touched }: InputValidationStateProps): IInput {
+export function getValidatedInput({
+  input,
+  value,
+  touched,
+}: InputValidationStateProps): IInput {
   // __DEV__ && console.log(`[getValidatedInput] touched = ${touched} and input.touched = ${input.touched}`);
   return {
     ...input,
     value,
-    errorLabel: input?.optional ? null : validateInput({ type: input.type, value }),
+    errorLabel: input?.optional
+      ? null
+      : validateInput({ type: input.type, value }),
     touched: touched, //|| input.touched,
   };
 }
 
-export function initInputs<T extends { [key: string]: IInput }, V extends { [key: string]: any }>(
-  defaultInit: T,
-  values: V,
-) {
+export function initInputs<
+  T extends { [key: string]: IInput },
+  V extends { [key: string]: any }
+>(defaultInit: T, values: V) {
   const newInput = defaultInit;
   for (const key of Object.keys(defaultInit)) {
     if (values.hasOwnProperty(key)) {
@@ -68,10 +74,10 @@ export function initInputs<T extends { [key: string]: IInput }, V extends { [key
   return newInput;
 }
 
-export function setErrors<T extends { [key: string]: IInput }, V extends { [key: string]: any }>(
-  defaultInit: T,
-  values: V,
-) {
+export function setErrors<
+  T extends { [key: string]: IInput },
+  V extends { [key: string]: any }
+>(defaultInit: T, values: V) {
   const newInput = defaultInit;
   for (const key of Object.keys(defaultInit)) {
     if (values.hasOwnProperty(key)) {

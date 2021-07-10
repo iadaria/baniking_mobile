@@ -14,6 +14,7 @@ import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 import { styles } from './styles';
+import { log } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -38,7 +39,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         persist: isPersist,
       };
 
-      __DEV__ && console.log('***** data *******', data);
+      log('***** data *******', data);
       emailLogin(data);
       setRecreate(!recreate);
     }
@@ -64,7 +65,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </AppText>
       </Block>
       <AppInput
-        style={{ borderRadius: 10/* , paddingLeft: wp(30) */ }}
+        style={{ borderRadius: 10 /* , paddingLeft: wp(30) */ }}
         id="login"
         placeholder="Введите e-mail"
         maxLength={50}
@@ -83,7 +84,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
         </TouchableOpacity>
       </Block>
       <AppInput
-        style={{ borderRadius: 10,  /* paddingLeft: wp(30) */}}
+        style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password"
         placeholder="Введите пароль "
         maxLength={50}
@@ -92,7 +93,10 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
       />
       <Block margin={[2, 0, 3]} row center middle>
         <TouchableOpacity onPress={setIsPersist.bind(null, !isPersist)}>
-          <SwitcherIcon width={23 * multiplier} fill={isPersist ? colors.secondary : colors.caption} />
+          <SwitcherIcon
+            width={23 * multiplier}
+            fill={isPersist ? colors.secondary : colors.caption}
+          />
         </TouchableOpacity>
         {/* Gelroy medium 14 */}
         <Block row wrap margin={[0, 0, 0, 2]}>

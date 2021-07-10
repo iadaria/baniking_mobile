@@ -17,7 +17,11 @@ function* getBathParamsSaga() {
     return;
   } */
   try {
-    const params: IBathParamsResponse = yield call(methods.getBathParams, null, null);
+    const params: IBathParamsResponse = yield call(
+      methods.getBathParams,
+      null,
+      null,
+    );
     //__DEV__ && console.log({ params });
     const paramsVariety: IBathParamsVariety = {
       types: params.types,

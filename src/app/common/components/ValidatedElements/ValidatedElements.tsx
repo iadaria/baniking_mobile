@@ -6,7 +6,7 @@ import { IAppInputProps } from '~/src/app/models/ui';
 import { IErrors } from '~/src/app/utils/error';
 import { IAppCheckerProps } from '../UI/AppChecker';
 
-interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
+interface IChild<T> extends JSX.Element, IAppInputProps<T> { }
 
 interface IProps<T, V> {
   children?: ReactNode;
@@ -43,14 +43,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   useEffect(() => {
     return () => {
-      __DEV__ && console.log('[ValidatedElements/useEffect/timeIds change]', timeIds);
+      //__DEV__ && console.log('[ValidatedElements/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    __DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    //__DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;

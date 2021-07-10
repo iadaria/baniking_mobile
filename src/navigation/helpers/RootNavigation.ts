@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StackActions } from '@react-navigation/native';
 
 export const navigationRef: React.RefObject<any> = React.createRef<any>();
 
@@ -17,6 +18,13 @@ export function resetRoot(name: string) {
   });
 }
 
+export const reset = (name: string, index = 0): void => {
+  navigationRef.current?.reset({
+    index,
+    routes: [{ name }],
+  });
+};
+
 export function goBack() {
   navigationRef.current?.goBack();
 }
@@ -30,6 +38,11 @@ export function getCurrentRoute() {
   return route;
 }
 
-/* export function toTop() {
-  navigationRef.current?.popToTop();
-} */
+export const goBackOrToScreen = (screenName: string): void =>
+  navigationRef.current?.canGoBack()
+    ? navigationRef.current?.goBack()
+    : navigationRef.current?.navigate(screenName, null);
+
+export const popToTop = (): void => {
+  navigationRef.current?.dispatch(StackActions.popToTop());
+};

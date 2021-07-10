@@ -15,6 +15,8 @@ export default {
     LoginScreen: 'LoginScreen',
     RegisterScreen: 'RegisterScreen',
     ResetPasswordScreen: 'ResetPasswordScreen',
+    VerifyScreen: 'VerifyScreen',
+    RegisterCompleteScreen: 'RegisterCompleteScreen',
   },
   profileTab: {
     // ProfileScreen: 'ProfileScreen',

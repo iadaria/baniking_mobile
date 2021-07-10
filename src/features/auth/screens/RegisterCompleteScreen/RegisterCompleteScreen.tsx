@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { AuthLogo } from '~/src/assets';
-import RegisterForm from './RegisterForm';
+import RegisterCompleteForm from './RegisterCompleteForm';
 import SoialLoginBlock from '../components/SocialLoginBlock';
 import { styles } from './styles';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
@@ -27,7 +27,11 @@ interface IProps {
   errors: IErrors | null;
 }
 
-function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
+function RegisterCompleteContainer({
+  navigation,
+  emailRegister,
+  errors,
+}: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollPosition, setScrollPosition] = useState<number | undefined>();
 
@@ -49,7 +53,8 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
             <AuthLogo width={wp(11) * multiplier} />
           </Block>
           <Block style={styles.list} full base white>
-            <RegisterForm
+            {/* Form */}
+            <RegisterCompleteForm
               scrollViewRef={scrollViewRef}
               emailRegister={emailRegister}
               scrollPosition={scrollPosition}
@@ -62,7 +67,8 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
               <AppText primary center>
                 Уже зарегистрированы?
               </AppText>
-              <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('LoginScreen')}>
                 <AppText secondary> Войдите</AppText>
               </TouchableOpacity>
             </Block>
@@ -73,13 +79,13 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
   );
 }
 
-const RegisterConnected = connect(
+const RegisterCompleteConnected = connect(
   ({ auth }: IRootState) => ({
     errors: auth.errors,
   }),
   {
     emailRegister: emailRegisterAction,
   },
-)(RegisterContainer);
+)(RegisterCompleteContainer);
 
-export { RegisterConnected as RegisterScreen };
+export { RegisterCompleteConnected as RegisterCompleteScreen };

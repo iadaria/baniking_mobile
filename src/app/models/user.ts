@@ -1,3 +1,9 @@
+export type VerifyPayload = {
+  phone: string;
+  action: 0 | 1;
+  code: string;
+};
+
 export interface IPersistUser {
   email: string;
   name: string;

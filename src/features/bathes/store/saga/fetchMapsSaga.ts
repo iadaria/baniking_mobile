@@ -1,4 +1,4 @@
-import { GOOGLE_API } from '@env';
+import { GOOGLE_API } from 'react-native-dotenv';
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import { IBath, IDistanceResponse, IMap, TPartDistanceParams } from '~/src/app/models/bath';

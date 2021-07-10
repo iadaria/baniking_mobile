@@ -9,6 +9,9 @@ export const GOOGLE_LOGIN = 'auth/GOOGLE_LOGIN';
 export const YANDEX_LOGIN = 'auth/YANDEX_LOGIN';
 // register
 export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
+export const PHONE_REGISTER = 'auth/PHONE_REGISTER';
+export const VERIFY = 'auth/VERIFY';
+export const COMPLETE_REGISTER = 'auth/COMPLETE_REGISTER';
 // reset
 export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
 export const RESET_PASSWORD = 'auth/RECOVERY_PASSWORD';
@@ -25,3 +28,4 @@ export const CONFIRM_PASSWORD = 'auth/CONFIRM_PASSWORD';
 export const AUTH_FAIL = 'auth/AUTH_FAIL';
 export const AUTH_SUCCESS = 'auth/AUTH_SUCCESS';
 export const CHECK_AUTH = 'auth/CHECK_AUTH';
+export const REQUEST_SUCCESS = 'auth/REQUEST_SUCCESS';

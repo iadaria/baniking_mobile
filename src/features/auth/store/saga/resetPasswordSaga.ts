@@ -6,6 +6,7 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { authSuccess } from '../authActions';
 import { RESET_PASSWORD } from '../authConstants';
 import routes from '~/src/navigation/helpers/routes';
+import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
   type: string;
@@ -15,15 +16,15 @@ interface IAction {
 function* resetPasswordSaga({ payload }: IAction) {
   try {
     const response = yield methods.reset({ email: payload }, null);
-    __DEV__ && console.log('[Auth reset password] response = ', response);
+    logline('[Auth reset password] response = ', response);
     yield put(authSuccess());
     yield RootNavigation.navigate(routes.authNavigator.LoginScreen);
   } catch (e) {
-    __DEV__ && console.log(JSON.stringify(e, null, 4));
+    log('[resetPassword]', JSON.stringify(e, null, 4));
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
-    __DEV__ && console.log([errors, message, allErrors]);
+    log('[resetPassword]', [errors, message, allErrors]);
 
     const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
 

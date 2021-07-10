@@ -88,4 +88,23 @@ export const validationDictionary = {
       message: '^Внесено некорректное значение',
     },
   },
+
+  action: {
+    presence: true,
+    inclusion: {
+      within: [0, 1],
+      message: '^Поле обязательно для выбора',
+    },
+  },
+
+  code: {
+    presence: {
+      allowEmpty: false,
+      message: '^Поле обязательно для заполнения',
+    },
+    format: {
+      pattern: /^([0-9]{4})$/,
+      message: '^Год состоять из 4 цифр',
+    },
+  },
 };

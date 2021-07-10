@@ -5,10 +5,11 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { CHECK_AUTH } from '../authConstants';
 import routes from '~/src/navigation/helpers/routes';
 import { setAuthToken } from '../authActions';
+import { logline } from '~/src/app/utils/debug';
 
 function* checkAuthSaga() {
   const token: string | null = yield select((state: IRootState) => state.persist.token);
-  __DEV__ && console.log('[checkAuthSaga] token = ', token);
+  logline('[checkAuthSaga] token = ', token);
   if (token) {
     yield tokenToHeaders(token);
     yield put(setAuthToken(token));
