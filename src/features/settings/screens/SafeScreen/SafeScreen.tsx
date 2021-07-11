@@ -1,5 +1,10 @@
 import React from 'react';
-import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import {
+  AppButton,
+  AppInput,
+  AppText,
+  Block,
+} from '~/src/app/common/components/UI';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { changePassword as changePasswordAction } from '~/src/features/settings/store/settingsActions';
 import { IChangePassword } from '~/src/app/models/settings';
@@ -18,7 +23,12 @@ interface IProps {
   route: Route<string, object | undefined>;
 }
 
-function SafeScreenContainer({ changePassword, errors, navigation, route }: IProps) {
+function SafeScreenContainer({
+  changePassword,
+  errors,
+  navigation,
+  route,
+}: IProps) {
   // const [recreate, setRecreate] = React.useState<boolean>(true);
   const valuesRef = React.useRef<IChangePassword>({
     current_password: '',
@@ -45,11 +55,22 @@ function SafeScreenContainer({ changePassword, errors, navigation, route }: IPro
         <AppText style={styles.label} semibold>
           Пароль
         </AppText>
-        <AppInput style={styles.input} id="current_password" placeholder="Старный пароль" maxLength={16} secure />
+        <AppInput
+          style={styles.input}
+          id="current_password"
+          placeholder="Старный пароль"
+          maxLength={16}
+          secure
+        />
         <AppText style={styles.label} semibold>
           Новый пароль
         </AppText>
-        <AppInput style={styles.input} id="new_password" placeholder="Новый пароль" maxLength={16} />
+        <AppInput
+          style={styles.input}
+          id="new_password"
+          placeholder="Новый пароль"
+          maxLength={16}
+        />
         <AppText style={styles.label} semibold>
           Повторить новый пароль
         </AppText>

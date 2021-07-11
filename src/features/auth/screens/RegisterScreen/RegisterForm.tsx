@@ -2,7 +2,13 @@ import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { AppChecker, AppInput, AppOpenURL, AppText, Block } from '~/src/app/common/components/UI';
+import {
+  AppChecker,
+  AppInput,
+  AppOpenURL,
+  AppText,
+  Block,
+} from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { ICredential } from '~/src/app/models/user';
@@ -10,8 +16,7 @@ import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 import { sizes } from '~/src/app/common/constants';
-import { styles } from './styles';
-// import i18next from 'i18next';
+import { log } from '~/src/app/utils/debug';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
@@ -19,7 +24,7 @@ const supportedURLOne = 'https://google.com';
 interface IProps {
   // navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  emailRegister: (props: Partial<ICredential>) => void;
+  phoneRegister: (props: Partial<ICredential>) => void;
   scrollPosition?: number;
   errors: IErrors | null;
 }
@@ -29,11 +34,23 @@ const AgreementText = () => (
     <AppText primary medium size={sizes.text.label}>
       Я согласен с
     </AppText>
-    <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" правилами сайта " />
+    <AppOpenURL
+      secondary
+      medium
+      size={sizes.text.label}
+      url={supportedURLOne}
+      title=" правилами сайта "
+    />
     <AppText primary medium size={sizes.text.label}>
       и
     </AppText>
-    <AppOpenURL secondary medium size={sizes.text.label} url={supportedURLOne} title=" политикой " />
+    <AppOpenURL
+      secondary
+      medium
+      size={sizes.text.label}
+      url={supportedURLOne}
+      title=" политикой "
+    />
     <AppOpenURL
       secondary
       medium
@@ -44,9 +61,19 @@ const AgreementText = () => (
   </Block>
 );
 
-export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosition, errors }: IProps) {
+export default function RegisterForm({
+  scrollViewRef,
+  phoneRegister,
+  scrollPosition,
+  errors,
+}: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<ICredential>>({ name: '', email: '', phone: '', agreement: true });
+  const valuesRef = React.useRef<Partial<ICredential>>({
+    name: '',
+    email: '',
+    phone: '',
+    agreement: true,
+  });
   // const [enableShift, setEnableShift] = React.useState(false);
 
   async function handleSubmit() {
@@ -59,8 +86,8 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
       agreement: valuesRef.current.agreement,
     };
 
-    __DEV__ && console.log('***** data *******', data);
-    emailRegister(data);
+    log('***** data *******', data);
+    phoneRegister(data);
     setRecreate(!recreate);
   }
 
@@ -87,7 +114,7 @@ export default function RegisterForm({ scrollViewRef, emailRegister, scrollPosit
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10/* , paddingLeft: wp(30) */ }}
+        style={{ borderRadius: 10 /* , paddingLeft: wp(30) */ }}
         id="name"
         placeholder="Введите имя"
         maxLength={16}

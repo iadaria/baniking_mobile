@@ -10,7 +10,10 @@ import {
 } from '~/src/navigation/navigators';
 import { AppDrawerItem } from '../components/AppDrawerItem';
 import { AppDrawerContent } from '../components/AppDrawerContent';
-import { appDrawerItemStyle, appDrawerStyle } from '../components/appDefaultTheme';
+import {
+  appDrawerItemStyle,
+  appDrawerStyle,
+} from '../components/appDefaultTheme';
 import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -31,7 +34,9 @@ interface IScreenOptionsProps {
 
 export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
   const { authenticated } = useSelector((state: IRootState) => state.auth);
-  const { isTransparent } = useSelector((state: IRootState) => state.system.header);
+  const { isTransparent } = useSelector(
+    (state: IRootState) => state.system.header,
+  );
   const multiMargin = isTransparent ? 4 : 1;
 
   useEffect(() => {
@@ -63,35 +68,45 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
         name="ProfileTab"
         component={ProfileNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Личный кабинет" {...props} />,
+          drawerLabel: (props: ILabelProps) => (
+            <AppDrawerItem text="Личный кабинет" {...props} />
+          ),
         }}
       />
       <Drawer.Screen
         name="BathesTab"
         component={BathesNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Каталог бань" {...props} />,
+          drawerLabel: (props: ILabelProps) => (
+            <AppDrawerItem text="Каталог бань" {...props} />
+          ),
         }}
       />
       <Drawer.Screen
         name="MeetingsTab"
         component={MeetingsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Собрания" {...props} />,
+          drawerLabel: (props: ILabelProps) => (
+            <AppDrawerItem text="Собрания" {...props} />
+          ),
         }}
       />
       <Drawer.Screen
         name="ReceiptsTab"
         component={ReceiptsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Чеки" {...props} />,
+          drawerLabel: (props: ILabelProps) => (
+            <AppDrawerItem text="Чеки" {...props} />
+          ),
         }}
       />
       <Drawer.Screen
         name="SettingsTab"
         component={SettingsNavigator}
         options={{
-          drawerLabel: (props: ILabelProps) => <AppDrawerItem text="Настройки" {...props} />,
+          drawerLabel: (props: ILabelProps) => (
+            <AppDrawerItem text="Настройки" {...props} />
+          ),
         }}
       />
       <Drawer.Screen
@@ -101,7 +116,9 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
           (/* props: IScreenOptionsProps */) => {
             // __DEV__ && console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
             return {
-              drawerLabel: (props: ILabelProps) => <AppDrawerItem text="QR" {...props} />,
+              drawerLabel: (props: ILabelProps) => (
+                <AppDrawerItem text="QR" {...props} />
+              ),
             };
           }
         }

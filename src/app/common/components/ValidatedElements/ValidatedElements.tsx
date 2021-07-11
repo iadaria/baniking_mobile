@@ -57,14 +57,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   useEffect(() => {
     return () => {
-      //__DEV__ && console.log('[ValidatedElements/useEffect/timeIds change]', timeIds);
+      // logline('[ValidatedElements/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    //__DEV__ && console.log(`[ValidateElements/${nameForm}/useEffect]`, JSON.stringify(inputs, null, 4));
+    log(`[ValidateElements/${nameForm}/useEffect]`, inputs);
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -92,7 +92,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     /* const cv =
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
       ` allRequire = ${_allRequired} --------- `; */
-    //logline(cv);
+    // logline(cv);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs, initialized]);

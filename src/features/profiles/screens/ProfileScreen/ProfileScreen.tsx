@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, ImageBackground, ActivityIndicator, Image } from 'react-native';
-import { AppInput, AppText, Block, AppButton } from '~/src/app/common/components/UI';
+import {
+  ScrollView,
+  TouchableOpacity,
+  ImageBackground,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import { connect } from 'react-redux';
+import {
+  AppInput,
+  AppText,
+  Block,
+  AppButton,
+} from '~/src/app/common/components/UI';
 import { askLogout as askLogoutAction } from '~/src/features/persist/store/appPersistActions';
 import {
   getProfileSettings as getProfileSettingsAction,
@@ -10,34 +21,35 @@ import {
   sendProfileSettings as sendProfileSettingsAction,
 } from '~/src/features/profiles/store/profileActions';
 import { Sex, TAcceptTypeAvatar } from '~/src/app/models/profile';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { IProfile } from '~/src/app/models/profile';
 import { AvatarMenu } from './AvatarMenu';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { SexSwitch } from './SexSwitch';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
-import { IProfileInputs } from '../contracts/profileInputs';
 import { AvatarIcon } from '~/src/assets';
-import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
-import { colors } from '~/src/app/common/constants/colors';
-import { styles } from './styles';
-import { IUploadAvatar } from '~/src/app/models/profile';
 import { getImageExtension } from '~/src/app/utils/system';
+import { colors } from '~/src/app/common/constants/colors';
+import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
+import { IProfileInputs } from '../contracts/profileInputs';
+import { IUploadAvatar } from '~/src/app/models/profile';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { IProfile } from '~/src/app/models/profile';
 import { IErrors } from '~/src/app/utils/error';
+import { log, logline } from '~/src/app/utils/debug';
+import { styles } from './styles';
 
 interface IProps {
-  logout: () => void;
-  getProfile: () => void;
   currentProfile: IProfile | null;
   loading: boolean;
-  initProfileInputs: (profileSettings: IProfile) => void;
   defaultProfileInputs: IProfileInputs;
-  sendProfile: (profileSettings: Partial<IProfile>) => void;
-  uploadAvatar: (file: IUploadAvatar) => void;
   errors: {
     profile: IErrors | null;
     avatar: IErrors | null;
   };
+  logout: () => void;
+  getProfile: () => void;
+  initProfileInputs: (profileSettings: IProfile) => void;
+  sendProfile: (profileSettings: Partial<IProfile>) => void;
+  uploadAvatar: (file: IUploadAvatar) => void;
 }
 
 function ProfileScreenContainer({
@@ -68,7 +80,7 @@ function ProfileScreenContainer({
   const [sex, setSex] = useState<Sex>(initSex!);
 
   function handleSaveSettings() {
-    __DEV__ && console.log('******** current values', valuesRef);
+    logline('******** current values', valuesRef);
     if (valuesRef?.current) {
       sendProfile({
         name: valuesRef.current?.name,
@@ -80,13 +92,12 @@ function ProfileScreenContainer({
       });
     }
     if (avatarIsChanged) {
-      __DEV__ && console.log('avatar changed **** ');
+      logline('', 'avatar changed **** ');
       uploadAvatar(avatarImage);
     }
   }
 
   useEffect(() => {
-    // __DEV__ && console.log('[BaseSettingsScreen/useEffect] getProfileSettings()'); // del
     getProfile();
   }, [getProfile]);
 
@@ -94,14 +105,14 @@ function ProfileScreenContainer({
     if (currentProfile) {
       initProfileInputs(currentProfile);
       setSex(currentProfile.sex);
-      __DEV__ && console.log('currentPfoieSettings', JSON.stringify(currentProfile, null, 2));
+      log('currentPfoieSettings', currentProfile);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentProfile, initProfileInputs]);
 
   useEffect(() => {
     if (currentProfile?.avatar) {
-      __DEV__ && console.log('ProfileScreen/useEffect/curreProfile] set image');
+      logline('', 'ProfileScreen/useEffect/curreProfile] set image');
       const _image = currentProfile.avatar;
       Image.getSize(_image, (width: number, height: number) => {
         setAvatarImage({
@@ -123,8 +134,7 @@ function ProfileScreenContainer({
   }, [currentProfile?.avatar]);
 
   useEffect(() => {
-    const cv = JSON.stringify(avatarImage, null, 2);
-    __DEV__ && console.log('[ProfileScreen/useEffect/currentProfile] avatarImage=', cv);
+    log('[ProfileScreen/useEffect/currentProfile] avatarImage=', avatarImage);
   }, [avatarImage]);
 
   if (loading) {
@@ -237,7 +247,9 @@ function ProfileScreenContainer({
           <AppText style={styles.label} semibold>
             Аватарка
           </AppText>
-          <TouchableOpacity style={styles.avatar} onPress={setShowMenu.bind(null, true)}>
+          <TouchableOpacity
+            style={styles.avatar}
+            onPress={setShowMenu.bind(null, true)}>
             <ImageBackground
               style={styles.avatarImage}
               imageStyle={{ borderRadius: 50 }}
