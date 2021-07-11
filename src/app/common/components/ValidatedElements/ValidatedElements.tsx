@@ -1,10 +1,24 @@
-import React, { MutableRefObject, useRef, useState, RefObject, useEffect, ReactNode } from 'react';
+import React, {
+  MutableRefObject,
+  useRef,
+  useState,
+  RefObject,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { getValidatedInput } from '~/src/app/utils/validate';
-import { ScrollView, LayoutChangeEvent, TextInput, TouchableOpacity, Platform } from 'react-native';
+import {
+  ScrollView,
+  LayoutChangeEvent,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { IInput } from '~/src/app/models/validate';
 import { IAppInputProps } from '~/src/app/models/ui';
 import { IErrors } from '~/src/app/utils/error';
 import { IAppCheckerProps } from '../UI/AppChecker';
+import { log } from '~/src/app/utils/debug';
 
 interface IChild<T> extends JSX.Element, IAppInputProps<T> { }
 
@@ -78,7 +92,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     /* const cv =
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
       ` allRequire = ${_allRequired} --------- `; */
-    //__DEV__ && console.log(cv);
+    //logline(cv);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs, initialized]);
@@ -97,7 +111,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   useEffect(() => {
     // Если после submit со стороны сервера пришли ошибки - отображаем их
     if (errors) {
-      // __DEV__ && console.log('[ValidateElements] errors execute');
+      // log('[ValidateElements] errors execute');
       const inputsWithErrors = { ...inputs };
       for (const key of Object.keys(inputs)) {
         if (errors.hasOwnProperty(key)) {
@@ -114,12 +128,12 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         scrollToFirstInvalidInput(firstInvalidCoordinate);
       }
     }
-    //__DEV__ && console.log('[ValidateElements/useEffect/errors] errors', { errors });
+    //logline('[ValidateElements/useEffect/errors] errors', { errors });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
   /* useEffect(() => {
-    __DEV__ && console.log(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
+    logline(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
   }, [scrollPosition]); */
 
   function handleAllValidate(): T /* IInputs */ {
@@ -135,7 +149,9 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return updatedInputs;
   }
 
-  function getFirstInvalidInput(validatedInputs: T /* IInputs */): number | null {
+  function getFirstInvalidInput(
+    validatedInputs: T /* IInputs */,
+  ): number | null {
     if (!scrollView) {
       return null;
     }
@@ -143,7 +159,11 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     let firstInvalidCoordinate: number = Infinity;
 
     for (const input of Object.values(validatedInputs)) {
-      if (input.errorLabel && input.yCoordinate && input.yCoordinate < firstInvalidCoordinate!) {
+      if (
+        input.errorLabel &&
+        input.yCoordinate &&
+        input.yCoordinate < firstInvalidCoordinate!
+      ) {
         firstInvalidCoordinate = input.yCoordinate;
         // Don't scrolling if input on the top
         // Скролив в исходное положение
@@ -161,7 +181,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     return Math.trunc(firstInvalidCoordinate);
   }
 
-  function handleInputChange({ id, value }: { id: keyof typeof defaultInputs; value: string | boolean }) {
+  function handleInputChange({
+    id,
+    value,
+  }: {
+    id: keyof typeof defaultInputs;
+    value: string | boolean;
+  }) {
     setInputs({
       ...inputs,
       [id]: getValidatedInput({
@@ -186,16 +212,18 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         _values = { ..._values, [key]: input.value };
       }
       valuesRef.current = _values;
-      //__DEV__ && console.log(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+      // logline(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 
   function scrollToFirstInvalidInput(firstInvalidCoordinate: number) {
     if (
       (firstInvalidCoordinate !== null && !scrollPosition) ||
-      (firstInvalidCoordinate !== null && scrollPosition && scrollPosition > SCROLL_OFFSET_BOTTOM)
+      (firstInvalidCoordinate !== null &&
+        scrollPosition &&
+        scrollPosition > SCROLL_OFFSET_BOTTOM)
     ) {
-      //__DEV__ && console.log('firstInavlidCoordinate', firstInvalidCoordinate);
+      // logline('firstInavlidCoordinate', firstInvalidCoordinate);
       scrollView?.current?.scrollTo({
         x: 0,
         y: firstInvalidCoordinate,
@@ -208,13 +236,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     // Координата поля для ввода
     const yCoordinate = inputs[id]?.yCoordinate;
 
-    const cv = `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`;
-    __DEV__ && console.log(cv);
+    //const cv = `\n[ValidateElements/handleOnFocus] id=${id} yCooridnate=${yCoordinate} pos=${scrollPosition} Detect need scroll?`;
+    //logline(cv);
 
     // Делаем скролл если фокус в поле,которое ниже середины экрана
     if (yCoordinate && yCoordinate > SCROLL_OFFSET_TOP) {
-      //const _new = yCoordinate! - SCROLL_OFFSET_TOP;
-      //__DEV__ && console.log(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`);
+      // const _new = yCoordinate! - SCROLL_OFFSET_TOP;
+      // logline(`[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be ${_new}`);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -225,11 +253,16 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
       }, delay);
       timeIds.push(timeId);
       // Или фокус в поле которое выше середине экрана
-    } else if (scrollPosition && yCoordinate && yCoordinate > 0 && scrollPosition > SCROLL_OFFSET_BOTTOM) {
+    } else if (
+      scrollPosition &&
+      yCoordinate &&
+      yCoordinate > 0 &&
+      scrollPosition > SCROLL_OFFSET_BOTTOM
+    ) {
       const newCoordinat = yCoordinate! - 10;
 
       //const cv = `[ValidateElements/handleOnFocus] id=${id} yCoordinate=${yCoordinate}. Must be scroll to ${newCoordinat}!`;
-      //__DEV__ && console.log(cv);
+      // logline(cv);
       const delay = Platform.OS === 'ios' ? 10 : 150;
       let timeId = setTimeout(() => {
         scrollView?.current?.scrollTo({
@@ -242,7 +275,13 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     }
   };
 
-  function setInputPosition({ ids, value }: { ids: [keyof typeof inputs]; value: number }) {
+  function setInputPosition({
+    ids,
+    value,
+  }: {
+    ids: [keyof typeof inputs];
+    value: number;
+  }) {
     const updatedInputs: T /* IInputs  */ = { ...inputs };
 
     if (value === 0) {
@@ -256,13 +295,16 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
     setInputs({ ...inputs, ...updatedInputs });
   }
 
-  const isTextInput = (child: IChild<T>) => ['AppInput', 'TestTextInput'].includes(child.type.name);
-  const isButton = (child: IChild<T>) => ['AppButton', 'Button'].includes(child.type.name);
-  const isChecker = (child: IChild<T>) => ['AppChecker'].includes(child.type.name);
+  const isTextInput = (child: IChild<T>) =>
+    ['AppInput', 'TestTextInput'].includes(child.type.name);
+  const isButton = (child: IChild<T>) =>
+    ['AppButton', 'Button'].includes(child.type.name);
+  const isChecker = (child: IChild<T>) =>
+    ['AppChecker'].includes(child.type.name);
 
   function renderChildren(): React.ReactNode {
     return React.Children.map(children as IChild<T>[], (child: IChild<T>) => {
-      // __DEV__ && console.log(child.type.name);
+      // logline(child.type.name);
       if (isTextInput(child)) {
         const {
           id /* onFocus */,
@@ -298,7 +340,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         return React.cloneElement(child, {
           isAccept: Boolean(inputs[id!].value),
           onPress: () => {
-            // __DEV__ && console.log('Accept is ', inputs[id!].value);
+            // logline('Accept is ', inputs[id!].value);
             handleInputChange({ id: id!, value: !inputs[id!].value });
           },
         });
