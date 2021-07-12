@@ -4,7 +4,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
-import { emailRegister as emailRegisterAction } from '~/src/features/auth/store/authActions';
+import { phoneRegister as phoneRegisterAction } from '~/src/features/auth/store/authActions';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   NativeScrollEvent,
@@ -23,11 +23,11 @@ import { multiplier } from '~/src/app/common/constants';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  emailRegister: (props: Partial<ICredential>) => void;
+  phoneRegister: (props: Partial<ICredential>) => void;
   errors: IErrors | null;
 }
 
-function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
+function RegisterContainer({ navigation, phoneRegister, errors }: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
   const [scrollPosition, setScrollPosition] = useState<number | undefined>();
 
@@ -51,7 +51,7 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
           <Block style={styles.list} full base white>
             <RegisterForm
               scrollViewRef={scrollViewRef}
-              emailRegister={emailRegister}
+              phoneRegister={phoneRegister}
               scrollPosition={scrollPosition}
               errors={errors}
             />
@@ -62,7 +62,8 @@ function RegisterContainer({ navigation, emailRegister, errors }: IProps) {
               <AppText primary center>
                 Уже зарегистрированы?
               </AppText>
-              <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('LoginScreen')}>
                 <AppText secondary> Войдите</AppText>
               </TouchableOpacity>
             </Block>
@@ -78,7 +79,7 @@ const RegisterConnected = connect(
     errors: auth.errors,
   }),
   {
-    emailRegister: emailRegisterAction,
+    phoneRegister: phoneRegisterAction,
   },
 )(RegisterContainer);
 

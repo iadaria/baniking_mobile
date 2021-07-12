@@ -1,23 +1,18 @@
-import { call, ForkEffect, put, takeLatest } from 'redux-saga/effects';
+import { AxiosResponse } from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import routes from '~/src/navigation/helpers/routes';
-import { ICredential, VerifyPayload } from '~/src/app/models/user';
-import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import {
-  setPersistUserData,
-  setPersistToken,
-} from '~/src/features/persist/store/appPersistActions';
 import {
   requestSuccess,
   setAuthUserData,
 } from '~/src/features/auth/store/authActions';
-import { EMAIL_REGISTER, VERIFY, COMPLETE_REGISTER } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { isSuccessStatus } from '~/src/app/models/response';
+import { methods } from '~/src/app/api';
 import { log, logline } from '~/src/app/utils/debug';
-import axios, { AxiosResponse } from 'axios';
-import { Fail } from '~/src/app/models/response';
-import { isSuccessStatus } from '../../../../app/models/response';
+import { ICredential } from '~/src/app/models/user';
+import { PHONE_REGISTER } from '../authConstants';
 
 // any - what we pass to call
 // second - what we return: void or string(return "done")
@@ -34,7 +29,7 @@ function* registerPhoneSaga({
   payload,
 }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
-    //__DEV__ && console.log('payload *************', payload);
+    log('[registerPhoneSaga] result payload', payload);
 
     const { name, email, phone, agreement, device_name } = payload;
 
@@ -43,9 +38,10 @@ function* registerPhoneSaga({
       { name, email, phone, agreement, device_name },
       null,
     );
-    log('[registerEmailSaga] result', result);
+    log('[registerPhoneSaga] result', result);
     if (isSuccessStatus(result.status)) {
       yield put(requestSuccess());
+      yield put(setAuthUserData({ phone, email, name }));
       yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, null);
       /* if (token) {
         yield tokenToHeaders(token);
@@ -58,7 +54,7 @@ function* registerPhoneSaga({
   } catch (e) {
     //if (axios.isAxiosError(e)) {
     //const error: AxiosResponse<Fail> = e;
-    log('[registerEmailSaga/error]', e);
+    //log('[registerEmailSaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
@@ -72,15 +68,8 @@ function* registerPhoneSaga({
   }
 }
 
-type CompleteRegisterPayload = {
-  phone: string;
-  password: string;
-  password_confirmation: string;
-  device_name: string;
-};
-
 export default function* listener() {
-  yield takeLatest(EMAIL_REGISTER, registerPhoneSaga);
+  yield takeLatest(PHONE_REGISTER, registerPhoneSaga);
 }
 
 /* {

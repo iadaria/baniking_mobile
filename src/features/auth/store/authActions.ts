@@ -1,11 +1,9 @@
-import {
-  ICredential,
-  SocialProvider,
-  VerifyPayload,
-} from '~/src/app/models/user';
+import { ICredential, SocialProvider } from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
+import { VerifyPayload } from './saga/verifySaga';
+import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
 
 // Begin work
 
@@ -20,8 +18,30 @@ export const emailRegister = (payload: Partial<ICredential>) => ({
   payload: payload,
 });
 
+export const phoneRegister = (payload: Partial<ICredential>) => ({
+  type: constants.PHONE_REGISTER,
+  payload: payload,
+});
+
 export const verify = (payload: VerifyPayload) => ({
   type: constants.VERIFY,
+  payload: payload,
+});
+
+export const registerComplete = (payload: CompleteRegisterPayload) => ({
+  type: constants.COMPLETE_REGISTER,
+  payload: payload,
+});
+
+export const initVerifyInputs = (payload: VerifyPayload) => ({
+  type: constants.INIT_VERIFY_INPUTS,
+  payload: payload,
+});
+
+export const initRegisterCompleteInputs = (
+  payload: CompleteRegisterPayload,
+) => ({
+  type: constants.INIT_REGISTER_COMPLETE_INPUTS,
   payload: payload,
 });
 

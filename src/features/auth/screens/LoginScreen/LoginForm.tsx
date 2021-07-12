@@ -1,5 +1,4 @@
 import React from 'react';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
@@ -13,7 +12,6 @@ import { ICredential } from '~/src/app/models/user';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
-import { styles } from './styles';
 import { log } from '~/src/app/utils/debug';
 
 interface IProps {

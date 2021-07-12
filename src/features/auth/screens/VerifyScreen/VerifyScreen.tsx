@@ -25,19 +25,24 @@ export function VerifyScreen({ navigation }: IProps) {
         contentContainerStyle={styles.scrollViewContainer}>
         <Block full>
           {/* Top log */}
-          <Block style={{ flexGrow: 0.7 }} margin={[0, 0, 5 * multiplier]} bottom center>
+          <Block
+            style={{ flexGrow: 0.7 }}
+            margin={[0, 0, 5 * multiplier]}
+            bottom
+            center>
             <AuthLogo width={wp(11) * multiplier} />
           </Block>
           {/* Login Form */}
           <Block style={[{ flexGrow: 1 }, styles.list]} base white>
-
+            {/* Form */}
             <VerifyForm navigation={navigation} scrollViewRef={scrollViewRef} />
 
             <Block margin={[2.4, 0, 0]} row middle>
               <AppText primary center>
                 {'Назад к '}
               </AppText>
-              <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('LoginScreen')}>
                 <AppText secondary>Авторизации</AppText>
               </TouchableOpacity>
             </Block>

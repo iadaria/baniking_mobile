@@ -1,9 +1,3 @@
-export type VerifyPayload = {
-  phone: string;
-  action: 0 | 1;
-  code: string;
-};
-
 export interface IPersistUser {
   email: string;
   name: string;
@@ -74,6 +68,7 @@ export enum Role {
 }
 
 export interface IUserAuth {
+  phone: string;
   name: string;
   email?: string;
   role?: Role;

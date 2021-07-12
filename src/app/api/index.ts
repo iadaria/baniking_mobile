@@ -68,7 +68,7 @@ const request = (
     }
     return res.data || res;
   } catch (error) {
-    log(`%c===> request error: ${method} ${endpoint || ''}\n`, error);
+    //log(`%c===> request error: ${method} ${endpoint || ''}\n`, error);
 
     throw error.response || error;
   }

@@ -1,5 +1,6 @@
 import validatejs from 'validate.js';
 import { IInput } from '~/src/app/models/validate';
+import { logline } from './debug';
 import { validationDictionary } from './validationDictionary';
 
 export function validateInput({ type, value }: IInput) {
@@ -68,7 +69,7 @@ export function initInputs<
   const newInput = defaultInit;
   for (const key of Object.keys(defaultInit)) {
     if (values.hasOwnProperty(key)) {
-      newInput[key].value = values[key] || '';
+      newInput[key].value = values[key] === undefined ? '' : values[key];
     }
   }
   return newInput;

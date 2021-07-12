@@ -1,4 +1,4 @@
-import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import routes from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
@@ -9,7 +9,7 @@ import {
   setPersistToken,
 } from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
-import { PHONE_REGISTER } from '../authConstants';
+import { EMAIL_REGISTER } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { log, logline } from '~/src/app/utils/debug';
 
@@ -28,7 +28,7 @@ interface IResult {
   token: string;
 }
 
-function* registerPhoneSaga({
+function* registerEmailSaga({
   payload,
 }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
@@ -63,7 +63,7 @@ function* registerPhoneSaga({
 }
 
 export default function* listener() {
-  yield takeLatest(PHONE_REGISTER, registerPhoneSaga);
+  yield takeLatest(EMAIL_REGISTER, registerEmailSaga);
   //yield takeLatest(VERIFY, VerifySaga);
   //yield takeLatest(COMPLETE_REGISER, registerCompleteSaga);
 }

@@ -8,7 +8,7 @@ export const defaultVerifyInputs: IVerifyInputs = {
   },
   action: {
     type: 'action',
-    value: '',
+    value: 0,
     require: true,
   },
   code: {

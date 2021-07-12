@@ -12,6 +12,9 @@ export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
 export const PHONE_REGISTER = 'auth/PHONE_REGISTER';
 export const VERIFY = 'auth/VERIFY';
 export const COMPLETE_REGISTER = 'auth/COMPLETE_REGISTER';
+export const INIT_VERIFY_INPUTS = 'auth/INIT_VERIFY_INPUTS';
+export const INIT_REGISTER_COMPLETE_INPUTS =
+  'auth/INIT_REGISTER_COMPLETE_INPUTS';
 // reset
 export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
 export const RESET_PASSWORD = 'auth/RECOVERY_PASSWORD';

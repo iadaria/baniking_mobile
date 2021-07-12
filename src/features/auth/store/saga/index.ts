@@ -4,3 +4,6 @@ export { default as googleLogInSaga } from './googleLogInSaga';
 export { default as emailLoginSaga } from './emailLoginSaga';
 export { default as resetPasswordSaga } from './resetPasswordSaga';
 export { default as registerEmailSaga } from './registerEmailSaga';
+export { default as registerPhoneSaga } from './registerPhoneSaga';
+export { default as registerCompleteSaga } from './registerCompleteSaga';
+export { default as verifySaga } from './verifySaga';

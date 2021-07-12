@@ -1,164 +1,139 @@
-import React from 'react';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {
-  AppChecker,
-  AppInput,
-  AppOpenURL,
-  AppText,
-  Block,
-} from '~/src/app/common/components/UI';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { ICredential } from '~/src/app/models/user';
-import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
-import { defaultRegisterInputs } from '../contracts/registerInputs';
 import { sizes } from '~/src/app/common/constants';
-
-const supportedURLOne = 'https://google.com';
-// const unsupportedURL = 'slack://open?team=123456';
+import { log, logline } from '~/src/app/utils/debug';
+import { CompleteRegisterPayload } from '../../store/saga/registerCompleteSaga';
+import { IRegisterCompleteInputs } from '../contracts/registerCompleteInputs';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { IUserAuth } from '~/src/app/models/user';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import {
+  registerComplete as reigsterCompleteAction,
+  initRegisterCompleteInputs as initRegisterCompleteAction,
+} from '~/src/features/auth/store/authActions';
+import { IErrors } from '~/src/app/utils/error';
 
 interface IProps {
-  // navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  emailRegister: (props: Partial<ICredential>) => void;
-  scrollPosition?: number;
+  navigation: StackNavigationProp<ParamListBase>;
+  registerComplete: (payload: CompleteRegisterPayload) => void;
+  initRegisterCompleteInputs: (values: CompleteRegisterPayload) => void;
+  defaultRegisterCompleteIntpus: IRegisterCompleteInputs;
+  currentUser: Partial<IUserAuth> | null;
   errors: IErrors | null;
 }
 
-const AgreementText = () => (
-  <Block row wrap margin={[0, 0, 0, 2]}>
-    <AppText primary medium size={sizes.text.label}>
-      Я согласен с
-    </AppText>
-    <AppOpenURL
-      secondary
-      medium
-      size={sizes.text.label}
-      url={supportedURLOne}
-      title=" правилами сайта "
-    />
-    <AppText primary medium size={sizes.text.label}>
-      и
-    </AppText>
-    <AppOpenURL
-      secondary
-      medium
-      size={sizes.text.label}
-      url={supportedURLOne}
-      title=" политикой "
-    />
-    <AppOpenURL
-      secondary
-      medium
-      size={sizes.text.label}
-      url={supportedURLOne}
-      title="обработки персональных данных"
-    />
-  </Block>
-);
+const emptyPayload = {
+  phone: '',
+  password: '',
+  password_confirmation: '',
+  device_name: '',
+};
 
-export default function RegisterCompleteForm({
+export function RegisterCompleteFormContainter({
   scrollViewRef,
-  emailRegister,
-  scrollPosition,
+  navigation,
+  registerComplete,
+  defaultRegisterCompleteIntpus,
+  initRegisterCompleteInputs,
+  currentUser,
   errors,
 }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<ICredential>>({
-    name: '',
-    email: '',
-    phone: '',
-    agreement: true,
-  });
-  // const [enableShift, setEnableShift] = React.useState(false);
+  const valuesRef = React.useRef<CompleteRegisterPayload>(emptyPayload);
+
+  useEffect(() => {
+    if (currentUser) {
+      logline('', { currentUser });
+      initRegisterCompleteInputs({
+        ...emptyPayload,
+        phone: currentUser.phone!,
+      });
+    }
+  }, [currentUser, initRegisterCompleteInputs]);
 
   async function handleSubmit() {
     const device_name = await DeviceInfo.getDeviceName();
     const data = {
-      name: valuesRef.current.name,
-      email: valuesRef.current.email,
-      phone: valuesRef.current.phone,
+      ...valuesRef.current,
       device_name: device_name,
-      agreement: valuesRef.current.agreement,
     };
-
-    __DEV__ && console.log('***** data *******', data);
-    emailRegister(data);
+    registerComplete(data);
     setRecreate(!recreate);
   }
 
   return (
     <ValidatedElements
       //key={Number(recreate)}
-      defaultInputs={defaultRegisterInputs}
+      defaultInputs={defaultRegisterCompleteIntpus}
       scrollView={scrollViewRef}
-      scrollPosition={scrollPosition}
       valuesRef={valuesRef}
-    //errors={errors}
+      errors={errors}
     >
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-          Регистрация
+          Генерация пароля
         </AppText>
         <AuthLogoRight />
       </Block>
       <Block row middle center>
         <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
-          Фамилия
+          Пароль
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10 /* , paddingLeft: wp(30) */ }}
-        id="name"
-        placeholder="Введите имя"
-        maxLength={16}
-        //isScrollToFocused
-        center
-      />
-      {/* Email */}
-      <Block row middle center>
-        <AppText primary semibold size={sizes.text.label}>
-          Email
-        </AppText>
-        <NecessaryIcon style={{ marginHorizontal: 3 }} />
-      </Block>
-      <AppInput
-        style={{ borderRadius: 10 /* , paddingLeft: wp(28)  */ }}
-        id="email"
-        placeholder="Введите email"
-        center
-        email
+        style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
+        id="password"
+        placeholder="Введите пароль "
         maxLength={50}
+        secure
+        center
       />
-      {/* Phone */}
       <Block row middle center>
-        <AppText primary semibold size={sizes.text.label}>
-          Номер телефона
+        <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
+          Подверждение пароля
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10, paddingLeft: wp(25) }}
-        id="phone"
-        placeholder="+7(___)___-__-__   "
-        mask="+7([000])[000]-[00]-[00]"
-        phone
-        isScrollToFocused
+        style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
+        id="password_confirmation"
+        placeholder="Введите пароль "
+        maxLength={50}
+        secure
+        center
       />
-      {/* Accept */}
-      <AppChecker id="agreement" text={<AgreementText />} />
 
       {/* Button */}
       <AppButton onPress={handleSubmit}>
         <AppText center medium>
-          Завершить регистрацию
+          Сохранить пароль
         </AppText>
       </AppButton>
     </ValidatedElements>
   );
 }
+
+const RegisterCompleteFormConnected = connect(
+  ({ auth }: IRootState) => ({
+    currentUser: auth.currentUser,
+    defaultRegisterCompleteIntpus: auth.inputs.registerComplete,
+    errors: auth.errors,
+    //errors: auth.errors,
+  }),
+  {
+    registerComplete: reigsterCompleteAction,
+    initRegisterCompleteInputs: initRegisterCompleteAction,
+  },
+)(RegisterCompleteFormContainter);
+
+export { RegisterCompleteFormConnected as RegisterCompleteForm };

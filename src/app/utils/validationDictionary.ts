@@ -103,7 +103,7 @@ export const validationDictionary = {
       message: '^Поле обязательно для заполнения',
     },
     format: {
-      pattern: /^([0-9]{4})$/,
+      pattern: /^[0-9]{4}$/,
       message: '^Год состоять из 4 цифр',
     },
   },

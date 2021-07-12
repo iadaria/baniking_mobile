@@ -1,36 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
+import { ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { connect } from 'react-redux';
-import { verify as verifyAction } from '~/src/features/auth/store/authActions';
-import { VerifyPayload } from '~/src/app/models/user';
-import { sizes } from '~/src/app/common/constants';
+import {
+  verify as verifyAction,
+  initVerifyInputs as initVerifyInputsAction,
+} from '~/src/features/auth/store/authActions';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
-import { defaultVerifyInputs } from '../contracts/verifyInputs';
-import { log } from '~/src/app/utils/debug';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { IUserAuth } from '~/src/app/models/user';
+import { IVerifyInputs } from '../contracts/verifyInputs';
+import { sizes } from '~/src/app/common/constants';
+import { log, logline } from '~/src/app/utils/debug';
+import { VerifyPayload } from '../../store/saga/verifySaga';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
+  currentUser: Partial<IUserAuth> | null;
+  defaultVerifyInputs: IVerifyInputs;
   verify: (payload: VerifyPayload) => void;
+  initVerifyInputs: (verifies: VerifyPayload) => void;
 }
 
 const VerifyFormContainer = ({
   scrollViewRef,
+  currentUser,
   verify,
+  initVerifyInputs,
+  defaultVerifyInputs,
 }: IProps): JSX.Element => {
   // Use ref because don't need rendering component
   const valuesRef = React.useRef<VerifyPayload>({
-    phone: '',
+    phone: currentUser?.phone || '',
     action: 0,
     code: '',
   });
   const [recreate, setRecreate] = React.useState<boolean>(true);
+
+  useEffect(() => {
+    if (currentUser) {
+      initVerifyInputs({
+        phone: currentUser?.phone || '',
+        action: 0,
+        code: '',
+      });
+    }
+  }, [currentUser, initVerifyInputs]);
 
   const handleResetPassword = () => {
     if (valuesRef.current) {
@@ -60,7 +80,7 @@ const VerifyFormContainer = ({
         </AppText>
       </Block>
       <AppInput
-        style={{ borderRadius: 10 /* , paddingLeft: wp(29)  */ }}
+        style={{ borderRadius: 10 }}
         center
         id="code"
         placeholder="Enter code"
@@ -76,11 +96,13 @@ const VerifyFormContainer = ({
 };
 
 const VerifyFormConnected = connect(
-  (/* state: IRootState */) => ({
-    //
+  ({ auth }: IRootState) => ({
+    currentUser: auth.currentUser,
+    defaultVerifyInputs: auth.inputs.verify,
   }),
   {
     verify: verifyAction,
+    initVerifyInputs: initVerifyInputsAction,
   },
 )(VerifyFormContainer);
 

@@ -1,6 +1,15 @@
-import { ICabinet, ILevel, IProfile, IQr, IResponseCabinet } from '~/src/app/models/profile';
+import {
+  ICabinet,
+  ILevel,
+  IProfile,
+  IQr,
+  IResponseCabinet,
+} from '~/src/app/models/profile';
 import { initInputs } from '~/src/app/utils/validate';
-import { defaultProfileInputs, IProfileInputs } from '../screens/contracts/profileInputs';
+import {
+  defaultProfileInputs,
+  IProfileInputs,
+} from '../screens/contracts/profileInputs';
 import * as constants from './profileConstants';
 import { IErrors } from '~/src/app/utils/error';
 
