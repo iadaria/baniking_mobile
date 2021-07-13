@@ -8,12 +8,14 @@ import { setAuthToken } from '../authActions';
 import { logline } from '~/src/app/utils/debug';
 
 function* checkAuthSaga() {
-  const token: string | null = yield select((state: IRootState) => state.persist.token);
+  const token: string | null = yield select(
+    (state: IRootState) => state.persist.token,
+  );
   logline('[checkAuthSaga] token = ', token);
   if (token) {
     yield tokenToHeaders(token);
     yield put(setAuthToken(token));
-    yield RootNavigation.navigate(routes.navigators.DrawerNavigator);
+    yield RootNavigation.reset(routes.navigators.DrawerNavigator);
     // yield call(SplashScreen.hide);
   }
 }

@@ -1,11 +1,19 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { methods } from '~/src/app/api';
-import { log, logline } from '~/src/app/utils/debug';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { methods, tokenToHeaders } from '~/src/app/api';
 import { COMPLETE_REGISTER } from '../authConstants';
-import { AxiosResponse } from 'axios';
 import { getErrorStrings } from '~/src/app/utils/error';
+import { authFail, authSuccess, setAuthUserData } from '../authActions';
+import {
+  setPersistToken,
+  setPersistUserData,
+} from '~/src/features/persist/store/appPersistActions';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import routes from '~/src/navigation/helpers/routes';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { authFail } from '../authActions';
+import { log, logline } from '~/src/app/utils/debug';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { IUserAuth } from '~/src/app/models/user';
+import { IAuthState } from '~/src/features/auth/store/authReducer';
 
 export type CompleteRegisterPayload = {
   phone: string;
@@ -19,16 +27,33 @@ interface IAction {
   payload: CompleteRegisterPayload;
 }
 
+interface IResult {
+  token: string;
+}
+
 function* registerCompleteSaga({ payload }: IAction) {
   try {
     log('[registerCompleteSaga] payload', payload);
 
-    const { data, status }: AxiosResponse = yield call(
+    const { token }: IResult = yield call(
       methods.registerComplete,
       payload,
       null,
     );
-    log('[registerCompleteSaga] response data', data);
+    log('[registerCompleteSaga] response data', token);
+
+    if (token) {
+      yield put(authSuccess());
+      const { currentUser }: IAuthState = yield select(
+        ({ auth }: IRootState) => auth,
+      );
+      const { email, name, phone }: Partial<IUserAuth> = currentUser || {};
+      yield tokenToHeaders(token);
+      yield put(setPersistToken(token));
+      yield put(setPersistUserData({ email, name, phone }));
+      yield put(setAuthUserData({ token, email, name }));
+      yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
+    }
   } catch (e) {
     log('[registerCompleteSaga/error]', e);
 

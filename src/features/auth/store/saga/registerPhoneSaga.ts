@@ -43,13 +43,6 @@ function* registerPhoneSaga({
       yield put(requestSuccess());
       yield put(setAuthUserData({ phone, email, name }));
       yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, null);
-      /* if (token) {
-        yield tokenToHeaders(token);
-        yield put(setPersistToken(token));
-        yield put(setPersistUserData({ email, name, phone }));
-        yield put(setAuthUserData({ token, email, name }));
-        yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
-      } */
     }
   } catch (e) {
     //if (axios.isAxiosError(e)) {

@@ -116,7 +116,6 @@ export default function authReducer(
     case constants.SET_USER_DATA:
       return {
         ...state,
-        authenticated: false,
         currentUser: { ...state.currentUser, ...payload },
         loading: false,
         errors: null,
