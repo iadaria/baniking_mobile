@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import { DrawerActions } from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 
@@ -70,7 +73,8 @@ function MainNavigatorContainer({
   // authenticated = false;
 
   return (
-    <Main.Navigator initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
+    <Main.Navigator
+      initialRouteName={authenticated ? 'DrawerNavigator' : 'AuthNavigator'}>
       <Main.Screen
         options={{ headerShown: false }}
         name="AuthNavigator"

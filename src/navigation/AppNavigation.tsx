@@ -26,7 +26,11 @@ export default function AppNavigation() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      <StatusBar
+        barStyle="light-content"
+        translucent
+        backgroundColor="transparent"
+      />
       <NavigationContainer theme={appDefaultTheme} ref={navigationRef}>
         <MainNavigator />
       </NavigationContainer>
