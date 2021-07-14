@@ -3,7 +3,7 @@ import { ScrollView, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { Input, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import {
@@ -125,7 +125,7 @@ const VerifyFormContainer = ({
           Code
         </AppText>
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 }}
         center
         id="code"

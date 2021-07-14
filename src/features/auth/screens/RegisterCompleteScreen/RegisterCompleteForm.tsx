@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { Input, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
@@ -90,7 +90,7 @@ export function RegisterCompleteFormContainter({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password"
         placeholder="Введите пароль "
@@ -104,7 +104,7 @@ export function RegisterCompleteFormContainter({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password_confirmation"
         placeholder="Введите пароль "

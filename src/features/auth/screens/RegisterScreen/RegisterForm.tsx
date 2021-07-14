@@ -17,6 +17,7 @@ import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 import { sizes } from '~/src/app/common/constants';
 import { log } from '~/src/app/utils/debug';
+import { Input } from '~/src/app/common/components/UI/Input';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
@@ -113,7 +114,7 @@ export default function RegisterForm({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* , paddingLeft: wp(30) */ }}
         id="name"
         placeholder="Введите имя"
@@ -128,7 +129,7 @@ export default function RegisterForm({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* , paddingLeft: wp(28)  */ }}
         id="email"
         placeholder="Введите email"
@@ -143,7 +144,7 @@ export default function RegisterForm({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10, paddingLeft: wp(25) }}
         id="phone"
         placeholder="+7(___)___-__-__   "

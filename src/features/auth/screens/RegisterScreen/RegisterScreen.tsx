@@ -20,7 +20,6 @@ import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IErrors } from '~/src/app/utils/error';
 import { multiplier } from '~/src/app/common/constants';
-import { RegisterFromTwo } from './RegisterFormTwo';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -50,13 +49,12 @@ function RegisterContainer({ navigation, phoneRegister, errors }: IProps) {
             <AuthLogo width={wp(11) * multiplier} />
           </Block>
           <Block style={styles.list} full base white>
-            <RegisterFromTwo />
-            {/* <RegisterForm
+            <RegisterForm
               scrollViewRef={scrollViewRef}
               phoneRegister={phoneRegister}
               scrollPosition={scrollPosition}
               errors={errors}
-            /> */}
+            />
             {/* Social login block */}
             <SoialLoginBlock />
             {/* Sign in */}

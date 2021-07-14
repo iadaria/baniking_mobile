@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
-import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import { Input, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
@@ -62,7 +62,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           Email / Телеофон
         </AppText>
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* , paddingLeft: wp(30) */ }}
         id="login"
         placeholder="Введите e-mail"
@@ -81,7 +81,7 @@ const LoginFormContainer = ({ navigation, scrollViewRef, emailLogin }: IProps): 
           </AppText>
         </TouchableOpacity>
       </Block>
-      <AppInput
+      <Input
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password"
         placeholder="Введите пароль "

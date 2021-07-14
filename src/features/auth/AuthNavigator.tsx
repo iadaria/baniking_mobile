@@ -12,8 +12,8 @@ export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
     <Auth.Navigator
-      //initialRouteName="VerifyScreen"
-      initialRouteName="RegisterScreen"
+      initialRouteName="VerifyScreen"
+      //initialRouteName="LoginScreen"
       //initialRouteName="RegisterCompleteScreen"
       screenOptions={{ headerShown: false }}>
       {/* <Auth.Screen name="Screen" component={BaseSettingsScreen} /> */}
