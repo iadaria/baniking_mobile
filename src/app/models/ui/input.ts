@@ -30,6 +30,7 @@ export interface IUiInput extends TextInputProps {
   style?: TextStyle & ViewProps;
   mask?: string;
   textFocus?: boolean;
+  focusBorderColor?: string;
   // others
   children?: ReactNode;
   // [key: string]: any;
@@ -37,11 +38,5 @@ export interface IUiInput extends TextInputProps {
 
 export interface IInputStyleProps {
   input: object;
-  //toggle: object;
-  label: object;
-  labelWrapper: object;
-  // styles
-  center: object;
-  secure: object;
   block: object;
 }

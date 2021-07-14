@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import { colors, fonts } from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   scrollView: {
@@ -24,5 +28,17 @@ export const styles = StyleSheet.create({
     height: hp(6.5),
     borderRadius: 10,
     //minWidth: wp(35),
+  },
+  digit: {
+    margin: wp(2),
+    //width: wp(15),
+    //height: wp(15),
+    paddingHorizontal: wp(5),
+    borderRadius: wp(2),
+    borderColor: 'green',
+    borderWidth: 1,
+    color: colors.secondary,
+    fontFamily: fonts.Gilroy.bold,
+    fontSize: 33,
   },
 });

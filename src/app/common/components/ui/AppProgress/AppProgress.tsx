@@ -59,19 +59,33 @@ export function AppProgress(props: IProgressBarProps) {
         {/* <Text style={styles.labelStyles}>{`${completed}%`}</Text> */}
       </View>
       <Block style={styles.steps} row>
-        {steps.map(({ progress, discaunt, step, level }: IStep, index: number) => {
-          const offer = index === 0 ? 0 : 70 / 3 - 4;
-          const color = [Step.Achived, Step.Current].includes(step) ? colors.secondary : colors.progress.disable;
-          const captionColor = step === Step.Current ? colors.progress.caption : colors.progress.disable;
+        {steps.map(
+          ({ progress, discaunt, step, level }: IStep, index: number) => {
+            const offer = index === 0 ? 0 : 70 / 3 - 4;
+            const color = [Step.Achived, Step.Current].includes(step)
+              ? colors.secondary
+              : colors.progress.disable;
+            const captionColor =
+              step === Step.Current
+                ? colors.progress.caption
+                : colors.progress.disable;
 
-          return (
-            <Block key={`key-${progress}`} style={styles.step} margin={[0, 0, 0, offer]}>
-              <Block style={[styles.achievedStep, { borderColor: color }]} />
-              {step === Step.Current && <Block style={styles.currentStep} />}
-              <Caption color={captionColor} level={level} discaunt={discaunt} />
-            </Block>
-          );
-        })}
+            return (
+              <Block
+                key={`key-${progress}`}
+                style={styles.step}
+                margin={[0, 0, 0, offer]}>
+                <Block style={[styles.achievedStep, { borderColor: color }]} />
+                {step === Step.Current && <Block style={styles.currentStep} />}
+                <Caption
+                  color={captionColor}
+                  level={level}
+                  discaunt={discaunt}
+                />
+              </Block>
+            );
+          },
+        )}
       </Block>
     </View>
   );

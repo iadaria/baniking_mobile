@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -17,6 +17,8 @@ import { IVerifyInputs } from '../contracts/verifyInputs';
 import { sizes } from '~/src/app/common/constants';
 import { log, logline } from '~/src/app/utils/debug';
 import { VerifyPayload } from '../../store/saga/verifySaga';
+import { styles as s } from './styles';
+import { useState } from 'react';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -27,6 +29,47 @@ interface IProps {
   initVerifyInputs: (verifies: VerifyPayload) => void;
 }
 
+const Code = () => {
+  const [focus, setFo] = useState(true);
+  return (
+    <Block margin={[0, 4]} row middle>
+      <TextInput
+        style={s.digit}
+        textAlign="center"
+        multiline={true}
+        keyboardType="numeric"
+        maxLength={1}
+        returnKeyType="next"
+        autoFocus={true}
+      />
+      <TextInput
+        style={s.digit}
+        textAlign="center"
+        multiline={true}
+        keyboardType="numeric"
+        maxLength={1}
+        returnKeyType="next"
+        autoFocus={true}
+      />
+      <TextInput
+        style={s.digit}
+        textAlign="center"
+        multiline={true}
+        keyboardType="numeric"
+        maxLength={1}
+        autoFocus={true}
+      />
+      <TextInput
+        style={s.digit}
+        textAlign="center"
+        multiline={true}
+        keyboardType="numeric"
+        maxLength={1}
+        autoFocus={true}
+      />
+    </Block>
+  );
+};
 const VerifyFormContainer = ({
   scrollViewRef,
   currentUser,
@@ -74,6 +117,9 @@ const VerifyFormContainer = ({
         </AppText>
         <AuthLogoRight />
       </Block>
+
+      <Code />
+
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
           Code

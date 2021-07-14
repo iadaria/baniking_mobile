@@ -20,7 +20,7 @@ interface IProps<T> extends IUiText {
  * не появляется, если поле заново получает фокус.
  */
 
-export default function AppInputError<T>(props: IProps<T>) {
+export default function InputError<T>(props: IProps<T>) {
   const {
     error,
     isFocused,

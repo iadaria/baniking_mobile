@@ -55,11 +55,20 @@ export const AppInputWrapper = <T extends {}>({
         style={[styles.block, blockStyle, { borderColor } /* , dynamicStyle */]}
         onLayout={props.onLayout}
         margin={[sizes.input.top, 0, !props.error ? sizes.input.top : 0]}>
-        {props.label && <AppInputLabel label={props.label} isFocused={states.isFocused} />}
+        {props.label && (
+          <AppInputLabel label={props.label} isFocused={states.isFocused} />
+        )}
         {children}
         {rightButton}
-        <AppSecure secure={!!secure} toggleSecure={toggleSecure} setToggleSecure={setToggleSecure} />
-        <AppPlaceholder showPlaceholder={showPlaceholder} placeholder={placeholder} />
+        <AppSecure
+          secure={!!secure}
+          toggleSecure={toggleSecure}
+          setToggleSecure={setToggleSecure}
+        />
+        <AppPlaceholder
+          showPlaceholder={showPlaceholder}
+          placeholder={placeholder}
+        />
       </Block>
       <AppInputError
         margin={[0, 0, sizes.input.top, 0]}

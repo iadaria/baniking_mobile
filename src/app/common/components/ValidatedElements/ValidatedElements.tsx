@@ -64,7 +64,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }, []);
 
   useEffect(() => {
-    log(`[ValidateElements/${nameForm}/useEffect]`, inputs);
+    //log(`[ValidateElements/${nameForm}/useEffect]`, inputs);
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;

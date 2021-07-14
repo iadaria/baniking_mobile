@@ -7,8 +7,13 @@ interface IProps {
   showPlaceholder?: boolean;
 }
 
-export default function AppPlaceholder({ showPlaceholder, placeholder }: IProps) {
-  return showPlaceholder && placeholder ? <AppText style={styles.placeholder}>{placeholder}</AppText> : null;
+export default function AppPlaceholder({
+  showPlaceholder,
+  placeholder,
+}: IProps) {
+  return showPlaceholder && placeholder ? (
+    <AppText style={styles.placeholder}>{placeholder}</AppText>
+  ) : null;
 }
 
 const styles = StyleSheet.create({
@@ -21,7 +26,7 @@ const styles = StyleSheet.create({
     color: 'rgba(126, 126, 126, 0.3)',
     textAlign: 'center',
     textAlignVertical: 'center',
-   /*  borderWidth: 1,
+    /*  borderWidth: 1,
     borderColor: 'green', */
     zIndex: -1,
   },

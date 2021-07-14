@@ -34,25 +34,18 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   });
   let borderColor = colors.input.border;
   const {
-    // outlined,
     email,
     phone,
     number,
     placeholder,
     textFocus,
-    // secure,
     error,
-    // colors
-    // styles
     mask,
     center,
     style,
     newRef,
-    // custome
     isScrollToFocused,
     onFocusedScroll,
-    //native
-    // onLayout,
     onBlur,
     onFocus,
     secure,

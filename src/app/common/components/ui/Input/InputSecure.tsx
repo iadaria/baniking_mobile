@@ -14,7 +14,7 @@ interface IProps {
   setToggleSecure: (secure: boolean) => void;
 }
 
-export function AppSecure(props: IProps) {
+export function InputSecure(props: IProps) {
   const { secure, toggleSecure, setToggleSecure } = props;
 
   if (!secure) {
