@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -10,15 +10,17 @@ import {
   verify as verifyAction,
   initVerifyInputs as initVerifyInputsAction,
 } from '~/src/features/auth/store/authActions';
-import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IUserAuth } from '~/src/app/models/user';
 import { IVerifyInputs } from '../contracts/verifyInputs';
-import { sizes } from '~/src/app/common/constants';
+import { colors, sizes } from '~/src/app/common/constants';
 import { log, logline } from '~/src/app/utils/debug';
 import { VerifyPayload } from '../../store/saga/verifySaga';
 import { styles as s } from './styles';
-import { useState } from 'react';
+import { useState, ForwardedRef } from 'react';
+import { color } from 'react-native-reanimated';
+
+type RefInput = React.RefObject<TextInput>;
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -29,44 +31,54 @@ interface IProps {
   initVerifyInputs: (verifies: VerifyPayload) => void;
 }
 
-const Code = () => {
-  const [focus, setFo] = useState(true);
+interface IDigitProps {
+  //ref: RefInput;
+  prevRef?: RefInput;
+  nextRef?: RefInput;
+}
+
+const Digit = React.forwardRef(({ prevRef, nextRef }: IDigitProps, ref: ForwardedRef<TextInput>) => {
+  const [isFocus, setFocus] = useState(false);
+
+  function handleBlur() { setFocus(false); }
+  function handleFocus() { setFocus(true); }
+
   return (
-    <Block margin={[0, 4]} row middle>
-      <TextInput
-        style={s.digit}
-        textAlign="center"
-        multiline={true}
-        keyboardType="numeric"
-        maxLength={1}
-        returnKeyType="next"
-        autoFocus={true}
-      />
-      <TextInput
-        style={s.digit}
-        textAlign="center"
-        multiline={true}
-        keyboardType="numeric"
-        maxLength={1}
-        returnKeyType="next"
-        autoFocus={true}
-      />
-      <TextInput
-        style={s.digit}
-        textAlign="center"
-        multiline={true}
-        keyboardType="numeric"
-        maxLength={1}
-        autoFocus={true}
-      />
-      <TextInput
-        style={s.digit}
-        textAlign="center"
-        multiline={true}
-        keyboardType="numeric"
-        maxLength={1}
-        autoFocus={true}
-      />
+    <TextInput
+      ref={ref}
+      style={[s.digit, isFocus && { backgroundColor: 'white' }]}
+      textAlign="center"
+      multiline={true}
+      keyboardType="numeric"
+      maxLength={1}
+      returnKeyType="next"
+      placeholder={!isFocus ? '-' : undefined}
+      placeholderTextColor={colors.white}
+      onChangeText={(text: string) => {
+        text.length > 0 && nextRef?.current?.focus();
+        text.length === 0 && prevRef?.current?.focus();
+      }}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+    />
+  )
+});
+
+const Code = () => {
+  const ref_one = React.createRef<TextInput>();
+  const ref_two = React.createRef<TextInput>();
+  const ref_three = React.createRef<TextInput>();
+  const ref_four = React.createRef<TextInput>();
+
+  const isErrors = false;
+  const color = isErrors ? colors.error : colors.secondary;
+
+  return (
+    <Block style={[s.digits, { borderColor: color }]} row middle center>
+      <Digit ref={ref_one} nextRef={ref_two} />
+      <Digit ref={ref_two} nextRef={ref_three} prevRef={ref_one} />
+      <Digit ref={ref_three} nextRef={ref_four} prevRef={ref_two} />
+      <Digit ref={ref_four} prevRef={ref_three} />
     </Block>
   );
 };
@@ -110,14 +122,6 @@ const VerifyFormContainer = ({
       defaultInputs={defaultVerifyInputs}
       scrollView={scrollViewRef}
       valuesRef={valuesRef}>
-      <Block margin={[0, 0, 3]} row middle center>
-        <AuthLogoLeft />
-        <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
-          Verification Code
-        </AppText>
-        <AuthLogoRight />
-      </Block>
-
       <Code />
 
       <Block row middle center>

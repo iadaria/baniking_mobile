@@ -7,7 +7,6 @@ import MainNavigator from '~/src/navigation/navigators/MainNavigator';
 import ModalManager from '~/src/app/common/modals/ModalManager';
 import Network from '~/src/app/common/components/Network';
 import { checkAuth } from '~/src/features/auth/store/authActions';
-import { heightScreen } from '~/src/app/common/constants/platform';
 import { navigationRef } from '~/src/navigation/helpers/RootNavigation';
 import { appDefaultTheme } from './components/appDefaultTheme';
 import { logline } from '../app/utils/debug';
@@ -16,7 +15,6 @@ import { logline } from '../app/utils/debug';
 
 export default function AppNavigation() {
   const initialize = async (): Promise<void> => {
-    logline('\n[heightScreen]', heightScreen);
     store.dispatch(checkAuth());
   };
 
