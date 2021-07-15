@@ -13,8 +13,7 @@ import { log, logline } from '~/src/app/utils/debug';
 import { VerifyPayload } from '../../store/saga/verifySaga';
 import { styles as s } from './styles';
 import { useState, ForwardedRef } from 'react';
-import { color } from 'react-native-reanimated';
-import { replaceAt } from '../../../../app/utils/common';
+import { replaceAt } from '~/src/app/utils/common';
 
 type RefInput = React.RefObject<TextInput>;
 
