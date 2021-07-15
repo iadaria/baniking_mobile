@@ -40,6 +40,7 @@ export { default as HotelIcon } from './images/svg/hotel.svg';
 export { default as LaundryIcon } from './images/svg/laundry.svg';
 export { default as ParkingIcon } from './images/svg/parking.svg';
 export { default as OrderCallIcon } from './images/svg/orderCall.svg';
+export { default as VerifyCodeIcon } from './images/svg/verify-code.svg';
 // png
 export { default as closeWhiteCircle } from './images/png/closeWhiteCircle.png';
 export { default as defaultUserMaleImg } from './images/png/defaultUserMale.png';
