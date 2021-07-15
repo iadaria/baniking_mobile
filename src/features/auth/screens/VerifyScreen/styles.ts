@@ -38,4 +38,8 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.Gilroy.bold,
     fontSize: 33,
   },
+  repeat: {
+    backgroundColor: 'rgba(126, 126, 126, 0.2)',
+    borderRadius: wp(3),
+  },
 });

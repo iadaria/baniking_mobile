@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { ScrollView, TextInput, TextInputProps } from 'react-native';
+import { ScrollView, TextStyle, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -7,15 +7,14 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { verify as verifyAction } from '~/src/features/auth/store/authActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IUserAuth } from '~/src/app/models/user';
-import { IVerifyInputs } from '../contracts/verifyInputs';
-import { colors } from '~/src/app/common/constants';
-import { log, logline } from '~/src/app/utils/debug';
-import { VerifyPayload } from '../../store/saga/verifySaga';
-import { styles as s } from './styles';
-import { useState, ForwardedRef } from 'react';
-import { VerifyCodeIcon } from '~/src/assets';
 
-type RefInput = React.RefObject<TextInput>;
+import { VerifyPayload } from '../../store/saga/verifySaga';
+import { useState } from 'react';
+import { ArrowRightIcon, VerifyCodeIcon } from '~/src/assets';
+import { styles as s } from './styles';
+import { logline } from '~/src/app/utils/debug';
+import { Code } from './Code';
+import { SMS_SECONDS } from '~/src/app/common/constants';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -24,115 +23,72 @@ interface IProps {
   verify: (payload: VerifyPayload) => void;
 }
 
-interface IDigitProps extends TextInputProps {
-  prevRef?: RefInput;
-  nextRef?: RefInput;
-  setDigit: (newDigit: string) => void;
-  digit: string;
-}
-
-const Digit = React.forwardRef(
-  (
-    { prevRef, nextRef, digit, setDigit, ...otherProps }: IDigitProps,
-    ref: ForwardedRef<TextInput>,
-  ) => {
-    const [isFocus, setFocus] = useState(false);
-
-    function handleBlur() {
-      setFocus(false);
-    }
-    function handleFocus() {
-      setFocus(true);
-    }
-
-    return (
-      <TextInput
-        ref={ref}
-        style={[s.digit, isFocus && { backgroundColor: 'white' }]}
-        textAlign="center"
-        multiline={true}
-        keyboardType="numeric"
-        maxLength={1}
-        returnKeyType="next"
-        value={digit}
-        placeholder={!isFocus ? '-' : undefined}
-        placeholderTextColor={colors.white}
-        onChangeText={(text: string) => {
-          setDigit(text);
-          text.length > 0 && nextRef?.current?.focus();
-          text.length === 0 && prevRef?.current?.focus();
-        }}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        {...otherProps}
-      />
-    );
-  },
-);
-
-interface ICodeProps {
-  code: string[];
-  setCode: (code: string[]) => void;
-}
-
-const Code: FC<ICodeProps> = ({ code, setCode }) => {
-  const ref_one = React.createRef<TextInput>();
-  const ref_two = React.createRef<TextInput>();
-  const ref_three = React.createRef<TextInput>();
-  const ref_four = React.createRef<TextInput>();
-
-  const isErrors = false;
-  const color = isErrors ? colors.error : colors.secondary;
-
-  function handleChangeCode(newDigit: string, at: number) {
-    const newCode = [...code];
-    newCode[at] = newDigit;
-    setCode([...newCode]);
+const Timer = ({ seconds }: { seconds: number }) => {
+  function format(num: number) {
+    const result = String(num);
+    return result.length < 2 ? '0' + result : result;
   }
 
+  const isExpired = seconds <= 0;
+  const expiredBack: TextStyle = isExpired ? { backgroundColor: 'white' } : {};
+  const expiredText: TextStyle = isExpired ? { color: 'black' } : {};
+  const expiredIcon = isExpired ? 'black' : 'white';
   return (
-    <Block style={[s.digits, { borderColor: color }]} row middle center>
-      <Digit
-        ref={ref_one}
-        nextRef={ref_two}
-        digit={code[0]}
-        setDigit={(digit: string) => handleChangeCode(digit, 0)}
-      />
-      <Digit
-        ref={ref_two}
-        nextRef={ref_three}
-        prevRef={ref_one}
-        digit={code[1]}
-        setDigit={(digit: string) => handleChangeCode(digit, 1)}
-      />
-      <Digit
-        ref={ref_three}
-        nextRef={ref_four}
-        prevRef={ref_two}
-        digit={code[2]}
-        setDigit={(digit: string) => handleChangeCode(digit, 2)}
-      />
-      <Digit
-        ref={ref_four}
-        prevRef={ref_three}
-        digit={code[3]}
-        setDigit={(digit: string) => handleChangeCode(digit, 3)}
-      />
+    <Block
+      style={[s.repeat, expiredBack]}
+      margin={[2, 0]}
+      padding={[3, 4]}
+      row
+      space="between">
+      <Block row center>
+        <AppText style={expiredText} margin={[0, 5, 0, 0]}>
+          Отправить код заново
+        </AppText>
+        <ArrowRightIcon fill={expiredIcon} />
+      </Block>
+      <AppText style={expiredText} semibold>
+        00:{format(seconds)}
+      </AppText>
     </Block>
   );
 };
+
 const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
   const [code, setCode] = useState(['', '', '', '']);
+  const [seconds, setSeconds] = useState(SMS_SECONDS);
   const [recreate, setRecreate] = useState<boolean>(true);
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
     logline('[VarifyForm] code = ', code);
     logline('[VarifyForm] code joined ', code.join(''));
-    logline('[VarifyForm] is full code = ', isFullDigits());
+    logline('[VarifyForm] is full code = ', isFullDigits);
     //handleVerifyCode();
   }, [code]);
 
-  const isFullDigits = () => code.join('').length === 4;
+  useEffect(() => {
+    launchTick();
+    return () => timer && clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (timer && seconds < 1) {
+      clearInterval(timer);
+    }
+  }, [seconds]);
+
+
+  function launchTick() {
+    setSeconds(SMS_SECONDS);
+    const interval = setInterval(() => tick(), 1000);
+    setTimer(interval);
+  }
+
+  function tick() {
+    setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+  }
+
+  const isFullDigits = code.join('').length === 4;
 
   const handleVerifyCode = () => {
     if (currentUser) {
@@ -153,6 +109,9 @@ const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
         </AppText>
       </Block>
       <Code code={code} setCode={setCode} />
+      <TouchableOpacity onPress={launchTick}>
+        <Timer seconds={seconds} />
+      </TouchableOpacity>
     </>
   );
 };
