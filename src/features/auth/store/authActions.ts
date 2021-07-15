@@ -4,6 +4,7 @@ import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
 import { VerifyPayload } from './saga/verifySaga';
 import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
+import { NotifyPaylaod } from './saga/notifySaga';
 
 // Begin work
 
@@ -25,6 +26,11 @@ export const phoneRegister = (payload: Partial<ICredential>) => ({
 
 export const verify = (payload: VerifyPayload) => ({
   type: constants.VERIFY,
+  payload: payload,
+});
+
+export const notify = (payload: NotifyPaylaod) => ({
+  type: constants.NOTIFY,
   payload: payload,
 });
 

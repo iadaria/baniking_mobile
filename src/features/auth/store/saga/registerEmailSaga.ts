@@ -64,8 +64,6 @@ function* registerEmailSaga({
 
 export default function* listener() {
   yield takeLatest(EMAIL_REGISTER, registerEmailSaga);
-  //yield takeLatest(VERIFY, VerifySaga);
-  //yield takeLatest(COMPLETE_REGISER, registerCompleteSaga);
 }
 
 /* {

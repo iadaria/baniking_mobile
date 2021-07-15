@@ -297,7 +297,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }
 
   const isTextInput = (child: IChild<T>) =>
-    ['AppInput', 'TestTextInput'].includes(child.type.name);
+    ['AppInput', 'TestTextInput', 'Input'].includes(child.type.name);
   const isButton = (child: IChild<T>) =>
     ['AppButton', 'Button'].includes(child.type.name);
   const isChecker = (child: IChild<T>) =>

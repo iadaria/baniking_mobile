@@ -14,12 +14,6 @@ import { log, logline } from '~/src/app/utils/debug';
 import { ICredential } from '~/src/app/models/user';
 import { PHONE_REGISTER } from '../authConstants';
 
-// any - what we pass to call
-// second - what we return: void or string(return "done")
-// third - what return call
-
-// const NOT_CONFIRMED = 'Registration not confirmed';
-
 interface IAction {
   type: string;
   payload: ICredential;
@@ -42,7 +36,7 @@ function* registerPhoneSaga({
     if (isSuccessStatus(result.status)) {
       yield put(requestSuccess());
       yield put(setAuthUserData({ phone, email, name }));
-      yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, null);
+      yield RootNavigation.reset(routes.authNavigator.VerifyScreen);
     }
   } catch (e) {
     //if (axios.isAxiosError(e)) {

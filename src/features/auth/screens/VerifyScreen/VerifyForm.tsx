@@ -59,11 +59,16 @@ const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
   const [recreate, setRecreate] = useState<boolean>(true);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
 
+  // for test
+  currentUser = currentUser || { phone: '+7(914)352-82-88' }
+
   useEffect(() => {
     logline('[VarifyForm] code = ', code);
     logline('[VarifyForm] code joined ', code.join(''));
     logline('[VarifyForm] is full code = ', isFullDigits);
-    //handleVerifyCode();
+    if (isFullDigits) {
+      handleVerifyCode();
+    }
   }, [code]);
 
   useEffect(() => {

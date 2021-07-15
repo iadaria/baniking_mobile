@@ -52,7 +52,7 @@ function* registerCompleteSaga({ payload }: IAction) {
       yield put(setPersistToken(token));
       yield put(setPersistUserData({ email, name, phone }));
       yield put(setAuthUserData({ token, email, name }));
-      yield RootNavigation.navigate(routes.navigators.DrawerNavigator, null);
+      yield RootNavigation.reset(routes.navigators.DrawerNavigator);
     }
   } catch (e) {
     log('[registerCompleteSaga/error]', e);

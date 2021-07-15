@@ -11,6 +11,7 @@ export const YANDEX_LOGIN = 'auth/YANDEX_LOGIN';
 export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
 export const PHONE_REGISTER = 'auth/PHONE_REGISTER';
 export const VERIFY = 'auth/VERIFY';
+export const NOTIFY = 'auth/NOTIFY';
 export const COMPLETE_REGISTER = 'auth/COMPLETE_REGISTER';
 export const INIT_VERIFY_INPUTS = 'auth/INIT_VERIFY_INPUTS';
 export const INIT_REGISTER_COMPLETE_INPUTS =

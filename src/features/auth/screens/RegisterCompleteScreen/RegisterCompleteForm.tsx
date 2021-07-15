@@ -93,10 +93,9 @@ export function RegisterCompleteFormContainter({
       <Input
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password"
-        placeholder="Введите пароль "
+        placeholder="Введите пароль"
         maxLength={50}
         secure
-        center
       />
       <Block row middle center>
         <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
@@ -107,14 +106,13 @@ export function RegisterCompleteFormContainter({
       <Input
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password_confirmation"
-        placeholder="Введите пароль "
+        placeholder="Введите пароль"
         maxLength={50}
         secure
-        center
       />
 
       {/* Button */}
-      <AppButton onPress={handleSubmit}>
+      <AppButton margin={[1, 0, 2]} onPress={handleSubmit}>
         <AppText center medium>
           Сохранить пароль
         </AppText>

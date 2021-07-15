@@ -1,25 +1,24 @@
+import { Action } from '~/src/app/common/constants';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { methods } from '~/src/app/api';
-import { log, logline } from '~/src/app/utils/debug';
-import { VERIFY } from '../authConstants';
+import { NOTIFY } from '../authConstants';
 import { AxiosResponse } from 'axios';
-import { getErrorStrings } from '~/src/app/utils/error';
-import { showAlert } from '~/src/app/common/components/showAlert';
-import { isSuccessStatus } from '~/src//app/models/response';
+import { methods } from '~/src/app/api';
+import { isSuccessStatus } from '~/src/app/models/response';
 import { requestSuccess } from '../authActions';
 import routes from '~/src/navigation/helpers/routes';
-import { Action } from '~/src/app/common/constants';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { log, logline } from '~/src/app/utils/debug';
+import { getErrorStrings } from '~/src/app/utils/error';
+import { showAlert } from '~/src/app/common/components/showAlert';
 
-export type VerifyPayload = {
+export type NotifyPaylaod = {
   phone: string;
   action: Action;
-  code: string;
 };
 
-function* verifySaga({ payload }: { type: string; payload: VerifyPayload }) {
+function* notifySaga({ payload }: { type: string; payload: NotifyPaylaod }) {
   try {
-    const { status }: AxiosResponse = yield call(methods.verify, payload, null);
+    const { status }: AxiosResponse = yield call(methods.notify, payload, null);
     if (isSuccessStatus(status)) {
       const { action } = payload;
       yield put(requestSuccess());
@@ -28,18 +27,17 @@ function* verifySaga({ payload }: { type: string; payload: VerifyPayload }) {
       }
     }
   } catch (e) {
-    log('[verifySaga/error]', e);
+    log('[notifySaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
 
-    logline('[verifyaga/error]', [errors, message]);
+    logline('[notifySaga/error]', [errors, message]);
 
     const errorMessage = allErrors ? allErrors : 'Ошибка при верификации кода';
 
     yield showAlert('Ошибка', errorMessage);
-  }
 }
 
-export default function* listener() {
-  yield takeLatest(VERIFY, verifySaga);
+export default function* notify() {
+  yield takeLatest(NOTIFY, notifySaga);
 }

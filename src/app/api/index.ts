@@ -79,6 +79,7 @@ export const methods = {
   login: request('post', '/login', pubFetch),
   register: request('post', '/register', pubFetch),
   verify: request('post', '/verification/verify', pubFetch),
+  notify: request('post', '/verification/resend', pubFetch),
   registerComplete: request('post', '/registration/complete', pubFetch),
   reset: request('post', '/passwords/reset', privFetch),
   // settings

@@ -26,12 +26,18 @@ function* resetPasswordSaga({ payload }: IAction) {
 
     log('[resetPassword]', [errors, message, allErrors]);
 
-    const errorMessage = allErrors ? allErrors : 'Введен неверный логин или пароль';
+    const errorMessage = allErrors
+      ? allErrors
+      : 'Введен неверный логин или пароль';
 
     yield showAlert('Ошибка', errorMessage);
   }
 }
 
-export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
+export default function* listener(): Generator<
+  ForkEffect<never>,
+  void,
+  unknown
+> {
   yield takeLatest(RESET_PASSWORD, resetPasswordSaga);
 }
