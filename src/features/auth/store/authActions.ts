@@ -6,6 +6,7 @@ import { VerifyPayload } from './saga/verifySaga';
 import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
 import { NotifyPayload } from './saga/notifySaga';
 import { ResetPasswordPayload } from './saga/resetPasswordSaga';
+import { RegisterPayload } from './saga/registerPhoneSaga';
 
 // Begin work
 
@@ -20,7 +21,7 @@ export const emailRegister = (payload: Partial<ICredential>) => ({
   payload: payload,
 });
 
-export const phoneRegister = (payload: Partial<ICredential>) => ({
+export const phoneRegister = (payload: RegisterPayload) => ({
   type: constants.PHONE_REGISTER,
   payload: payload,
 });

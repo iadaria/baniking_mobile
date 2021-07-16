@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { ICredential } from '~/src/app/models/user';
 import { connect } from 'react-redux';
 import { phoneRegister as phoneRegisterAction } from '~/src/features/auth/store/authActions';
 import { AppText, Block } from '~/src/app/common/components/UI';
@@ -20,10 +19,11 @@ import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IErrors } from '~/src/app/utils/error';
 import { multiplier } from '~/src/app/common/constants';
+import { RegisterPayload } from '../../store/saga/registerPhoneSaga';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  phoneRegister: (props: Partial<ICredential>) => void;
+  phoneRegister: (payload: RegisterPayload) => void;
   errors: IErrors | null;
 }
 

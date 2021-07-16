@@ -11,12 +11,18 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { isSuccessStatus } from '~/src/app/models/response';
 import { methods } from '~/src/app/api';
 import { log, logline } from '~/src/app/utils/debug';
-import { ICredential } from '~/src/app/models/user';
 import { PHONE_REGISTER } from '../authConstants';
+
+export type RegisterPayload = {
+  phone: string;
+  name: string;
+  email: string;
+  agreement: boolean;
+};
 
 interface IAction {
   type: string;
-  payload: ICredential;
+  payload: RegisterPayload;
 }
 
 function* registerPhoneSaga({
@@ -25,16 +31,15 @@ function* registerPhoneSaga({
   try {
     log('[registerPhoneSaga] result payload', payload);
 
-    const { name, email, phone, agreement, device_name } = payload;
-
-    const result: AxiosResponse = yield call(
+    const { status }: AxiosResponse = yield call(
       methods.register,
-      { name, email, phone, agreement, device_name },
+      payload,
       null,
     );
-    log('[registerPhoneSaga] result', result);
-    if (isSuccessStatus(result.status)) {
-      yield put(requestSuccess());
+    //log('[registerPhoneSaga] result', result);
+    if (isSuccessStatus(status)) {
+      yield put(requestSuccess()); // not authenticated
+      const { name, email, phone } = payload;
       yield put(setAuthUserData({ phone, email, name }));
       yield RootNavigation.reset(routes.authNavigator.VerifyScreen);
     }

@@ -1,31 +1,28 @@
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import {
   AppChecker,
-  AppInput,
   AppOpenURL,
   AppText,
   Block,
 } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
-import { ICredential } from '~/src/app/models/user';
 import { IErrors } from '~/src/app/utils/error';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { defaultRegisterInputs } from '../contracts/registerInputs';
 import { sizes } from '~/src/app/common/constants';
 import { log } from '~/src/app/utils/debug';
 import { Input } from '~/src/app/common/components/UI/Input';
+import { RegisterPayload } from '../../store/saga/registerPhoneSaga';
 
 const supportedURLOne = 'https://google.com';
 // const unsupportedURL = 'slack://open?team=123456';
 
 interface IProps {
-  // navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  phoneRegister: (props: Partial<ICredential>) => void;
+  phoneRegister: (payload: RegisterPayload) => void;
   scrollPosition?: number;
   errors: IErrors | null;
 }
@@ -69,32 +66,19 @@ export default function RegisterForm({
   errors,
 }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<Partial<ICredential>>({
-    name: '',
-    email: '',
-    phone: '',
-    agreement: true,
-  });
-  // const [enableShift, setEnableShift] = React.useState(false);
+  const valuesRef = React.useRef<RegisterPayload>();
 
   async function handleSubmit() {
-    const device_name = await DeviceInfo.getDeviceName();
-    const data = {
-      name: valuesRef.current.name,
-      email: valuesRef.current.email,
-      phone: valuesRef.current.phone,
-      device_name: device_name,
-      agreement: valuesRef.current.agreement,
-    };
-
-    log('***** data *******', data);
-    phoneRegister(data);
-    setRecreate(!recreate);
+    //const device_name = await DeviceInfo.getDeviceName();
+    if (valuesRef.current) {
+      phoneRegister(valuesRef.current);
+      setRecreate(!recreate);
+    }
   }
 
   return (
     <ValidatedElements
-      //key={Number(recreate)}
+      key={Number(recreate)}
       defaultInputs={defaultRegisterInputs}
       scrollView={scrollViewRef}
       scrollPosition={scrollPosition}
