@@ -51,9 +51,12 @@ export const colors = {
   borderBlack: '#2F2F33', // button
 
   accent: '',
-  error: 'rgb(176, 0, 32)',
+  //error: 'rgb(176, 0, 32)',
+  error: '#DF4D4D',
+  errorDigit: 'rgba(223, 77, 77, 0.3)',
   white: '#fff',
   black: '#000',
+  opacity: 'rgba(126, 126, 126, 0.2)',
 
   divider: '#252527',
 

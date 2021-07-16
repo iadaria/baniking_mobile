@@ -33,3 +33,4 @@ export const AUTH_FAIL = 'auth/AUTH_FAIL';
 export const AUTH_SUCCESS = 'auth/AUTH_SUCCESS';
 export const CHECK_AUTH = 'auth/CHECK_AUTH';
 export const REQUEST_SUCCESS = 'auth/REQUEST_SUCCESS';
+export const REQUEST_FAIL = 'auth/REQUEST_FAIL';

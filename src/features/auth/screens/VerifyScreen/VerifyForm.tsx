@@ -1,10 +1,10 @@
-import React, { FC, useEffect } from 'react';
-import { ScrollView, TextStyle, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Keyboard, ScrollView, TextStyle, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { verify as verifyAction } from '~/src/features/auth/store/authActions';
+import { verify as verifyAction, notify as notifyAction } from '~/src/features/auth/store/authActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IUserAuth } from '~/src/app/models/user';
 
@@ -14,25 +14,40 @@ import { ArrowRightIcon, VerifyCodeIcon } from '~/src/assets';
 import { styles as s } from './styles';
 import { logline } from '~/src/app/utils/debug';
 import { Code } from './Code';
-import { SMS_SECONDS } from '~/src/app/common/constants';
+import { Action, colors, SMS_SECONDS } from '~/src/app/common/constants';
+import { IErrors } from '~/src/app/utils/error';
+import { NotifyPayload } from '../../store/saga/notifySaga';
+import { isExpired, isFullCode } from '~/src/app/utils/common';
+
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
   currentUser: Partial<IUserAuth> | null;
   verify: (payload: VerifyPayload) => void;
+  notify: (payload: NotifyPayload) => void;
+  errors: IErrors | null;
 }
 
-const Timer = ({ seconds }: { seconds: number }) => {
+interface ITimer {
+  seconds: number;
+  isError: boolean;
+}
+
+const Timer = ({ seconds, isError }: ITimer) => {
+
+  logline('[Timer] isError=', isError);
+
   function format(num: number) {
     const result = String(num);
     return result.length < 2 ? '0' + result : result;
   }
 
-  const isExpired = seconds <= 0;
-  const expiredBack: TextStyle = isExpired ? { backgroundColor: 'white' } : {};
-  const expiredText: TextStyle = isExpired ? { color: 'black' } : {};
-  const expiredIcon = isExpired ? 'black' : 'white';
+
+  const colorText = isExpired(seconds) && !isError ? 'black' : 'white';
+  const colorBack = isExpired(seconds) && !isError ? 'white' : isError ? colors.errorDigit : 'black';
+  const expiredBack: TextStyle = { backgroundColor: colorBack };
+  const expiredText: TextStyle = { color: colorText }
   return (
     <Block
       style={[s.repeat, expiredBack]}
@@ -44,7 +59,7 @@ const Timer = ({ seconds }: { seconds: number }) => {
         <AppText style={expiredText} margin={[0, 5, 0, 0]}>
           Отправить код заново
         </AppText>
-        <ArrowRightIcon fill={expiredIcon} />
+        <ArrowRightIcon fill={colorText} />
       </Block>
       <AppText style={expiredText} semibold>
         00:{format(seconds)}
@@ -53,20 +68,19 @@ const Timer = ({ seconds }: { seconds: number }) => {
   );
 };
 
-const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
+const VerifyFormContainer = ({ currentUser, verify, notify, errors }: IProps): JSX.Element => {
+  const [recreate, setRecreate] = useState<boolean>(true);
   const [code, setCode] = useState(['', '', '', '']);
   const [seconds, setSeconds] = useState(SMS_SECONDS);
-  const [recreate, setRecreate] = useState<boolean>(true);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
 
   // for test
   currentUser = currentUser || { phone: '+7(914)352-82-88' }
 
   useEffect(() => {
-    logline('[VarifyForm] code = ', code);
-    logline('[VarifyForm] code joined ', code.join(''));
-    logline('[VarifyForm] is full code = ', isFullDigits);
-    if (isFullDigits) {
+    logline('[VarifyForm]', `code=${code.join('')}, isFull=${isFullCode(code)}`);
+    if (isFullCode(code)) {
+      Keyboard.dismiss();
       handleVerifyCode();
     }
   }, [code]);
@@ -75,6 +89,10 @@ const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
     launchTick();
     return () => timer && clearInterval(timer);
   }, []);
+
+  /* useEffect(() => {
+    logline('[VarifyForm] recreate=', recreate);
+  }, [recreate]); */
 
   useEffect(() => {
     if (timer && seconds < 1) {
@@ -93,40 +111,58 @@ const VerifyFormContainer = ({ currentUser, verify }: IProps): JSX.Element => {
     setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
   }
 
-  const isFullDigits = code.join('').length === 4;
-
-  const handleVerifyCode = () => {
+  function handleVerifyCode() {
+    //setRecreate(!recreate);
     if (currentUser) {
       verify({
         phone: currentUser.phone!,
         code: code.join(''),
-        action: 0,
+        action: Action.Registration,
       });
     }
   };
 
+  function generateNewNotifyCode() {
+    clearCode();
+    if (currentUser) {
+      notify({
+        phone: currentUser.phone!,
+        action: Action.Registration
+      });
+      launchTick();
+    }
+  }
+
+  function clearCode() { setCode([]) }
+
+  const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
+
   return (
-    <>
+    <Block full>
       <Block margin={[2, 0]} flex={0.25} row>
         <VerifyCodeIcon />
         <AppText margin={[0, 0, 0, 2]} header>
           Му отправили проверочный код на номер {currentUser?.phone}
         </AppText>
       </Block>
-      <Code code={code} setCode={setCode} />
-      <TouchableOpacity onPress={launchTick}>
-        <Timer seconds={seconds} />
+
+      <Code code={code} setCode={setCode} isError={isErrorCode} />
+
+      <TouchableOpacity disabled={!isExpired(seconds)} onPress={generateNewNotifyCode}>
+        <Timer seconds={seconds} isError={isErrorCode} />
       </TouchableOpacity>
-    </>
+    </Block>
   );
 };
 
 const VerifyFormConnected = connect(
   ({ auth }: IRootState) => ({
     currentUser: auth.currentUser,
+    errors: auth.errors,
   }),
   {
     verify: verifyAction,
+    notify: notifyAction,
   },
 )(VerifyFormContainer);
 

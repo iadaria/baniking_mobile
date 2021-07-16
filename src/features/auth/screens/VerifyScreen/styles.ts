@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
   digit: {
     margin: wp(2),
     paddingHorizontal: wp(5),
-    backgroundColor: 'rgba(126, 126, 126, 0.2)',
+    //backgroundColor: 'rgba(126, 126, 126, 0.2)',
     borderRadius: wp(2),
     color: colors.secondary,
     fontFamily: fonts.Gilroy.bold,

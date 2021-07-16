@@ -1,5 +1,5 @@
 import React, { FC, ForwardedRef, useState } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInput, TextInputProps, TextStyle } from 'react-native';
 
 import { IVerifyInputs } from '../contracts/verifyInputs';
 import { colors } from '~/src/app/common/constants';
@@ -15,11 +15,12 @@ interface IDigitProps extends TextInputProps {
   nextRef?: RefInput;
   setDigit: (newDigit: string) => void;
   digit: string;
+  isError: boolean;
 }
 
 const Digit = React.forwardRef(
   (
-    { prevRef, nextRef, digit, setDigit, ...otherProps }: IDigitProps,
+    { prevRef, nextRef, digit, setDigit, isError, ...otherProps }: IDigitProps,
     ref: ForwardedRef<TextInput>,
   ) => {
     const [isFocus, setFocus] = useState(false);
@@ -31,10 +32,11 @@ const Digit = React.forwardRef(
       setFocus(true);
     }
 
+    const color = isFocus ? 'white' : isError ? colors.errorDigit : colors.opacity;
     return (
       <TextInput
         ref={ref}
-        style={[s.digit, isFocus && { backgroundColor: 'white' }]}
+        style={[s.digit, { backgroundColor: color }]}
         textAlign="center"
         multiline={true}
         keyboardType="numeric"
@@ -59,16 +61,17 @@ const Digit = React.forwardRef(
 interface ICodeProps {
   code: string[];
   setCode: (code: string[]) => void;
+  isError: boolean;
 }
 
-export const Code: FC<ICodeProps> = ({ code, setCode }) => {
+export const Code: FC<ICodeProps> = ({ code, setCode, isError }) => {
   const ref_one = React.createRef<TextInput>();
   const ref_two = React.createRef<TextInput>();
   const ref_three = React.createRef<TextInput>();
   const ref_four = React.createRef<TextInput>();
 
-  const isErrors = false;
-  const color = isErrors ? colors.error : colors.secondary;
+  //const isErrors = false;
+  const color = isError ? colors.error : colors.secondary;
 
   function handleChangeCode(newDigit: string, at: number) {
     const newCode = [...code];
@@ -83,6 +86,7 @@ export const Code: FC<ICodeProps> = ({ code, setCode }) => {
         nextRef={ref_two}
         digit={code[0]}
         setDigit={(digit: string) => handleChangeCode(digit, 0)}
+        isError={isError}
       />
       <Digit
         ref={ref_two}
@@ -90,6 +94,7 @@ export const Code: FC<ICodeProps> = ({ code, setCode }) => {
         prevRef={ref_one}
         digit={code[1]}
         setDigit={(digit: string) => handleChangeCode(digit, 1)}
+        isError={isError}
       />
       <Digit
         ref={ref_three}
@@ -97,12 +102,14 @@ export const Code: FC<ICodeProps> = ({ code, setCode }) => {
         prevRef={ref_two}
         digit={code[2]}
         setDigit={(digit: string) => handleChangeCode(digit, 2)}
+        isError={isError}
       />
       <Digit
         ref={ref_four}
         prevRef={ref_three}
         digit={code[3]}
         setDigit={(digit: string) => handleChangeCode(digit, 3)}
+        isError={isError}
       />
     </Block>
   );

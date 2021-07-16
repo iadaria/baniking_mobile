@@ -141,6 +141,13 @@ export default function authReducer(
 
     // Common
 
+    case constants.NOTIFY:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+      };
+
     case constants.AUTH_FAIL:
       return {
         ...state,
@@ -153,6 +160,13 @@ export default function authReducer(
         ...state,
         loading: false,
         errors: null,
+      };
+
+    case constants.REQUEST_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
       };
 
     case constants.AUTH_SUCCESS:

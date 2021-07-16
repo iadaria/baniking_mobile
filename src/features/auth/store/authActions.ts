@@ -4,7 +4,7 @@ import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
 import { VerifyPayload } from './saga/verifySaga';
 import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
-import { NotifyPaylaod } from './saga/notifySaga';
+import { NotifyPayload } from './saga/notifySaga';
 
 // Begin work
 
@@ -29,7 +29,7 @@ export const verify = (payload: VerifyPayload) => ({
   payload: payload,
 });
 
-export const notify = (payload: NotifyPaylaod) => ({
+export const notify = (payload: NotifyPayload) => ({
   type: constants.NOTIFY,
   payload: payload,
 });
@@ -100,6 +100,11 @@ export const authSuccess = () => ({
 });
 export const requestSuccess = () => ({
   type: constants.REQUEST_SUCCESS,
+});
+
+export const requestFail = (errors: IErrors | null) => ({
+  type: constants.AUTH_FAIL,
+  payload: errors,
 });
 
 export const authLogout = () => ({

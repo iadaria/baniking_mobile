@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { windowWidth, multiplier, windowHeight } from '~/src/app/common/constants';
-
-__DEV__ && console.log('[ScheduleModal Height]', windowHeight);
+import {
+  windowWidth,
+  multiplier,
+  windowHeight,
+} from '~/src/app/common/constants';
 
 export const styles = StyleSheet.create({
   modalView: {

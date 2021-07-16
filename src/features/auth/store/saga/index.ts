@@ -7,3 +7,4 @@ export { default as registerEmailSaga } from './registerEmailSaga';
 export { default as registerPhoneSaga } from './registerPhoneSaga';
 export { default as registerCompleteSaga } from './registerCompleteSaga';
 export { default as verifySaga } from './verifySaga';
+export { default as notifySaga } from './notifySaga';
