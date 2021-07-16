@@ -1,10 +1,13 @@
 import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
 import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { setPersistUserData, setPersistToken } from '~/src/features/persist/store/appPersistActions';
+import {
+  setPersistUserData,
+  setPersistToken,
+} from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { EMAIL_LOGIN } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
@@ -24,12 +27,17 @@ interface IResult {
   token: string;
 }
 
-function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
+function* emailLoginSaga({
+  payload,
+}: IAction) /* : Generator<Promise<ICredential>, void, IResult> */ {
   try {
     __DEV__ && console.log('payload', payload);
 
     const { login, password, device_name, persist } = payload;
-    const { token }: IResult = yield methods.login({ email: login, password, device_name }, null);
+    const { token }: IResult = yield methods.login(
+      { email: login, password, device_name },
+      null,
+    );
     // const token = 'lkjlkjlkj';
 
     yield tokenToHeaders(token);
@@ -47,13 +55,21 @@ function* emailLoginSaga({ payload }: IAction) /* : Generator<Promise<ICredentia
     let [errors, message, allErrors] = getErrorStrings(e);
     __DEV__ && console.log([errors, message, allErrors]);
 
-    const errorMessage = allErrors ? allErrors : message ? message : 'Ошибка при получении qr кода';
+    const errorMessage = allErrors
+      ? allErrors
+      : message
+      ? message
+      : 'Ошибка при получении qr кода';
 
     yield showAlert('Ошибка', errorMessage);
   }
 }
 
-export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
+export default function* listener(): Generator<
+  ForkEffect<never>,
+  void,
+  unknown
+> {
   yield takeLatest(EMAIL_LOGIN, emailLoginSaga);
 }
 

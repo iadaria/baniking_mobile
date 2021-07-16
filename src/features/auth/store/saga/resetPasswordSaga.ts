@@ -5,7 +5,7 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { authSuccess } from '../authActions';
 import { RESET_PASSWORD } from '../authConstants';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {

@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { FilterIcon } from '~/src/assets';
 import { styles } from './styles';
 

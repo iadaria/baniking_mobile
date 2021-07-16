@@ -3,7 +3,7 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { tokenToHeaders } from '~/src/app/api';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CHECK_AUTH } from '../authConstants';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { setAuthToken } from '../authActions';
 import { logline } from '~/src/app/utils/debug';
 

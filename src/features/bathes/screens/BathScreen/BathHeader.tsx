@@ -11,7 +11,7 @@ import { getRandomBathImage, isCachedImage, isNonRating } from '~/src/app/utils/
 import { AppHeader } from './AppHeader';
 import { styles } from './styles';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 
 export interface IHeadBath {
@@ -59,7 +59,7 @@ export default function BathHeader({ distance, navigation, headBath, persistImag
         start={{ x: 0.1, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}>
-        <AppHeader navigation={navigation} onPress={() => {} /* dispatch(nonTransparentHeader()) */} />
+        <AppHeader navigation={navigation} onPress={() => { } /* dispatch(nonTransparentHeader()) */} />
         <Block padding={[sizes.offset.base * multiplier, sizes.offset.base, 0]}>
           <AppText h1>Баня</AppText>
           <AppText margin={[6 * multiplier, 0, 0]} transform="uppercase" height={28 * multiplier} trajan h1>

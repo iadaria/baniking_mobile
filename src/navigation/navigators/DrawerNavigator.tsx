@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 
 interface ILabelProps {
   color: string;

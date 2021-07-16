@@ -7,7 +7,7 @@ import { IOrderCall, IOrderCallParams } from '~/src/app/models/bath';
 import { ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;

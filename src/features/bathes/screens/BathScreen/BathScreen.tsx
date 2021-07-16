@@ -26,7 +26,7 @@ import BathBathers from './BathBathers';
 import BathInfrastructure from './BathInfrastructure';
 import BathInfo from './BathInfo';
 import BathSchedule from './BathSchedule';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { OrderCallIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
@@ -67,7 +67,7 @@ function BathScreenContainer({
   transparentHeader,
   nonTransparentHeader,
 }: // openModal,
-IProps) {
+  IProps) {
   const bathParams: IParams | undefined = (route?.params || {}) as IParams;
   const {
     id,

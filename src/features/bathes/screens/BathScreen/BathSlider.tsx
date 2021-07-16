@@ -6,7 +6,7 @@ import { ActivityIndicator, Image } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
 import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
 import { isCachedImage } from '~/src/app/utils/bathUtility';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { styles } from './styles';
 import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
 import { colors } from '~/src/app/common/constants';

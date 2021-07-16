@@ -7,7 +7,7 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { isSuccessStatus } from '~/src//app/models/response';
 import { requestFail, requestSuccess } from '../authActions';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { Action } from '~/src/app/common/constants';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 

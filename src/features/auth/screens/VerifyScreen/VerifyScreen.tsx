@@ -6,7 +6,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { VerifyForm } from './VerifyForm';
 import { styles } from './styles';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { BackButton } from '~/src/app/common/components/BackButton';
 
 interface IProps {

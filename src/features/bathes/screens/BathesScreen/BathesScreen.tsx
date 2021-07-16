@@ -38,7 +38,7 @@ import { styles } from './styles';
 import NotFound from './NotFound';
 import CancelLink from './CancelLink';
 import UpdateRequestButton from './UpdateRequestButton';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import usePermission from '~/src/app/hooks/usePermission';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
 import { useGeolocation } from '../../hooks/useGeolocation';

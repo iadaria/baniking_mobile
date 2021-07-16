@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { getErrorStrings } from '~/src/app/utils/error';
 import {
   requestSuccess,

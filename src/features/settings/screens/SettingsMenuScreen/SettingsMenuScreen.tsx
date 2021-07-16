@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import { MenuItem } from '~/src/assets';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;

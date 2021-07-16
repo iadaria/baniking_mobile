@@ -1,4 +1,4 @@
-export default {
+export const routes = {
   navigators: {
     DrawerNavigator: 'DrawerNavigator',
     AuthNavigator: 'AuthNavigator',

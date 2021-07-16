@@ -8,7 +8,7 @@ import {
   setPersistUserData,
 } from '~/src/features/persist/store/appPersistActions';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { log, logline } from '~/src/app/utils/debug';
 import { IRootState } from '~/src/app/store/rootReducer';

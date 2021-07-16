@@ -22,7 +22,7 @@ import { formatPhoneNumber } from '~/src/app/utils/system';
 import OrderCallForm from './OrderCallForm';
 import { IOrderCallInputs } from '../../contracts/orderCallInputs';
 import { IOrderCall } from '~/src/app/models/bath';
-import routes from '~/src/navigation/helpers/routes';
+import { routes } from '~/src/navigation/helpers/routes';
 import { bathOneImg, CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
 
