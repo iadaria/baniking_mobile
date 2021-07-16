@@ -1,14 +1,14 @@
 import { IInput } from '~/src/app/models/validate';
 
 export const defaultRecoveryInputs: IRecoveryInputs = {
-  email: {
-    type: 'email',
+  phone: {
+    type: 'phone',
     value: '',
     require: true,
   },
 };
 
 export interface IRecoveryInputs {
-  email: IInput;
+  phone: IInput;
   [key: string]: IInput;
 }

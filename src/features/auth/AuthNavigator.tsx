@@ -12,7 +12,8 @@ export default function AuthNavigator(): JSX.Element {
   const Auth = createStackNavigator();
   return (
     <Auth.Navigator
-      initialRouteName="VerifyScreen"
+      initialRouteName="LoginScreen"
+      //initialRouteName="VerifyScreen"
       //initialRouteName="LoginScreen"
       //initialRouteName="RegisterCompleteScreen"
       //initialRouteName="RegisterScreen"

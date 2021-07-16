@@ -51,7 +51,13 @@ export default function authReducer(
         loading: true,
         errors: null,
       };
-    case constants.EMAIL_LOGIN:
+    case constants.LOGIN_PHONE:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
+      };
+    case constants.LOGIN_PHONE:
       return {
         ...state,
         loading: true,

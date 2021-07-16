@@ -5,6 +5,7 @@ import { IErrors } from '~/src/app/utils/error';
 import { VerifyPayload } from './saga/verifySaga';
 import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
 import { NotifyPayload } from './saga/notifySaga';
+import { ResetPasswordPayload } from './saga/resetPasswordSaga';
 
 // Begin work
 
@@ -53,8 +54,13 @@ export const initRegisterCompleteInputs = (
 
 // Login
 
-export const emailLogin = (payload: Partial<ICredential>) => ({
+/* export const emailLogin = (payload: Partial<ICredential>) => ({
   type: constants.EMAIL_LOGIN,
+  payload: payload,
+});
+ */
+export const loginPhone = (payload: Partial<ICredential>) => ({
+  type: constants.LOGIN_PHONE,
   payload: payload,
 });
 
@@ -83,9 +89,9 @@ export const setAuthToken = (token: string) => ({
   payload: token,
 });
 
-export const resetPassword = (email: string) => ({
+export const resetPassword = (payload: ResetPasswordPayload) => ({
   type: constants.RESET_PASSWORD,
-  payload: email,
+  payload: payload,
 });
 
 // Results: SUCCESS & FAIL

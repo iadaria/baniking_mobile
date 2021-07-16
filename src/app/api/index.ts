@@ -81,7 +81,8 @@ export const methods = {
   verify: request('post', '/verification/verify', pubFetch),
   notify: request('post', '/verification/resend', pubFetch),
   registerComplete: request('post', '/registration/complete', pubFetch),
-  reset: request('post', '/passwords/reset', privFetch),
+  reset: request('post', '/password/reset', privFetch),
+  restore: request('post', '/password/restore', privFetch),
   // settings
   changePassword: request('put', '/password', privFetch),
   // profile

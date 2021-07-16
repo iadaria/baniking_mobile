@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Input, AppText, Block } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -8,26 +7,28 @@ import { ParamListBase } from '@react-navigation/native';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { connect } from 'react-redux';
 import { resetPassword as resetPasswordAction } from '~/src/features/auth/store/authActions';
-import { ICredential } from '~/src/app/models/user';
 import { sizes } from '~/src/app/common/constants';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { defaultRecoveryInputs } from '../contracts/recoveryInputs';
+import { ResetPasswordPayload } from '../../store/saga/resetPasswordSaga';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   scrollViewRef?: React.RefObject<ScrollView>;
-  resetPassword: (email: string) => void;
+  resetPassword: (payload: ResetPasswordPayload) => void;
 }
 
-const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): JSX.Element => {
+const ResetPasswordFormContainer = ({
+  scrollViewRef,
+  resetPassword,
+}: IProps): JSX.Element => {
   // Use ref because don't need rendering component
-  const valuesRef = React.useRef<Partial<ICredential>>({ email: '' });
+  const valuesRef = React.useRef<ResetPasswordPayload>();
   const [recreate, setRecreate] = React.useState<boolean>(true);
 
   const handleResetPassword = () => {
     if (valuesRef.current) {
-      __DEV__ && console.log('values1', valuesRef.current);
-      resetPassword(valuesRef?.current.email!);
+      resetPassword(valuesRef.current);
       setRecreate(!recreate);
     }
   };
@@ -48,14 +49,15 @@ const ResetPasswordFormContainer = ({ scrollViewRef, resetPassword }: IProps): J
       {/* Email / Telephone Input */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
-          Ваш email
+          Телеофон
         </AppText>
       </Block>
       <Input
-        style={{ borderRadius: 10 /* , paddingLeft: wp(29)  */ }}
+        style={{ borderRadius: 10 }}
+        id="phone"
+        placeholder="+7(___)___-__-__   "
+        mask="+7([000])[000]-[00]-[00]"
         center
-        id="email"
-        placeholder="Введите e-mail "
       />
       {/* Button */}
       <AppButton margin={[2, 0, 1]} onPress={handleResetPassword}>

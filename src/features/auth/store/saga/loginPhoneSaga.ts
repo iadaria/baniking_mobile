@@ -1,4 +1,4 @@
-import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
+import { call, ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import { ICredential } from '~/src/app/models/user';
@@ -9,36 +9,33 @@ import {
   setPersistToken,
 } from '~/src/features/persist/store/appPersistActions';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
-import { EMAIL_LOGIN } from '../authConstants';
+import { LOGIN_PHONE } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { log, logline } from '~/src/app/utils/debug';
+import { authSuccess } from '../authActions';
 
-// any - what we pass to call
-// second - what we return: void or string(return "done")
-// third - what return call
-
-// const NOT_CONFIRMED = 'Registration not confirmed';
+export type LoginPhonePayload = {
+  phone: string;
+  password: string;
+  remember: boolean;
+  device_name: string;
+};
 
 interface IAction {
   type: string;
-  payload: ICredential;
+  payload: LoginPhonePayload;
 }
 
-interface IResult {
-  token: string;
-}
-
-function* emailLoginSaga({ payload }: IAction) {
+function* loginPhoneSaga({ payload }: IAction) {
   try {
-    logline('payload', payload);
+    logline('[loginPhoneSaga] payload', payload);
 
-    const { login, password, device_name, persist } = payload;
-    const { token }: IResult = yield methods.login(
-      { email: login, password, device_name },
-      null,
-    );
+    const result: unknown = yield call(methods.login, payload, null);
+    log('[loginPhoneSaga] result', result);
+    yield put(authSuccess());
+    //const { phone, password, device_name, remember } = payload;
 
-    yield tokenToHeaders(token);
+    /* yield tokenToHeaders(token);
 
     if (persist) {
       yield put(setPersistToken(token));
@@ -46,12 +43,12 @@ function* emailLoginSaga({ payload }: IAction) {
     }
     yield put(setAuthUserData({ email: login, token }));
 
-    RootNavigation.reset(routes.navigators.DrawerNavigator);
+    RootNavigation.reset(routes.navigators.DrawerNavigator); */
   } catch (e) {
-    log('[emailogin/error]', e);
+    log('[loginPhoneSaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
-    logline('[emailLogin/error]', [errors, message, allErrors]);
+    logline('[loginPhoneSaga/error]', [errors, message, allErrors]);
 
     const errorMessage = allErrors
       ? allErrors
@@ -68,7 +65,7 @@ export default function* listener(): Generator<
   void,
   unknown
 > {
-  yield takeLatest(EMAIL_LOGIN, emailLoginSaga);
+  yield takeLatest(LOGIN_PHONE, loginPhoneSaga);
 }
 
 // For test

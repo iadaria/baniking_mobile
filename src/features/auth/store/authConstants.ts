@@ -1,5 +1,5 @@
 // login
-export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
+//export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
 export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
 export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';
 // Social login
@@ -7,6 +7,7 @@ export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
 export const SOCIAL_LOGIN_CANCELED = 'auth/SOCIAL_LOGIN_CANCELED';
 export const GOOGLE_LOGIN = 'auth/GOOGLE_LOGIN';
 export const YANDEX_LOGIN = 'auth/YANDEX_LOGIN';
+export const LOGIN_PHONE = 'auth/LOGIN_PHONE';
 // register
 export const EMAIL_REGISTER = 'auth/EMAIL_REGISTER';
 export const PHONE_REGISTER = 'auth/PHONE_REGISTER';
@@ -18,7 +19,7 @@ export const INIT_REGISTER_COMPLETE_INPUTS =
   'auth/INIT_REGISTER_COMPLETE_INPUTS';
 // reset
 export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
-export const RESET_PASSWORD = 'auth/RECOVERY_PASSWORD';
+export const RESET_PASSWORD = 'auth/RESET_PASSWORD';
 export const LOG_OUT = 'auth/LOG_OUT';
 export const ENTER_CODE = 'auth/ENTER_CODE';
 export const SET_VERIFIED = 'auth/SET_VERIFIED';

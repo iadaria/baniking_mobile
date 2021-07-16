@@ -1,8 +1,8 @@
 import { IInput } from '~/src/app/models/validate';
 
 export const defaultLoginInputs: ILoginInputs = {
-  login: {
-    type: 'login',
+  phone: {
+    type: 'phone',
     value: '',
     require: true,
   },
@@ -14,7 +14,7 @@ export const defaultLoginInputs: ILoginInputs = {
 };
 
 export interface ILoginInputs {
-  login: IInput;
+  phone: IInput;
   password: IInput;
   [key: string]: IInput;
 }
