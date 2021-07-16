@@ -11,7 +11,7 @@ function* checkAuthSaga() {
   const token: string | null = yield select(
     (state: IRootState) => state.persist.token,
   );
-  logline('[checkAuthSaga] token = ', token);
+  logline('', `\n[checkAuthSaga] token = ${token}`);
   if (token) {
     yield tokenToHeaders(token);
     yield put(setAuthToken(token));

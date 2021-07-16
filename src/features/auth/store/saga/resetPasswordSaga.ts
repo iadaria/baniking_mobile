@@ -23,14 +23,14 @@ function* resetPasswordSaga({ payload }: IAction) {
   try {
     const { phone } = payload;
     const response: AxiosResponse = yield call(methods.reset, { phone }, null);
-    logline('[Auth reset password] response = ', response);
+    //logline('[Auth reset password] response = ', response);
     if (isSuccessStatus(response.status)) {
       yield put(requestSuccess());
       yield put(setAuthUserData({ phone }));
       yield RootNavigation.reset(routes.authNavigator.VerifyScreen);
     }
   } catch (e) {
-    log('[resetPassword]', e);
+    //log('[resetPassword]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
 

@@ -26,24 +26,29 @@ interface IAction {
   payload: LoginPhonePayload;
 }
 
+interface IResult {
+  token: string;
+}
+
 function* loginPhoneSaga({ payload }: IAction) {
   try {
     logline('[loginPhoneSaga] payload', payload);
 
-    const result: unknown = yield call(methods.login, payload, null);
-    log('[loginPhoneSaga] result', result);
-    yield put(authSuccess());
-    //const { phone, password, device_name, remember } = payload;
+    const { token }: IResult = yield call(methods.login, payload, null);
 
-    /* yield tokenToHeaders(token);
-
-    if (persist) {
+    if (token) {
+      yield put(authSuccess());
+      yield tokenToHeaders(token);
       yield put(setPersistToken(token));
-      yield put(setPersistUserData({ email: login }));
-    }
-    yield put(setAuthUserData({ email: login, token }));
 
-    RootNavigation.reset(routes.navigators.DrawerNavigator); */
+      const { phone, remember } = payload;
+      yield put(setAuthUserData({ phone, token }));
+      if (remember) {
+        yield put(setPersistToken(token));
+        yield put(setPersistUserData({ phone }));
+      }
+      RootNavigation.reset(routes.navigators.DrawerNavigator);
+    }
   } catch (e) {
     log('[loginPhoneSaga/error]', e);
 

@@ -44,14 +44,14 @@ function* registerCompleteSaga({ payload }: IAction) {
 
     if (token) {
       yield put(authSuccess());
+      yield tokenToHeaders(token);
       const { currentUser }: IAuthState = yield select(
         ({ auth }: IRootState) => auth,
       );
       const { email, name, phone }: Partial<IUserAuth> = currentUser || {};
-      yield tokenToHeaders(token);
-      yield put(setPersistToken(token));
-      yield put(setPersistUserData({ email, name, phone }));
-      yield put(setAuthUserData({ token, email, name }));
+      //yield put(setPersistToken(token));
+      //yield put(setPersistUserData({ email, name, phone }));
+      yield put(setAuthUserData({ token, email, name, phone }));
       yield RootNavigation.reset(routes.navigators.DrawerNavigator);
     }
   } catch (e) {
