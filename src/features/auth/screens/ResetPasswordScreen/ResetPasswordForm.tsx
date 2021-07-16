@@ -57,6 +57,7 @@ const ResetPasswordFormContainer = ({
         id="phone"
         placeholder="+7(___)___-__-__   "
         mask="+7([000])[000]-[00]-[00]"
+        keyboardType="numeric"
         center
       />
       {/* Button */}

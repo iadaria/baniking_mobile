@@ -57,7 +57,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
   useEffect(() => {
     return () => {
-      // logline('[ValidatedElements/useEffect/timeIds change]', timeIds);
+      logline('[ValidatedElements/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

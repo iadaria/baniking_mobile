@@ -75,7 +75,7 @@ const VerifyFormContainer = ({ currentUser, verify, notify, errors }: IProps): J
   const [timer, setTimer] = useState<NodeJS.Timeout>();
 
   // for test
-  currentUser = currentUser || { phone: '+7(914)352-82-88' }
+  //currentUser = currentUser || { phone: '+7(914)352-82-88' }
 
   useEffect(() => {
     logline('[VarifyForm]', `code=${code.join('')}, isFull=${isFullCode(code)}`);
@@ -108,7 +108,7 @@ const VerifyFormContainer = ({ currentUser, verify, notify, errors }: IProps): J
   }
 
   function tick() {
-    setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    timer && setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
   }
 
   function handleVerifyCode() {
@@ -135,7 +135,8 @@ const VerifyFormContainer = ({ currentUser, verify, notify, errors }: IProps): J
 
   function clearCode() { setCode([]) }
 
-  const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
+  //const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
+  const isErrorCode = errors !== null;
 
   return (
     <Block full>

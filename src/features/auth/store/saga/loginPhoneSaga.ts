@@ -39,7 +39,6 @@ function* loginPhoneSaga({ payload }: IAction) {
     if (token) {
       yield put(authSuccess());
       yield tokenToHeaders(token);
-      yield put(setPersistToken(token));
 
       const { phone, remember } = payload;
       yield put(setAuthUserData({ phone, token }));

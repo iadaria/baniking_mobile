@@ -60,9 +60,10 @@ const LoginFormContainer = ({ navigation, scrollViewRef, loginPhone }: IProps): 
       <Input
         style={{ borderRadius: 10 }}
         id="phone"
-        placeholder="+7(___)___-__-__   "
+        placeholder="+7(___)___-__-__"
         mask="+7([000])[000]-[00]-[00]"
         center
+        keyboardType="numeric"
       //isScrollToFocused
       />
       <Block row middle center>
