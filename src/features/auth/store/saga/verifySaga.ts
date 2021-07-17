@@ -22,11 +22,10 @@ function* verifySaga({ payload }: { type: string; payload: VerifyPayload }) {
     logline('[verifySaga]', payload);
     const { status }: AxiosResponse = yield call(methods.verify, payload, null);
     if (isSuccessStatus(status)) {
-      const { action } = payload;
       yield put(requestSuccess());
-      if (action === Action.Registration) {
-        yield RootNavigation.reset(routes.authNavigator.RegisterCompleteScreen);
-      }
+      yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, {
+        action: Action.Password,
+      });
     }
   } catch (e) {
     log('[verifySaga/error]', e);

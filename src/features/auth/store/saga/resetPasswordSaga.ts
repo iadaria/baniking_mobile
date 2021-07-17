@@ -3,12 +3,17 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { methods } from '~/src/app/api';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { authSuccess, requestSuccess, setAuthUserData } from '../authActions';
+import {
+  requestSuccess,
+  setAuthUserData,
+  initVerifyInputs,
+} from '../authActions';
 import { RESET_PASSWORD } from '../authConstants';
 import { routes } from '~/src/navigation/helpers/routes';
-import { log, logline } from '~/src/app/utils/debug';
+import { log } from '~/src/app/utils/debug';
 import { AxiosResponse } from 'axios';
 import { isSuccessStatus } from '~/src/app/models/response';
+import { Action } from '~/src/app/common/constants';
 
 export type ResetPasswordPayload = {
   phone: string;
@@ -27,7 +32,9 @@ function* resetPasswordSaga({ payload }: IAction) {
     if (isSuccessStatus(response.status)) {
       yield put(requestSuccess());
       yield put(setAuthUserData({ phone }));
-      yield RootNavigation.reset(routes.authNavigator.VerifyScreen);
+      yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, {
+        action: Action.Password,
+      });
     }
   } catch (e) {
     //log('[resetPassword]', e);

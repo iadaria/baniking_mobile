@@ -20,6 +20,7 @@ export const INIT_REGISTER_COMPLETE_INPUTS =
 // reset
 export const RECOVER_ACCOUNT = 'auth/RECOVER_ACCOUNT';
 export const RESET_PASSWORD = 'auth/RESET_PASSWORD';
+export const RESTORE_PASSWORD = 'auth/RESTORE_PASSWORD';
 export const LOG_OUT = 'auth/LOG_OUT';
 export const ENTER_CODE = 'auth/ENTER_CODE';
 export const SET_VERIFIED = 'auth/SET_VERIFIED';
@@ -33,5 +34,6 @@ export const CONFIRM_PASSWORD = 'auth/CONFIRM_PASSWORD';
 export const AUTH_FAIL = 'auth/AUTH_FAIL';
 export const AUTH_SUCCESS = 'auth/AUTH_SUCCESS';
 export const CHECK_AUTH = 'auth/CHECK_AUTH';
+export const REQUEST_AUTH = 'auth/REQUEST_AUTH';
 export const REQUEST_SUCCESS = 'auth/REQUEST_SUCCESS';
 export const REQUEST_FAIL = 'auth/REQUEST_FAIL';

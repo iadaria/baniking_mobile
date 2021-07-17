@@ -7,6 +7,7 @@ import { CompleteRegisterPayload } from './saga/registerCompleteSaga';
 import { NotifyPayload } from './saga/notifySaga';
 import { ResetPasswordPayload } from './saga/resetPasswordSaga';
 import { RegisterPayload } from './saga/registerPhoneSaga';
+import { RestorePasswordPayload } from './saga/restorePasswordSaga';
 
 // Begin work
 
@@ -95,6 +96,11 @@ export const resetPassword = (payload: ResetPasswordPayload) => ({
   payload: payload,
 });
 
+export const restorePassword = (payload: RestorePasswordPayload) => ({
+  type: constants.RESTORE_PASSWORD,
+  payload: payload,
+});
+
 // Results: SUCCESS & FAIL
 
 export const authFail = (errors: IErrors | null) => ({
@@ -105,12 +111,17 @@ export const authFail = (errors: IErrors | null) => ({
 export const authSuccess = () => ({
   type: constants.AUTH_SUCCESS,
 });
+
 export const requestSuccess = () => ({
   type: constants.REQUEST_SUCCESS,
 });
 
+export const requestAuth = () => ({
+  type: constants.REQUEST_AUTH,
+});
+
 export const requestFail = (errors: IErrors | null) => ({
-  type: constants.AUTH_FAIL,
+  type: constants.REQUEST_FAIL,
   payload: errors,
 });
 

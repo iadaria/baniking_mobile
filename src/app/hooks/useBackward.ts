@@ -1,8 +1,16 @@
-import { getFocusedRouteNameFromRoute, ParamListBase, Route } from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  ParamListBase,
+  Route,
+} from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { disableBackward, enableBackward, pushBackward } from '~/src/app/store/system/systemActions';
+import {
+  disableBackward,
+  enableBackward,
+  pushBackward,
+} from '~/src/app/store/system/systemActions';
 import { setCurrentScreen } from '../store/system/systemActions';
 
 interface IProps {

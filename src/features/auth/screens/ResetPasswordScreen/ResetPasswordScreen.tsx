@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
+import { ParamListBase, Route } from '@react-navigation/native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { AuthLogo } from '~/src/assets';
 import { multiplier } from '~/src/app/common/constants';

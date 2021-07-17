@@ -51,34 +51,11 @@ export default function authReducer(
         loading: true,
         errors: null,
       };
-    case constants.LOGIN_PHONE:
-      return {
-        ...state,
-        loading: true,
-        errors: null,
-      };
-    case constants.LOGIN_PHONE:
-      return {
-        ...state,
-        loading: true,
-        errors: null,
-      };
-
-    case constants.EMAIL_REGISTER:
-      return {
-        ...state,
-        loading: true,
-        errors: null,
-      };
-
-    case constants.RESET_PASSWORD:
-      return {
-        ...state,
-        loading: true,
-        errors: null,
-      };
-
     // Social login
+    case constants.LOGIN_PHONE:
+    case constants.EMAIL_REGISTER:
+    case constants.RESTORE_PASSWORD:
+    case constants.RESET_PASSWORD:
     case constants.SOCIAL_LOGIN:
     case constants.GOOGLE_LOGIN:
       return {
@@ -152,10 +129,25 @@ export default function authReducer(
     case constants.AUTH_FAIL:
       return {
         ...state,
+        authenticated: false,
         loading: false,
         errors: payload,
       };
 
+    case constants.AUTH_SUCCESS:
+      return {
+        ...state,
+        authenticated: true,
+        loading: false,
+        errors: null,
+      };
+
+    case constants.REQUEST_AUTH:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
+      };
     case constants.REQUEST_SUCCESS:
       return {
         ...state,
@@ -170,13 +162,6 @@ export default function authReducer(
         errors: payload,
       };
 
-    case constants.AUTH_SUCCESS:
-      return {
-        ...state,
-        authenticated: true,
-        loading: false,
-        errors: null,
-      };
     default:
       return state;
   }

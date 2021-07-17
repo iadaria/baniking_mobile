@@ -5,8 +5,11 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { methods } from '~/src/app/api';
 import { GET_PROFILE_SETTINGS } from '../profileConstants';
 import { IProfile } from '~/src/app/models/profile';
-import { setAuthUserData } from '~/src/features/auth/store/authActions';
-import { authFail } from '../../../auth/store/authActions';
+import {
+  requestFail,
+  setAuthUserData,
+} from '~/src/features/auth/store/authActions';
+import { log, logline } from '~/src/app/utils/debug';
 
 function* getProfileSettingsSaga() {
   try {
@@ -19,15 +22,15 @@ function* getProfileSettingsSaga() {
       }),
     );
   } catch (e) {
-    __DEV__ && console.log(JSON.stringify(e, null, 4));
+    log('[getProfileSettingsSaga] error', e);
     let [errors, message, allErrors] = getErrorStrings(e);
-    __DEV__ && console.log('[getdProfileSettingsSaga]', [errors, message]);
+    logline('[getdProfileSettingsSaga]', [errors, message]);
 
     let errorMessage = allErrors ? allErrors : 'Ошибка при получении данных';
 
     yield showAlert('Ошибка', errorMessage);
 
-    put(authFail(errors));
+    put(requestFail(errors));
   }
 }
 

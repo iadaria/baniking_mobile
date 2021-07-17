@@ -4,6 +4,7 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import { getErrorStrings } from '~/src/app/utils/error';
 import {
+  initVerifyInputs,
   requestSuccess,
   setAuthUserData,
 } from '~/src/features/auth/store/authActions';
@@ -12,6 +13,7 @@ import { isSuccessStatus } from '~/src/app/models/response';
 import { methods } from '~/src/app/api';
 import { log, logline } from '~/src/app/utils/debug';
 import { PHONE_REGISTER } from '../authConstants';
+import { Action } from '~/src/app/common/constants';
 
 export type RegisterPayload = {
   phone: string;
@@ -41,7 +43,9 @@ function* registerPhoneSaga({
       yield put(requestSuccess()); // not authenticated
       const { name, email, phone } = payload;
       yield put(setAuthUserData({ phone, email, name }));
-      yield RootNavigation.reset(routes.authNavigator.VerifyScreen);
+      yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, {
+        action: Action.Registration,
+      });
     }
   } catch (e) {
     //if (axios.isAxiosError(e)) {

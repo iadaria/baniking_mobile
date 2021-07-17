@@ -1,5 +1,8 @@
 import React from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import { BathesScreen, BathScreen } from './screens';
 import { DestinationMap } from './screens/DestinationMap';
 import { ParamListBase, Route } from '@react-navigation/native';
@@ -13,16 +16,31 @@ interface IScreenOptionsProps {
   navigation: StackNavigationProp<ParamListBase>;
 }
 
-export default function BathesNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
+export default function BathesNavigator({
+  navigation,
+  route,
+}: IScreenOptionsProps): JSX.Element {
   const bathesScreens = ['BathScreen', 'BathesFilterScreen'];
   const bathScreens = ['DestinationMap', 'BathesPhotosScreen'];
 
-  useBackward({ navigation, route, screens: bathesScreens, screen: 'BathesScreen' });
-  useBackward({ navigation, route, screens: bathScreens, screen: 'BathScreen' });
+  useBackward({
+    navigation,
+    route,
+    screens: bathesScreens,
+    screen: 'BathesScreen',
+  });
+  useBackward({
+    navigation,
+    route,
+    screens: bathScreens,
+    screen: 'BathScreen',
+  });
 
   const Bathes = createStackNavigator();
   return (
-    <Bathes.Navigator headerMode="screen" screenOptions={{ headerShown: false }}>
+    <Bathes.Navigator
+      headerMode="screen"
+      screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />
       <Bathes.Screen name="BathesFilterScreen" component={BathesFilterScreen} />
       <Bathes.Screen name="OrderCallScreen" component={OrderCallScreen} />

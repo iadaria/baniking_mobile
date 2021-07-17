@@ -1,10 +1,22 @@
-import { GoogleSignin, statusCodes, User as GoogleUser } from '@react-native-community/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+  User as GoogleUser,
+} from '@react-native-community/google-signin';
 import { ForkEffect, put, takeLatest } from 'redux-saga/effects';
-import { SocialProvider, ISocialAccount, IUserAuth } from '~/src/app/models/user';
+import {
+  SocialProvider,
+  ISocialAccount,
+  IUserAuth,
+} from '~/src/app/models/user';
 import { addSocialAccount } from '~/src/features/persist/store/appPersistActions';
-import { setAuthUserData, socialLoginCanceled } from '~/src/features/auth/store/authActions';
+import {
+  setAuthUserData,
+  socialLoginCanceled,
+} from '~/src/features/auth/store/authActions';
 import { GOOGLE_LOGIN } from '../authConstants';
 import { authFail } from '../authActions';
+import { logline } from '~/src/app/utils/debug';
 /**
  * Google signin
  *
@@ -13,8 +25,10 @@ import { authFail } from '../authActions';
 
 GoogleSignin.configure({
   //vscopes: ['https://www.googleapis.com/auth/drive.readonly'],
-  androidClientId: '470928467143-adpnffml8vnpov7scado54vbup9usg39.apps.googleusercontent.com',
-  iosClientId: '470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog.apps.googleusercontent.com',
+  androidClientId:
+    '470928467143-adpnffml8vnpov7scado54vbup9usg39.apps.googleusercontent.com',
+  iosClientId:
+    '470928467143-ua5tsgmcj384bsdlmetsdd16vnta7tog.apps.googleusercontent.com',
   // offlineAccess: true,
 });
 
@@ -49,20 +63,23 @@ function* googleLogInSaga() {
     };
     yield put(setAuthUserData(userData as IUserAuth));
     // debug
-    __DEV__ && console.log('*****', userInfo);
-    __DEV__ && console.log('!!!!!!', access_token);
+    logline('*****', userInfo);
+    logline('!!!!!!', access_token);
   } catch (error) {
-
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       yield put(socialLoginCanceled());
-      __DEV__ && console.log('[googleLoginSaga/Google] user canceled the login flow');
+      logline('', '[googleLoginSaga/Google] user canceled the login flow');
     }
 
     yield put(authFail(null));
-    __DEV__ && console.log('[googleLoginSaga/error]', error);
+    logline('[googleLoginSaga/error]', error);
   }
 }
 
-export default function* listener(): Generator<ForkEffect<never>, void, unknown> {
+export default function* listener(): Generator<
+  ForkEffect<never>,
+  void,
+  unknown
+> {
   yield takeLatest(GOOGLE_LOGIN, googleLogInSaga);
 }

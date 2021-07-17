@@ -13,7 +13,7 @@ export const BackButton: FC<IProps> = ({ screen }) => {
   return (
     <TouchableOpacity
       style={styles.menu}
-      onPress={() => RootNavigation.reset(screen)}>
+      onPress={() => RootNavigation.goBackOrToScreen(screen)}>
       <BackwardIcon width={wp(8) * multiplier} />
     </TouchableOpacity>
   );

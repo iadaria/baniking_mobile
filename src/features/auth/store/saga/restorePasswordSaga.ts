@@ -11,7 +11,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { IUserAuth } from '~/src/app/models/user';
 import { IAuthState } from '~/src/features/auth/store/authReducer';
 
-export type CompleteRegisterPayload = {
+export type RestorePasswordPayload = {
   phone: string;
   password: string;
   password_confirmation: string;
@@ -20,7 +20,7 @@ export type CompleteRegisterPayload = {
 
 interface IAction {
   type: string;
-  payload: CompleteRegisterPayload;
+  payload: RestorePasswordPayload;
 }
 
 interface IResult {

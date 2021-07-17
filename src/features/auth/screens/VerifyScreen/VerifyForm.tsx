@@ -29,6 +29,7 @@ import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
+  action: Action;
   scrollViewRef?: React.RefObject<ScrollView>;
   currentUser: Partial<IUserAuth> | null;
   verify: (payload: VerifyPayload) => void;
@@ -80,6 +81,7 @@ const Timer = ({ seconds, isError }: ITimer) => {
 
 const VerifyFormContainer = ({
   currentUser,
+  action,
   verify,
   notify,
   errors,
@@ -119,9 +121,9 @@ const VerifyFormContainer = ({
     verify({
       code: code.join(''),
       phone: currentUser?.phone!,
-      action: Action.Registration,
+      action,
     });
-  }, [code, currentUser, verify]);
+  }, [action, code, currentUser, verify]);
 
   // Отправляем код каждый раз, если:
   // - он полностью состоит из 4 цифр
@@ -159,7 +161,7 @@ const VerifyFormContainer = ({
     if (currentUser) {
       notify({
         phone: currentUser.phone!,
-        action: Action.Registration,
+        action: action,
       });
       launchTick();
     }

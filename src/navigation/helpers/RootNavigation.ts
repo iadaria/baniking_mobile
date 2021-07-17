@@ -18,10 +18,10 @@ export function resetRoot(name: string) {
   });
 }
 
-export const reset = (name: string, index = 0): void => {
+export const reset = (name: string, params = {}, index = 0): void => {
   navigationRef.current?.reset({
     index,
-    routes: [{ name }],
+    routes: [{ name, params }],
   });
 };
 
