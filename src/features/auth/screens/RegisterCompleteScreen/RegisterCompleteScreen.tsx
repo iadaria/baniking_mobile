@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
+import { ParamListBase, Route } from '@react-navigation/native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { ScrollView, TouchableOpacity } from 'react-native';
@@ -8,14 +8,19 @@ import { AuthLogo } from '~/src/assets';
 import { RegisterCompleteForm } from './RegisterCompleteForm';
 import { styles } from './styles';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
-import { multiplier } from '~/src/app/common/constants';
+import { Action, multiplier } from '~/src/app/common/constants';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
+  route: Route<string, { action: Action } | undefined>;
 }
 
-export function RegisterCompleteScreen({ navigation }: IProps) {
+export function RegisterCompleteScreen({ navigation, route }: IProps) {
   const scrollViewRef = useRef<ScrollView>(null);
+  const action = route?.params?.action!;
+
+  logline('RegisterCompleteScreen **', route);
 
   return (
     <KeyboardWrapper>
@@ -33,6 +38,7 @@ export function RegisterCompleteScreen({ navigation }: IProps) {
             <RegisterCompleteForm
               navigation={navigation}
               scrollViewRef={scrollViewRef}
+              action={action}
             />
             {/* Sign in */}
             <Block row middle>

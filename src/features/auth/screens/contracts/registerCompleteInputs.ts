@@ -16,6 +16,11 @@ export const defaultRegisterCompleteInputs: IRegisterCompleteInputs = {
     value: '',
     require: true,
   },
+  device_name: {
+    type: 'generic',
+    value: '',
+    require: true,
+  },
 };
 
 export interface IRegisterCompleteInputs {

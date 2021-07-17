@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
+import DeviceInfo from 'react-native-device-info';
 import { methods } from '~/src/app/api';
 import { log, logline } from '~/src/app/utils/debug';
 import { VERIFY } from '../authConstants';
@@ -6,7 +7,11 @@ import { AxiosResponse } from 'axios';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { isSuccessStatus } from '~/src//app/models/response';
-import { requestFail, requestSuccess } from '../authActions';
+import {
+  initRegisterCompleteInputs,
+  requestFail,
+  requestSuccess,
+} from '../authActions';
 import { routes } from '~/src/navigation/helpers/routes';
 import { Action } from '~/src/app/common/constants';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
@@ -19,12 +24,22 @@ export type VerifyPayload = {
 
 function* verifySaga({ payload }: { type: string; payload: VerifyPayload }) {
   try {
-    logline('[verifySaga]', payload);
+    //logline('[verifySaga]', payload);
     const { status }: AxiosResponse = yield call(methods.verify, payload, null);
     if (isSuccessStatus(status)) {
       yield put(requestSuccess());
-      yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, {
-        action: Action.Password,
+      const { phone, action } = payload;
+      const device_name: string = yield call(DeviceInfo.getDeviceName);
+      yield put(
+        initRegisterCompleteInputs({
+          phone,
+          device_name,
+          password: '',
+          password_confirmation: '',
+        }),
+      );
+      yield RootNavigation.reset(routes.authNavigator.RegisterCompleteScreen, {
+        action,
       });
     }
   } catch (e) {

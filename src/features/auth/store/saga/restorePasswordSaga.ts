@@ -1,15 +1,15 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { methods, tokenToHeaders } from '~/src/app/api';
-import { COMPLETE_REGISTER } from '../authConstants';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { authFail, authSuccess, setAuthUserData } from '../authActions';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { log, logline } from '~/src/app/utils/debug';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IUserAuth } from '~/src/app/models/user';
 import { IAuthState } from '~/src/features/auth/store/authReducer';
+import { RESTORE_PASSWORD } from '../authConstants';
+import { log, logline } from '~/src/app/utils/debug';
 
 export type RestorePasswordPayload = {
   phone: string;
@@ -27,16 +27,12 @@ interface IResult {
   token: string;
 }
 
-function* registerCompleteSaga({ payload }: IAction) {
+function* restorePasswordSaga({ payload }: IAction) {
   try {
-    log('[registerCompleteSaga] payload', payload);
+    log('[restorePasswordSaga] payload', payload);
 
-    const { token }: IResult = yield call(
-      methods.registerComplete,
-      payload,
-      null,
-    );
-    log('[registerCompleteSaga] response data', token);
+    const { token }: IResult = yield call(methods.restore, payload, null);
+    log('[restorePasswordSaga] response data', token);
 
     if (token) {
       yield put(authSuccess());
@@ -49,12 +45,12 @@ function* registerCompleteSaga({ payload }: IAction) {
       yield RootNavigation.reset(routes.navigators.DrawerNavigator);
     }
   } catch (e) {
-    log('[registerCompleteSaga/error]', e);
+    log('[restorePasswordSaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(authFail(errors));
 
-    logline('[registerCompleteSaga/error]', [errors, message]);
+    logline('[restorePasswordSaga/error]', [errors, message]);
 
     const errorMessage = allErrors ? allErrors : 'Ошибка при изменении пароля';
 
@@ -63,5 +59,5 @@ function* registerCompleteSaga({ payload }: IAction) {
 }
 
 export default function* listener() {
-  yield takeLatest(COMPLETE_REGISTER, registerCompleteSaga);
+  yield takeLatest(RESTORE_PASSWORD, restorePasswordSaga);
 }

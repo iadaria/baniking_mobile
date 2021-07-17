@@ -1,79 +1,70 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import { ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block, AppInput } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
-import { logline } from '~/src/app/utils/debug';
 import { CompleteRegisterPayload } from '../../store/saga/registerCompleteSaga';
+import { RestorePasswordPayload } from '../../store/saga/restorePasswordSaga';
 import { IRegisterCompleteInputs } from '../contracts/registerCompleteInputs';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IUserAuth } from '~/src/app/models/user';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
-import { connect } from 'react-redux';
 import {
   registerComplete as reigsterCompleteAction,
-  initRegisterCompleteInputs as initRegisterCompleteAction,
+  restorePassword as restorePasswordAction,
 } from '~/src/features/auth/store/authActions';
 import { IErrors } from '~/src/app/utils/error';
+import { Action, sizes } from '~/src/app/common/constants';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   scrollViewRef?: React.RefObject<ScrollView>;
   navigation: StackNavigationProp<ParamListBase>;
   registerComplete: (payload: CompleteRegisterPayload) => void;
-  initRegisterCompleteInputs: (values: CompleteRegisterPayload) => void;
+  restorePassword: (payload: RestorePasswordPayload) => void;
   defaultRegisterCompleteIntpus: IRegisterCompleteInputs;
-  currentUser: Partial<IUserAuth> | null;
+  action: Action;
   errors: IErrors | null;
 }
 
-const emptyPayload = {
-  phone: '',
-  password: '',
-  password_confirmation: '',
-  device_name: '',
-};
-
 export function RegisterCompleteFormContainter({
   scrollViewRef,
-  //navigation,
   registerComplete,
+  restorePassword,
   defaultRegisterCompleteIntpus,
-  initRegisterCompleteInputs,
-  currentUser,
+  action,
   errors,
 }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
   const valuesRef = React.useRef<CompleteRegisterPayload>();
 
   useEffect(() => {
-    if (currentUser) {
-      logline('', { currentUser });
-      initRegisterCompleteInputs({
-        ...emptyPayload,
-        phone: currentUser.phone!,
-      });
-    }
-  }, [currentUser, initRegisterCompleteInputs]);
+    logline(
+      '[RegisterCompleteScreen] defaultInputs',
+      defaultRegisterCompleteIntpus,
+    );
+  }, [defaultRegisterCompleteIntpus]);
 
   async function handleSubmit() {
-    const device_name = await DeviceInfo.getDeviceName();
     if (valuesRef.current) {
       const data = {
         ...valuesRef.current,
-        device_name: device_name,
       };
-      registerComplete(data);
+      if (action === Action.Registration) {
+        registerComplete(data);
+      }
+      if (action === Action.Password) {
+        restorePassword(data);
+      }
       setRecreate(!recreate);
     }
   }
 
   return (
     <ValidatedElements
-      //key={Number(recreate)}
+      key={Number(recreate)}
       defaultInputs={defaultRegisterCompleteIntpus}
       scrollView={scrollViewRef}
       valuesRef={valuesRef}
@@ -92,7 +83,7 @@ export function RegisterCompleteFormContainter({
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
+        style={{ borderRadius: 10 }}
         id="password"
         placeholder="Введите пароль"
         maxLength={50}
@@ -106,14 +97,13 @@ export function RegisterCompleteFormContainter({
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
       <AppInput
-        style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
+        style={{ borderRadius: 10 }}
         id="password_confirmation"
         placeholder="Введите пароль"
         maxLength={50}
         secure
         center
       />
-
       {/* Button */}
       <AppButton margin={[1, 0, 2]} onPress={handleSubmit}>
         <AppText center medium>
@@ -126,14 +116,12 @@ export function RegisterCompleteFormContainter({
 
 const RegisterCompleteFormConnected = connect(
   ({ auth }: IRootState) => ({
-    currentUser: auth.currentUser,
     defaultRegisterCompleteIntpus: auth.inputs.registerComplete,
     errors: auth.errors,
-    //errors: auth.errors,
   }),
   {
     registerComplete: reigsterCompleteAction,
-    initRegisterCompleteInputs: initRegisterCompleteAction,
+    restorePassword: restorePasswordAction,
   },
 )(RegisterCompleteFormContainter);
 
