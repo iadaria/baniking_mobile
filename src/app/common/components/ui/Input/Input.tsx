@@ -22,7 +22,7 @@ type InputKinds = {
 const inputKinds: InputKinds = {
   RegularInput: TextInput,
   MaskInput: TextInputMask,
-}
+};
 
 export interface IInputStates extends TextInputProps {
   isTouched: boolean;
@@ -40,21 +40,17 @@ export function Input<T>(props: IAppInputProps<T>): JSX.Element {
 
   const {
     center,
-    email,
     error,
     isScrollToFocused,
     mask,
     newRef,
-    number,
     onBlur,
     onFocus,
     onFocusedScroll,
-    phone,
     placeholder,
     rightButton,
     secure,
     style,
-    textFocus,
     focusBorderColor,
     ...otherProps
   } = props;
@@ -84,13 +80,6 @@ export function Input<T>(props: IAppInputProps<T>): JSX.Element {
   ];
 
   const inputTextAlign = center ? 'center' : undefined;
-  const inputType = email
-    ? 'email-address'
-    : number
-      ? 'numeric'
-      : phone
-        ? 'phone-pad'
-        : 'default';
 
   function handleBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {
     onBlur && onBlur(e);
@@ -132,7 +121,6 @@ export function Input<T>(props: IAppInputProps<T>): JSX.Element {
         autoCompleteType="off"
         autoCapitalize="none"
         autoCorrect={false}
-        keyboardType={inputType}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={placeholder}

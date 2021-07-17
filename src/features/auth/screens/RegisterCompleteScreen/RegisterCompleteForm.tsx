@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { Input, AppText, Block } from '~/src/app/common/components/UI';
+import { AppText, Block, AppInput } from '~/src/app/common/components/UI';
 import { AppButton } from '~/src/app/common/components/UI/AppButton';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight, NecessaryIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
-import { log, logline } from '~/src/app/utils/debug';
+import { logline } from '~/src/app/utils/debug';
 import { CompleteRegisterPayload } from '../../store/saga/registerCompleteSaga';
 import { IRegisterCompleteInputs } from '../contracts/registerCompleteInputs';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -39,7 +39,7 @@ const emptyPayload = {
 
 export function RegisterCompleteFormContainter({
   scrollViewRef,
-  navigation,
+  //navigation,
   registerComplete,
   defaultRegisterCompleteIntpus,
   initRegisterCompleteInputs,
@@ -47,7 +47,7 @@ export function RegisterCompleteFormContainter({
   errors,
 }: IProps) {
   const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<CompleteRegisterPayload>(emptyPayload);
+  const valuesRef = React.useRef<CompleteRegisterPayload>();
 
   useEffect(() => {
     if (currentUser) {
@@ -61,12 +61,14 @@ export function RegisterCompleteFormContainter({
 
   async function handleSubmit() {
     const device_name = await DeviceInfo.getDeviceName();
-    const data = {
-      ...valuesRef.current,
-      device_name: device_name,
-    };
-    registerComplete(data);
-    setRecreate(!recreate);
+    if (valuesRef.current) {
+      const data = {
+        ...valuesRef.current,
+        device_name: device_name,
+      };
+      registerComplete(data);
+      setRecreate(!recreate);
+    }
   }
 
   return (
@@ -75,8 +77,7 @@ export function RegisterCompleteFormContainter({
       defaultInputs={defaultRegisterCompleteIntpus}
       scrollView={scrollViewRef}
       valuesRef={valuesRef}
-      errors={errors}
-    >
+      errors={errors}>
       <Block margin={[0, 0, 2]} row middle center>
         <AuthLogoLeft />
         <AppText style={{ marginHorizontal: 15 }} h2 trajan primary>
@@ -90,12 +91,13 @@ export function RegisterCompleteFormContainter({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <Input
+      <AppInput
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password"
         placeholder="Введите пароль"
         maxLength={50}
         secure
+        center
       />
       <Block row middle center>
         <AppText semibold primary size={sizes.text.label} spacing={-0.4}>
@@ -103,12 +105,13 @@ export function RegisterCompleteFormContainter({
         </AppText>
         <NecessaryIcon style={{ marginHorizontal: 3 }} />
       </Block>
-      <Input
+      <AppInput
         style={{ borderRadius: 10 /* paddingLeft: wp(30) */ }}
         id="password_confirmation"
         placeholder="Введите пароль"
         maxLength={50}
         secure
+        center
       />
 
       {/* Button */}

@@ -137,12 +137,7 @@ export default function authReducer(
       };
     case constants.LOG_OUT:
       return {
-        ...state,
-        authenticated: false,
-        token: null,
-        currentUser: null,
-        loading: false,
-        errors: null,
+        ...initialState,
       };
 
     // Common

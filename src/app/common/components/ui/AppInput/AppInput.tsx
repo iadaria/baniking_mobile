@@ -16,6 +16,16 @@ import { IAppInputProps } from '~/src/app/models/ui';
 import { AppInputWrapper } from './AppInputWrapper';
 import { styles } from './styles';
 
+type InputKinds = {
+  RegularInput: React.ReactNode;
+  MaskInput: React.ReactNode;
+};
+
+const inputKinds: InputKinds = {
+  RegularInput: TextInput,
+  MaskInput: TextInputMask,
+};
+
 export interface IAppInputStates extends TextInputProps {
   isTouched: boolean;
   isFocused: boolean;
@@ -66,15 +76,17 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
 
   React.useEffect(() => {
     //const cv = `[AppInput/useEffect] id=${props.id} error='${props.error}, isTouched=${states.isTouched}, props.touched=${props.touched}, focused=${states.isFocused}'`;
-    //__DEV__ && console.log(cv);
+    //logline('', cv);
   }, [props, props.touched, states]);
+
+  const kind: keyof typeof inputKinds = mask ? 'MaskInput' : 'RegularInput';
+  const InputComponent = inputKinds[kind] as React.ElementType;
 
   const isSecure = toggleSecure ? false : secure;
 
   const inputStyles: StyleProp<TextStyle> = [
     styles.input,
     showPlaceholder && { zIndex: 1 },
-    //center && { textAlign: 'center'},
     style,
     //{ borderColor: 'purple', borderWidth: 1 },
   ];
@@ -92,9 +104,16 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   }
 
   const inputTextAlign = center || (center && isSecure) ? 'center' : undefined;
-  const inputType = email ? 'email-address' : number ? 'numeric' : phone ? 'phone-pad' : 'default';
+  const inputType = email
+    ? 'email-address'
+    : number
+      ? 'numeric'
+      : phone
+        ? 'phone-pad'
+        : 'default';
   const blockStyle: ViewStyle = {};
-  style?.backgroundColor && (blockStyle.backgroundColor = style?.backgroundColor);
+  style?.backgroundColor &&
+    (blockStyle.backgroundColor = style?.backgroundColor);
   style?.height && (blockStyle.height = Number(style?.height) + 2);
   style?.borderRadius && (blockStyle.borderRadius = style?.borderRadius);
 
@@ -129,38 +148,6 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   }
 
   // https://semver.org
-  if (mask) {
-    return (
-      <AppInputWrapper
-        secure={secure}
-        states={states}
-        setToggleSecure={setToggleSecure}
-        toggleSecure={toggleSecure}
-        color={style?.color as string}
-        props={props}
-        center={center}
-        //borderColor={borderColor}>
-        borderColor={borderColor}>
-        <TextInputMask
-          ref={newRef}
-          style={inputStyles}
-          //textAlign={inputTextAlign}
-          keyboardType={inputType}
-          mask={mask}
-          autoCompleteType="off"
-          autoCapitalize="none"
-          autoCorrect={false}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          placeholder={placeholder}
-          placeholderTextColor="rgba(126, 126, 126, 0.3)"
-          //underlineColorAndroid="transparent"
-          {...otherProps}
-        />
-      </AppInputWrapper>
-    );
-  }
-
   return (
     <AppInputWrapper
       secure={secure}
@@ -175,9 +162,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
       rightButton={rightButton}
       showPlaceholder={showPlaceholder}
       placeholder={placeholder}>
-      <TextInput
+      <InputComponent
         ref={newRef}
         style={inputStyles}
+        mask={mask}
         textAlign={inputTextAlign}
         secureTextEntry={isSecure}
         // multiline

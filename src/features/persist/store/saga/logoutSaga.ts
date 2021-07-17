@@ -1,13 +1,15 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { logout } from '../appPersistActions';
 import { ASK_LOGOUT } from '../appPersistConstants';
 import { authLogout } from '../../../auth/store/authActions';
+import { logline } from '~/src/app/utils/debug';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { routes } from '~/src/navigation/helpers/routes';
 
 function* logoutSaga() {
-  __DEV__ && console.log('!![logoutSaga] ask logout');
+  logline('', '!![logoutSaga] ask logout');
 
-  yield put(logout());
   yield put(authLogout());
+  RootNavigation.reset(routes.navigators.AuthNavigator);
   // yield AsyncStorage.clear();
   // RNRestart.Restart();
 }

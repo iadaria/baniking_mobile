@@ -1,7 +1,6 @@
 import { call, ForkEffect, put, takeLatest } from 'redux-saga/effects';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
-import { ICredential } from '~/src/app/models/user';
 import { methods, tokenToHeaders } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import {

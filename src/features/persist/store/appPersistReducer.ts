@@ -84,11 +84,8 @@ export default function appPersistReducer(
     case constants.ASK_LOGOUT:
       return {
         ...initialState,
-      };
-
-    case constants.LOGOUT:
-      return {
-        ...initialState,
+        image: state.image,
+        bathes: state.bathes,
       };
 
     default:

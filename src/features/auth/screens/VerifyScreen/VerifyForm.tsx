@@ -20,12 +20,12 @@ import { VerifyPayload } from '../../store/saga/verifySaga';
 import { useState, useCallback } from 'react';
 import { ArrowRightIcon, VerifyCodeIcon } from '~/src/assets';
 import { styles as s } from './styles';
-import { logline } from '~/src/app/utils/debug';
 import { Code } from './Code';
 import { Action, colors, SMS_SECONDS } from '~/src/app/common/constants';
 import { IErrors } from '~/src/app/utils/error';
 import { NotifyPayload } from '../../store/saga/notifySaga';
 import { isExpired, isFullCode } from '~/src/app/utils/common';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
