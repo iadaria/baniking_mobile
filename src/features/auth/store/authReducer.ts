@@ -44,15 +44,7 @@ export default function authReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IAuthState {
   switch (type) {
-    case constants.LOG_IN_SUCCESS:
-      return {
-        ...state,
-        authenticated: true,
-        loading: true,
-        errors: null,
-      };
-    // Social login
-    case constants.LOGIN_PHONE:
+    //case constants.LOGIN_PHONE:
     case constants.EMAIL_REGISTER:
     case constants.RESTORE_PASSWORD:
     case constants.RESET_PASSWORD:

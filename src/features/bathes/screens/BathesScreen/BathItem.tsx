@@ -7,7 +7,11 @@ import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier } from '~/src/app/common/constants';
 import { IBath } from '~/src/app/models/bath';
-import { cacheImage, getRandomBathImage, isNonRating } from '~/src/app/utils/bathUtility';
+import {
+  cacheImage,
+  getRandomBathImage,
+  isNonRating,
+} from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
 import { styles } from './styles';
 import { isAndroid } from '~/src/app/utils/system';
@@ -30,7 +34,9 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
   const [fadeOutOpacity] = useState(new Animated.Value(0.7));
   const [randomImg] = useState(getRandomBathImage());
   const uri = useRef<string | undefined>();
-  const { images, set } = useSelector(({ persist }: IRootState) => persist.image);
+  const { images, set } = useSelector(
+    ({ persist }: IRootState) => persist.image,
+  );
 
   // Берем только наименование файла и по нему ищем изображение в кэше телефона
   const fileNameExtension = getFileName(image);
@@ -60,7 +66,8 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
             }
           })
           .catch((error) => {
-            __DEV__ && console.log('[BathItem/useEffect(thisCachedImage)] error', error);
+            __DEV__ &&
+              console.log('[BathItem/useEffect(thisCachedImage)] error', error);
           });
       }
     }
@@ -117,14 +124,23 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
         start={{ x: 0.2, y: 0 }}
         end={{ x: 1.5, y: 0 }}
         style={styles.gradient}>
-        <AppText trajan header transform="uppercase" height={28 * multiplier} size={3.8 * multiplier * 1.1}>
+        <AppText
+          trajan
+          header
+          transform="uppercase"
+          height={28 * multiplier}
+          size={3.8 * multiplier * 1.1}>
           {name}
         </AppText>
 
         <AppText secondary tag>
           {short_description && `${short_description.substring(0, 45)} ...`}
         </AppText>
-        {!isNonRating(rating) ? <Stars rating={rating} /> : <Block style={{ height: wp(5) }} />}
+        {!isNonRating(rating) ? (
+          <Stars rating={rating} />
+        ) : (
+          <Block style={{ height: wp(5) }} />
+        )}
         {/* <Stars rating={rating} /> */}
         <AppText lightUltra tag color={colors.bath.address}>
           {address}
@@ -134,7 +150,10 @@ export default function BathItem({ bath, distance, persistImage }: IProps) {
         </AppText>
         <AppText style={styles.phone}>0 000 000 00 00</AppText>
       </LinearGradient>
-      <Animated.Image style={[styles.temporaryImg, { opacity: fadeOutOpacity }]} source={randomImg} />
+      <Animated.Image
+        style={[styles.temporaryImg, { opacity: fadeOutOpacity }]}
+        source={randomImg}
+      />
 
       <KolosIcon style={[styles.kolosIcon]} width={wp(3.5)} height={wp(3.5)} />
     </AnimatedImage>

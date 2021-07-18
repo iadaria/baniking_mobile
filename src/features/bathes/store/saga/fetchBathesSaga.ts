@@ -23,8 +23,11 @@ function* fetchBathesSaga({ payload }: IAction) {
   __DEV__ && console.log('***[fetchBathesSaga] params', bathParams, '\n');
   try {
     if (moreBathes) {
-
-      const { baths, count }: IResult = yield call(methods.getBathes, bathParams, bathParams);
+      const { baths, count }: IResult = yield call(
+        methods.getBathes,
+        bathParams,
+        bathParams,
+      );
 
       const bathes = [...baths];
 

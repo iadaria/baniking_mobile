@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, TouchableOpacity } from 'react-native';
-import { Input, AppText, Block, AppInput } from '~/src/app/common/components/UI';
+import {
+  Input,
+  AppText,
+  Block,
+  AppInput,
+} from '~/src/app/common/components/UI';
 import DeviceInfo from 'react-native-device-info';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
@@ -19,7 +24,11 @@ interface IProps {
   loginPhone: (payload: LoginPhonePayload) => void;
 }
 
-const LoginFormContainer = ({ navigation, scrollViewRef, loginPhone }: IProps): JSX.Element => {
+const LoginFormContainer = ({
+  navigation,
+  scrollViewRef,
+  loginPhone,
+}: IProps): JSX.Element => {
   const [remember, setRemember] = useState<boolean>(true);
   const [recreate, setRecreate] = useState<boolean>(true);
   // Use ref because don't need rendering component

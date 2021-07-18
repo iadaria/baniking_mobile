@@ -1,6 +1,4 @@
 // login
-//export const EMAIL_LOGIN = 'auth/EMAIL_LOGIN';
-export const LOG_IN_SUCCESS = 'auth/LOG_IN_SUCCESS';
 export const LOG_IN_FAIL = 'auth/LOG_IN_FAIL';
 // Social login
 export const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';

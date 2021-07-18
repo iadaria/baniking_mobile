@@ -11,7 +11,12 @@ import {
   fetchBathes as fetchBathesAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBath, IBathAction, IMap, TPartBathParams } from '~/src/app/models/bath';
+import {
+  IBath,
+  IBathAction,
+  IMap,
+  TPartBathParams,
+} from '~/src/app/models/bath';
 import BathItem from './BathItem';
 import AppListIndicator from './AppListIndicator';
 import { canLoadMore, isBegin } from '~/src/app/utils/common';
@@ -23,7 +28,10 @@ import {
   fetchMaps as fetchMapsAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IPersistImage } from '~/src/app/models/persist';
-import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
+import {
+  IModalState,
+  openModal as openModalAction,
+} from '~/src/app/common/modals/modalReducer';
 import { ListIcon, SearchIcon, SearchCancelIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
@@ -118,12 +126,18 @@ export function BathesScreenContainer({
   }, [fetchMaps, location]); */
 
   useEffect(() => {
-    __DEV__ && console.log('[BathesScreen/useEffect(params)] Was changed Bath params', params);
+    __DEV__ &&
+      console.log(
+        '[BathesScreen/useEffect(params)] Was changed Bath params',
+        params,
+      );
   }, [params]);
 
   // TODO Test
   const handleLoadMore = useCallback(() => {
-    const cv = `[BathesScreen/haldeLoadMore] params=${JSON.stringify(params)}, page=${page}`;
+    const cv = `[BathesScreen/haldeLoadMore] params=${JSON.stringify(
+      params,
+    )}, page=${page}`;
     __DEV__ && console.log(cv);
 
     if (connection) {
@@ -144,9 +158,13 @@ export function BathesScreenContainer({
   }, [connection, params]);
   //}, [params, connection]);
 
-  const debounced = useDebouncedCallback((_params: TPartBathParams) => handleFilter(_params), 1000, {
-    maxWait: 2000,
-  });
+  const debounced = useDebouncedCallback(
+    (_params: TPartBathParams) => handleFilter(_params),
+    1000,
+    {
+      maxWait: 2000,
+    },
+  );
 
   function handleFilter(newParams: TPartBathParams) {
     clearBathes();
@@ -160,7 +178,8 @@ export function BathesScreenContainer({
     }
   }, [handleLoadMore, page, params]);
 
-  const isEmpty = () => !searchName || (searchName && String(searchName).trim().length === 0);
+  const isEmpty = () =>
+    !searchName || (searchName && String(searchName).trim().length === 0);
 
   function cancelQuery() {
     setSearchName(undefined);
@@ -203,7 +222,8 @@ export function BathesScreenContainer({
 
   const keyExtractor = useCallback((item: IBath, index) => String(index), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
-  const hasQuery = (checkParams: TPartBathParams) => checkParams.hasOwnProperty('search_query');
+  const hasQuery = (checkParams: TPartBathParams) =>
+    checkParams.hasOwnProperty('search_query');
 
   const renderItem = useCallback(
     ({ item, index }: { item: IBath; index: number }) => {
@@ -211,7 +231,12 @@ export function BathesScreenContainer({
       const distance: number = map?.distance || 0;
       return (
         <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
-          <BathItem key={`item-${index}`} bath={item} distance={distance} persistImage={persistImage} />
+          <BathItem
+            key={`item-${index}`}
+            bath={item}
+            distance={distance}
+            persistImage={persistImage}
+          />
         </TouchableOpacity>
       );
     },
@@ -225,7 +250,9 @@ export function BathesScreenContainer({
   if (!loading && filtered && connection) {
     emptyComponent = <NotFound />;
   } else if (!loading && !filtered) {
-    emptyComponent = <UpdateRequestButton title="Обновить" handleLoadMore={handleLoadMore} />;
+    emptyComponent = (
+      <UpdateRequestButton title="Обновить" handleLoadMore={handleLoadMore} />
+    );
   }
 
   let footerComponent = null;
@@ -235,7 +262,12 @@ export function BathesScreenContainer({
     footerComponent = <CancelLink cancelQuery={cancelQuery} />;
   } // Отсутствие сети, 1 запрос правильный, 2 дает сбой -> под списком повторить запрос
   else if (!connection && bathes?.length !== 0) {
-    footerComponent = <UpdateRequestButton title="Повторить запрос" handleLoadMore={handleLoadMore} />;
+    footerComponent = (
+      <UpdateRequestButton
+        title="Повторить запрос"
+        handleLoadMore={handleLoadMore}
+      />
+    );
   }
 
   return (
@@ -251,7 +283,8 @@ export function BathesScreenContainer({
             onChangeText={(name: string) => {
               const newName = String(name);
               setSearchName(newName);
-              const modifiedName = '%' + newName.toLowerCase().trim().replace(' ', '%') + '%';
+              const modifiedName =
+                '%' + newName.toLowerCase().trim().replace(' ', '%') + '%';
               __DEV__ && console.log('[BathesScreen]', modifiedName);
               const newParams: TPartBathParams = {
                 ...params,
@@ -265,11 +298,15 @@ export function BathesScreenContainer({
             maxLength={64}
           />
           {isEmpty() ? (
-            <TouchableOpacity style={styles.searchIconButton} onPress={() => { }}>
+            <TouchableOpacity
+              style={styles.searchIconButton}
+              onPress={() => { }}>
               <SearchIcon style={styles.searchIcon} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.searchIconButton} onPress={cancelQuery}>
+            <TouchableOpacity
+              style={styles.searchIconButton}
+              onPress={cancelQuery}>
               <SearchCancelIcon style={styles.searchIcon} />
             </TouchableOpacity>
           )}
@@ -280,7 +317,9 @@ export function BathesScreenContainer({
       <TouchableOpacity
         onLayout={(event) => setYForModal(event.nativeEvent.layout.y)}
         style={styles.sort}
-        onPress={() => openModal({ modalType: 'SortModal', modalProps: { y: yForModal } })}>
+        onPress={() =>
+          openModal({ modalType: 'SortModal', modalProps: { y: yForModal } })
+        }>
         <AppText>Сортировать</AppText>
         <ListIcon />
       </TouchableOpacity>

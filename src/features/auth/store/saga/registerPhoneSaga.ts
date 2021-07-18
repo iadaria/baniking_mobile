@@ -4,7 +4,7 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import { getErrorStrings } from '~/src/app/utils/error';
 import {
-  initVerifyInputs,
+  requestAuth,
   requestSuccess,
   setAuthUserData,
 } from '~/src/features/auth/store/authActions';
@@ -14,6 +14,7 @@ import { methods } from '~/src/app/api';
 import { log, logline } from '~/src/app/utils/debug';
 import { PHONE_REGISTER } from '../authConstants';
 import { Action } from '~/src/app/common/constants';
+import { requestFail } from '../authActions';
 
 export type RegisterPayload = {
   phone: string;
@@ -33,14 +34,15 @@ function* registerPhoneSaga({
   try {
     log('[registerPhoneSaga] result payload', payload);
 
+    yield put(requestAuth());
     const { status }: AxiosResponse = yield call(
       methods.register,
       payload,
       null,
     );
     //log('[registerPhoneSaga] result', result);
+    yield put(requestSuccess()); // not authenticated
     if (isSuccessStatus(status)) {
-      yield put(requestSuccess()); // not authenticated
       const { name, email, phone } = payload;
       yield put(setAuthUserData({ phone, email, name }));
       yield RootNavigation.navigate(routes.authNavigator.VerifyScreen, {
@@ -51,8 +53,8 @@ function* registerPhoneSaga({
     //if (axios.isAxiosError(e)) {
     //const error: AxiosResponse<Fail> = e;
     //log('[registerEmailSaga/error]', e);
-
     let [errors, message, allErrors] = getErrorStrings(e);
+    yield put(requestFail(errors));
 
     logline('[registerEmailSaga/error]', [errors, message]);
 

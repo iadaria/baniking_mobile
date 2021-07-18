@@ -8,6 +8,7 @@ import { NotifyPayload } from './saga/notifySaga';
 import { ResetPasswordPayload } from './saga/resetPasswordSaga';
 import { RegisterPayload } from './saga/registerPhoneSaga';
 import { RestorePasswordPayload } from './saga/restorePasswordSaga';
+import { LoginPhonePayload } from '~/src/features/auth/store/saga/loginPhoneSaga';
 
 // Begin work
 
@@ -56,12 +57,7 @@ export const initRegisterCompleteInputs = (
 
 // Login
 
-/* export const emailLogin = (payload: Partial<ICredential>) => ({
-  type: constants.EMAIL_LOGIN,
-  payload: payload,
-});
- */
-export const loginPhone = (payload: Partial<ICredential>) => ({
+export const loginPhone = (payload: LoginPhonePayload) => ({
   type: constants.LOGIN_PHONE,
   payload: payload,
 });

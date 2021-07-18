@@ -169,12 +169,12 @@ const VerifyFormContainer = ({
 
   const clearCode = () => setCode([]);
 
+  const isCodeError = !!errors?.code;
   //const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
   //const isErrorCode = errors !== null;
-  const isExistsError = !!errors?.exists;
-  const isCodeError = !!errors?.code;
-  const isExpirationError = !!errors?.expiration;
-  const isError = isExistsError || isCodeError;
+  //const isExistsError = !!errors?.exists;
+  //const isExpirationError = !!errors?.expiration;
+  //const isError = isExistsError || isCodeError;
 
   return (
     <Block full>

@@ -7,7 +7,11 @@ import {
   setPersistUserData,
   setPersistToken,
 } from '~/src/features/persist/store/appPersistActions';
-import { setAuthUserData } from '~/src/features/auth/store/authActions';
+import {
+  authFail,
+  requestAuth,
+  setAuthUserData,
+} from '~/src/features/auth/store/authActions';
 import { LOGIN_PHONE } from '../authConstants';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { log, logline } from '~/src/app/utils/debug';
@@ -33,6 +37,7 @@ function* loginPhoneSaga({ payload }: IAction) {
   try {
     logline('[loginPhoneSaga] payload', payload);
 
+    yield put(requestAuth());
     const { token }: IResult = yield call(methods.login, payload, null);
 
     if (token) {
@@ -51,6 +56,8 @@ function* loginPhoneSaga({ payload }: IAction) {
     log('[loginPhoneSaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
+    yield put(authFail(errors));
+
     logline('[loginPhoneSaga/error]', [errors, message, allErrors]);
 
     const errorMessage = allErrors
