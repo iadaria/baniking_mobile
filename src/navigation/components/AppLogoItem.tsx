@@ -12,7 +12,11 @@ export function AppLogoItem() {
         <AppText style={{ bottom: -3 }} logo trajan transform="uppercase">
           Banya king
         </AppText>
-        <AppText style={{ bottom: 3 }} color={colors.logo} caption transform="lowercase">
+        <AppText
+          style={{ bottom: 3 }}
+          color={colors.logo}
+          caption
+          transform="lowercase">
           Клуб жарких привилегий
         </AppText>
       </Block>

@@ -7,6 +7,7 @@ import { setBathes, bathesFail, reuseBathes } from '../bathActions';
 import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { fetchMapsSaga } from './fetchMapsSaga';
+import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
   payload: IBathAction;
@@ -20,7 +21,7 @@ interface IResult {
 
 function* fetchBathesSaga({ payload }: IAction) {
   const { moreBathes, bathParams } = payload;
-  __DEV__ && console.log('***[fetchBathesSaga] params', bathParams, '\n');
+  logline('***[fetchBathesSaga] params', bathParams);
   try {
     if (moreBathes) {
       const { baths, count }: IResult = yield call(
@@ -38,8 +39,8 @@ function* fetchBathesSaga({ payload }: IAction) {
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    __DEV__ && console.log(JSON.stringify(e, null, 4));
-    __DEV__ && console.log('[fetchBathesSaga]', [errors, message]);
+    log('[fetchBathesSaga] error', e);
+    logline('[fetchBathesSaga] [errors, message]', [errors, message]);
 
     if (errorMessage) {
       yield put(bathesFail(errors));

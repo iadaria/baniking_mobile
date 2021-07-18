@@ -15,7 +15,11 @@ interface IProps {
   onPress?: () => void;
 }
 
-export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) => {
+export const HeaderLeftOpen = ({
+  onOpenDrawer,
+}: {
+  onOpenDrawer: () => void;
+}) => {
   return (
     <TouchableOpacity style={styles.menu} onPress={onOpenDrawer}>
       <MenuHumberger />
@@ -23,7 +27,11 @@ export const HeaderLeftOpen = ({ onOpenDrawer }: { onOpenDrawer: () => void }) =
   );
 };
 
-export const HeaderLeftClose = ({ onCloseDrawer }: { onCloseDrawer: () => void }) => {
+export const HeaderLeftClose = ({
+  onCloseDrawer,
+}: {
+  onCloseDrawer: () => void;
+}) => {
   return (
     <TouchableOpacity style={styles.menu} onPress={onCloseDrawer}>
       <CloseMenu />
@@ -31,8 +39,15 @@ export const HeaderLeftClose = ({ onCloseDrawer }: { onCloseDrawer: () => void }
   );
 };
 
-export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPress }: IProps) => {
-  const [screen, setScreen] = React.useState(backwardStack[backwardStack.length - 1]);
+export const HeaderBackward = ({
+  navigation,
+  backwardStack,
+  pullBackward,
+  onPress,
+}: IProps) => {
+  const [screen, setScreen] = React.useState(
+    backwardStack[backwardStack.length - 1],
+  );
   React.useEffect(() => {
     setScreen(backwardStack[backwardStack.length - 1]);
   }, [backwardStack]);
@@ -53,8 +68,12 @@ export const HeaderBackward = ({ navigation, backwardStack, pullBackward, onPres
 
 export const HeaderRightButton = (/* props: StackHeaderLeftButtonProps */) => (
   <Block margin={[0, sizes.offset.base, 0, 0]}>
-    <TouchableOpacity onPress={() => {}}>
-      <Notify fill={colors.disable} opacity={0.25} width={wp(10) * multiplier} />
+    <TouchableOpacity onPress={() => { }}>
+      <Notify
+        fill={colors.disable}
+        opacity={0.25}
+        width={wp(10) * multiplier}
+      />
     </TouchableOpacity>
   </Block>
 );

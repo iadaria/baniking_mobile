@@ -6,6 +6,7 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { checkFilterFail, setCheckFilterResult } from '../bathActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { objToUrl } from '~/src/app/api/index';
+import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
   payload: { filterParams: TPartBathParams };
@@ -18,7 +19,7 @@ interface IResult {
 }
 
 function* checkFilterSaga({ payload }: IAction) {
-  __DEV__ && console.log('[CheckFilterSaga]', payload);
+  logline('[CheckFilterSaga]', payload);
   try {
     const { filterParams } = payload;
     /* const requestParams: TPartBathParams = { ...filterParams };
@@ -28,14 +29,18 @@ function* checkFilterSaga({ payload }: IAction) {
       delete requestParams.search_query;
     } */
     //__DEV__ && console.log('[checkFilterSaga]', objToUrl(payload));
-    const { count: bathCount }: IResult = yield call(methods.getBathes, filterParams, filterParams);
+    const { count: bathCount }: IResult = yield call(
+      methods.getBathes,
+      filterParams,
+      filterParams,
+    );
     yield put(setCheckFilterResult({ bathCount /* , params  */ }));
     //__DEV__ && console.log('[checkFilterSaga / bathCount]', bathCount);
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    __DEV__ && console.log(JSON.stringify(e, null, 4));
-    __DEV__ && console.log('[checkFilterSaga]', [errors, message]);
+    log('[checkFilterSaga] error', e);
+    logline('[checkFilterSaga]', [errors, message]);
 
     if (errorMessage) {
       yield put(checkFilterFail(errors));

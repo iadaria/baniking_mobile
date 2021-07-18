@@ -44,7 +44,11 @@ export const appScreenOptions = ({
     headerLeft: () => {
       if (isBackward && backwardStack.length > 0) {
         return (
-          <HeaderBackward navigation={navigation} backwardStack={backwardStack} pullBackward={pullBackward} />
+          <HeaderBackward
+            navigation={navigation}
+            backwardStack={backwardStack}
+            pullBackward={pullBackward}
+          />
         );
       }
 

@@ -23,7 +23,9 @@ interface ILabelProps {
   color: string;
 }
 
-export function AppDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+export function AppDrawerContent(
+  props: DrawerContentComponentProps<DrawerContentOptions>,
+) {
   // __DEV__ && console.log(props);
   const { navigation } = props;
   const dispatch = useDispatch();
@@ -42,7 +44,9 @@ export function AppDrawerContent(props: DrawerContentComponentProps<DrawerConten
       {/* <DrawerItemList {...props} /> */}
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem
-        label={(labelProps: ILabelProps) => <AppDrawerItem text="Выйти" {...labelProps} />}
+        label={(labelProps: ILabelProps) => (
+          <AppDrawerItem text="Выйти" {...labelProps} />
+        )}
         onPress={() => {
           dispatch(closeDrawer());
           navigation.closeDrawer();
