@@ -13,22 +13,14 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { styles } from './styles';
 import { connect } from 'react-redux';
 import { IErrors } from '~/src/app/utils/error';
-import { ParamListBase, Route } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { Header } from '~/src/app/common/components/Header';
 
 interface IProps {
   changePassword: (payload: IChangePassword) => void;
-  navigation: StackNavigationProp<ParamListBase>;
   errors: IErrors | null;
-  route: Route<string, object | undefined>;
 }
 
-function SafeScreenContainer({
-  changePassword,
-  errors,
-  navigation,
-  route,
-}: IProps) {
+function SafeScreenContainer({ changePassword, errors }: IProps) {
   // const [recreate, setRecreate] = React.useState<boolean>(true);
   const valuesRef = React.useRef<IChangePassword>({
     current_password: '',
@@ -43,6 +35,7 @@ function SafeScreenContainer({
   }
   return (
     <Block base>
+      <Header iconKind="backward" />
       <ValidatedElements
         // key={Number(recreate)}
         defaultInputs={defaultSafeInputs}

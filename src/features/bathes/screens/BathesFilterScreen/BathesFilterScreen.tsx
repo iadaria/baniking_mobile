@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { IBathParamsVariety, bathType, TPartBathParams } from '~/src/app/models/bath';
+import {
+  IBathParamsVariety,
+  bathType,
+  TPartBathParams,
+} from '~/src/app/models/bath';
 import {
   getBathParamsVariety as getBathParamsVarietyAction,
   checkFilter as checkFilterAction,
@@ -22,8 +26,13 @@ import FilterTypes from './FilterTypes';
 import { styles } from './styles';
 import { FilterAcceptButton } from './FilterAcceptButton';
 import { calculateFilterCount } from '~/src/app/utils/bathUtility';
-import { initializeFilterParams, cleanFilterParams } from '../../../../app/utils/bathUtility';
+import {
+  initializeFilterParams,
+  cleanFilterParams,
+} from '../../../../app/utils/bathUtility';
 import { KeyboardWrapper } from '~/src/app/common/components/KeyboardWrapper';
+import { log, logline } from '~/src/app/utils/debug';
+import { BackButton } from '~/src/app/common/components/BackButton';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -64,7 +73,9 @@ function BathesFilterScreenContainer({
   const [highRating, setHighRating] = useState(5);
   const [middleHightRating, setMiddleHighRating] = useState('5');
 
-  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>(initializeFilterParams(bathParams));
+  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>(
+    initializeFilterParams(bathParams),
+  );
 
   const filterCount = calculateFilterCount(thisFilterParams);
   const [thisFilterCount, setThisFilterCount] = useState(filterCount);
@@ -80,7 +91,8 @@ function BathesFilterScreenContainer({
   }, [getBathParamsVariety, paramsVariety]);
 
   const debounced = useDebouncedCallback(
-    (checkParams: TPartBathParams) => checkFilter({ filterParams: checkParams }),
+    (checkParams: TPartBathParams) =>
+      checkFilter({ filterParams: checkParams }),
     1000,
     {
       maxWait: 2000,
@@ -96,11 +108,14 @@ function BathesFilterScreenContainer({
 
   // Инициализируем и вызываем фильтр сразу после создания страницы
   useEffect(() => {
-    __DEV__ && console.log('\n[FilterScreen/handleCheckFilter] first handleCheckFilter', thisFilterParams);
+    logline(
+      '\n[FilterScreen/handleCheckFilter] first handleCheckFilter',
+      thisFilterParams,
+    );
     debounced(thisFilterParams);
 
     return () => {
-      __DEV__ && console.log('[BathFilerScreen] unmount');
+      //logline('[BathFilerScreen] unmount');
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,12 +123,12 @@ function BathesFilterScreenContainer({
 
   // Вызываем запрос при изменении параметров
   useEffect(() => {
-    __DEV__ && console.log('\n[FilterScreen/debounced] with filters', JSON.stringify(thisFilterParams, null, 4));
+    log('\n[FilterScreen/debounced] with filters', thisFilterParams);
     debounced(thisFilterParams);
   }, [debounced, thisFilterParams]);
 
   useEffect(() => {
-    __DEV__ && console.log('[FilterScreen] Bath params', JSON.stringify(bathParams, null, 4));
+    log('[FilterScreen] Bath params', bathParams);
   }, [bathParams]);
 
   // Вызываем запрос при изменении цены и рейтинга
@@ -155,7 +170,7 @@ function BathesFilterScreenContainer({
   };
 
   const scrollToBlock = (plus: number) => {
-    __DEV__ && console.log('to', blockPosition);
+    logline('to', blockPosition);
     const timeId = setTimeout(() => {
       scrollViewRef?.current?.scrollTo({
         x: 0,
@@ -163,7 +178,7 @@ function BathesFilterScreenContainer({
         animated: true,
       });
     }, 500);
-    __DEV__ && console.log('[OrderCallForm/timeId]', timeId);
+    logline('[OrderCallForm/timeId]', timeId);
     timeIds.push(timeId);
   };
 
@@ -176,6 +191,9 @@ function BathesFilterScreenContainer({
           contentContainerStyle={styles.contentScrollStyle}
           alwaysBounceVertical
           ref={scrollViewRef}>
+          <Block margin={[4, 0]}>
+            <BackButton />
+          </Block>
           {/* Заголовок */}
           <Block style={{ justifyContent: 'space-between' }} center row>
             <AppText h1>Выбрано фильтров</AppText>
@@ -186,8 +204,10 @@ function BathesFilterScreenContainer({
               style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
               onPress={() => {
                 setThisFilterCount(0);
-                const cleanedFilterParams: TPartBathParams = cleanFilterParams(bathParams);
-                __DEV__ && console.log('[BathesFilter] cleaned', cleanFilterParams);
+                const cleanedFilterParams: TPartBathParams = cleanFilterParams(
+                  bathParams,
+                );
+                logline('[BathesFilter] cleaned', cleanFilterParams);
 
                 //debouncedParams(cleanedFilterParams);
                 setThisFilterParams({ ...cleanedFilterParams });
@@ -215,11 +235,13 @@ function BathesFilterScreenContainer({
             high={highPrice}
             setLow={function (value: number) {
               setLowPrice(value);
-              String(value) !== middleLowPrice && setMiddleLowPrice(String(value));
+              String(value) !== middleLowPrice &&
+                setMiddleLowPrice(String(value));
             }}
             setHigh={function (value: number) {
               setHighPrice(value);
-              String(value) !== middleHighPrice && setMiddleHighPrice(String(value));
+              String(value) !== middleHighPrice &&
+                setMiddleHighPrice(String(value));
             }}
           />
           <Block margin={[1, 0, 0]} center row>
@@ -230,7 +252,9 @@ function BathesFilterScreenContainer({
             <AppInput
               style={{ ...styles.input, width: wp(25) }}
               value={middleLowPrice}
-              onChangeText={(text: string) => changeText(text, 1, setLowPrice, setMiddleLowPrice)}
+              onChangeText={(text: string) =>
+                changeText(text, 1, setLowPrice, setMiddleLowPrice)
+              }
               rightButton={
                 <RightButton
                   onPress={() => {
@@ -257,7 +281,9 @@ function BathesFilterScreenContainer({
               }
               number
               value={middleHighPrice}
-              onChangeText={(text: string) => changeText(text, 10000, setHighPrice, setMiddleHighPrice)}
+              onChangeText={(text: string) =>
+                changeText(text, 10000, setHighPrice, setMiddleHighPrice)
+              }
             />
             <AppText margin={[0, 3]} tag>
               руб/час
@@ -274,15 +300,19 @@ function BathesFilterScreenContainer({
             high={highRating}
             setLow={function (value: number) {
               setLowRating(value);
-              String(value) !== middleLowRating && setMiddleLowRating(String(value));
+              String(value) !== middleLowRating &&
+                setMiddleLowRating(String(value));
             }}
             setHigh={function (value: number) {
               setHighRating(value);
-              String(value) !== middleHightRating && setMiddleHighRating(String(value));
+              String(value) !== middleHightRating &&
+                setMiddleHighRating(String(value));
             }}
           />
           <Block
-            onLayout={({ nativeEvent }: LayoutChangeEvent) => setBlockPosition(nativeEvent.layout.y)}
+            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+              setBlockPosition(nativeEvent.layout.y)
+            }
             id="rating"
             margin={[1, 0, 0]}
             center
@@ -303,7 +333,9 @@ function BathesFilterScreenContainer({
               }
               number
               value={middleLowRating}
-              onChangeText={(text: string) => changeText(text, 2, setLowRating, setMiddleLowRating)}
+              onChangeText={(text: string) =>
+                changeText(text, 2, setLowRating, setMiddleLowRating)
+              }
             />
             <AppText margin={[0, 2.5]} tag>
               до
@@ -321,7 +353,9 @@ function BathesFilterScreenContainer({
               }
               number
               value={middleHightRating}
-              onChangeText={(text: string) => changeText(text, 5, setHighRating, setMiddleHighPrice)}
+              onChangeText={(text: string) =>
+                changeText(text, 5, setHighRating, setMiddleHighPrice)
+              }
             />
             <AppText margin={[0, 3]} tag>
               звезд
@@ -359,7 +393,11 @@ function BathesFilterScreenContainer({
           <Block margin={[10, 0]} />
         </ScrollView>
       </KeyboardWrapper>
-      <FilterAcceptButton navigation={navigation} filterParams={thisFilterParams} filterCount={thisFilterCount} />
+      <FilterAcceptButton
+        navigation={navigation}
+        filterParams={thisFilterParams}
+        filterCount={thisFilterCount}
+      />
     </>
   );
 }

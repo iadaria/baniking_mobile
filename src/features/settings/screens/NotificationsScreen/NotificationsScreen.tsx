@@ -1,25 +1,36 @@
 import React from 'react';
 import { StyleSheet, Linking } from 'react-native';
-import { AppText, Block, Divider, AppSwitch } from '~/src/app/common/components/UI';
-import { AppPermission, PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
+import {
+  AppText,
+  Block,
+  Divider,
+  AppSwitch,
+} from '~/src/app/common/components/UI';
+import {
+  AppPermission,
+  PERMISSION_TYPE,
+} from '~/src/app/common/components/AppPersmission';
+import { logline } from '~/src/app/utils/debug';
+import { Header } from '~/src/app/common/components/Header';
 
 export function NotificationsScreen() {
   async function handleNotifyPermission() {
-    __DEV__ && console.log('[NotificationsScreen/handleNotificationsPermission]');
+    logline('', '[NotificationsScreen/handleNotificationsPermission]');
     const result = await AppPermission.requestNotifyPermission();
     if (!result) {
       try {
-        __DEV__ && console.log('result', result);
+        logline('result', result);
         Linking.openSettings();
         // Linking.openURL('baniking_mobile://app/notifications');
       } catch (error) {
-        __DEV__ && console.log('[NotificationsScreen/handleNotifyPersmissions/link]', error);
+        logline('[NotificationsScreen/handleNotifyPersmissions/link]', error);
       }
     }
   }
 
   return (
     <Block full base>
+      <Header iconKind="backward" />
       <AppText h1>Уведомления</AppText>
 
       <Block margin={[3, 0]}>

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   SettingsMenuScreen,
   // BaseSettingsScreen,
@@ -12,32 +9,11 @@ import {
   ContractScreen,
   HelpScreen,
 } from './screens';
-import { ParamListBase, Route } from '@react-navigation/native';
-import { useBackward } from '~/src/app/hooks/useBackward';
 import { ProfileScreen } from '../profiles/screens';
-
-interface IScreenOptionsProps {
-  route: Route<string, object | undefined>;
-  navigation: StackNavigationProp<ParamListBase>;
-}
 
 const Settings = createStackNavigator();
 
-export default function SettingsNavigator({
-  navigation,
-  route,
-}: IScreenOptionsProps): JSX.Element {
-  const screen = 'SettingsMenuScreen';
-  const screens = [
-    'ProfileScreen',
-    'SafeScreen',
-    'NotificationsScreen',
-    'RulesScreen',
-    'ContractScreen',
-    'HelpScreen',
-  ];
-  useBackward({ navigation, route, screens, screen });
-
+export default function SettingsNavigator() {
   return (
     <Settings.Navigator screenOptions={{ headerShown: false }}>
       <Settings.Screen

@@ -28,7 +28,6 @@ interface ILabelProps {
 const Drawer = createDrawerNavigator();
 
 interface IScreenOptionsProps {
-  // route: Route<string, object | undefined>;
   navigation: StackNavigationProp<ParamListBase>;
 }
 
@@ -112,16 +111,13 @@ export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
       <Drawer.Screen
         name="QrTab"
         component={QrNavigator}
-        options={
-          (/* props: IScreenOptionsProps */) => {
-            // __DEV__ && console.log('[Drawer.Screen] ** canBack', props.navigation.canGoBack());
-            return {
-              drawerLabel: (props: ILabelProps) => (
-                <AppDrawerItem text="QR" {...props} />
-              ),
-            };
-          }
-        }
+        options={() => {
+          return {
+            drawerLabel: (props: ILabelProps) => (
+              <AppDrawerItem text="QR" {...props} />
+            ),
+          };
+        }}
       />
     </Drawer.Navigator>
   );

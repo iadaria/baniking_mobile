@@ -91,10 +91,6 @@ const VerifyFormContainer = ({
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   //const [currentUser] = useState({ phone: '+7(914)352-82-88' });
 
-  /*  Запуск секундомера
-   * - берем константу - сколько секунд отсчитывать
-   * - создаем функцию выполняемую с интервалом
-   * - запоминаем ссылку на функцию */
   const launchTick = useCallback(() => {
     setSeconds(SMS_SECONDS);
     const interval = setInterval(() => tick(), 1000);
@@ -108,9 +104,7 @@ const VerifyFormContainer = ({
     }
   }, [timer]);
 
-  /* Эффектор при создании и удалении
-   * - при создании запускаем таймер - т/к смс было отправленно при переходе на этот экран
-   * - при выходе очищаем SetInterval */
+  /** Init and Clear timer */
   useEffect(() => {
     launchTick();
     return () => clearTimer();
@@ -125,9 +119,7 @@ const VerifyFormContainer = ({
     });
   }, [action, code, currentUser, verify]);
 
-  // Отправляем код каждый раз, если:
-  // - он полностью состоит из 4 цифр
-  // - если есть телефон текущего пользователя
+  /** Reqiest verification code */
   useEffect(() => {
     if (currentUser && isFullCode(code)) {
       Keyboard.dismiss();
@@ -135,16 +127,14 @@ const VerifyFormContainer = ({
     }
   }, [code, currentUser, requestVerifyCode]);
 
-  /**
-   * Запускается каждый раз, когда изменяется секунда и инициализирован timer
-   * Если достигли 0 -> очищаем таймер
-   */
+  /** Stop timer */
   useEffect(() => {
     if (seconds < 1) {
       clearTimer();
     }
   }, [clearTimer, seconds]);
 
+  /** Step timer */
   function tick() {
     setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
   }

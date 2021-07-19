@@ -32,6 +32,7 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 import { calculateDistance, isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
+import { logline } from '~/src/app/utils/debug';
 
 const BASE = sizes.offset.base;
 const TEST_PHONE = '88000000000';
@@ -120,7 +121,7 @@ function BathScreenContainer({
   // Выбираем баню, проверяем если уже полученная ранее информация о бане
   useEffect(() => {
     if (!selectedBath) {
-      __DEV__ && console.log('[BathScreen/useEffect] getBath(1010)');
+      logline('[BathScreen/useEffect] getBath(1010)', '');
       //getBath(999); // delete
       getBath(bathParams.id);
     }
@@ -129,7 +130,7 @@ function BathScreenContainer({
   // Снять выделения бани
   useEffect(() => {
     return function cleanup() {
-      __DEV__ && console.log('[BathScreen]/ clearSelectedBath');
+      logline('[BathScreen]/ clearSelectedBath', '');
       clearSelectedBath();
     };
   }, [clearSelectedBath]);
@@ -140,14 +141,6 @@ function BathScreenContainer({
 
   let map = null;
 
-  /* __DEV__ && console.log('FFFFFF', longitude, isLongitude(longitude));
-  __DEV__ &&
-    console.log(
-      'FFFFFF',
-      longitude,
-      calculateDistance({ lant1: 55.8263, long1: 37.3263, lant2: latitude, long2: longitude }) / 1000,
-    );
- */
   if (
     latitude &&
     longitude &&

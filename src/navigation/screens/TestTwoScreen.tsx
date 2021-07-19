@@ -1,22 +1,14 @@
 import React from 'react';
+import { Header } from '~/src/app/common/components/Header';
 import { Block, AppText } from '~/src/app/common/components/UI';
 
-export default function TestTwoScreen({ navigation }: any) {
+export default function TestTwoScreen() {
   return (
-    <Block center middle full>
-      <AppText>Screen two</AppText>
+    <Block full base>
+      <Header />
+      <Block middle center full>
+        <AppText>Empty screen</AppText>
+      </Block>
     </Block>
   );
 }
-
-/* const isDrawerOpen = useIsDrawerOpen();
-
-  React.useLayoutEffect(() => {
-    if (!isDrawerOpen) {
-      navigation.setOptions({
-        headerLeft: () => {
-          <HeaderLeftOpen onOpenDrawer={() => navigation.toggleDrawer()} />;
-        },
-      });
-    }
-  }, [navigation, isDrawerOpen]); */

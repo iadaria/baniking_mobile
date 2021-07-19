@@ -45,6 +45,7 @@ import { useGeolocation } from '../../hooks/useGeolocation';
 import FilterButton from './FilterButton';
 import { ILocation } from '~/src/app/models/user';
 import { log, logline } from '~/src/app/utils/debug';
+import { Header } from '~/src/app/common/components/Header';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -261,75 +262,79 @@ export function BathesScreenContainer({
       />
     );
   }
-
   return (
-    <Block full padding={[sizes.offset.base, sizes.offset.base, 0, 4]}>
-      <AppText margin={[0, 0, 2, 4]} h1>
-        Каталог бань
-      </AppText>
-      <Block padding={[0, 0, 0, 4]} center row>
-        <Block style={styles.searchWrapper} center row>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Что вы ищите?"
-            onChangeText={(name: string) => {
-              const newName = String(name);
-              setSearchName(newName);
-              const modifiedName =
-                '%' + newName.toLowerCase().trim().replace(' ', '%') + '%';
-              log('[BathesScreen]', modifiedName);
-              const newParams: TPartBathParams = {
-                ...params,
-                search_query: modifiedName,
-              };
-              switchEnter(newName.length, newParams);
-            }}
-            value={searchName}
-            autoCapitalize="none"
-            autoCorrect={false}
-            maxLength={64}
-          />
-          {isEmpty() ? (
-            <TouchableOpacity
-              style={styles.searchIconButton}
-              onPress={() => { }}>
-              <SearchIcon style={styles.searchIcon} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.searchIconButton}
-              onPress={cancelQuery}>
-              <SearchCancelIcon style={styles.searchIcon} />
-            </TouchableOpacity>
-          )}
-        </Block>
-        <FilterButton navigation={navigation} filterCount={filterCount} />
+    <>
+      <Block margin={[4, 8, 0]}>
+        <Header />
       </Block>
-      {/* Sort */}
-      <TouchableOpacity
-        onLayout={(event) => setYForModal(event.nativeEvent.layout.y)}
-        style={styles.sort}
-        onPress={() =>
-          openModal({ modalType: 'SortModal', modalProps: { y: yForModal } })
-        }>
-        <AppText>Сортировать</AppText>
-        <ListIcon />
-      </TouchableOpacity>
+      <Block full padding={[0, 8, 0, 4]}>
+        <AppText margin={[0, 0, 2, 4]} h1>
+          Каталог бань
+        </AppText>
+        <Block padding={[0, 0, 0, 4]} center row>
+          <Block style={styles.searchWrapper} center row>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Что вы ищите?"
+              onChangeText={(name: string) => {
+                const newName = String(name);
+                setSearchName(newName);
+                const modifiedName =
+                  '%' + newName.toLowerCase().trim().replace(' ', '%') + '%';
+                log('[BathesScreen]', modifiedName);
+                const newParams: TPartBathParams = {
+                  ...params,
+                  search_query: modifiedName,
+                };
+                switchEnter(newName.length, newParams);
+              }}
+              value={searchName}
+              autoCapitalize="none"
+              autoCorrect={false}
+              maxLength={64}
+            />
+            {isEmpty() ? (
+              <TouchableOpacity
+                style={styles.searchIconButton}
+                onPress={() => { }}>
+                <SearchIcon style={styles.searchIcon} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.searchIconButton}
+                onPress={cancelQuery}>
+                <SearchCancelIcon style={styles.searchIcon} />
+              </TouchableOpacity>
+            )}
+          </Block>
+          <FilterButton navigation={navigation} filterCount={filterCount} />
+        </Block>
+        {/* Sort */}
+        <TouchableOpacity
+          onLayout={(event) => setYForModal(event.nativeEvent.layout.y)}
+          style={styles.sort}
+          onPress={() =>
+            openModal({ modalType: 'SortModal', modalProps: { y: yForModal } })
+          }>
+          <AppText>Сортировать</AppText>
+          <ListIcon />
+        </TouchableOpacity>
 
-      <Block margin={[sizes.offset.between, 0, 0]} />
+        <Block margin={[sizes.offset.between, 0, 0]} />
 
-      <FlatList
-        data={bathes}
-        style={iosStyle}
-        showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        onEndReachedThreshold={0.1}
-        onEndReached={handleLoadMore}
-        ListEmptyComponent={emptyComponent}
-        ListFooterComponent={footerComponent}
-      />
-    </Block>
+        <FlatList
+          data={bathes}
+          style={iosStyle}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          onEndReachedThreshold={0.1}
+          onEndReached={handleLoadMore}
+          ListEmptyComponent={emptyComponent}
+          ListFooterComponent={footerComponent}
+        />
+      </Block>
+    </>
   );
 }
 

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ActivityIndicator, Dimensions, Image } from 'react-native';
+import { ActivityIndicator, Image } from 'react-native';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import { getQrCode as getQrCodeAction } from '~/src/features/profiles/store/profileActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { colors, sizes } from '~/src/app/common/constants';
 import { QrLogoIcon } from '~/src/assets';
 import { styles } from './styles';
+import { Header } from '~/src/app/common/components/Header';
 
 interface IProps {
   loading: boolean;
@@ -15,9 +16,13 @@ interface IProps {
   getQrCode: () => void;
 }
 
-export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps) {
+export function QrScreenContainer({
+  loading,
+  qr,
+  getQrCode,
+  cardNumber,
+}: IProps) {
   useEffect(() => {
-    __DEV__ && console.log('Screen height', Dimensions.get('window').height);
     if (!qr) {
       getQrCode();
     }
@@ -33,13 +38,18 @@ export function QrScreenContainer({ loading, qr, getQrCode, cardNumber }: IProps
 
   return (
     <Block base full>
+      <Header />
       <AppText h1 left>
         Qr код
       </AppText>
 
       <QrLogoIcon style={styles.qrLogo} />
 
-      <AppText center size={sizes.text.label} color={colors.qr.text} height={18}>
+      <AppText
+        center
+        size={sizes.text.label}
+        color={colors.qr.text}
+        height={18}>
         {'Поднесите QR-код на экране к \n считывающему устройству'}
       </AppText>
 

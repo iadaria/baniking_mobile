@@ -33,76 +33,6 @@ export default function systemReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): ISystemState {
   switch (type) {
-    case constants.OPEN_DRAWER:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isDrawerOpen: true,
-          isBackward: false,
-        },
-      };
-
-    case constants.CLOSE_DRAWER:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isDrawerOpen: false,
-          isBackward: false,
-        },
-      };
-
-    case constants.ENABLE_BACKWARD:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isDrawerOpen: false,
-          isBackward: true,
-        },
-      };
-
-    case constants.DISABLE_BACKWARD:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          // isDrawerOpen: false,
-          isBackward: false,
-        },
-      };
-
-    case constants.PUSH_BACKWARD:
-      // Находим длину стека
-      const length = state.header.backwardStack.length;
-      // Находим последнюю страницу в стеке
-      const last = length - 1 >= 0 ? state.header.backwardStack[length - 1] : null;
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isDrawerOpen: false,
-          isBackward: true,
-          // Если нет в стеке этой страницы, чтобы не повторять
-          backwardStack:
-            (last && last !== payload) || !last
-              ? [...state.header.backwardStack, payload]
-              : [...state.header.backwardStack],
-        },
-      };
-
-    case constants.PULL_BACKWARD:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isDrawerOpen: false,
-          isBackward: state.header.backwardStack.length > 0,
-          backwardStack: [...state.header.backwardStack.slice(0, -1)],
-        },
-      };
-
     case constants.TRANSPARENT_HEADER:
       return {
         ...state,
@@ -118,34 +48,6 @@ export default function systemReducer(
         header: {
           ...state.header,
           isTransparent: false,
-        },
-      };
-
-    case constants.SET_CURRENT_SCREEN:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          currentScreen: payload,
-        },
-      };
-
-    case constants.CLEAR_CURRENT_SCREEN:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          currentScreen: undefined,
-        },
-      };
-
-    case constants.CLEAR_BACKWARD:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isBackward: false,
-          backwardStack: [],
         },
       };
 

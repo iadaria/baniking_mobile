@@ -16,7 +16,6 @@ type Props = Omit<DrawerContentOptions, 'contentContainerStyle' | 'style'> & {
   state: DrawerNavigationState<ParamListBase>;
   navigation: DrawerNavigationHelpers;
   descriptors: DrawerDescriptorMap;
-  pickCloseIcon: () => void;
 };
 
 export function AppDrawerItemList({
@@ -29,7 +28,6 @@ export function AppDrawerItemList({
   inactiveBackgroundColor,
   itemStyle,
   labelStyle,
-  pickCloseIcon,
 }: Props) {
   const buildLink = useLinkBuilder();
 
@@ -63,7 +61,6 @@ export function AppDrawerItemList({
               : CommonActions.navigate(route.name)),
             target: state.key,
           });
-          pickCloseIcon();
         }}
       />
     );

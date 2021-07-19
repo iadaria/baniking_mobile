@@ -14,8 +14,8 @@ export default function AuthNavigator(): JSX.Element {
     <Auth.Navigator
       //initialRouteName="ResetPasswordScreen"
       //initialRouteName="LoginScreen"
-      initialRouteName="VerifyScreen"
-      //initialRouteName="LoginScreen"
+      //initialRouteName="VerifyScreen"
+      initialRouteName="LoginScreen"
       //initialRouteName="RegisterCompleteScreen"
       //initialRouteName="RegisterScreen"
       screenOptions={{ headerShown: false }}>
