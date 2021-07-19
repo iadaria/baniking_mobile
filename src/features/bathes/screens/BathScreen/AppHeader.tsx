@@ -4,12 +4,19 @@ import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Block } from '~/src/app/common/components/UI';
-import { appBarHeight, isAndroid, statusBarHeight } from '~/src/app/common/constants/platform';
+import {
+  appBarHeight,
+  isAndroid,
+  statusBarHeight,
+} from '~/src/app/common/constants/platform';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
 import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
 import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
-import { HeaderBackward, HeaderRightButton } from '~/src/navigation/components/headerButtons';
+import {
+  HeaderBackward,
+  HeaderRightButton,
+} from '~/src/navigation/components/headerButtons';
 
 interface IAppScreenOptionsProps {
   isBackward: boolean;
@@ -46,7 +53,12 @@ const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
   }
 
   return (
-    <Block style={{ paddingTop: isAndroid ? wp(5) : statusBarHeight * 1.3, justifyContent: 'space-between' }} row>
+    <Block
+      style={{
+        paddingTop: isAndroid ? wp(5) : statusBarHeight * 1.3,
+        justifyContent: 'space-between',
+      }}
+      row>
       {headerLeft}
       <Block style={{ justifyContent: 'space-between' }} flex={0.44} center row>
         <AppHeaderTitle points={points} />

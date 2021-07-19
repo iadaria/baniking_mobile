@@ -81,7 +81,8 @@ function MainNavigatorContainer({
         component={AuthNavigator}
       />
       <Main.Screen
-        options={({ navigation, route }: IScreenOptionsProps) => {
+        options={{ headerShown: false }}
+        /* options={({ navigation, route }: IScreenOptionsProps) => {
           return appScreenOptions({
             isDrawerOpen,
             isBackward,
@@ -94,7 +95,7 @@ function MainNavigatorContainer({
             onOpenDrawer,
             pullBackward,
           });
-        }}
+        }} */
         name="DrawerNavigator"
         component={DrawerNavigator}
       />

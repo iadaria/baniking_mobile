@@ -18,6 +18,8 @@ import { ICabinet } from '~/src/app/models/profile';
 import { AuthLogoLeft, AuthLogoRight, ColumnIcon } from '~/src/assets';
 import { USER_IMAGE_PATH } from '~/src/app/common/constants/common';
 import { styles } from './styles';
+import { logline } from '~/src/app/utils/debug';
+import { Header } from '~/src/app/common/components/Header';
 
 interface IProps {
   loading: boolean;
@@ -44,6 +46,7 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
   const countBeforeNext = getCountForNextLevel(meetings_count || 0);
   return (
     <Block full base>
+      <Header />
       <AppText h1>Личный кабинет</AppText>
       {/* Name & Avatar block */}
       <Block flex={0.8} /* margin={[7, 0, 12]}  */ middle>
@@ -88,7 +91,7 @@ function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
       <Block margin={[7, 0, 0]} row middle>
         <TouchableOpacity
           onPress={() => {
-            __DEV__ && console.log('naviation to 10 mettings');
+            logline('', 'naviation to 10 mettings');
           }}>
           <AppText center light secondary>
             {`еще ${countBeforeNext} ${getMeetingsDeclension(

@@ -36,6 +36,7 @@ import { IProfile } from '~/src/app/models/profile';
 import { IErrors } from '~/src/app/utils/error';
 import { log, logline } from '~/src/app/utils/debug';
 import { styles } from './styles';
+import { Header } from '~/src/app/common/components/Header';
 
 interface IProps {
   currentProfile: IProfile | null;
@@ -152,6 +153,7 @@ function ProfileScreenContainer({
         style={styles.scrollView}
         alwaysBounceHorizontal
         contentContainerStyle={styles.scrollViewContainer}>
+        <Header iconKind="backward" />
         <ValidatedElements
           // key={Number(recreate)}
           defaultInputs={defaultProfileInputs}

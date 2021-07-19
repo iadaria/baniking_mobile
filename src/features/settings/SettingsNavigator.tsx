@@ -1,5 +1,8 @@
 import React from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import {
   SettingsMenuScreen,
   // BaseSettingsScreen,
@@ -20,7 +23,10 @@ interface IScreenOptionsProps {
 
 const Settings = createStackNavigator();
 
-export default function SettingsNavigator({ navigation, route }: IScreenOptionsProps): JSX.Element {
+export default function SettingsNavigator({
+  navigation,
+  route,
+}: IScreenOptionsProps): JSX.Element {
   const screen = 'SettingsMenuScreen';
   const screens = [
     'ProfileScreen',
@@ -34,11 +40,16 @@ export default function SettingsNavigator({ navigation, route }: IScreenOptionsP
 
   return (
     <Settings.Navigator screenOptions={{ headerShown: false }}>
-      <Settings.Screen name="SettingsMenuScreen" component={SettingsMenuScreen} />
+      <Settings.Screen
+        name="SettingsMenuScreen"
+        component={SettingsMenuScreen}
+      />
       <Settings.Screen name="ProfileScreen" component={ProfileScreen} />
       <Settings.Screen name="SafeScreen" component={SafeScreen} />
-      {/* <Settings.Screen name="BaseSettingsScreen" component={BaseSettingsScreen} /> */}
-      <Settings.Screen name="NotificationsScreen" component={NotificationsScreen} />
+      <Settings.Screen
+        name="NotificationsScreen"
+        component={NotificationsScreen}
+      />
       <Settings.Screen name="RulesScreen" component={RulesScreen} />
       <Settings.Screen name="ContractScreen" component={ContractScreen} />
       <Settings.Screen name="HelpScreen" component={HelpScreen} />

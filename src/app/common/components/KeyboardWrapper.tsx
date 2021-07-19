@@ -1,9 +1,8 @@
-import React from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import React, { ReactNode } from 'react';
+import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { isIOS } from '../../utils/system';
 
-export const KeyboardWrapper = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
-  const isIOS = Platform.OS === 'ios';
-
+export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   if (!isIOS) {
     return <>{children}</>;
   }

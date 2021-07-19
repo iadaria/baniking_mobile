@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StackActions } from '@react-navigation/native';
+import { DrawerActions, StackActions } from '@react-navigation/native';
 
 export const navigationRef: React.RefObject<any> = React.createRef<any>();
 
@@ -8,7 +8,10 @@ export function navigate(name: string, params?: any) {
 }
 
 export function openDrawer() {
-  navigationRef.current?.openDrawer();
+  navigationRef?.current?.dispatch(DrawerActions.openDrawer());
+}
+export function closeDrawer() {
+  navigationRef?.current?.dispatch(DrawerActions.closeDrawer());
 }
 
 export function resetRoot(name: string) {

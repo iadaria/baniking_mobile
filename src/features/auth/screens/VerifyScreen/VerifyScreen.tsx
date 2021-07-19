@@ -20,7 +20,9 @@ export function VerifyScreen({ navigation, route }: IProps) {
 
   return (
     <Block full base>
-      <BackButton screen={routes.authNavigator.RegisterScreen} />
+      <Block margin={[4, 0]}>
+        <BackButton screen={routes.authNavigator.RegisterScreen} />
+      </Block>
       <AppText h1>Подтверждение</AppText>
       <VerifyForm navigation={navigation} action={action} />
     </Block>

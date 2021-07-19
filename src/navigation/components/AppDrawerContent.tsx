@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { AppDrawerItemList } from './AppDrawerItemList';
 import { askLogout } from '~/src/features/persist/store/appPersistActions';
 import { clearBackward } from '../../app/store/system/systemActions';
+import { Header } from '~/src/app/common/components/Header';
+import { Block } from '~/src/app/common/components/UI';
 
 /* interface IProps extends DrawerContentComponentProps<DrawerContentOptions> {
   close: () => void;
@@ -35,13 +37,10 @@ export function AppDrawerContent(
   }
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItem
-        label={() => <AppLogoItem />}
-        onPress={() => {
-          /* Alert.alert('Link to help') */
-        }}
-      />
-      {/* <DrawerItemList {...props} /> */}
+      <Block margin={[0, 4]}>
+        <Header iconKind="close" />
+      </Block>
+      <DrawerItem label={() => <AppLogoItem />} onPress={() => { }} />
       <AppDrawerItemList {...props} pickCloseIcon={pickCloseIcon} />
       <DrawerItem
         label={(labelProps: ILabelProps) => (
