@@ -57,10 +57,6 @@ export function Block<T>(props: IUiBlock<T>) {
     debug && styles.debug,
     content && { flex: 0 }, // reset - disable flex
     base && { padding: wp(sizes.offset.base) },
-    /* base && {
-      paddingVertical: wp(sizes.offset.base),
-      paddingHorizontal: wp(sizes.offset.base),
-    }, */
     row && styles.row,
     column && styles.column,
     center && styles.center,
@@ -81,7 +77,7 @@ export function Block<T>(props: IUiBlock<T>) {
     style,
   ] as StyleProp<ViewStyle>;
 
-  const kind: keyof typeof viewKinds = safe
+  const kind: keyof ViewKinds = safe
     ? 'Safe'
     : animated
       ? 'Animated'
@@ -93,28 +89,6 @@ export function Block<T>(props: IUiBlock<T>) {
       {children}
     </ViewComponent>
   );
-
-  /* if (animated) {
-    return (
-      <Animated.View style={blockStyles} {...otherProps}>
-        {children}
-      </Animated.View>
-    );
-  }
-
-  if (safe) {
-    return (
-      <SafeAreaView style={blockStyles} {...otherProps}>
-        {children}
-      </SafeAreaView>
-    );
-  }
-
-  return (
-    <View style={blockStyles} {...otherProps}>
-      {children}
-    </View>
-  ); */
 }
 
 /* <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
