@@ -7,6 +7,18 @@ import { sizes } from '~/src/app/common/constants';
 import { handleMargins, handlePaddings } from '~/src/app/utils/ui';
 import { styles } from './styles';
 
+type ViewKinds = {
+  Animated: React.ReactNode;
+  Safe: React.ReactNode;
+  Regular: React.ReactNode;
+};
+
+const viewKinds: ViewKinds = {
+  Animated: Animated.View,
+  Safe: SafeAreaView,
+  Regular: View,
+};
+
 export function Block<T>(props: IUiBlock<T>) {
   const {
     full,
@@ -24,20 +36,15 @@ export function Block<T>(props: IUiBlock<T>) {
     bottom,
     color,
     space,
-    // offers
     padding,
     margin,
     animated,
-    // styles
     wrap,
-    // colors
     white,
-    // custome styles
     underline,
     card,
     shadow,
     safe,
-    // others
     style,
     children,
     ...otherProps
@@ -49,12 +56,11 @@ export function Block<T>(props: IUiBlock<T>) {
     flex && { flex },
     debug && styles.debug,
     content && { flex: 0 }, // reset - disable flex
-    base && {
-      // paddingVertical: wp(sizes.offset.base),
+    base && { padding: wp(sizes.offset.base) },
+    /* base && {
       paddingVertical: wp(sizes.offset.base),
       paddingHorizontal: wp(sizes.offset.base),
-      // paddingBottom: hp(sizes.footerBottom),
-    },
+    }, */
     row && styles.row,
     column && styles.column,
     center && styles.center,
@@ -69,18 +75,26 @@ export function Block<T>(props: IUiBlock<T>) {
     shadow && styles.shadow,
     space && { justifyContent: `space-${space}` },
     wrap && styles.wrap,
-    // colors
     white && styles.white,
-    // section && styles.section,
-    // color && styles[color as keyof typeof styles],
     color && { backgroundColor: color },
-    // custome styles
     underline && styles.underline,
-    // others
     style,
   ] as StyleProp<ViewStyle>;
 
-  if (animated) {
+  const kind: keyof typeof viewKinds = safe
+    ? 'Safe'
+    : animated
+      ? 'Animated'
+      : 'Regular';
+  const ViewComponent = viewKinds[kind] as React.ElementType;
+
+  return (
+    <ViewComponent style={blockStyles} {...otherProps}>
+      {children}
+    </ViewComponent>
+  );
+
+  /* if (animated) {
     return (
       <Animated.View style={blockStyles} {...otherProps}>
         {children}
@@ -100,7 +114,7 @@ export function Block<T>(props: IUiBlock<T>) {
     <View style={blockStyles} {...otherProps}>
       {children}
     </View>
-  );
+  ); */
 }
 
 /* <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
