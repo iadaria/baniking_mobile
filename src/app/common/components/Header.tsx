@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { CloseMenu, MenuHumberger, Notify } from '~/src/assets';
-import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
+import { AppHeaderTitle } from '~/src/navigation/components/AppHeaderTitle';
 import { colors, multiplier } from '../constants';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { Block } from './UI';

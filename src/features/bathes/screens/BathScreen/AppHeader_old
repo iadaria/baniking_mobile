@@ -5,18 +5,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Block } from '~/src/app/common/components/UI';
 import {
-  appBarHeight,
   isAndroid,
   statusBarHeight,
 } from '~/src/app/common/constants/platform';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
 import { getCabinetData as getCabinetDataAction } from '~/src/features/profiles/store/profileActions';
-import AppHeaderTitle from '~/src/navigation/components/AppHeaderTitle';
-import {
-  HeaderBackward,
-  HeaderRightButton,
-} from '~/src/navigation/components/headerButtons';
+import { AppHeaderTitle } from '~/src/navigation/components/AppHeaderTitle';
 
 interface IAppScreenOptionsProps {
   isBackward: boolean;
@@ -43,12 +37,14 @@ const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
   let headerLeft;
   if (isBackward && backwardStack.length > 0) {
     headerLeft = (
-      <HeaderBackward
+      <>
+        {/* <HeaderBackward
         navigation={navigation}
         backwardStack={backwardStack}
         pullBackward={pullBackward}
         onPress={onPress}
-      />
+      /> */}
+      </>
     );
   }
 
@@ -62,7 +58,6 @@ const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
       {headerLeft}
       <Block style={{ justifyContent: 'space-between' }} flex={0.44} center row>
         <AppHeaderTitle points={points} />
-        <HeaderRightButton />
       </Block>
     </Block>
   );
@@ -71,15 +66,11 @@ const AppHeaderContainer: React.FC<IAppScreenOptionsProps> = ({
 const AppHeaderConnected = connect(
   ({ system, auth }: IRootState) => ({
     authenticated: auth.authenticated,
-    isDrawerOpen: system.header.isDrawerOpen,
-    isBackward: system.header.isBackward,
-    backwardStack: system.header.backwardStack,
     points: system.header.points,
     // currentScreen: system.header.currentScreen,
     isTransparent: system.header.isTransparent,
   }),
   {
-    pullBackward: pullBackwardAction,
     getCabinetData: getCabinetDataAction,
   },
 )(AppHeaderContainer);
