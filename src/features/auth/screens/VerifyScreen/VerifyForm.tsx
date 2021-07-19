@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  ScrollView,
-  TextStyle,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import { ScrollView, TouchableOpacity, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -18,14 +13,13 @@ import { IUserAuth } from '~/src/app/models/user';
 
 import { VerifyPayload } from '../../store/saga/verifySaga';
 import { useState, useCallback } from 'react';
-import { ArrowRightIcon, VerifyCodeIcon } from '~/src/assets';
-import { styles as s } from './styles';
+import { VerifyCodeIcon } from '~/src/assets';
 import { Code } from './Code';
-import { Action, colors, SMS_SECONDS } from '~/src/app/common/constants';
+import { Action, SMS_SECONDS } from '~/src/app/common/constants';
 import { IErrors } from '~/src/app/utils/error';
 import { NotifyPayload } from '../../store/saga/notifySaga';
 import { isExpired, isFullCode } from '~/src/app/utils/common';
-import { logline } from '~/src/app/utils/debug';
+import { Timer } from './Timer';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -36,48 +30,6 @@ interface IProps {
   notify: (payload: NotifyPayload) => void;
   errors: IErrors | null;
 }
-
-interface ITimer {
-  seconds: number;
-  isError: boolean;
-}
-
-const Timer = ({ seconds, isError }: ITimer) => {
-  //logline('[Timer] isError=', isError);
-
-  function format(num: number) {
-    const result = String(num);
-    return result.length < 2 ? '0' + result : result;
-  }
-
-  const colorText = isExpired(seconds) && !isError ? 'black' : 'white';
-  const colorBack =
-    isExpired(seconds) && !isError
-      ? 'white'
-      : isError
-        ? colors.errorDigit
-        : 'black';
-  const expiredBack: TextStyle = { backgroundColor: colorBack };
-  const expiredText: TextStyle = { color: colorText };
-  return (
-    <Block
-      style={[s.repeat, expiredBack]}
-      margin={[2, 0]}
-      padding={[3, 4]}
-      row
-      space="between">
-      <Block row center>
-        <AppText style={expiredText} margin={[0, 5, 0, 0]}>
-          Отправить код заново
-        </AppText>
-        <ArrowRightIcon fill={colorText} />
-      </Block>
-      <AppText style={expiredText} semibold>
-        00:{format(seconds)}
-      </AppText>
-    </Block>
-  );
-};
 
 const VerifyFormContainer = ({
   currentUser,
@@ -138,13 +90,6 @@ const VerifyFormContainer = ({
   function tick() {
     setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
   }
-  // need del
-  /* useEffect(() => {
-    logline(
-      '[VarifyForm]',
-      `code=${code.join('')}, isFull=${isFullCode(code)}`,
-    );
-  }, [code]); */
 
   function requestNewNotifyCode() {
     clearCode();
