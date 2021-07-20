@@ -1,18 +1,51 @@
-import React from 'react';
-import { TextStyle } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { TextStyle, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { colors } from '~/src/app/common/constants';
+import { colors, SMS_SECONDS } from '~/src/app/common/constants';
 import { isExpired } from '~/src/app/utils/common';
 import { ArrowRightIcon } from '~/src/assets';
 import { styles as s } from './styles';
 
 interface ITimer {
-  seconds: number;
   isError: boolean;
+  sendNotify: () => void;
 }
 
-export const Timer = ({ seconds, isError }: ITimer) => {
-  //logline('[Timer] isError=', isError);
+export const Timer = ({ isError, sendNotify }: ITimer) => {
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const [seconds, setSeconds] = useState(SMS_SECONDS);
+
+  const launchTick = useCallback(() => {
+    setSeconds(SMS_SECONDS);
+    const interval = setInterval(() => tick(), 1000);
+    setTimer(interval);
+  }, []);
+
+  const clearTimer = useCallback(() => {
+    if (timer) {
+      clearInterval(timer);
+      setTimer(undefined);
+    }
+  }, [timer]);
+
+  /** Init and Clear timer */
+  useEffect(() => {
+    launchTick();
+    return () => clearTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** Stop timer */
+  useEffect(() => {
+    if (seconds < 1) {
+      clearTimer();
+    }
+  }, [clearTimer, seconds]);
+
+  /** Step timer */
+  function tick() {
+    setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+  }
 
   function format(num: number) {
     const result = String(num);
@@ -28,22 +61,30 @@ export const Timer = ({ seconds, isError }: ITimer) => {
         : 'black';
   const expiredBack: TextStyle = { backgroundColor: colorBack };
   const expiredText: TextStyle = { color: colorText };
+
   return (
-    <Block
-      style={[s.repeat, expiredBack]}
-      margin={[2, 0]}
-      padding={[3, 4]}
-      row
-      space="between">
-      <Block row center>
-        <AppText style={expiredText} margin={[0, 5, 0, 0]}>
-          Отправить код заново
+    <TouchableOpacity
+      disabled={!isExpired(seconds)}
+      onPress={() => {
+        sendNotify();
+        launchTick();
+      }}>
+      <Block
+        style={[s.repeat, expiredBack]}
+        margin={[2, 0]}
+        padding={[3, 4]}
+        row
+        space="between">
+        <Block row center>
+          <AppText style={expiredText} margin={[0, 5, 0, 0]}>
+            Отправить код заново
+          </AppText>
+          <ArrowRightIcon fill={colorText} />
+        </Block>
+        <AppText style={expiredText} semibold>
+          00:{format(seconds)}
         </AppText>
-        <ArrowRightIcon fill={colorText} />
       </Block>
-      <AppText style={expiredText} semibold>
-        00:{format(seconds)}
-      </AppText>
-    </Block>
+    </TouchableOpacity>
   );
 };

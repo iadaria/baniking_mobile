@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, TouchableOpacity, Keyboard } from 'react-native';
+import { ScrollView, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -9,132 +9,75 @@ import {
   notify as notifyAction,
 } from '~/src/features/auth/store/authActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IUserAuth } from '~/src/app/models/user';
-
 import { VerifyPayload } from '../../store/saga/verifySaga';
 import { useState, useCallback } from 'react';
 import { VerifyCodeIcon } from '~/src/assets';
 import { Code } from './Code';
-import { Action, SMS_SECONDS } from '~/src/app/common/constants';
+import { Action } from '~/src/app/common/constants';
 import { IErrors } from '~/src/app/utils/error';
 import { NotifyPayload } from '../../store/saga/notifySaga';
-import { isExpired, isFullCode } from '~/src/app/utils/common';
+import { isFullCode } from '~/src/app/utils/common';
 import { Timer } from './Timer';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   action: Action;
+  phone: string;
   scrollViewRef?: React.RefObject<ScrollView>;
-  currentUser: Partial<IUserAuth> | null;
   verify: (payload: VerifyPayload) => void;
   notify: (payload: NotifyPayload) => void;
   errors: IErrors | null;
 }
 
 const VerifyFormContainer = ({
-  currentUser,
   action,
+  phone,
   verify,
   notify,
   errors,
-}: IProps): JSX.Element => {
+}: IProps) => {
   const [code, setCode] = useState(['', '', '', '']);
-  const [seconds, setSeconds] = useState(SMS_SECONDS);
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
-  //const [currentUser] = useState({ phone: '+7(914)352-82-88' });
-
-  const launchTick = useCallback(() => {
-    setSeconds(SMS_SECONDS);
-    const interval = setInterval(() => tick(), 1000);
-    setTimer(interval);
-  }, []);
-
-  const clearTimer = useCallback(() => {
-    if (timer) {
-      clearInterval(timer);
-      setTimer(undefined);
-    }
-  }, [timer]);
-
-  /** Init and Clear timer */
-  useEffect(() => {
-    launchTick();
-    return () => clearTimer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const requestVerifyCode = useCallback(() => {
-    verify({
-      code: code.join(''),
-      phone: currentUser?.phone!,
-      action,
-    });
-  }, [action, code, currentUser, verify]);
+    verify({ code: code.join(''), action });
+  }, [action, code, verify]);
 
   /** Reqiest verification code */
   useEffect(() => {
-    if (currentUser && isFullCode(code)) {
+    if (isFullCode(code)) {
       Keyboard.dismiss();
       requestVerifyCode();
     }
-  }, [code, currentUser, requestVerifyCode]);
-
-  /** Stop timer */
-  useEffect(() => {
-    if (seconds < 1) {
-      clearTimer();
-    }
-  }, [clearTimer, seconds]);
-
-  /** Step timer */
-  function tick() {
-    setSeconds((prev) => (prev > 0 ? prev - 1 : 0));
-  }
+  }, [code, requestVerifyCode]);
 
   function requestNewNotifyCode() {
     clearCode();
-    if (currentUser) {
-      notify({
-        phone: currentUser.phone!,
-        action: action,
-      });
-      launchTick();
-    }
+    notify({ action });
   }
 
   const clearCode = () => setCode([]);
-
   const isCodeError = !!errors?.code;
-  //const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
-  //const isErrorCode = errors !== null;
-  //const isExistsError = !!errors?.exists;
-  //const isExpirationError = !!errors?.expiration;
-  //const isError = isExistsError || isCodeError;
 
   return (
     <Block full>
       <Block margin={[2, 0]} flex={0.25} row>
         <VerifyCodeIcon />
         <AppText margin={[0, 0, 0, 2]} header>
-          Му отправили проверочный код на номер {currentUser?.phone}
+          Му отправили проверочный код на номер {phone}
         </AppText>
       </Block>
 
       <Code code={code} setCode={setCode} isError={isCodeError} />
 
-      <TouchableOpacity
-        disabled={!isExpired(seconds)}
-        onPress={requestNewNotifyCode}>
-        <Timer seconds={seconds} isError={isCodeError} />
-      </TouchableOpacity>
+      <Timer isError={isCodeError} sendNotify={requestNewNotifyCode} />
     </Block>
   );
 };
 
 const VerifyFormConnected = connect(
   ({ auth }: IRootState) => ({
-    currentUser: auth.currentUser,
     errors: auth.errors,
+    phone: auth.currentUser?.phone!,
   }),
   {
     verify: verifyAction,
@@ -143,3 +86,9 @@ const VerifyFormConnected = connect(
 )(VerifyFormContainer);
 
 export { VerifyFormConnected as VerifyForm };
+
+//const isErrorCode = Boolean(errors?.code && errors?.code.length > 0);
+//const isErrorCode = errors !== null;
+//const isExistsError = !!errors?.exists;
+//const isExpirationError = !!errors?.expiration;
+//const isError = isExistsError || isCodeError;
