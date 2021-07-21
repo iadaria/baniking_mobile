@@ -7,7 +7,7 @@ import { ParamListBase } from '@react-navigation/native';
 import {
   IBathParamsVariety,
   bathType,
-  TPartBathParams,
+  BathParams,
 } from '~/src/app/models/bath';
 import {
   getBathParamsVariety as getBathParamsVarietyAction,
@@ -37,12 +37,12 @@ import { BackButton } from '~/src/app/common/components/BackButton';
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   paramsVariety: IBathParamsVariety | null;
-  bathParams: TPartBathParams;
+  bathParams: BathParams;
   getBathParamsVariety: () => void;
-  checkFilter: ({ filterParams }: { filterParams: TPartBathParams }) => void;
+  checkFilter: ({ filterParams }: { filterParams: BathParams }) => void;
 }
 
-const DEFAULT_PARAMS: TPartBathParams = {
+const DEFAULT_PARAMS: BathParams = {
   page: 0,
   steam_rooms_ids: [],
   services_ids: [],
@@ -73,7 +73,7 @@ function BathesFilterScreenContainer({
   const [highRating, setHighRating] = useState(5);
   const [middleHightRating, setMiddleHighRating] = useState('5');
 
-  const [thisFilterParams, setThisFilterParams] = useState<TPartBathParams>(
+  const [thisFilterParams, setThisFilterParams] = useState<BathParams>(
     initializeFilterParams(bathParams),
   );
 
@@ -91,7 +91,7 @@ function BathesFilterScreenContainer({
   }, [getBathParamsVariety, paramsVariety]);
 
   const debounced = useDebouncedCallback(
-    (checkParams: TPartBathParams) =>
+    (checkParams: BathParams) =>
       checkFilter({ filterParams: checkParams }),
     1000,
     {
@@ -99,7 +99,7 @@ function BathesFilterScreenContainer({
     },
   );
   const debouncedParams = useDebouncedCallback(
-    (checkParams: TPartBathParams) => setThisFilterParams({ ...checkParams }),
+    (checkParams: BathParams) => setThisFilterParams({ ...checkParams }),
     300,
     {
       maxWait: 600,
@@ -133,7 +133,7 @@ function BathesFilterScreenContainer({
 
   // Вызываем запрос при изменении цены и рейтинга
   useEffect(() => {
-    const newParams: TPartBathParams = {
+    const newParams: BathParams = {
       ...thisFilterParams,
       price_from: lowPrice,
       price_to: highPrice,
@@ -204,7 +204,7 @@ function BathesFilterScreenContainer({
               style={[styles.closeIcon, styles.border, { marginBottom: 0 }]}
               onPress={() => {
                 setThisFilterCount(0);
-                const cleanedFilterParams: TPartBathParams = cleanFilterParams(
+                const cleanedFilterParams: BathParams = cleanFilterParams(
                   bathParams,
                 );
                 logline('[BathesFilter] cleaned', cleanFilterParams);

@@ -1,16 +1,19 @@
-export interface IBath {
+export type Bath = {
   id: number;
   name: string;
+  type: EBathType;
   short_description: string;
   rating: number;
   address: string;
   latitude: number;
   longitude: number;
-  placeId?: string;
   image: string;
   cachedImage?: string | null;
-  price: number | null;
-}
+  //price: number | null; // need del
+  //placeId?: string; // need del
+};
+
+export type Rating = 0 | 1 | 2 | 3 | 4 | 5;
 
 export enum EBathSortField {
   Price = 'price',
@@ -37,25 +40,25 @@ export enum EBathSort {
  * @param {number} rating {number}
  */
 export interface IBathParams {
+  page: number;
   search_query: string;
   sort_field: EBathSortField;
   sort_type: EBathSortType;
-  rating: number;
+  rating_from: Rating;
+  rating_to: Rating;
   price_from: number;
   price_to: number;
-  types: number[];
-  //types: EBathType[];
+  //types: number[];
+  types: EBathType[];
   steam_rooms_ids: number[];
   services_ids: number[];
   zones_ids: number[];
-  page: number;
+  latitude: number;
+  longitude: number;
+  city_id: number;
 }
 
-export type TPartBathParams = Partial<IBathParams>;
-
-export const defaultBathParams: TPartBathParams = {
-  page: 0,
-};
+export type BathParams = Partial<IBathParams>;
 
 export const FILTER_KEYS = [
   'search_query',
@@ -68,98 +71,11 @@ export const FILTER_KEYS = [
   'zones_ids',
 ];
 
-export const defaultBathSort: TPartBathParams = {
+export const defaultBathSort: BathParams = {
   sort_field: undefined,
   sort_type: undefined,
   page: 0,
 };
-
-/**
- * @interface IBathAction
- * @param {TPartBathParameter} bathParams
- * @param {boolean} moreBathes
- */
-export interface IBathAction {
-  bathParams: TPartBathParams;
-  moreBathes: boolean;
-}
-
-// Google
-export interface IGooglePlaceParams {
-  key: string;
-  input: string;
-  inputtype: string;
-  fields: string;
-  locationbieas: string;
-}
-
-export interface IGooglePlaceResponse {
-  candidates: [
-    {
-      name: string;
-      place_id: string;
-    },
-  ];
-  status: string;
-}
-
-export interface IDirectionsParams {
-  origin: string;
-  destination: string;
-  key: string;
-}
-
-export type TPartDirectionsParams = Partial<IDirectionsParams>;
-
-export interface IDirectionsResponse {
-  geocoded_waypoints: [{ geocoder_status: string }, { geocoder_status: string }];
-  routes: [
-    {
-      legs: [
-        {
-          distance: {
-            test: string;
-            value: number;
-          };
-        },
-      ];
-      overview_polyline: {
-        points: string;
-      };
-    },
-  ];
-}
-
-export interface IDistanceParams {
-  units: string;
-  origins: string;
-  destinations: string;
-  key: string;
-}
-
-export type TPartDistanceParams = Partial<IDirectionsParams>;
-
-export interface IDistanceResponse {
-  rows: [
-    {
-      elements: [
-        {
-          distance: { value: number };
-          status: string;
-        },
-      ];
-    },
-  ];
-  status: string;
-}
-
-export interface IMap {
-  bathId: number;
-  distance: number;
-  lastUpdateDistance: Date;
-  points?: string;
-  lastUpdatePoints?: Date;
-}
 
 // Filters
 export interface IBathParamsResponse {
@@ -174,6 +90,13 @@ export interface IBathParamsVariety {
   zones: Map<string, string>;
   services: Map<string, string>;
   steamRooms: Map<string, string>;
+}
+
+export enum BathType {
+  Economy,
+  Comfort,
+  Lux,
+  Premium,
 }
 
 export enum EBathType {
@@ -199,10 +122,19 @@ export const bathZones = [
   'Финская на дровах',
   'Арктическая сауна',
 ];
-export const bathServices = ['Бассейн с видом', 'Терраса', 'Патио', 'Кофемашина'];
-export const bathSteamRooms = ['Финская сауна', 'Японская баня', 'Турецкая парная'];
+export const bathServices = [
+  'Бассейн с видом',
+  'Терраса',
+  'Патио',
+  'Кофемашина',
+];
+export const bathSteamRooms = [
+  'Финская сауна',
+  'Японская баня',
+  'Турецкая парная',
+];
 
-export interface IBathDetailed extends IBath {
+export interface IBathDetailed extends Bath {
   type: string;
   views: number;
   city_name: string;
@@ -272,4 +204,84 @@ export interface IOrderCallParams {
   bathId: number;
   name: string;
   phone: string;
+}
+
+// Google
+export interface IGooglePlaceParams {
+  key: string;
+  input: string;
+  inputtype: string;
+  fields: string;
+  locationbieas: string;
+}
+
+export interface IGooglePlaceResponse {
+  candidates: [
+    {
+      name: string;
+      place_id: string;
+    },
+  ];
+  status: string;
+}
+
+export interface IDirectionsParams {
+  origin: string;
+  destination: string;
+  key: string;
+}
+
+export type TPartDirectionsParams = Partial<IDirectionsParams>;
+
+export interface IDirectionsResponse {
+  geocoded_waypoints: [
+    { geocoder_status: string },
+    { geocoder_status: string },
+  ];
+  routes: [
+    {
+      legs: [
+        {
+          distance: {
+            test: string;
+            value: number;
+          };
+        },
+      ];
+      overview_polyline: {
+        points: string;
+      };
+    },
+  ];
+}
+
+export interface IDistanceParams {
+  units: string;
+  origins: string;
+  destinations: string;
+  key: string;
+}
+
+export type TPartDistanceParams = Partial<IDirectionsParams>;
+
+export interface IDistanceResponse {
+  rows: [
+    {
+      elements: [
+        {
+          distance: { value: number };
+          status: string;
+        },
+      ];
+    },
+  ];
+  status: string;
+}
+
+export interface IMap {
+  bathId: number;
+  distance: number;
+  lastUpdateDistance: Date;
+  points?: string;
+  lastUpdatePoints?: Date;
 }

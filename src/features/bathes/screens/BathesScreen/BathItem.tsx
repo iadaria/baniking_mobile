@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Stars } from '~/src/app/common/components/Stars';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier } from '~/src/app/common/constants';
-import { IBath } from '~/src/app/models/bath';
+import { Bath } from '~/src/app/models/bath';
 import {
   cacheImage,
   getRandomBathImage,
@@ -23,7 +23,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 interface IProps {
   bath: IBath;
   distance: number;
-  //updateBath: (bath: IBath) => void;
+  //updateBath: (bath: Bath) => void;
   persistImage: (image: IPersistImage) => void;
 }
 

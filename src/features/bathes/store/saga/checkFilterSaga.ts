@@ -1,4 +1,4 @@
-import { IBath, TPartBathParams } from '~/src/app/models/bath';
+import { Bath, BathParams } from '~/src/app/models/bath';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { CHECK_FILTER } from '../bathConstants';
 import { methods } from '~/src/app/api';
@@ -9,21 +9,21 @@ import { objToUrl } from '~/src/app/api/index';
 import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
-  payload: { filterParams: TPartBathParams };
+  payload: { filterParams: BathParams };
   type: string;
 }
 
 interface IResult {
   count: number;
-  baths: IBath[];
+  baths: Bath[];
 }
 
 function* checkFilterSaga({ payload }: IAction) {
   logline('[CheckFilterSaga]', payload);
   try {
     const { filterParams } = payload;
-    /* const requestParams: TPartBathParams = { ...filterParams };
-    const requestBody: TPartBathParams = {};
+    /* const requestParams: BathParams = { ...filterParams };
+    const requestBody: BathParams = {};
     if (filterParams.hasOwnProperty('search_query')) {
       requestBody.search_query = filterParams.search_query;
       delete requestParams.search_query;

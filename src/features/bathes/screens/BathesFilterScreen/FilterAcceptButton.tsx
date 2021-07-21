@@ -8,11 +8,11 @@ import { pullBackward as pullBackwardAction } from '~/src/app/store/system/syste
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { styles } from './styles';
-import { TPartBathParams } from '~/src/app/models/bath';
+import { BathParams } from '~/src/app/models/bath';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  filterParams: TPartBathParams;
+  filterParams: BathParams;
   filterCount: number;
 
   filterLoading: boolean;
@@ -20,7 +20,7 @@ interface IProps {
   backwardStack: string[];
   getBathParamsVariety: () => void;
   pullBackward: () => void;
-  acceptFilter: ({ filterParams, filterCount }: { filterParams: TPartBathParams; filterCount: number }) => void;
+  acceptFilter: ({ filterParams, filterCount }: { filterParams: BathParams; filterCount: number }) => void;
 }
 
 function FilterAcceptButtonContainer({

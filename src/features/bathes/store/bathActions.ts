@@ -1,10 +1,9 @@
 import * as constants from './bathConstants';
 import {
   EBathSort,
-  IBath,
+  Bath,
   IMap,
-  TPartBathParams,
-  IBathAction,
+  BathParams,
   IBathParamsVariety,
   IOrderCallParams,
 } from '~/src/app/models/bath';
@@ -12,13 +11,36 @@ import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
 import { IOrderCall } from '~/src/app/models/bath';
 
+export const setParams = (payload: BathParams) => ({
+  type: constants.SET_PARAMS,
+  payload,
+});
+
+export const addBathes = (payload: Bath[]) => ({
+  type: constants.ADD_BATHES,
+  payload,
+});
+
+export const setBathesCount = (payload: number) => ({
+  type: constants.SET_BATHES_COUNT,
+  payload,
+});
+
 export const getBathes = () => ({
   type: constants.GET_BATHES,
 });
 
-export const setBathes = (payload: { bathes: IBath[]; count: number; page: number }) => ({
+export const setBathes = (payload: {
+  bathes: Bath[];
+  count: number;
+  page: number;
+}) => ({
   type: constants.SET_BATHES,
   payload,
+});
+
+export const fetchBathes = () => ({
+  type: constants.FETCH_BATHES,
 });
 
 export const bathesFail = (payload: IErrors | null) => ({
@@ -26,12 +48,7 @@ export const bathesFail = (payload: IErrors | null) => ({
   payload,
 });
 
-export const fetchBathes = (payload: IBathAction) => ({
-  type: constants.FETCH_BATHES,
-  payload,
-});
-
-export const updateBath = (payload: IBath) => ({
+export const updateBath = (payload: Bath) => ({
   type: constants.UPDATE_BATH,
   payload,
 });
@@ -54,12 +71,17 @@ export const setBathParamsVariety = (paramsVariety: IBathParamsVariety) => ({
 });
 
 // Filter
-export const checkFilter = (payload: { filterParams: TPartBathParams /* ; filterCount: number */ }) => ({
+export const checkFilter = (payload: {
+  filterParams: BathParams /* ; filterCount: number */;
+}) => ({
   type: constants.CHECK_FILTER,
   payload,
 });
 
-export const acceptFilter = (payload: { filterParams: TPartBathParams; filterCount: number }) => ({
+export const acceptFilter = (payload: {
+  filterParams: BathParams;
+  filterCount: number;
+}) => ({
   type: constants.ACCEPT_FILTER,
   payload,
 });
@@ -70,17 +92,20 @@ export const checkFilterFail = (payload: IErrors | null) => ({
 });
 
 // page always = 0
-export const setCheckFilterResult = (payload: { bathCount: number; params?: TPartBathParams }) => ({
+export const setCheckFilterResult = (payload: {
+  bathCount: number;
+  params?: BathParams;
+}) => ({
   type: constants.SET_CHECK_FILTER_RESULT,
   payload,
 });
 
-export const setFilter = (payload: { params: TPartBathParams }) => ({
+export const setFilter = (payload: { params: BathParams }) => ({
   type: constants.SET_FILTER,
   payload,
 });
 
-export const setSort = (payload: { params: TPartBathParams; sort: EBathSort }) => ({
+export const setSort = (payload: { params: BathParams; sort: EBathSort }) => ({
   type: constants.SET_SORT,
   payload,
 });
@@ -116,7 +141,7 @@ export const clearMaps = () => ({
   type: constants.CLEAR_MAPS,
 });
 
-export const fetchMaps = (bathes: IBath[]) => ({
+export const fetchMaps = (bathes: Bath[]) => ({
   type: constants.FETCH_MAPS,
   payload: bathes,
 });
@@ -134,5 +159,3 @@ export const orderCall = (payload: IOrderCallParams) => ({
   type: constants.ORDER_CALL,
   payload,
 });
-
-// Comments

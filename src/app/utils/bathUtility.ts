@@ -13,7 +13,7 @@ import {
 } from '../models/bath';
 import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
-import { ISchedule, TPartBathParams } from '~/src/app/models/bath';
+import { ISchedule, BathParams } from '~/src/app/models/bath';
 
 export function checkPhoto(photo: string): string | null {
   const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
@@ -35,11 +35,9 @@ export function checkPhotos(photos: string[]): string[] {
   return correctPhotos;
 }
 
-export function cleanFilterParams(
-  bathParams: TPartBathParams,
-): TPartBathParams {
+export function cleanFilterParams(bathParams: BathParams): BathParams {
   const { search_query, sort_field, sort_type } = bathParams;
-  const cleanedFilterParams: TPartBathParams = {
+  const cleanedFilterParams: BathParams = {
     steam_rooms_ids: [],
     services_ids: [],
     zones_ids: [],
@@ -54,11 +52,9 @@ export function cleanFilterParams(
   return cleanedFilterParams;
 }
 
-export function initializeFilterParams(
-  bathParams: TPartBathParams,
-): TPartBathParams {
+export function initializeFilterParams(bathParams: BathParams): BathParams {
   const { steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
-  const initializedFilterParams: TPartBathParams = {
+  const initializedFilterParams: BathParams = {
     steam_rooms_ids: steam_rooms_ids || [],
     services_ids: services_ids || [],
     zones_ids: zones_ids || [],
@@ -75,7 +71,7 @@ export function initializeFilterParams(
   return initializedFilterParams;
 }
 
-export function calculateFilterCount(bathParams: TPartBathParams): number {
+export function calculateFilterCount(bathParams: BathParams): number {
   let filterCount = 0;
   bathParams?.steam_rooms_ids &&
     (filterCount += bathParams.steam_rooms_ids?.length);

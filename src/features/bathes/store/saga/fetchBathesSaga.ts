@@ -1,80 +1,61 @@
-import { showAlert } from '~/src/app/common/components/showAlert';
-import { call, put, select, fork, takeEvery } from 'redux-saga/effects';
-import { methods } from '~/src/app/api';
-import { getErrorStrings } from '~/src/app/utils/error';
-import { IBath, IBathAction, TPartBathParams } from '~/src/app/models/bath';
-import { setBathes, bathesFail, reuseBathes } from '../bathActions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { Bath, BathParams } from '~/src/app/models/bath';
 import { FETCH_BATHES } from '../bathConstants';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { fetchMapsSaga } from './fetchMapsSaga';
 import { log, logline } from '~/src/app/utils/debug';
+import { methods } from '~/src/app/api';
+import { getErrorStrings } from '~/src/app/utils/error';
+import { showAlert } from '~/src/app/common/components/showAlert';
+import { addBathes, bathesFail, setBathesCount } from '../bathActions';
+
+/**
+ * @interface IBathAction
+ * @param {TPartBathParameter} bathParams
+ * @param {boolean} moreBathes
+ */
+export interface IBathAction {
+  bathParams: BathParams;
+  moreBathes: boolean;
+}
 
 interface IAction {
-  payload: IBathAction;
   type: string;
 }
 
 interface IResult {
   count: number;
-  baths: IBath[];
+  baths: Bath[];
 }
 
-function* fetchBathesSaga({ payload }: IAction) {
-  const { moreBathes, bathParams } = payload;
-  logline('***[fetchBathesSaga] params', bathParams);
+function* fetchBathesSaga(_: IAction) {
   try {
-    if (moreBathes) {
-      const { baths, count }: IResult = yield call(
-        methods.getBathes,
-        bathParams,
-        bathParams,
-      );
+    const { params } = yield select(({ bath }: IRootState) => bath);
+    logline('***[fetchBathesSaga] params', params);
 
-      const bathes = [...baths];
+    const result: IResult = yield call(methods.getBathes, null, params, null);
+    log('***[fetchBathesSaga] result', result);
 
-      yield put(setBathes({ bathes, count, page: bathParams.page || 0 }));
-
-      yield fork(fetchMapsSaga, { payload: bathes });
-    }
+    const { count, baths } = result;
+    //const bathes: Bath[] = [...baths];
+    //log('Bathes', bathes);
+    yield put(addBathes(baths));
+    yield put(setBathesCount(count));
   } catch (e) {
-    const [errors, message, allErrors] = getErrorStrings(e);
-    let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    log('[fetchBathesSaga] error', e);
-    logline('[fetchBathesSaga] [errors, message]', [errors, message]);
+    log('[fetchBathesSaga/error]', e);
 
-    if (errorMessage) {
-      yield put(bathesFail(errors));
-      yield showAlert('Ошибка', errorMessage);
-    }
+    let [errors, message, allErrors] = getErrorStrings(e);
+    yield put(bathesFail(errors));
 
-    if (!errorMessage) {
-      const connection = select(({ system }: IRootState) => system.connection);
-      if (!connection) {
-        errorMessage = 'Ошибка запроса при отсутствии сети';
-      }
-      if (connection) {
-        errorMessage = 'Ошибка при получении данных';
-      }
+    logline('[fetchBathesSaga/error]', [errors, message]);
 
-      yield put(reuseBathes());
-      yield put(bathesFail(null));
-      yield showAlert('Ошибка', errorMessage);
-    }
+    const errorMessage = allErrors
+      ? allErrors
+      : 'Ошибка при получении данных о банях';
+
+    yield showAlert('Ошибка', errorMessage);
   }
 }
 
 export default function* listener() {
   yield takeEvery(FETCH_BATHES, fetchBathesSaga);
 }
-
-/* const check_distance = calculateDistance({
-        lant1: location.latitude,
-        long1: location.longitude,
-        lant2: latitude,
-        long2: longitude,
-      }); */
-
-//__DEV__ && console.log('JJJJJJJ', check_distance / 1000);
-/* if (check_distance / 1000 > 500) {
-        return;
-      } */

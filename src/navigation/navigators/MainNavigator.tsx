@@ -19,7 +19,7 @@ function MainNavigatorContainer({ authenticated, getCabinetData }: IProps) {
   useEffect(() => {
     if (authenticated) {
       // logline('[MainNavigator/useEffect/(authenticated === true)/getCabinetData]');
-      getCabinetData();
+      //getCabinetData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated]);

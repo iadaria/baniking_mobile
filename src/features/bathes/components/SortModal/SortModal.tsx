@@ -6,7 +6,12 @@ import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
 import { clearBathes, setSort } from '../../store/bathActions';
-import { EBathSort, EBathSortField, EBathSortType, TPartBathParams } from '~/src/app/models/bath';
+import {
+  EBathSort,
+  EBathSortField,
+  EBathSortType,
+  BathParams,
+} from '~/src/app/models/bath';
 import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
 import { styles } from './styles';
 import { ListIcon } from '~/src/assets';
@@ -25,7 +30,7 @@ export default function SortModal({ y }: ISortModal) {
 
   const modalStyle = { marginTop: _y + wp(13) };
 
-  function handleSort(newParams: TPartBathParams, newSort: EBathSort) {
+  function handleSort(newParams: BathParams, newSort: EBathSort) {
     if (sort !== newSort) {
       dispatch(clearBathes());
       dispatch(setSort({ params: newParams, sort: newSort }));
@@ -37,7 +42,10 @@ export default function SortModal({ y }: ISortModal) {
     <ModalWrapper>
       <TouchableOpacity onPress={() => dispatch(closeModal())}>
         <Block style={[styles.modalView, modalStyle]}>
-          <Block row center style={[styles.item, { justifyContent: 'space-between' }]}>
+          <Block
+            row
+            center
+            style={[styles.item, { justifyContent: 'space-between' }]}>
             <AppText primary medium>
               Сортировать
             </AppText>
@@ -47,9 +55,12 @@ export default function SortModal({ y }: ISortModal) {
           <Divider style={styles.divider} height={1} />
 
           <TouchableOpacity
-            style={[styles.item, sort === EBathSort.PriceAsc ? styles.activeStyle : {}]}
+            style={[
+              styles.item,
+              sort === EBathSort.PriceAsc ? styles.activeStyle : {},
+            ]}
             onPress={() => {
-              const newParams: TPartBathParams = {
+              const newParams: BathParams = {
                 ...params,
                 sort_field: EBathSortField.Price,
                 sort_type: EBathSortType.Asc,
@@ -63,9 +74,12 @@ export default function SortModal({ y }: ISortModal) {
           <Divider style={styles.divider} />
 
           <TouchableOpacity
-            style={[styles.item, sort === EBathSort.PriceDesc ? styles.activeStyle : {}]}
+            style={[
+              styles.item,
+              sort === EBathSort.PriceDesc ? styles.activeStyle : {},
+            ]}
             onPress={() => {
-              const newParams: TPartBathParams = {
+              const newParams: BathParams = {
                 ...params,
                 sort_field: EBathSortField.Price,
                 sort_type: EBathSortType.Desc,
@@ -79,9 +93,12 @@ export default function SortModal({ y }: ISortModal) {
           <Divider style={styles.divider} />
 
           <TouchableOpacity
-            style={[styles.item, sort === EBathSort.RatingDesc ? styles.activeStyle : {}]}
+            style={[
+              styles.item,
+              sort === EBathSort.RatingDesc ? styles.activeStyle : {},
+            ]}
             onPress={() => {
-              const newParams: TPartBathParams = {
+              const newParams: BathParams = {
                 ...params,
                 sort_field: EBathSortField.Rating,
                 sort_type: EBathSortType.Desc,
@@ -96,9 +113,13 @@ export default function SortModal({ y }: ISortModal) {
           <Divider style={styles.divider} />
 
           <TouchableOpacity
-            style={[styles.item, sort === EBathSort.None ? styles.activeStyle : {}, styles.end]}
+            style={[
+              styles.item,
+              sort === EBathSort.None ? styles.activeStyle : {},
+              styles.end,
+            ]}
             onPress={() => {
-              const newParams: TPartBathParams = { ...params };
+              const newParams: BathParams = { ...params };
               delete newParams.sort_field;
               delete newParams.sort_type;
               handleSort(newParams, EBathSort.None);

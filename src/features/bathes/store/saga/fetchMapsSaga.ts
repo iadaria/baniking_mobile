@@ -2,7 +2,7 @@ import { GOOGLE_API } from 'react-native-dotenv';
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
 import {
-  IBath,
+  Bath,
   IDistanceResponse,
   IMap,
   TPartDistanceParams,
@@ -15,7 +15,7 @@ import { setMaps } from '../bathActions';
 import { FETCH_MAPS } from '../bathConstants';
 
 interface IAction {
-  payload: IBath[];
+  payload: Bath[];
   type?: string;
 }
 

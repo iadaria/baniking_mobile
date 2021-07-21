@@ -169,5 +169,5 @@ export function DestinationMap({ route }: IProps) {
 } */
 
 //const test: ILocation = { latitude: 55.82633, longitude: 37.3262967 };
-// const testBath: IBath = { latitude: 55.822871, longitude: 37.3131741 };
-//const testBath: IBath = { latitude: 55.832871, longitude: 37.3031741 };
+// const testBath: Bath = { latitude: 55.822871, longitude: 37.3131741 };
+//const testBath: Bath = { latitude: 55.832871, longitude: 37.3031741 };

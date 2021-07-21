@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HOST_API } from 'react-native-dotenv';
 import {
-  TPartBathParams,
+  BathParams,
   IGooglePlaceParams,
   IDirectionsParams,
   IDistanceParams,
@@ -27,7 +27,9 @@ export const tokenToHeaders = (token: string) => {
 
 // Объект параметров может быть либо нулевым либо представлять собой объект с несклькими
 // Свойства объекта могут иметь значения: строка, номер или массив чисел
-type TObjToUrl = null | { [key: string]: string | number | Array<number> };
+type TObjToUrl = null | {
+  [key: string]: string | number | Array<number> | any[];
+};
 
 function arrayToQuery(name_array: string, array: any[]) {
   //return array.map((key: any) => name_array + '=' + key).join('&');
@@ -96,7 +98,7 @@ export const methods = {
   // bathes
   getBathes: request(
     'get',
-    (bathParams: TPartBathParams) => `/baths${objToUrl(bathParams)}`,
+    (bathParams: BathParams) => `/baths${objToUrl(bathParams)}`,
     privFetch,
   ),
   getFilterBathes: request('get', '/baths', privFetch),

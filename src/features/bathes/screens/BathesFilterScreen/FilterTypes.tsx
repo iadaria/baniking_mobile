@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { EBathType, TPartBathParams } from '~/src/app/models/bath';
+import { EBathType, BathParams } from '~/src/app/models/bath';
 import { isElementExist } from '~/src/app/utils/common';
 import { styles } from './styles';
 
 interface IProps {
   bathTypes: Map<string, string> | undefined;
-  filterParams: TPartBathParams;
-  setFilterParams: (params: TPartBathParams) => void;
+  filterParams: BathParams;
+  setFilterParams: (params: BathParams) => void;
   setFilterCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
