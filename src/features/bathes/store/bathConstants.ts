@@ -17,6 +17,7 @@ export const CLEAR_SELECTED_BATH = 'bath/CLEAR_SELECTED_BATH';
 export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 // Bathes Filter
 export const SET_PARAMS = 'bath/SET_PARAMS';
+export const NEXT_PAGE = 'bath/NEXT_PAGE';
 
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';
@@ -28,9 +29,6 @@ export const CHECK_FILTER_FAIL = 'bath/CHECK_FILTER_FAIL';
 export const SET_CHECK_FILTER_RESULT = 'bath/SET_CHECK_FILTER_RESULT';
 export const ACCEPT_FILTER = 'bath/ACCEPT_FILTER';
 
-// Comments
-export const FETCH_BATH_COMMENTS = 'bath/FETCH_BATH_COMMENTS';
-export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
 // Maps
 export const FETCH_MAPS = 'bath/FETCH_MAPS';
 export const SET_MAPS = 'bath/SET_MAPS';

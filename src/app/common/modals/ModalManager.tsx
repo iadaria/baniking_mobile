@@ -10,12 +10,16 @@ export default function ModalManager<T>() {
     SortModal,
     ScheduleModal,
   };
-  const currentModal = useSelector<IRootState>((state) => state.modal) as IModalState;
+  const currentModal = useSelector<IRootState>(
+    (state) => state.modal,
+  ) as IModalState;
   let renderModal = <></>;
 
   if (currentModal) {
     const { modalType, modalProps } = currentModal;
-    const ModalComponent = modalLookup[modalType! as keyof typeof modalLookup] as React.ElementType;
+    const ModalComponent = modalLookup[
+      modalType! as keyof typeof modalLookup
+    ] as React.ElementType;
 
     renderModal = <ModalComponent {...modalProps} />;
   }

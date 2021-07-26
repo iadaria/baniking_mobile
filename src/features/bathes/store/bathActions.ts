@@ -1,6 +1,6 @@
 import * as constants from './bathConstants';
 import {
-  EBathSort,
+  BathSort,
   Bath,
   IMap,
   BathParams,
@@ -11,16 +11,24 @@ import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
 import { IOrderCall } from '~/src/app/models/bath';
 
+// using
 export const setParams = (payload: BathParams) => ({
   type: constants.SET_PARAMS,
   payload,
 });
 
+// using
+export const nextPage = () => ({
+  type: constants.NEXT_PAGE,
+});
+
+// using
 export const addBathes = (payload: Bath[]) => ({
   type: constants.ADD_BATHES,
   payload,
 });
 
+// using
 export const setBathesCount = (payload: number) => ({
   type: constants.SET_BATHES_COUNT,
   payload,
@@ -105,7 +113,7 @@ export const setFilter = (payload: { params: BathParams }) => ({
   payload,
 });
 
-export const setSort = (payload: { params: BathParams; sort: EBathSort }) => ({
+export const setSort = (payload: BathSort) => ({
   type: constants.SET_SORT,
   payload,
 });

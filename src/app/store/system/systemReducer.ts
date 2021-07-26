@@ -7,11 +7,7 @@ interface IAction {
 
 export interface ISystemState {
   header: {
-    isDrawerOpen: boolean;
-    isBackward: boolean;
-    backwardStack: string[];
     points: number;
-    currentScreen?: string;
     isTransparent: boolean;
   };
   connection: null | boolean;
@@ -19,9 +15,6 @@ export interface ISystemState {
 
 const initialState: ISystemState = {
   header: {
-    isDrawerOpen: false,
-    isBackward: false,
-    backwardStack: [],
     points: 0,
     isTransparent: false,
   },

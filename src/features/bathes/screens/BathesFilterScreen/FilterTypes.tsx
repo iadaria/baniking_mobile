@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { EBathType, BathParams } from '~/src/app/models/bath';
+import { BathType, BathParams } from '~/src/app/models/bath';
 import { isElementExist } from '~/src/app/utils/common';
 import { styles } from './styles';
 
@@ -13,9 +13,14 @@ interface IProps {
 }
 
 // the types must be a number
-export default function FilterTypes({ bathTypes, filterParams, setFilterParams, setFilterCount }: IProps) {
+export default function FilterTypes({
+  bathTypes,
+  filterParams,
+  setFilterParams,
+  setFilterCount,
+}: IProps) {
   const renderItem = useCallback(
-    (key: EBathType, value: string, index: number) => {
+    (key: BathType, value: string, index: number) => {
       const { types } = filterParams;
       const [indexOf, exist] = isElementExist(types!, index);
       const new_ids: number[] = types ? [...types] : [];
@@ -52,7 +57,9 @@ export default function FilterTypes({ bathTypes, filterParams, setFilterParams, 
         Уровни
       </AppText>
       <Block row wrap>
-        {Array.from(bathTypes, ([key, value], index) => renderItem(key as EBathType, value, index))}
+        {Array.from(bathTypes, ([key, value], index) =>
+          renderItem(key as BathType, value, index),
+        )}
       </Block>
     </>
   ) : null;
