@@ -18,6 +18,7 @@ export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 // Bathes Filter
 export const SET_PARAMS = 'bath/SET_PARAMS';
 export const NEXT_PAGE = 'bath/NEXT_PAGE';
+export const SEARCH_NAME = 'bath/SEARCH_NAME';
 
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';

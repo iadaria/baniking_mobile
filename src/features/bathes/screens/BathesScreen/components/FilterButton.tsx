@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { routes } from '~/src/navigation/helpers/routes';
 import { FilterIcon } from '~/src/assets';
-import { styles } from './styles';
+import { styles } from '../styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;

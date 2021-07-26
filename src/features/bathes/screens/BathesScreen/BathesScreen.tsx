@@ -13,6 +13,7 @@ import { Header } from '~/src/app/common/components/Header';
 import { logline } from '~/src/app/utils/debug';
 import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
+import { Searcher } from './components/Searcher';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -53,18 +54,17 @@ export function BathesScreenContainer({
   }
 
   return (
-    <>
-      <Block margin={[4, 8, 0]}>
+    <Block full padding={[0, 8, 0, 4]}>
+      <Block margin={[4, 0, 0, 4]}>
         <Header />
       </Block>
-      <Block full padding={[0, 8, 0, 4]}>
-        <AppText margin={[0, 0, 2, 4]} h1>
-          Каталог бань
-        </AppText>
-      </Block>
+      <AppText margin={[0, 0, 2, 4]} h1>
+        Каталог бань
+      </AppText>
+      <Searcher />
       <Sorter />
       <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
-    </>
+    </Block>
   );
 }
 

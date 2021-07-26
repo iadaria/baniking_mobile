@@ -34,6 +34,12 @@ export const setBathesCount = (payload: number) => ({
   payload,
 });
 
+// using
+export const searchName = (payload: string | undefined) => ({
+  type: constants.SEARCH_NAME,
+  payload,
+});
+
 export const getBathes = () => ({
   type: constants.GET_BATHES,
 });

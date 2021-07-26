@@ -194,7 +194,7 @@ export default function bathReducer(
       };
 
     case constants.ACCEPT_FILTER:
-      const { params } = state;
+      let { params } = state;
       const { filterParams } = payload;
       const newParams = { ...params, ...filterParams };
       if (
@@ -258,6 +258,20 @@ export default function bathReducer(
         ...state,
         sort: payload,
         params: { ...newSortParams, page: 1 },
+      };
+
+    case constants.SEARCH_NAME: // using
+      const searchParams = {
+        ...state.params,
+        search_query: payload,
+        page: 1,
+      };
+      if (!payload) {
+        delete searchParams.search_query;
+      }
+      return {
+        ...state,
+        params: searchParams,
       };
 
     case constants.RETAIN_STATE:
