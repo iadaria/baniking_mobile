@@ -1,58 +1,56 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { TouchableOpacity, FlatList, Text } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
+import {
+  fetchBathes as fetchBathesAction,
+  nextPage as nextPageAction,
+} from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { Bath, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
-import { isIos } from '~/src/app/common/constants';
+import { logline } from '~/src/app/utils/debug';
+import { BathesList } from './components/BathList';
+import { Sorter } from './components/Sorter';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  bathes: Bath[] | null;
+  loading: boolean;
+  bathes: Bath[];
   params: BathParams;
+  canLoadMoreBathes: boolean;
   fetchBathes: () => void;
+  nextPage: () => void;
 }
 
-function BathesList() {
-  const bathes = [];
-  const keyExtractor = useCallback((item: Bath, index) => String(index), []);
-  const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
-
-  const renderItem = useCallback(
-    ({ item, index }: { item: Bath; index: number }) => {
-      return (
-        <TouchableOpacity onPress={() => { }}>
-          <Text>{item.name}</Text>
-        </TouchableOpacity>
-      );
-    },
-    [],
-  );
-  return (
-    <FlatList
-      data={bathes}
-      style={iosStyle}
-      showsVerticalScrollIndicator={false}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      onEndReachedThreshold={0.1}
-    //onEndReached={handleLoadMore}
-    //ListEmptyComponent={emptyComponent}
-    //ListFooterComponent={footerComponent}
-    />
-  );
-}
-
-export function BathesScreenContainer({ params, fetchBathes }: IProps) {
-
+export function BathesScreenContainer({
+  navigation,
+  loading,
+  bathes,
+  params,
+  canLoadMoreBathes,
+  fetchBathes,
+  nextPage,
+}: IProps) {
   useEffect(() => {
     fetchBathes();
   }, [fetchBathes, params]);
+
+  useEffect(
+    () =>
+      navigation.addListener('focus', () =>
+        logline('[BathesScreen]', '\nfocused\n'),
+      ),
+    [navigation],
+  );
+
+  // change params
+  function handleLoadMore() {
+    if (canLoadMoreBathes) {
+      nextPage();
+    }
+  }
 
   return (
     <>
@@ -64,18 +62,22 @@ export function BathesScreenContainer({ params, fetchBathes }: IProps) {
           Каталог бань
         </AppText>
       </Block>
-      <BathesList />
+      <Sorter />
+      <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
     </>
   );
 }
 
 const BathesScreenConnected = connect(
   ({ bath }: IRootState) => ({
+    loading: bath.loading,
     bathes: bath.bathes,
     params: bath.params,
+    canLoadMoreBathes: bath.canLoadMoreBathes,
   }),
   {
     fetchBathes: fetchBathesAction,
+    nextPage: nextPageAction,
   },
 )(BathesScreenContainer);
 

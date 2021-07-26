@@ -1,7 +1,7 @@
 export type Bath = {
   id: number;
   name: string;
-  type: EBathType;
+  type: BathType;
   short_description: string;
   rating: number;
   address: string;
@@ -15,41 +15,53 @@ export type Bath = {
 
 export type Rating = 0 | 1 | 2 | 3 | 4 | 5;
 
-export enum EBathSortField {
+export enum BathSortField {
   Price = 'price',
   Rating = 'rating',
 }
 
-export enum EBathSortType {
+export enum BathSortType {
   Asc = 'asc',
   Desc = 'desc',
 }
 
-export enum EBathSort {
-  None,
+export enum BathSort {
   PriceAsc,
   PriceDesc,
   RatingDesc,
+  None,
 }
 
+export interface BathSortParams {
+  sort_field?: BathSortField;
+  sort_type?: BathSortType;
+}
+
+export const bathSortParams: BathSortParams[] = [
+  { sort_field: BathSortField.Price, sort_type: BathSortType.Asc },
+  { sort_field: BathSortField.Price, sort_type: BathSortType.Desc },
+  { sort_field: BathSortField.Rating, sort_type: BathSortType.Desc },
+  {},
+];
+
+export const BathSortParams = [null, { sort_field: '' }];
 /**
  * @interface IBathParams
  * @param {string} searc_query {string}
- * @param {EBathSortField} sort_field {EBathSortField}
- * @param {EBathSortType} sort_type {EBathSortType}
+ * @param {BathSortField} sort_field {BathSortField}
+ * @param {BathSortType} sort_type {BathSortType}
  * @param {number} rating {number}
  */
 export interface IBathParams {
-  page: number;
   search_query: string;
-  sort_field: EBathSortField;
-  sort_type: EBathSortType;
+  sort_field: BathSortField;
+  sort_type: BathSortType;
   rating_from: Rating;
   rating_to: Rating;
   price_from: number;
   price_to: number;
   //types: number[];
-  types: EBathType[];
+  types: BathType[];
   steam_rooms_ids: number[];
   services_ids: number[];
   zones_ids: number[];
@@ -58,7 +70,7 @@ export interface IBathParams {
   city_id: number;
 }
 
-export type BathParams = Partial<IBathParams>;
+export type BathParams = { page: number } & Partial<IBathParams>;
 
 export const FILTER_KEYS = [
   'search_query',
@@ -79,27 +91,27 @@ export const defaultBathSort: BathParams = {
 
 // Filters
 export interface IBathParamsResponse {
-  types: EBathType[];
+  types: BathType[];
   zones: object;
   services: object;
   steamRooms: object;
 }
 
 export interface IBathParamsVariety {
-  types: EBathType[];
+  types: BathType[];
   zones: Map<string, string>;
   services: Map<string, string>;
   steamRooms: Map<string, string>;
 }
 
-export enum BathType {
+/* export enum BathType {
   Economy,
   Comfort,
   Lux,
   Premium,
-}
+} */
 
-export enum EBathType {
+export enum BathType {
   Economy = 'Economy',
   Comfort = 'Comfort',
   Lux = 'Lux',

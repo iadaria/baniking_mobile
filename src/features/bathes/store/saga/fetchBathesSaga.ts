@@ -33,7 +33,7 @@ function* fetchBathesSaga(_: IAction) {
     logline('***[fetchBathesSaga] params', params);
 
     const result: IResult = yield call(methods.getBathes, null, params, null);
-    log('***[fetchBathesSaga] result', result);
+    log('***[fetchBathesSaga] result', result.baths.length);
 
     const { count, baths } = result;
     //const bathes: Bath[] = [...baths];

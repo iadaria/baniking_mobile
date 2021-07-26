@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: colors.secondary,
   },
-  sort: {
+  sorter: {
     marginLeft: wp(4),
     borderWidth: 0.5,
     borderColor: colors.bath.elementBorder,
