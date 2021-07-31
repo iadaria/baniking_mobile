@@ -253,11 +253,19 @@ export default function bathReducer(
      */
 
     case constants.SET_SORT: // using
-      const newSortParams = bathSortParams[payload];
+      const sortParams = {
+        ...state.params,
+        ...bathSortParams[payload],
+        page: 1,
+      };
+      if (payload === BathSort.None) {
+        delete sortParams.sort_field;
+        delete sortParams.sort_type;
+      }
       return {
         ...state,
         sort: payload,
-        params: { ...newSortParams, page: 1 },
+        params: sortParams,
       };
 
     case constants.SEARCH_NAME: // using

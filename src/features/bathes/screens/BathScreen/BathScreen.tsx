@@ -17,7 +17,10 @@ import {
   nonTransparentHeader as nonTransparentHeaderAction,
   transparentHeader as transparentHeaderAction,
 } from '~/src/app/store/system/systemActions';
-import { IModalState, openModal as openModalAction } from '~/src/app/common/modals/modalReducer';
+import {
+  IModalState,
+  openModal as openModalAction,
+} from '~/src/app/common/modals/modalReducer';
 import { IBathDetailed } from '~/src/app/models/bath';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
@@ -31,7 +34,11 @@ import { OrderCallIcon } from '~/src/assets';
 import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { MAX_DISTANCE } from '~/src/app/common/constants/common';
-import { calculateDistance, isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
+import {
+  calculateDistance,
+  isLatitude,
+  isLongitude,
+} from '~/src/app/utils/bathUtility';
 import { logline } from '~/src/app/utils/debug';
 
 const BASE = sizes.offset.base;
@@ -99,7 +106,9 @@ function BathScreenContainer({
     steam_room,
     schedule,
   } = selectedBath || { zones: [], services: [], bathers: [], photos: [] };
-  const headBath = { name, short_description, address, rating, image, latitude, longitude } || {};
+  const headBath =
+    { name, short_description, address, rating, image, latitude, longitude } ||
+    {};
   const infastructureBath =
     {
       has_hotel,
@@ -109,7 +118,8 @@ function BathScreenContainer({
       has_parking,
       parking_address,
     } || {};
-  const infoBath = { description, history, features, service, traditions, steam_room } || {};
+  const infoBath =
+    { description, history, features, service, traditions, steam_room } || {};
 
   //__DEV__ && console.log('[BathScreen]', bathParams);
 
@@ -170,7 +180,9 @@ function BathScreenContainer({
       />
       <Block margin={[3, BASE, 1.2]}>
         {/* Телефон */}
-        <TouchableOpacity style={styles.goldBorder} onPress={callPhone.bind(null, TEST_PHONE)}>
+        <TouchableOpacity
+          style={styles.goldBorder}
+          onPress={callPhone.bind(null, TEST_PHONE)}>
           <AppText golder>Тест {formatPhoneNumber(TEST_PHONE)}</AppText>
         </TouchableOpacity>
         {/* Стоймость */}
@@ -225,7 +237,11 @@ function BathScreenContainer({
           <AppText margin={[0, BASE]} golder>
             Фото
           </AppText>
-          <BathSlider navigation={navigation} photos={photos} persistImages={persistImages} />
+          <BathSlider
+            navigation={navigation}
+            photos={photos}
+            persistImages={persistImages}
+          />
         </>
       )}
       {/* Банщики */}
@@ -262,7 +278,10 @@ function BathScreenContainer({
               short_description,
               bathPhone: TEST_PHONE,
             };
-            navigation.navigate(routes.bathesTab.OrderCallScreen, orderCallProps);
+            navigation.navigate(
+              routes.bathesTab.OrderCallScreen,
+              orderCallProps,
+            );
           }}>
           <AppText primary medium>
             Заказать звонок

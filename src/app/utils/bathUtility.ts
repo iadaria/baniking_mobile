@@ -14,12 +14,13 @@ import {
 import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
 import { ISchedule, BathParams } from '~/src/app/models/bath';
+import { logline } from './debug';
 
 export function checkPhoto(photo: string): string | null {
   const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
   const substring = photo.substr(photo.length - 3);
 
-  __DEV__ && console.log(substring);
+  logline('', substring);
   return formats.includes(substring) ? photo : null;
 }
 
@@ -28,11 +29,19 @@ export function checkPhotos(photos: string[]): string[] {
   const correctPhotos =
     photos.filter((photo: string) => {
       const substring = photo.substr(photo.length - 3);
-      __DEV__ && console.log(substring);
+      logline('', substring);
       return formats.includes(substring);
     }) || [];
 
   return correctPhotos;
+}
+
+export function formateText(text: string) {
+  return `%${text.toLowerCase().replace(/ /g, '%')}%`;
+}
+
+export function unformateText(text: string) {
+  return text.replace(/%/g, ' ').trim();
 }
 
 export function cleanFilterParams(bathParams: BathParams): BathParams {

@@ -14,6 +14,7 @@ import { logline } from '~/src/app/utils/debug';
 import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
+import FilterButton from './components/FilterButton';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -61,7 +62,10 @@ export function BathesScreenContainer({
       <AppText margin={[0, 0, 2, 4]} h1>
         Каталог бань
       </AppText>
-      <Searcher />
+      <Block padding={[0, 0, 0, 4]} center row>
+        <Searcher />
+        <FilterButton navigation={navigation} />
+      </Block>
       <Sorter />
       <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
     </Block>

@@ -9,10 +9,10 @@ import { styles } from '../styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  filterCount: number;
 }
 
-export default function FilterButton({ navigation, filterCount }: IProps) {
+export default function FilterButton({ navigation }: IProps) {
+  const filterCount = 10;
   const isFiltered = filterCount > 0;
 
   return (

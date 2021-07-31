@@ -9,7 +9,6 @@ import {
 } from '~/src/features/bathes/store/bathActions';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
 import { styles as s } from '../styles';
-import { formateText } from '~/src/app/utils/bathUtility';
 
 export function Searcher() {
   const { search_query } = useSelector(({ bath }: IRootState) => bath.params);
@@ -37,28 +36,25 @@ export function Searcher() {
   }
 
   return (
-    <Block padding={[0, 0, 0, 4]} center row>
-      <Block style={s.searchWrapper} center row>
-        <TextInput
-          style={s.searchInput}
-          placeholder="Что вы ищите?"
-          onChangeText={handleChangeText}
-          value={searched}
-          autoCapitalize="none"
-          autoCorrect={false}
-          maxLength={64}
-        />
-        {!searched ? (
-          <TouchableOpacity style={s.searchIconButton} onPress={() => { }}>
-            <SearchIcon style={s.searchIcon} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={s.searchIconButton} onPress={clearSearch}>
-            <SearchCancelIcon style={s.searchIcon} />
-          </TouchableOpacity>
-        )}
-      </Block>
-      {/* <FilterButton navigation={navigation} filterCount={filterCount} /> */}
+    <Block style={s.searchWrapper} center row>
+      <TextInput
+        style={s.searchInput}
+        placeholder="Что вы ищите?"
+        onChangeText={handleChangeText}
+        value={searched}
+        autoCapitalize="none"
+        autoCorrect={false}
+        maxLength={64}
+      />
+      {!searched ? (
+        <TouchableOpacity style={s.searchIconButton} onPress={() => { }}>
+          <SearchIcon style={s.searchIcon} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={s.searchIconButton} onPress={clearSearch}>
+          <SearchCancelIcon style={s.searchIcon} />
+        </TouchableOpacity>
+      )}
     </Block>
   );
 }
