@@ -14,9 +14,9 @@ import {
 import { BathFilterParams, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
 import { Pricer } from './components/Pricer';
-import { FilterAcceptButton } from './FilterAcceptButton';
 import { Filters } from './components/Filters';
 import { Title } from './components/Title';
+import { AcceptButton } from './components/AcceptButton';
 import { styles as s } from './styles';
 
 interface IProps {
@@ -72,7 +72,7 @@ function BathesFilterScreenContainer({
         />
         <Block margin={[10, 0]} />
       </ScrollView>
-      <FilterAcceptButton />
+      <AcceptButton />
     </>
   );
 }

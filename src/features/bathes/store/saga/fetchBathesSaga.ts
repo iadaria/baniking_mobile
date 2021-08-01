@@ -25,8 +25,6 @@ function* fetchBathesSaga(_: IAction) {
     const result: IResult = yield call(methods.getBathes, null, params, null);
 
     const { count, baths } = result;
-    //const bathes: Bath[] = [...baths];
-    //log('Bathes', bathes);
     yield put(addBathes(baths));
     yield put(setBathesCount(count));
   } catch (e) {

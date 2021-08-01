@@ -5,7 +5,7 @@ import { acceptFilter as acceptFilterAction } from '~/src/features/bathes/store/
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import { styles as s } from './styles';
+import { styles as s } from '../styles';
 
 interface IProps {
   filterLoading: boolean;
@@ -13,7 +13,7 @@ interface IProps {
   acceptFilter: () => void;
 }
 
-function FilterAcceptButtonContainer({
+function AcceptButtonContainer({
   filterLoading,
   totalCheckedBathes,
   acceptFilter,
@@ -47,7 +47,7 @@ function FilterAcceptButtonContainer({
   );
 }
 
-const FilterAcceptButtonConnected = connect(
+const AcceptButtonConnected = connect(
   ({ bath }: IRootState) => ({
     filterLoading: bath.filterLoading,
     totalCheckedBathes: bath.totalCheckedBathes,
@@ -55,6 +55,6 @@ const FilterAcceptButtonConnected = connect(
   {
     acceptFilter: acceptFilterAction,
   },
-)(FilterAcceptButtonContainer);
+)(AcceptButtonContainer);
 
-export { FilterAcceptButtonConnected as FilterAcceptButton };
+export { AcceptButtonConnected as AcceptButton };

@@ -14,7 +14,7 @@ import { logline } from '~/src/app/utils/debug';
 import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
-import FilterButton from './components/FilterButton';
+import { FilterButton } from './components/FilterButton';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -64,7 +64,7 @@ export function BathesScreenContainer({
       </AppText>
       <Block padding={[0, 0, 0, 4]} center row>
         <Searcher />
-        <FilterButton navigation={navigation} />
+        <FilterButton />
       </Block>
       <Sorter />
       <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />

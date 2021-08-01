@@ -1,27 +1,25 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { routes } from '~/src/navigation/helpers/routes';
 import { FilterIcon } from '~/src/assets';
-import { styles } from '../styles';
+import { useSelector } from 'react-redux';
+import * as RNav from '~/src/navigation/helpers/RootNavigation';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { styles as s } from '../styles';
 
-interface IProps {
-  navigation: StackNavigationProp<ParamListBase>;
-}
+export function FilterButton() {
+  const { filterCount } = useSelector(({ bath }: IRootState) => bath);
 
-export default function FilterButton({ navigation }: IProps) {
-  const filterCount = 10;
   const isFiltered = filterCount > 0;
 
   return (
     <TouchableOpacity
-      style={[styles.filter, isFiltered && { backgroundColor: 'white' }]}
-      onPress={() => navigation.navigate(routes.bathesTab.BathesFilterScreen)}>
+      style={[s.filter, isFiltered && { backgroundColor: 'white' }]}
+      onPress={() => RNav.navigate(routes.bathesTab.BathesFilterScreen)}>
       <FilterIcon />
       {isFiltered && (
-        <Block style={styles.badge} middle center>
+        <Block style={s.badge} middle center>
           <AppText bold center size={2.8}>
             {filterCount}
           </AppText>
