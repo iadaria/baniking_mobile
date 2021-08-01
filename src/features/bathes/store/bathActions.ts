@@ -77,6 +77,12 @@ export const setCheckCount = (payload: number) => ({
   type: constants.SET_CHECK_COUNT,
   payload,
 });
+
+// using
+export const acceptFilter = () => ({
+  type: constants.ACCEPT_FILTER,
+});
+
 /************************************** */
 
 export const getBathes = () => ({
@@ -108,14 +114,6 @@ export const clearBathes = () => ({
 
 export const reuseBathes = () => ({
   type: constants.REUSE_BATHES,
-});
-
-export const acceptFilter = (payload: {
-  filterParams: BathParams;
-  filterCount: number;
-}) => ({
-  type: constants.ACCEPT_FILTER,
-  payload,
 });
 
 export const checkFilterFail = (payload: IErrors | null) => ({

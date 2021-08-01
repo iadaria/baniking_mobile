@@ -5,7 +5,7 @@ import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { useDebounced } from '../../../hooks/useDebounced';
-import { RightButton } from '../RightButton';
+import { RightButton } from './RightButton';
 import { styles as s } from '../styles';
 
 export function Pricer() {

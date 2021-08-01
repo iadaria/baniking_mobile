@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { CloseFilerIcon } from '~/src/assets';
-import { styles } from './styles';
+import { styles } from '../styles';
 
 interface IProps {
   onPress: () => void;

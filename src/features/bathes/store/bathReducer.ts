@@ -224,31 +224,9 @@ export default function bathReducer(
       };
 
     case constants.ACCEPT_FILTER:
-      let { params } = state;
-      const { filterParams } = payload;
-      const newParams = { ...params, ...filterParams };
-      if (
-        !filterParams.hasOwnProperty('price_from') &&
-        params.hasOwnProperty('price_from')
-      ) {
-        delete newParams.price_from;
-      }
-      if (
-        !filterParams.hasOwnProperty('price_to') &&
-        params.hasOwnProperty('price_to')
-      ) {
-        delete newParams.price_to;
-      }
-      if (
-        !filterParams.hasOwnProperty('rating') &&
-        params.hasOwnProperty('rating')
-      ) {
-        delete newParams.rating;
-      }
       return {
         ...state,
-        params: { ...newParams },
-        filterCount: payload.filterCount,
+        params: { ...state.params, ...state.paramsCheck },
       };
 
     // *******************************************

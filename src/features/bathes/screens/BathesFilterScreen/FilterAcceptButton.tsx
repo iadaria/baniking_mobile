@@ -1,35 +1,26 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { acceptFilter as acceptFilterAction } from '~/src/features/bathes/store/bathActions';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { styles as s } from './styles';
 
 interface IProps {
-  navigation: StackNavigationProp<ParamListBase>;
-  //filterParams: BathParams;
-  //filterCount: number;
-
   filterLoading: boolean;
   totalCheckedBathes: number;
-  getBathFilterParams: () => void;
   acceptFilter: () => void;
 }
 
 function FilterAcceptButtonContainer({
-  //navigation,
-  //filterParams,
-  //filterCount,
   filterLoading,
   totalCheckedBathes,
-}: //acceptFilter,
-  IProps) {
+  acceptFilter,
+}: IProps) {
   function handleAcceptFilter() {
-    //acceptFilter({ filterParams, filterCount });
-    //navigation.navigate(prevScreen);
+    acceptFilter();
+    RootNavigation.goBackOrToScreen('BathesScreen');
   }
 
   return (
