@@ -60,7 +60,6 @@ export interface IBathParams {
   rating_to: Rating;
   price_from: number;
   price_to: number;
-  //types: number[];
   types: BathType[];
   steam_rooms_ids: number[];
   services_ids: number[];
@@ -97,6 +96,13 @@ export const defaultBathSort: BathParams = {
 
 // Filters
 
+export const countingParams = [
+  'types',
+  'steam_rooms_ids',
+  'services_ids',
+  'zones_ids',
+];
+
 export type BathFilterParams = {
   types: BathType[];
   zones: string[];
@@ -104,13 +110,6 @@ export type BathFilterParams = {
   steamRooms: string[];
   //zones: Map<string, string>;
 };
-
-/* export enum BathType {
-  Economy,
-  Comfort,
-  Lux,
-  Premium,
-} */
 
 export enum BathType {
   Economy = 'Economy',

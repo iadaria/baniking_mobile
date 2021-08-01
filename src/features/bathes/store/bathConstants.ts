@@ -29,6 +29,7 @@ export const ACCEPT_FILTER = 'bath/ACCEPT_FILTER';
 
 // Check filter
 export const CHECK_INIT = 'bath/CHECK_INIT';
+export const CHECK_CLEAN = 'bath/CHECK_CLEAN';
 export const CHECK_FILTER = 'bath/CHECK_FILTER';
 export const CHECK_FILTER_FAIL = 'bath/CHECK_FILTER_FAIL';
 export const SET_CHECK_COUNT = 'bath/SET_CHECK_COUNT';

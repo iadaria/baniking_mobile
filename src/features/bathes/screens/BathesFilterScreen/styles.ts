@@ -1,12 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { colors, isIos } from '~/src/app/common/constants';
 import { sizes } from '~/src/app/common/constants/sizes';
 
 export const styles = StyleSheet.create({
-  scrollView: {
-    /* borderWidth: 1,
-    borderColor: 'green', */
+  sv: {
+    flex: 1,
+    padding: wp(sizes.offset.base),
   },
   contentScrollStyle: {
     padding: wp(sizes.offset.base),

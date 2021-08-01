@@ -6,6 +6,7 @@ import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { methods } from '../api';
 import { sizes } from '../common/constants';
 import {
+  countingParams,
   IDirectionsResponse,
   IDistanceResponse,
   TPartDirectionsParams,
@@ -44,50 +45,10 @@ export function unformateText(text: string) {
   return text.replace(/%/g, ' ').trim();
 }
 
-export function cleanFilterParams(bathParams: BathParams): BathParams {
-  const { search_query, sort_field, sort_type } = bathParams;
-  const cleanedFilterParams: BathParams = {
-    steam_rooms_ids: [],
-    services_ids: [],
-    zones_ids: [],
-    types: [],
-    page: 1,
-  };
-
-  search_query && (cleanedFilterParams.search_query = search_query);
-  sort_field && (cleanedFilterParams.sort_field = sort_field);
-  sort_type && (cleanedFilterParams.sort_type = sort_type);
-
-  return cleanedFilterParams;
-}
-
-export function initializeFilterParams(bathParams: BathParams): BathParams {
-  const { steam_rooms_ids, services_ids, zones_ids, types } = bathParams;
-  const initializedFilterParams: BathParams = {
-    steam_rooms_ids: steam_rooms_ids || [],
-    services_ids: services_ids || [],
-    zones_ids: zones_ids || [],
-    types: types || [],
-    page: 1,
-  };
-
-  const { search_query, price_from, price_to, rating } = bathParams;
-  search_query && (initializedFilterParams.search_query = search_query);
-  price_from && (initializedFilterParams.price_from = price_from);
-  price_to && (initializedFilterParams.price_to = price_to);
-  rating && (initializedFilterParams.rating = rating);
-
-  return initializedFilterParams;
-}
-
-export function calculateFilterCount(bathParams: BathParams): number {
-  let filterCount = 0;
-  bathParams?.steam_rooms_ids &&
-    (filterCount += bathParams.steam_rooms_ids?.length);
-  bathParams?.services_ids && (filterCount += bathParams.services_ids.length);
-  bathParams?.zones_ids && (filterCount += bathParams.zones_ids.length);
-  bathParams?.types && (filterCount += bathParams.types.length);
-  return filterCount;
+export function calcFilterCount(params: BathParams): number {
+  return Object.keys(params).reduce((sum, key) => {
+    return countingParams.includes(key) ? sum + 1 : sum;
+  }, 0);
 }
 
 export const getScheduleCurrentWeek = (

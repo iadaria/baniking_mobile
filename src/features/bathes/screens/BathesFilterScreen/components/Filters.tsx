@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { logline } from '~/src/app/utils/debug';
 import { styles as s } from '../styles';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { compareObj } from '~/src/app/utils/common';
+import { IBathParams } from '~/src/app/models/bath';
 
-export function FilterServices() {
-  const { services } = useSelector(({ bath }: IRootState) => bath.paramsFilter);
-  const { services_ids } = useSelector(
-    ({ bath }: IRootState) => bath.paramsCheck,
-  );
+interface IProps {
+  title: string;
+  items: string[];
+  field: keyof IBathParams;
+}
+
+export function Filters({ title, items, field }: IProps) {
+  const paramsCheck = useSelector(({ bath }: IRootState) => bath.paramsCheck);
   const [selected, setSelected] = useState<number[]>([]);
 
   useDebounced({
-    param: { prop: 'paramsCheck', field: 'services_ids', value: selected },
+    param: { prop: 'paramsCheck', field, value: selected },
     deps: [selected],
-    shouldExecute: !compareObj(services_ids, selected),
+    shouldExecute: !compareObj(paramsCheck[field], selected),
     isDelete: selected.length <= 0,
   });
 
@@ -31,26 +34,26 @@ export function FilterServices() {
 
   const isSelected = (key: number) => selected.includes(key);
 
-  const item = (id: number, title: string) => {
+  const item = (id: number, name: string) => {
     const itemStyle = isSelected(id) ? s.elementSelected : s.element;
     return (
       <TouchableOpacity
         key={`${id}`}
         style={itemStyle}
         onPress={() => handleSelect(id)}>
-        <Text>{title}</Text>
+        <Text>{name}</Text>
       </TouchableOpacity>
     );
   };
 
-  const elements = services.map((service: string, index: number) =>
+  const elements = items.map((service: string, index: number) =>
     item(index, service),
   );
 
   const component = (
     <>
       <AppText margin={[3, 0, 2]} secondary>
-        Сервис
+        {title}
       </AppText>
       <Block row wrap>
         {elements}
@@ -58,5 +61,5 @@ export function FilterServices() {
     </>
   );
 
-  return services.length ? component : null;
+  return items.length ? component : null;
 }

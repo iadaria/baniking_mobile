@@ -8,6 +8,7 @@ import {
   IMap,
   IBathDetailed,
   BathParam,
+  countingParams,
 } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 import {
@@ -16,7 +17,7 @@ import {
 } from '../contracts/orderCallInputs';
 import { initInputs } from '~/src/app/utils/validate';
 import { bathSortParams } from '~/src/app/models/bath';
-import { type } from '../../auth/store/saga/registerCompleteSaga';
+import { calcFilterCount } from '../../../app/utils/bathUtility';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -164,7 +165,7 @@ export default function bathReducer(
         params: sortParams,
       };
 
-    case constants.SET_BATH_PARAM:
+    case constants.SET_BATH_PARAM: // using
       const { prop = 'params', field, value } = payload as BathParam;
       const newBathParams = {
         ...state[prop],
@@ -177,6 +178,7 @@ export default function bathReducer(
       return {
         ...state,
         [prop]: newBathParams,
+        filterCount: calcFilterCount(newBathParams),
       };
 
     case constants.SET_BATH_PARAMS_FILTERING: // using
@@ -188,6 +190,12 @@ export default function bathReducer(
     /** Check filter */
 
     case constants.CHECK_INIT: // using
+      return {
+        ...state,
+        paramsCheck: { ...state.params, ...state.paramsCheck },
+      };
+
+    case constants.CHECK_CLEAN: // using
       return {
         ...state,
         paramsCheck: state.params,
@@ -280,35 +288,6 @@ export default function bathReducer(
         selectedBath: null,
       };
 
-    // Maps
-    case constants.SET_MAPS:
-      const newMapIds = payload.map((map: IMap) => map.bathId);
-      const oldMapsWithoutNew = state.maps.filter(
-        (map: IMap) => !newMapIds.includes(map.bathId),
-      );
-      return {
-        ...state,
-        mapIds: [
-          ...oldMapsWithoutNew.map((map: IMap) => map.bathId),
-          ...newMapIds,
-        ],
-        maps: [...oldMapsWithoutNew, ...payload],
-      };
-
-    case constants.ADD_MAP:
-      const exists = state.mapIds.includes(payload.bathId);
-      return {
-        ...state,
-        mapIds: !exists ? [...state.mapIds, payload.bathId] : state.mapIds,
-        maps: !exists ? [...state.maps, payload] : state.maps,
-      };
-
-    case constants.CLEAR_MAPS:
-      return {
-        ...state,
-        maps: [],
-      };
-
     case constants.INIT_ORDER_CALL_INPUTS:
       return {
         ...state,
@@ -368,6 +347,36 @@ export default function bathReducer(
         ...state,
         loading: false,
         errors: payload,
+      };
+
+    /************* Maps ******************/
+
+    case constants.SET_MAPS:
+      const newMapIds = payload.map((map: IMap) => map.bathId);
+      const oldMapsWithoutNew = state.maps.filter(
+        (map: IMap) => !newMapIds.includes(map.bathId),
+      );
+      return {
+        ...state,
+        mapIds: [
+          ...oldMapsWithoutNew.map((map: IMap) => map.bathId),
+          ...newMapIds,
+        ],
+        maps: [...oldMapsWithoutNew, ...payload],
+      };
+
+    case constants.ADD_MAP:
+      const exists = state.mapIds.includes(payload.bathId);
+      return {
+        ...state,
+        mapIds: !exists ? [...state.mapIds, payload.bathId] : state.mapIds,
+        maps: !exists ? [...state.maps, payload] : state.maps,
+      };
+
+    case constants.CLEAR_MAPS:
+      return {
+        ...state,
+        maps: [],
       };
 
     default:

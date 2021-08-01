@@ -62,6 +62,11 @@ export const checkInit = () => ({
 });
 
 // using
+export const checkClean = () => ({
+  type: constants.CHECK_CLEAN,
+});
+
+// using
 export const checkFilter = () => ({
   type: constants.CHECK_FILTER,
 });
