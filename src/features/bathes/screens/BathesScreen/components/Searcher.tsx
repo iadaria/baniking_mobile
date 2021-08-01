@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
-import {
-  clearBathes,
-  setBathParam,
-} from '~/src/features/bathes/store/bathActions';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
 import { styles as s } from '../styles';
-import { useDebouncedCallback } from 'use-debounce/lib';
-import { BathParam } from '~/src/app/models/bath';
+import { useDebounced } from '../../../hooks/useDebounced';
 
 export function Searcher() {
   const { search_query } = useSelector(({ bath }: IRootState) => bath.params);
   const [searched, setSearched] = useState<string | undefined>(search_query);
-  const dispatch = useDispatch();
 
-  const debouncedRequest = useDebouncedCallback(
-    (param: BathParam) => {
-      dispatch(clearBathes());
-      dispatch(setBathParam(param));
-    },
-    1000,
-    { maxWait: 2000 },
-  );
-
-  useEffect(() => {
-    if (searched !== search_query) {
-      debouncedRequest({ field: 'search_query', value: searched });
-    }
-  }, [debouncedRequest, dispatch, search_query, searched]);
+  useDebounced({
+    param: { field: 'search_query', value: searched },
+    deps: [search_query, searched],
+    shouldExecute: searched !== search_query,
+  });
 
   function handleChangeText(text: string) {
     let searchedText = String(text).trim();
+    setSearched(searchedText);
     if (searchedText.length > 0) {
       setSearched(searchedText);
     } else {

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { BathParam } from '~/src/app/models/bath';
-import { setBathParam } from '../store/bathActions';
+import { clearBathes, setBathParam } from '../store/bathActions';
 
 interface IProps {
   param: BathParam;
@@ -19,15 +19,23 @@ export function useDebounced({
 }: IProps) {
   const dispatch = useDispatch();
 
+  // Выполняем запрос с задержкой после запроса
   const debouncedRequest = useDebouncedCallback(
-    (p: BathParam) => dispatch(setBathParam(p)),
+    (p: BathParam) => {
+      if (!param.prop) {
+        dispatch(clearBathes());
+      }
+      dispatch(setBathParam(p));
+    },
     1500,
     { maxWait: 2000 },
   );
 
   useEffect(() => {
     if (!shouldExecute) return;
+    // Удаляем свойство из параметров
     const value = isDelete ? undefined : param.value;
+    // Присваиваем измененные параметры
     debouncedRequest({ ...param, value });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedRequest, ...deps]);
