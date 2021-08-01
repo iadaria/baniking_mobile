@@ -4,44 +4,39 @@ import { connect } from 'react-redux';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { acceptFilter as acceptFilterAction } from '~/src/features/bathes/store/bathActions';
-import { pullBackward as pullBackwardAction } from '~/src/app/store/system/systemActions';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { styles } from './styles';
-import { BathParams } from '~/src/app/models/bath';
+import { styles as s } from './styles';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
-  filterParams: BathParams;
-  filterCount: number;
+  //filterParams: BathParams;
+  //filterCount: number;
 
   filterLoading: boolean;
-  totalFilteredBathes: number;
-  backwardStack: string[];
+  totalCheckedBathes: number;
   getBathFilterParams: () => void;
-  pullBackward: () => void;
-  acceptFilter: ({ filterParams, filterCount }: { filterParams: BathParams; filterCount: number }) => void;
+  acceptFilter: () => void;
 }
 
 function FilterAcceptButtonContainer({
-  navigation,
-  filterParams,
-  filterCount,
+  //navigation,
+  //filterParams,
+  //filterCount,
   filterLoading,
-  totalFilteredBathes,
-  backwardStack,
-  acceptFilter,
-  pullBackward,
-}: IProps) {
+  totalCheckedBathes,
+}: //acceptFilter,
+  IProps) {
   function handleAcceptFilter() {
-    const prevScreen = backwardStack[backwardStack.length - 1];
-    acceptFilter({ filterParams, filterCount });
-    navigation.navigate(prevScreen);
-    pullBackward();
+    //acceptFilter({ filterParams, filterCount });
+    //navigation.navigate(prevScreen);
   }
 
   return (
-    <AppButton style={[styles.filterButton]} margin={[3, 0, 8]} onPress={handleAcceptFilter}>
+    <AppButton
+      style={s.filterButton}
+      margin={[3, 0, 8]}
+      onPress={handleAcceptFilter}>
       <AppText padding={1.5} center semibold header>
         {'Показать '}
       </AppText>
@@ -50,7 +45,7 @@ function FilterAcceptButtonContainer({
           <ActivityIndicator size="small" color="white" />
         ) : (
           <AppText semibold header>
-            {totalFilteredBathes}
+            {totalCheckedBathes}
           </AppText>
         )}
       </Block>
@@ -62,14 +57,12 @@ function FilterAcceptButtonContainer({
 }
 
 const FilterAcceptButtonConnected = connect(
-  ({ bath, system }: IRootState) => ({
+  ({ bath }: IRootState) => ({
     filterLoading: bath.filterLoading,
-    totalFilteredBathes: bath.totalFilteredBathes,
-    backwardStack: system.header.backwardStack,
+    totalCheckedBathes: bath.totalCheckedBathes,
   }),
   {
     acceptFilter: acceptFilterAction,
-    pullBackward: pullBackwardAction,
   },
 )(FilterAcceptButtonContainer);
 

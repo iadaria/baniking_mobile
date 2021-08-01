@@ -1,14 +1,14 @@
-import { Bath, BathParams } from '~/src/app/models/bath';
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { CHECK_FILTER } from '../bathConstants';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { Bath } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { checkFilterFail, setCheckFilterResult } from '../bathActions';
+import { checkFilterFail, setCheckCount } from '../bathActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { CHECK_FILTER } from '../bathConstants';
 import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
-  payload: { filterParams: BathParams };
   type: string;
 }
 
@@ -17,16 +17,12 @@ interface IResult {
   baths: Bath[];
 }
 
-function* checkFilterSaga({ payload }: IAction) {
-  logline('[CheckFilterSaga]', payload);
+function* checkFilterSaga(_: IAction) {
   try {
-    const { filterParams } = payload;
-    const { count: bathCount }: IResult = yield call(
-      methods.getBathes,
-      null,
-      filterParams,
-    );
-    yield put(setCheckFilterResult({ bathCount }));
+    const { paramsCheck } = yield select(({ bath }: IRootState) => bath);
+    logline('***[checkFilterSaga] paramsCheck', paramsCheck);
+    const { count }: IResult = yield call(methods.getBathes, null, paramsCheck);
+    yield put(setCheckCount(count));
   } catch (e) {
     log('[checkFilterSaga/error]', e);
 
@@ -40,22 +36,6 @@ function* checkFilterSaga({ payload }: IAction) {
       : 'Ошибка при получении данных о банях';
 
     yield showAlert('Ошибка', errorMessage);
-    /* const [errors, message, allErrors] = getErrorStrings(e);
-    let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
-    log('[checkFilterSaga] error', e);
-    logline('[checkFilterSaga]', [errors, message]);
-
-    if (errorMessage) {
-      yield put(checkFilterFail(errors));
-      yield showAlert('Ошибка', errorMessage);
-    }
-
-    if (!errorMessage) {
-      errorMessage = 'Ошибка при получении данных';
-    }
-
-    yield put(checkFilterFail(null));
-    yield showAlert('Ошибка', errorMessage); */
   }
 }
 

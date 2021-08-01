@@ -6,6 +6,7 @@ import {
   BathParams,
   BathFilterParams,
   IOrderCallParams,
+  BathParam,
 } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
@@ -29,16 +30,49 @@ export const addBathes = (payload: Bath[]) => ({
 });
 
 // using
+export const fetchBathes = () => ({
+  type: constants.FETCH_BATHES,
+});
+
+// using
 export const setBathesCount = (payload: number) => ({
   type: constants.SET_BATHES_COUNT,
   payload,
 });
 
-// using
-export const searchName = (payload: string | undefined) => ({
-  type: constants.SEARCH_NAME,
+export const setBathParam = (payload: BathParam) => ({
+  type: constants.SET_BATH_PARAM,
   payload,
 });
+
+// using
+export const getBathFilterParams = () => ({
+  type: constants.GET_BATH_PARAMS_FILTERING,
+});
+
+// using
+export const setBathFilterParams = (paramsFilter: BathFilterParams) => ({
+  type: constants.SET_BATH_PARAMS_FILTERING,
+  payload: paramsFilter,
+});
+
+// using
+export const checkInit = () => ({
+  type: constants.CHECK_INIT,
+});
+
+// using
+export const checkFilter = () => ({
+  type: constants.CHECK_FILTER,
+});
+
+// page always = 0
+// using
+export const setCheckCount = (payload: number) => ({
+  type: constants.SET_CHECK_COUNT,
+  payload,
+});
+/************************************** */
 
 export const getBathes = () => ({
   type: constants.GET_BATHES,
@@ -51,10 +85,6 @@ export const setBathes = (payload: {
 }) => ({
   type: constants.SET_BATHES,
   payload,
-});
-
-export const fetchBathes = () => ({
-  type: constants.FETCH_BATHES,
 });
 
 export const bathesFail = (payload: IErrors | null) => ({
@@ -75,23 +105,6 @@ export const reuseBathes = () => ({
   type: constants.REUSE_BATHES,
 });
 
-export const getBathFilterParams = () => ({
-  type: constants.GET_BATH_PARAMS_FILTERING,
-});
-
-export const setBathFilterParams = (paramsFilter: BathFilterParams) => ({
-  type: constants.SET_BATH_PARAMS_FILTERING,
-  payload: paramsFilter,
-});
-
-// Filter
-export const checkFilter = (payload: {
-  filterParams: BathParams /* ; filterCount: number */;
-}) => ({
-  type: constants.CHECK_FILTER,
-  payload,
-});
-
 export const acceptFilter = (payload: {
   filterParams: BathParams;
   filterCount: number;
@@ -102,15 +115,6 @@ export const acceptFilter = (payload: {
 
 export const checkFilterFail = (payload: IErrors | null) => ({
   type: constants.CHECK_FILTER_FAIL,
-  payload,
-});
-
-// page always = 0
-export const setCheckFilterResult = (payload: {
-  bathCount: number;
-  params?: BathParams;
-}) => ({
-  type: constants.SET_CHECK_FILTER_RESULT,
   payload,
 });
 

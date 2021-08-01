@@ -7,6 +7,7 @@ import {
   BathFilterParams,
   IMap,
   IBathDetailed,
+  BathParam,
 } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 import {
@@ -14,8 +15,7 @@ import {
   IOrderCallInputs,
 } from '../contracts/orderCallInputs';
 import { initInputs } from '~/src/app/utils/validate';
-import { logline } from '~/src/app/utils/debug';
-import { bathSortParams } from '../../../app/models/bath';
+import { bathSortParams } from '~/src/app/models/bath';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -35,11 +35,12 @@ export interface IBathState {
   retainState: boolean;
   // Filter
   paramsFilter: BathFilterParams | null;
+  paramsCheck: BathParams;
   filtered: boolean;
   filterLoading: boolean;
   filterErrors: IErrors | null;
   filterCount: number;
-  totalFilteredBathes: number;
+  totalCheckedBathes: number;
   // Bathes detailded
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
@@ -69,17 +70,19 @@ const initialState: IBathState = {
   bathesDetailed: [],
   bathesDetailedIds: [],
   selectedBath: null,
-  // fetch
-  params: { page: 1 },
+  // Sort
   canLoadMoreBathes: false,
+  params: { page: 1 },
   sort: BathSort.None,
+  // Filter
   retainState: false,
   paramsFilter: null,
+  paramsCheck: { page: 0 },
   filtered: false,
   filterLoading: false,
   filterErrors: null,
   filterCount: 0,
-  totalFilteredBathes: 0,
+  totalCheckedBathes: 0,
   // maps
   mapIds: [],
   maps: [],
@@ -100,6 +103,7 @@ export default function bathReducer(
         ...state,
         params: payload,
       };
+
     case constants.NEXT_PAGE: // using
       return {
         ...state,
@@ -107,20 +111,6 @@ export default function bathReducer(
           ...state.params,
           page: state.params.page + 1,
         },
-      };
-    // Bathes
-    case constants.SET_BATHES:
-      const newBathes: Bath[] = payload.bathes.filter(
-        (bath: Bath) => !state.bathIds.includes(bath.id),
-      );
-      const newBathIds = newBathes.map((bath: Bath) => bath.id);
-      return {
-        ...state,
-        loading: false,
-        errors: null,
-        bathIds: [...state.bathIds, ...newBathIds],
-        bathes: [...state.bathes, ...newBathes],
-        params: { ...state.params, page: payload.page },
       };
 
     case constants.SET_BATHES_COUNT: // using
@@ -149,12 +139,6 @@ export default function bathReducer(
         loading: true,
       };
 
-    case constants.REUSE_BATHES:
-      return {
-        ...state,
-        bathes: state.oldBathes,
-      };
-
     case constants.CLEAR_BATHS: // using
       return {
         ...state,
@@ -163,35 +147,71 @@ export default function bathReducer(
         oldBathes: state.bathes,
       };
 
-    case constants.UPDATE_BATH:
+    case constants.SET_SORT: // using
+      const sortParams = {
+        ...state.params,
+        ...bathSortParams[payload],
+        page: 1,
+      };
+      if (payload === BathSort.None) {
+        delete sortParams.sort_field;
+        delete sortParams.sort_type;
+      }
       return {
         ...state,
-        bathes: [
-          ...state.bathes.filter((bath: Bath) => bath.id !== payload.id),
-          payload,
-        ],
+        sort: payload,
+        params: sortParams,
       };
 
-    case constants.GET_BATHES:
+    case constants.SET_BATH_PARAM:
+      const { name = 'params', field, value } = payload as BathParam;
+      const newBathParams = {
+        ...state.params,
+        [field]: value,
+        page: 1,
+      };
+      if (!value) {
+        delete newBathParams[field];
+      }
       return {
         ...state,
-        loading: true,
-        errors: null,
+        [name]: newBathParams,
       };
 
-    case constants.BATHES_FAIL:
+    case constants.SET_BATH_PARAMS_FILTERING: // using
       return {
         ...state,
-        loading: false,
-        errors: payload,
+        paramsFilter: payload,
       };
 
-    // Filter & Sort
-    case constants.CHECK_FILTER:
+    /** Check filter */
+
+    case constants.CHECK_INIT: // using
+      return {
+        ...state,
+        paramsCheck: state.params,
+      };
+
+    case constants.CHECK_FILTER: // using
       return {
         ...state,
         filterLoading: true,
         filterErrors: null,
+      };
+
+    case constants.SET_CHECK_COUNT: // using
+      return {
+        ...state,
+        filterLoading: false,
+        filterErrors: null,
+        totalCheckedBathes: payload,
+      };
+
+    case constants.CHECK_FILTER_FAIL: // using
+      return {
+        ...state,
+        filterLoading: false,
+        filterErrors: payload,
       };
 
     case constants.ACCEPT_FILTER:
@@ -222,78 +242,7 @@ export default function bathReducer(
         filterCount: payload.filterCount,
       };
 
-    case constants.CHECK_FILTER_FAIL:
-      return {
-        ...state,
-        filterLoading: false,
-        filterErrors: payload,
-      };
-
-    case constants.SET_CHECK_FILTER_RESULT:
-      return {
-        ...state,
-        filterLoading: false,
-        filterErrors: null,
-        totalFilteredBathes: payload.bathCount,
-        //filterParams: payload.params,
-      };
-
-    case constants.SET_FILTER:
-      return {
-        ...state,
-        retainState: false,
-        filtered: Object.keys(payload.params).some((key: string) =>
-          FILTER_KEYS.includes(key),
-        ),
-        params: { ...payload.params, page: 0 },
-      };
-
-    /** Sorting
-     * sort_filed in 'price' | 'rating'
-     * sort_type in 'asc' | 'desc'
-     */
-
-    case constants.SET_SORT: // using
-      const sortParams = {
-        ...state.params,
-        ...bathSortParams[payload],
-        page: 1,
-      };
-      if (payload === BathSort.None) {
-        delete sortParams.sort_field;
-        delete sortParams.sort_type;
-      }
-      return {
-        ...state,
-        sort: payload,
-        params: sortParams,
-      };
-
-    case constants.SEARCH_NAME: // using
-      const searchParams = {
-        ...state.params,
-        search_query: payload,
-        page: 1,
-      };
-      if (!payload) {
-        delete searchParams.search_query;
-      }
-      return {
-        ...state,
-        params: searchParams,
-      };
-
-    case constants.RETAIN_STATE:
-      return {
-        ...state,
-        retainState: true,
-      };
-
-    case constants.SET_BATH_PARAMS_FILTERING:
-      return {
-        ...state,
-        paramsFilter: payload,
-      };
+    // *******************************************
 
     // Bath
     case constants.GET_BATH:
@@ -301,6 +250,12 @@ export default function bathReducer(
         ...state,
         loadingSelectBath: true,
         errors: null,
+      };
+
+    case constants.RETAIN_STATE:
+      return {
+        ...state,
+        retainState: true,
       };
 
     case constants.SELECT_BATH:
@@ -359,6 +314,59 @@ export default function bathReducer(
         inputs: {
           orderCall: { ...initInputs(state.inputs.orderCall, payload) },
         },
+      };
+
+    case constants.SET_FILTER:
+      return {
+        ...state,
+        retainState: false,
+        filtered: Object.keys(payload.params).some((key: string) =>
+          FILTER_KEYS.includes(key),
+        ),
+        params: { ...payload.params, page: 0 },
+      };
+    // Bathes
+    case constants.SET_BATHES:
+      const newBathes: Bath[] = payload.bathes.filter(
+        (bath: Bath) => !state.bathIds.includes(bath.id),
+      );
+      const newBathIds = newBathes.map((bath: Bath) => bath.id);
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        bathIds: [...state.bathIds, ...newBathIds],
+        bathes: [...state.bathes, ...newBathes],
+        params: { ...state.params, page: payload.page },
+      };
+
+    case constants.REUSE_BATHES:
+      return {
+        ...state,
+        bathes: state.oldBathes,
+      };
+
+    case constants.UPDATE_BATH:
+      return {
+        ...state,
+        bathes: [
+          ...state.bathes.filter((bath: Bath) => bath.id !== payload.id),
+          payload,
+        ],
+      };
+
+    case constants.GET_BATHES:
+      return {
+        ...state,
+        loading: true,
+        errors: null,
+      };
+
+    case constants.BATHES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
       };
 
     default:

@@ -70,6 +70,12 @@ export interface IBathParams {
   city_id: number;
 }
 
+export type BathParam = {
+  name?: 'params' | 'paramsCheck';
+  field: keyof IBathParams;
+  value: string | number | undefined;
+};
+
 export type BathParams = { page: number } & Partial<IBathParams>;
 
 export const FILTER_KEYS = [
@@ -90,18 +96,13 @@ export const defaultBathSort: BathParams = {
 };
 
 // Filters
-export interface IBathParamsResponse {
-  types: BathType[];
-  zones: object;
-  services: object;
-  steamRooms: object;
-}
 
 export type BathFilterParams = {
   types: BathType[];
-  zones: Map<string, string>;
-  services: Map<string, string>;
-  steamRooms: Map<string, string>;
+  zones: string[];
+  services: string[];
+  steamRooms: string[];
+  //zones: Map<string, string>;
 };
 
 /* export enum BathType {

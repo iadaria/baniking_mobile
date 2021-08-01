@@ -5,7 +5,7 @@ import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import {
   clearBathes,
-  searchName,
+  setBathParam,
 } from '~/src/features/bathes/store/bathActions';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
 import { styles as s } from '../styles';
@@ -18,7 +18,7 @@ export function Searcher() {
   useEffect(() => {
     if (searched !== search_query) {
       dispatch(clearBathes());
-      dispatch(searchName(searched));
+      dispatch(setBathParam({ field: 'search_query', value: searched }));
     }
   }, [dispatch, search_query, searched]);
 

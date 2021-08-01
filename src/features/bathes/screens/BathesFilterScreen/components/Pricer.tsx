@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AppText } from '~/src/app/common/components/UI';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
+import { IRootState } from '~/src/app/store/rootReducer';
 
 export function Pricer() {
-  const [lowPrice, setLowPrice] = useState(bathParams?.price_from || 1);
+  const { price_from = 1, price_to = 10000 } = useSelector(
+    ({ bath }: IRootState) => bath.params,
+  );
+  const [lowPrice, setLowPrice] = useState(price_from);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');
 
-  const [highPrice, setHighPrice] = useState(bathParams?.price_to || 10000);
+  const [highPrice, setHighPrice] = useState(price_to);
   const [middleHighPrice, setMiddleHighPrice] = useState('10000');
 
   return (
@@ -20,13 +25,14 @@ export function Pricer() {
         low={lowPrice}
         high={highPrice}
         setLow={function (value: number) {
+          const v = String(value);
           setLowPrice(value);
-          String(value) !== middleLowPrice && setMiddleLowPrice(String(value));
+          v !== middleLowPrice && setMiddleLowPrice(v);
         }}
         setHigh={function (value: number) {
+          const v = String(value);
           setHighPrice(value);
-          String(value) !== middleHighPrice &&
-            setMiddleHighPrice(String(value));
+          v !== middleHighPrice && setMiddleHighPrice(v);
         }}
       />
     </>
