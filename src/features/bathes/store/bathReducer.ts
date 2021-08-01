@@ -164,9 +164,9 @@ export default function bathReducer(
       };
 
     case constants.SET_BATH_PARAM:
-      const { name = 'params', field, value } = payload as BathParam;
+      const { prop = 'params', field, value } = payload as BathParam;
       const newBathParams = {
-        ...state.params,
+        ...state[prop],
         [field]: value,
         page: 1,
       };
@@ -175,7 +175,7 @@ export default function bathReducer(
       }
       return {
         ...state,
-        [name]: newBathParams,
+        [prop]: newBathParams,
       };
 
     case constants.SET_BATH_PARAMS_FILTERING: // using

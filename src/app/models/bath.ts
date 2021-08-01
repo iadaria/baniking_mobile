@@ -71,7 +71,7 @@ export interface IBathParams {
 }
 
 export type BathParam = {
-  name?: 'params' | 'paramsCheck';
+  prop?: 'params' | 'paramsCheck';
   field: keyof IBathParams;
   value: string | number | undefined;
 };

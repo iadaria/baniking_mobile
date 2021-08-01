@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { RESULTS, openSettings } from 'react-native-permissions';
 import { AppPermission } from '~/src/app/common/components/AppPersmission';
 import { showAlert } from '~/src/app/common/components/showAlert';
+import { logline } from '../utils/debug';
 
 interface IProps {
   permission_type: string;
@@ -39,7 +40,10 @@ export default function usePermission({
         setNeedCheck(false); // Отмечаем, что проверка пройдена и не нужна
       });
     } else {
-      __DEV__ && console.log(`\n[userPermission/useEffect/${permission_type}] needCheck is false`);
+      logline(
+        '',
+        `\n[userPermission/useEffect/${permission_type}] needCheck is false`,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [needCheck]);
@@ -49,7 +53,10 @@ export default function usePermission({
     let timeId: NodeJS.Timeout;
     const [granted, permit] = permission;
     if (!granted && !needCheck) {
-      if (!granted && (permit === RESULTS.BLOCKED || permit === RESULTS.UNAVAILABLE)) {
+      if (
+        !granted &&
+        (permit === RESULTS.BLOCKED || permit === RESULTS.UNAVAILABLE)
+      ) {
         showAlert(
           'Разрешение',
           alert_message,

@@ -4,6 +4,7 @@ import Geolocation from 'react-native-geolocation-service';
 import { useDispatch, useSelector } from 'react-redux';
 import { ILocation } from '~/src/app/models/user';
 import { IRootState } from '~/src/app/store/rootReducer';
+import { logline } from '~/src/app/utils/debug';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
 import { IAuthState } from '../../auth/store/authReducer';
 
@@ -15,9 +16,13 @@ interface IProps {
 const TEST_LATITUDE = 55.8263; // TEST NEED DEL
 const TEST_LONGITUDE = 37.3263; // TEST NEED DEL
 
-export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) {
+export function useGeolocation({
+  permission /* , setUserLocation  */,
+}: IProps) {
   const dispatch = useDispatch();
-  const { currentUser }: IAuthState = useSelector(({ auth }: IRootState) => auth);
+  const { currentUser }: IAuthState = useSelector(
+    ({ auth }: IRootState) => auth,
+  );
   const locationWatchId = useRef<number>();
 
   /** Функция подписная с обновлением для определения текущего местоположения */
@@ -26,13 +31,19 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
-          const { latitude: oldLt, longitude: oldLg } = currentUser?.location || {
+          const {
+            latitude: oldLt,
+            longitude: oldLg,
+          } = currentUser?.location || {
             latitude: null,
             longitude: null,
           };
           const { latitude: newLt, longitude: newhLg } = position.coords;
-          __DEV__ && console.log('[requestFineLocation/position]', position);
-          if (oldLt?.toFixed(3) !== newLt.toFixed(3) || oldLg?.toFixed(3) !== newhLg.toFixed(3)) {
+          logline('[requestFineLocation/position]', position);
+          if (
+            oldLt?.toFixed(3) !== newLt.toFixed(3) ||
+            oldLg?.toFixed(3) !== newhLg.toFixed(3)
+          ) {
             dispatch(
               setAuthUserData({
                 location: {
@@ -47,7 +58,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
-          __DEV__ && console.log(error.code, error.message);
+          logline(error.code, error.message);
         },
         { enableHighAccuracy: true },
       );
@@ -60,7 +71,7 @@ export function useGeolocation({ permission /* , setUserLocation  */ }: IProps) 
       // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.getCurrentPosition(
         (position: Geolocation.GeoPosition) => {
-          __DEV__ && console.log('[requestFineLocation/position] now', position);
+          logline('[requestFineLocation/position] now', position);
           dispatch(
             setAuthUserData({
               location: {

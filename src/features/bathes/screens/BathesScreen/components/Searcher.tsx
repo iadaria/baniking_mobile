@@ -9,18 +9,28 @@ import {
 } from '~/src/features/bathes/store/bathActions';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
 import { styles as s } from '../styles';
+import { useDebouncedCallback } from 'use-debounce/lib';
+import { BathParam } from '~/src/app/models/bath';
 
 export function Searcher() {
   const { search_query } = useSelector(({ bath }: IRootState) => bath.params);
   const [searched, setSearched] = useState<string | undefined>(search_query);
   const dispatch = useDispatch();
 
+  const debouncedRequest = useDebouncedCallback(
+    (param: BathParam) => {
+      dispatch(clearBathes());
+      dispatch(setBathParam(param));
+    },
+    1000,
+    { maxWait: 2000 },
+  );
+
   useEffect(() => {
     if (searched !== search_query) {
-      dispatch(clearBathes());
-      dispatch(setBathParam({ field: 'search_query', value: searched }));
+      debouncedRequest({ field: 'search_query', value: searched });
     }
-  }, [dispatch, search_query, searched]);
+  }, [debouncedRequest, dispatch, search_query, searched]);
 
   function handleChangeText(text: string) {
     let searchedText = String(text).trim();
