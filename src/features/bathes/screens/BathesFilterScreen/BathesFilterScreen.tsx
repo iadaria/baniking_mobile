@@ -14,6 +14,7 @@ import { Block } from '~/src/app/common/components/UI';
 import { Header } from '~/src/app/common/components/Header';
 import { Pricer } from './components/Pricer';
 import { FilterAcceptButton } from './FilterAcceptButton';
+import { FilterServices } from './components/FilterServices';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -45,7 +46,10 @@ function BathesFilterScreenContainer({
       <Block full base>
         <Header iconKind="backward" />
         <Pricer />
+        <FilterServices />
       </Block>
+
+
       <FilterAcceptButton navigation={navigation} />
     </>
   );
@@ -63,11 +67,3 @@ const BathesFilterScreenConnected = connect(
 )(BathesFilterScreenContainer);
 
 export { BathesFilterScreenConnected as BathesFilterScreen };
-
-/* const DEFAULT_PARAMS: BathParams = {
-    page: 0,
-    steam_rooms_ids: [],
-    services_ids: [],
-    zones_ids: [],
-    types: [],
-  }; */

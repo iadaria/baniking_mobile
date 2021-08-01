@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { AppText } from '~/src/app/common/components/UI';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { useDebounced } from '../../../hooks/useDebounced';
+import { RightButton } from '../RightButton';
+import { styles as s } from '../styles';
 
 export function Pricer() {
   const { price_from = 1, price_to = 10000 } = useSelector(
@@ -29,6 +32,28 @@ export function Pricer() {
     isDelete: highPrice === 10000,
   });
 
+  const changeText = (
+    text: string,
+    limit: number,
+    setOrigin: (digit: number) => void,
+    setMiddle: (text: string) => void,
+  ) => {
+    if (text === '') {
+      setMiddle('');
+      setOrigin(limit);
+      return false;
+    } else {
+      const digit = parseInt(text);
+      if (isNaN(digit)) {
+        return;
+      }
+      if (!isNaN(digit) && typeof digit === 'number') {
+        setMiddle(digit.toString());
+        setOrigin(digit);
+      }
+    }
+  };
+
   return (
     <>
       <AppText margin={[3, 0, 0]}>
@@ -50,6 +75,51 @@ export function Pricer() {
           v !== middleHighPrice && setMiddleHighPrice(v);
         }}
       />
+      <Block margin={[1, 0, 0]} center row>
+        {/* Минимальная стоимость */}
+        <AppText margin={[0, 3, 0, 0]} tag>
+          от
+        </AppText>
+        <AppInput
+          style={{ ...s.input, width: wp(25) }}
+          value={middleLowPrice}
+          onChangeText={(text: string) =>
+            changeText(text, 1, setLowPrice, setMiddleLowPrice)
+          }
+          rightButton={
+            <RightButton
+              onPress={() => {
+                setMiddleLowPrice('1');
+                setLowPrice(1);
+              }}
+            />
+          }
+          number
+        />
+        {/* Максимальная стоимость */}
+        <AppText margin={[0, 2.5]} tag>
+          до
+        </AppText>
+        <AppInput
+          style={{ ...s.input, width: wp(25) }}
+          rightButton={
+            <RightButton
+              onPress={() => {
+                setMiddleHighPrice('10000');
+                setHighPrice(10000);
+              }}
+            />
+          }
+          number
+          value={middleHighPrice}
+          onChangeText={(text: string) =>
+            changeText(text, 10000, setHighPrice, setMiddleHighPrice)
+          }
+        />
+        <AppText margin={[0, 3]} tag>
+          руб/час
+        </AppText>
+      </Block>
     </>
   );
 }

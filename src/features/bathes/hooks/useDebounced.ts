@@ -27,8 +27,8 @@ export function useDebounced({
       }
       dispatch(setBathParam(p));
     },
-    1500,
-    { maxWait: 2000 },
+    2000,
+    { maxWait: 3000 },
   );
 
   useEffect(() => {

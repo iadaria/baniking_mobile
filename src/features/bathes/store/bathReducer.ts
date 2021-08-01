@@ -16,6 +16,7 @@ import {
 } from '../contracts/orderCallInputs';
 import { initInputs } from '~/src/app/utils/validate';
 import { bathSortParams } from '~/src/app/models/bath';
+import { type } from '../../auth/store/saga/registerCompleteSaga';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -34,7 +35,7 @@ export interface IBathState {
   sort: BathSort;
   retainState: boolean;
   // Filter
-  paramsFilter: BathFilterParams | null;
+  paramsFilter: BathFilterParams;
   paramsCheck: BathParams;
   filtered: boolean;
   filterLoading: boolean;
@@ -76,7 +77,7 @@ const initialState: IBathState = {
   sort: BathSort.None,
   // Filter
   retainState: false,
-  paramsFilter: null,
+  paramsFilter: { types: [], zones: [], services: [], steamRooms: [] },
   paramsCheck: { page: 0 },
   filtered: false,
   filterLoading: false,

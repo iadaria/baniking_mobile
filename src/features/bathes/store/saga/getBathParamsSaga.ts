@@ -3,9 +3,10 @@ import { methods } from '~/src/app/api';
 import { setBathFilterParams } from '../bathActions';
 import { BathType } from '~/src/app/models/bath';
 import { GET_BATH_PARAMS_FILTERING } from '../bathConstants';
-import { log, logline } from '~/src/app/utils/debug';
+import { logline } from '~/src/app/utils/debug';
+import { objectToArray } from '~/src/app/utils/common';
 
-export interface IBathParamsResponse {
+export interface IResponse {
   types: BathType[];
   zones: string[];
   services: string[];
@@ -14,13 +15,17 @@ export interface IBathParamsResponse {
 
 function* getBathParamsSaga() {
   try {
-    const params: IBathParamsResponse = yield call(
-      methods.getBathParams,
-      null,
-      null,
-    );
+    const params: IResponse = yield call(methods.getBathParams, null, null);
     //log('paramsFilter', params);
-    yield put(setBathFilterParams(params));
+    const { types, zones, services, steamRooms } = params;
+    yield put(
+      setBathFilterParams({
+        types,
+        zones: objectToArray(zones),
+        services: objectToArray(services),
+        steamRooms: objectToArray(steamRooms),
+      }),
+    );
   } catch (error) {
     logline('[getBathParamsSaga]', error);
   }
