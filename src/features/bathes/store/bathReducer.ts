@@ -4,7 +4,7 @@ import {
   BathParams,
   BathSort,
   FILTER_KEYS,
-  IBathParamsVariety,
+  BathFilterParams,
   IMap,
   IBathDetailed,
 } from '~/src/app/models/bath';
@@ -29,11 +29,12 @@ export interface IBathState {
   bathes: Bath[];
   bathIds: number[];
   oldBathes: Bath[];
-  // Srot & Filter
+  // Srot
   canLoadMoreBathes: boolean;
   sort: BathSort;
   retainState: boolean;
-  paramsVariety: IBathParamsVariety | null;
+  // Filter
+  paramsFilter: BathFilterParams | null;
   filtered: boolean;
   filterLoading: boolean;
   filterErrors: IErrors | null;
@@ -73,7 +74,7 @@ const initialState: IBathState = {
   canLoadMoreBathes: false,
   sort: BathSort.None,
   retainState: false,
-  paramsVariety: null,
+  paramsFilter: null,
   filtered: false,
   filterLoading: false,
   filterErrors: null,
@@ -288,10 +289,10 @@ export default function bathReducer(
         retainState: true,
       };
 
-    case constants.SET_BATH_PARAMS_VARIETY:
+    case constants.SET_BATH_PARAMS_FILTERING:
       return {
         ...state,
-        paramsVariety: payload,
+        paramsFilter: payload,
       };
 
     // Bath

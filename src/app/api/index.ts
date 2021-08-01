@@ -51,7 +51,7 @@ export const objToUrl = (obj: TObjToUrl) => {
         .join('&')}`
     : '';
 
-  //log('\n[api/index(objToUrl)]', result);
+  log('\n[api/index(objToUrl)]', result);
   return result;
 };
 

@@ -5,7 +5,6 @@ import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { checkFilterFail, setCheckFilterResult } from '../bathActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { objToUrl } from '~/src/app/api/index';
 import { log, logline } from '~/src/app/utils/debug';
 
 interface IAction {
@@ -22,22 +21,26 @@ function* checkFilterSaga({ payload }: IAction) {
   logline('[CheckFilterSaga]', payload);
   try {
     const { filterParams } = payload;
-    /* const requestParams: BathParams = { ...filterParams };
-    const requestBody: BathParams = {};
-    if (filterParams.hasOwnProperty('search_query')) {
-      requestBody.search_query = filterParams.search_query;
-      delete requestParams.search_query;
-    } */
-    //__DEV__ && console.log('[checkFilterSaga]', objToUrl(payload));
     const { count: bathCount }: IResult = yield call(
       methods.getBathes,
-      filterParams,
+      null,
       filterParams,
     );
-    yield put(setCheckFilterResult({ bathCount /* , params  */ }));
-    //__DEV__ && console.log('[checkFilterSaga / bathCount]', bathCount);
+    yield put(setCheckFilterResult({ bathCount }));
   } catch (e) {
-    const [errors, message, allErrors] = getErrorStrings(e);
+    log('[checkFilterSaga/error]', e);
+
+    let [errors, message, allErrors] = getErrorStrings(e);
+    yield put(checkFilterFail(errors));
+
+    logline('[checkFilterSaga/error]', [errors, message]);
+
+    const errorMessage = allErrors
+      ? allErrors
+      : 'Ошибка при получении данных о банях';
+
+    yield showAlert('Ошибка', errorMessage);
+    /* const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message; //? message : 'Ошибка при получении данных';
     log('[checkFilterSaga] error', e);
     logline('[checkFilterSaga]', [errors, message]);
@@ -52,7 +55,7 @@ function* checkFilterSaga({ payload }: IAction) {
     }
 
     yield put(checkFilterFail(null));
-    yield showAlert('Ошибка', errorMessage);
+    yield showAlert('Ошибка', errorMessage); */
   }
 }
 

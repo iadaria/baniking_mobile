@@ -18,7 +18,7 @@ interface IProps {
   filterLoading: boolean;
   totalFilteredBathes: number;
   backwardStack: string[];
-  getBathParamsVariety: () => void;
+  getBathFilterParams: () => void;
   pullBackward: () => void;
   acceptFilter: ({ filterParams, filterCount }: { filterParams: BathParams; filterCount: number }) => void;
 }

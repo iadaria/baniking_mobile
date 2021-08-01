@@ -97,12 +97,12 @@ export interface IBathParamsResponse {
   steamRooms: object;
 }
 
-export interface IBathParamsVariety {
+export type BathFilterParams = {
   types: BathType[];
   zones: Map<string, string>;
   services: Map<string, string>;
   steamRooms: Map<string, string>;
-}
+};
 
 /* export enum BathType {
   Economy,
