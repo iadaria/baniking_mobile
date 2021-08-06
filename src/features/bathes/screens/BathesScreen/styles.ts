@@ -97,4 +97,8 @@ export const styles = StyleSheet.create({
   notFoundIcon: {
     marginBottom: hp(3),
   },
+  city: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
 });
