@@ -104,6 +104,7 @@ export const methods = {
   getFilterBathes: request('get', '/baths', privFetch),
   getBathParams: request('get', '/baths/params', privFetch),
   getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
+  getCities: request('get', '/cities', privFetch),
   // google
   getPlaceId: request(
     'get',

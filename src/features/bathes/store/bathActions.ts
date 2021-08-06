@@ -83,6 +83,12 @@ export const acceptFilter = () => ({
   type: constants.ACCEPT_FILTER,
 });
 
+// using
+export const bathesFail = (payload: IErrors | null) => ({
+  type: constants.BATHES_FAIL,
+  payload,
+});
+
 /************************************** */
 
 export const getBathes = () => ({
@@ -95,11 +101,6 @@ export const setBathes = (payload: {
   page: number;
 }) => ({
   type: constants.SET_BATHES,
-  payload,
-});
-
-export const bathesFail = (payload: IErrors | null) => ({
-  type: constants.BATHES_FAIL,
   payload,
 });
 

@@ -49,6 +49,7 @@ export const colors = {
 
   buttonBeginning: '#F3F0EB',
   borderBlack: '#2F2F33', // button
+  border: '#474747',
 
   accent: '',
   //error: 'rgb(176, 0, 32)',

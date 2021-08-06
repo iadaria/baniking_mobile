@@ -10,7 +10,7 @@ export default function BathesNavigator() {
   const Bathes = createStackNavigator();
   return (
     <Bathes.Navigator
-      initialRouteName="BathesFilterScreen"
+      //initialRouteName="BathesFilterScreen"
       headerMode="screen"
       screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />

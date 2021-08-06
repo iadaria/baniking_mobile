@@ -10,11 +10,12 @@ import {
 import { IRootState } from '~/src/app/store/rootReducer';
 import { Bath, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
-import { logline } from '~/src/app/utils/debug';
 import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
 import { FilterButton } from './components/FilterButton';
+import { City } from './components/City';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -23,6 +24,7 @@ interface IProps {
   params: BathParams;
   canLoadMoreBathes: boolean;
   fetchBathes: () => void;
+  fetchCities: () => void;
   nextPage: () => void;
 }
 
@@ -35,6 +37,7 @@ export function BathesScreenContainer({
   fetchBathes,
   nextPage,
 }: IProps) {
+
   useEffect(() => {
     fetchBathes();
   }, [fetchBathes, params]);
@@ -59,14 +62,20 @@ export function BathesScreenContainer({
       <Block margin={[4, 0, 0, 4]}>
         <Header />
       </Block>
+
+      <City />
+
       <AppText margin={[0, 0, 2, 4]} h1>
         Каталог бань
       </AppText>
+
       <Block padding={[0, 0, 0, 4]} center row>
         <Searcher />
         <FilterButton />
       </Block>
+
       <Sorter />
+
       <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
     </Block>
   );

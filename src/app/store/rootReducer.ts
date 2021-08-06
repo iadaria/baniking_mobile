@@ -18,6 +18,9 @@ import bathReducer, {
 import modalReducer, {
   IModalState,
 } from '~/src/app/common/modals/modalReducer';
+import cityReducer, {
+  ICityState,
+} from '~/src/features/cities/store/cityReducer';
 import { PersistConfig, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/lib/persistReducer';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
@@ -36,6 +39,7 @@ export interface IRootState {
   profile: IProfileState;
   settings: ISettingsState;
   bath: IBathState;
+  city: ICityState;
   persist: IPersistState & PersistPartial;
 }
 
@@ -46,6 +50,7 @@ const rootReducer = combineReducers<IRootState>({
   profile: profileReducer,
   settings: settingsReducer,
   bath: bathReducer,
+  city: cityReducer,
   persist: persistReducer(persistConfig, appPersistReducer),
 });
 

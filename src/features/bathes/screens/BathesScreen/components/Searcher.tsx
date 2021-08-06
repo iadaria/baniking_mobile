@@ -19,7 +19,6 @@ export function Searcher() {
 
   function handleChangeText(text: string) {
     let searchedText = String(text).trim();
-    setSearched(searchedText);
     if (searchedText.length > 0) {
       setSearched(searchedText);
     } else {

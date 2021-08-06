@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, FlatList, Text, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Block } from '~/src/app/common/components/UI';
 import { isIos } from '~/src/app/common/constants';
 import { Bath } from '~/src/app/models/bath';
 import { logline } from '~/src/app/utils/debug';
@@ -34,11 +35,12 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
   }
 
   return (
-    <>
+    // Block need delete
+    <Block margin={[2, 0, 0, 0]} full>
       <Button title="Load more" onPress={loadMore} />
       <FlatList
         //for test
-        style={[iosStyle, { borderWidth: 1, borderColor: 'red' }]}
+        style={[iosStyle, { marginTop: 10, borderWidth: 1, borderColor: 'red' }]}
         data={bathes}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
@@ -48,6 +50,6 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
         //ListEmptyComponent={emptyComponent}
         ListFooterComponent={footerComponent}
       />
-    </>
+    </Block>
   );
 }

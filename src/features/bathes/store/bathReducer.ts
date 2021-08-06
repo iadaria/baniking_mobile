@@ -8,7 +8,6 @@ import {
   IMap,
   IBathDetailed,
   BathParam,
-  countingParams,
 } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 import {
@@ -228,7 +227,6 @@ export default function bathReducer(
         ...state,
         params: { ...state.params, ...state.paramsCheck },
       };
-
     // *******************************************
 
     // Bath
