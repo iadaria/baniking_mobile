@@ -30,6 +30,7 @@ export { default as NecessaryIcon } from './images/svg/text-label-necessary.svg'
 export { default as NotFountIcon } from './images/svg/not-found.svg';
 export { default as Notify } from './images/svg/notify.svg';
 export { default as OrderCallIcon } from './images/svg/orderCall.svg';
+export { default as PageIcon } from './images/svg/page.svg';
 export { default as ParkingIcon } from './images/svg/parking.svg';
 export { default as QrLogoIcon } from './images/svg/qr-logo.svg';
 export { default as SchedulerIcon } from './images/svg/scheduler.svg';

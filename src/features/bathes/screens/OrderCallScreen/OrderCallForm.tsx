@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { AppButton, AppInput, AppText, Block } from '~/src/app/common/components/UI';
+import {
+  AppButton,
+  AppInput,
+  AppText,
+  Block,
+} from '~/src/app/common/components/UI';
 import ValidatedElements from '~/src/app/common/components/ValidatedElements';
 import { AuthLogoLeft, AuthLogoRight } from '~/src/assets';
 import { IOrderCallInputs } from '../../contracts/orderCallInputs';
@@ -8,6 +13,7 @@ import { ScrollView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import { routes } from '~/src/navigation/helpers/routes';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -28,12 +34,15 @@ export default function OrderCallForm({
   orderCall,
 }: IProps) {
   //const [recreate, setRecreate] = React.useState<boolean>(true);
-  const valuesRef = React.useRef<IOrderCall>({ name: defaultInputs.name, phone: defaultInputs.phone });
+  const valuesRef = React.useRef<IOrderCall>({
+    name: defaultInputs.name,
+    phone: defaultInputs.phone,
+  });
   const timeIds: NodeJS.Timeout[] = [];
 
   useEffect(() => {
     return () => {
-      // __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
+      // logline('[OrderCallForm/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +65,7 @@ export default function OrderCallForm({
   };
 
   const scrollToBlock = (plus: number) => {
-    __DEV__ && console.log('to', blockPosition);
+    logline('to', blockPosition);
     const timeId = setTimeout(() => {
       scrollViewRef?.current?.scrollTo({
         x: 0,
@@ -64,7 +73,7 @@ export default function OrderCallForm({
         animated: true,
       });
     }, 500);
-    __DEV__ && console.log('[OrderCallForm/timeId]', timeId);
+    logline('[OrderCallForm/timeId]', timeId);
     timeIds.push(timeId);
   };
 
