@@ -11,6 +11,10 @@ export const FETCH_BATHES = 'bath/FETCH_BATHES';
 export const UPDATE_BATH = 'bath/UPDATE_BATH';
 export const REUSE_BATHES = 'bath/REUSE_BATHES';
 
+// Cities
+export const SELECT_CITY = 'bath/SELECT_CITY';
+export const UNSELECT_CITY = 'bath/UNSELECT_CITY';
+
 // Bath
 export const GET_BATH = 'bath/GET_BATH';
 export const SELECT_BATH = 'bath/SELECT_BATH';

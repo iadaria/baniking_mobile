@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
-import { styles as s } from './styles';
+import { CitiesList } from './components/CitiesList';
 import { MenuItem, PageIcon } from '~/src/assets';
-import { TouchableOpacity } from 'react-native';
+import { styles as s } from './styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { selectCity } from '../store/cityActions';
 
 export default function CityScreen() {
+  const { selectedCity } = useSelector(({ city }: IRootState) => city);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!selectCity) {
+      dispatch(selectCity(0));
+    }
+  }, [dispatch]);
+
   return (
     <Block margin={6} full>
       <BackButton screen="BathesScreen" />
@@ -14,32 +27,28 @@ export default function CityScreen() {
         Город
       </AppText>
       {/* Form */}
-      <Block padding={[5, 4]} style={s.form}>
+      <View style={s.form}>
         <AppText primary medium>
           Выберите город из списка
         </AppText>
 
-        <Block
-          style={s.item}
-          padding={[2, 3]}
-          margin={[2, 0]}
-          row
-          center
-          space="between">
+        <TouchableOpacity style={s.item}>
           <AppText primary semibold size={4}>
-            Moscow
+            {selectedCity?.name}
           </AppText>
           <MenuItem />
-        </Block>
+        </TouchableOpacity>
 
-        <AppButton>
+        <CitiesList />
+
+        <AppButton margin={[2, 0, 0]}>
           <AppText medium center size={4}>
             Определить мое местоположение
           </AppText>
         </AppButton>
-      </Block>
+      </View>
 
-      <TouchableOpacity style={[s.form, s.nealy]}>
+      <TouchableOpacity style={s.nealy}>
         <AppText primary medium>
           Показать все бани рядом со мной
         </AppText>

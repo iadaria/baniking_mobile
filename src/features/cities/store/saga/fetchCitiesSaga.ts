@@ -12,11 +12,14 @@ interface IAction {
 }
 
 function* fetchCitiesSaga(_: IAction) {
+  const sortAsc = (a: City, b: City) =>
+    a.name < b.name ? -1 : Number(a.name > b.name);
+
   try {
     const result: unknown = yield call(methods.getCities, null, null);
     const cities = Object.values(result) as City[];
     log('cities', cities.slice(0, 10));
-    yield put(setCities(cities));
+    yield put(setCities(cities.sort(sortAsc)));
   } catch (e) {
     log('[fetchCitiesSaga/error]', e);
 

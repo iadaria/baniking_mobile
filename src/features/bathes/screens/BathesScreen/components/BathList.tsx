@@ -40,7 +40,10 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
       <Button title="Load more" onPress={loadMore} />
       <FlatList
         //for test
-        style={[iosStyle, { marginTop: 10, borderWidth: 1, borderColor: 'red' }]}
+        style={[
+          iosStyle,
+          { marginTop: 10, borderWidth: 1, borderColor: 'red' },
+        ]}
         data={bathes}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}

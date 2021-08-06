@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
-import { styles as s } from '../styles';
 import { useDebounced } from '../../../hooks/useDebounced';
+import { styles as s } from '../styles';
 
 export function Searcher() {
   const { search_query } = useSelector(({ bath }: IRootState) => bath.params);

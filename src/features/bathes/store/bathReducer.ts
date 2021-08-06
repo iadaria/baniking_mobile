@@ -17,6 +17,7 @@ import {
 import { initInputs } from '~/src/app/utils/validate';
 import { bathSortParams } from '~/src/app/models/bath';
 import { calcFilterCount } from '../../../app/utils/bathUtility';
+import { City } from '~/src/app/models/city';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -49,6 +50,9 @@ export interface IBathState {
   // Maps
   mapIds: number[];
   maps: IMap[];
+  // Cities
+  selectedCityId: number | null;
+  selectedCity: City | null;
 
   inputs: IInputs;
 }
@@ -87,6 +91,9 @@ const initialState: IBathState = {
   // maps
   mapIds: [],
   maps: [],
+  // cities
+  selectedCityId: null,
+  selectedCity: null,
 
   inputs: {
     orderCall: defaultOrderCallInputs,

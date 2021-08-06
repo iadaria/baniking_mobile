@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Image, LayoutChangeEvent, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Image,
+  LayoutChangeEvent,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { ParamListBase, Route, useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BlurView } from '@react-native-community/blur';
-import {
-  nonTransparentHeader as nonTransparentHeaderAction,
-  transparentHeader as transparentHeaderAction,
-} from '~/src/app/store/system/systemActions';
+import { transparentHeader as transparentHeaderAction } from '~/src/app/store/system/systemActions';
 import { getProfileSettings as getProfileSettingsAction } from '~/src/features/profiles/store/profileActions';
 import {
   initOrderCallInputs as initOrderCallInputsAction,
@@ -58,7 +60,8 @@ function OrderCallScreenContainer({
   const scrollViewRef = useRef<ScrollView>(null);
   const [blockPosition, setBlockPosition] = useState<number>(0);
 
-  const params: IOrderCallParams | undefined = (route?.params || {}) as IOrderCallParams;
+  const params: IOrderCallParams | undefined = (route?.params ||
+    {}) as IOrderCallParams;
   const { bathId, bathName, short_description, bathPhone } = params;
 
   useFocusEffect(() => {
@@ -67,8 +70,12 @@ function OrderCallScreenContainer({
 
   useEffect(() => {
     if (currentProfile) {
-      __DEV__ && console.log('[OrderCallScreen/useEffect] getProfileSettings()');
-      initOrderCallInputs({ name: currentProfile.name, phone: currentProfile.phone });
+      __DEV__ &&
+        console.log('[OrderCallScreen/useEffect] getProfileSettings()');
+      initOrderCallInputs({
+        name: currentProfile.name,
+        phone: currentProfile.phone,
+      });
     } else {
       getProfile();
     }
@@ -84,7 +91,10 @@ function OrderCallScreenContainer({
         reducedTransparencyFallbackColor={colors.title}
       />
       <KeyboardWrapper>
-        <ScrollView alwaysBounceVertical ref={scrollViewRef} style={styles.modalView}>
+        <ScrollView
+          alwaysBounceVertical
+          ref={scrollViewRef}
+          style={styles.modalView}>
           {/* <Block safe full> */}
           <TouchableOpacity
             style={styles.closeIcon}
@@ -97,7 +107,13 @@ function OrderCallScreenContainer({
             }}>
             <CloseWhiteIcon />
           </TouchableOpacity>
-          <AppText margin={[6 * multiplier, 0, 0]} transform="uppercase" height={28 * multiplier} trajan center h1>
+          <AppText
+            margin={[6 * multiplier, 0, 0]}
+            transform="uppercase"
+            height={28 * multiplier}
+            trajan
+            center
+            h1>
             {bathName}
           </AppText>
           <AppText margin={[1, 0, 1.5]} secondary center tag>
@@ -112,7 +128,9 @@ function OrderCallScreenContainer({
           <AppText center>или</AppText>
           {/* Форма */}
           <Block
-            onLayout={({ nativeEvent }: LayoutChangeEvent) => setBlockPosition(nativeEvent.layout.y)}
+            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+              setBlockPosition(nativeEvent.layout.y)
+            }
             safe
             style={styles.modal}>
             <OrderCallForm
