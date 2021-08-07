@@ -13,10 +13,6 @@ export function CityScreen() {
 
   const { selectedCity } = useSelector(({ city }: IRootState) => city);
 
-  function handleOpenCities() {
-    setShowCities(!showCities);
-  }
-
   const deg = showCities ? 90 : 0;
   const formStyle: ViewStyle = showCities
     ? { ...s.form, height: '72%' }
@@ -35,7 +31,9 @@ export function CityScreen() {
           Выберите город из списка
         </AppText>
 
-        <TouchableOpacity style={s.item} onPress={handleOpenCities}>
+        <TouchableOpacity
+          style={s.item}
+          onPress={() => setShowCities(!showCities)}>
           <AppText primary semibold size={4}>
             {selectedCity?.name}
           </AppText>

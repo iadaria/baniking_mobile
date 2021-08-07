@@ -1,33 +1,39 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppText } from '~/src/app/common/components/UI';
 import {
   checkCity,
   fetchCities,
 } from '~/src/features/cities/store/cityActions';
-import { IRootState } from '~/src/app/store/rootReducer';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { routes } from '~/src/navigation/helpers/routes';
 import { LocationIcon } from '~/src/assets';
 import { styles as s } from '../styles';
-import { routes } from '~/src/navigation/helpers/routes';
 
+interface IProps {
+  loading: boolean;
+  //city: City;
+  fetchCities: () => void;
+  checkCity: () => void;
+}
+
+//export function CityContainer(props: IProps) {
+//const { loading, city, checkCity, fetchCities } = props;
 export function City() {
+  const { loading, selectedCity } = useSelector(({ city }: IRootState) => city);
+
   const dispatch = useDispatch();
 
-  const { selectedCity, cities, loading } = useSelector(
-    ({ city }: IRootState) => city,
-  );
-
   useEffect(() => {
-    dispatch(fetchCities());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (cities.length > 0) {
-      dispatch(checkCity());
+    async function fetchCitiesAsync() {
+      dispatch(fetchCities());
     }
-  }, [dispatch, cities]);
+    fetchCitiesAsync().then(() => {
+      dispatch(checkCity());
+    });
+  }, [dispatch]);
 
   if (loading) {
     return null;
@@ -38,7 +44,21 @@ export function City() {
       style={s.city}
       onPress={() => RootNavigation.navigate(routes.bathesTab.CityScreen)}>
       <LocationIcon />
-      <AppText padding={[3]}>{selectedCity.name}</AppText>
+      <AppText padding={[3]}>{selectedCity?.name}</AppText>
     </TouchableOpacity>
   );
 }
+
+/* const CityConnected = connect(
+  ({ city }: IRootState) => ({
+    loading: city.loading,
+    city: city.selectedCity,
+  }),
+  {
+    fetchCities: fetchCitiesAction,
+    checkCity: checkCityAction,
+  },
+)(CityContainer);
+
+export { CityConnected as City };
+ */
