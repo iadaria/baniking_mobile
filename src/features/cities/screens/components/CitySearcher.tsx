@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export function CiteisScreen() {
+export function CitySearcher() {
   return (
     <View>
       <Text></Text>

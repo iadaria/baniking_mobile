@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BathesFilterScreen } from './screens/BathesFilterScreen';
 import { BathesPhotosScreen } from './screens/BathesPhotosScreen';
 import { BathesScreen, BathScreen } from './screens';
-import { CityScreen } from '../cities/screens/CityScreen';
+import { CitiesScreen } from '../cities/screens/CitiesScreen';
 import { DestinationMap } from './screens/DestinationMap';
 import { OrderCallScreen } from './screens/OrderCallScreen/OrderCallScreen';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -24,7 +24,7 @@ export default function BathesNavigator() {
       headerMode="screen"
       screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />
-      <Bathes.Screen name="CityScreen" component={CityScreen} />
+      <Bathes.Screen name="CitiesScreen" component={CitiesScreen} />
       <Bathes.Screen name="BathesFilterScreen" component={BathesFilterScreen} />
       <Bathes.Screen name="OrderCallScreen" component={OrderCallScreen} />
       <Bathes.Screen name="BathesPhotosScreen" component={BathesPhotosScreen} />

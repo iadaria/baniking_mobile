@@ -12,6 +12,7 @@ export interface ICityState {
   loading: boolean;
   errors: IErrors | null;
 
+  count: number;
   cities: City[];
   selectedCityId: number;
   selectedCity: City;
@@ -21,6 +22,7 @@ const initState: ICityState = {
   loading: false,
   errors: null,
 
+  count: 0,
   cities: [],
   selectedCityId: 0,
   selectedCity: defaultCity,
@@ -40,6 +42,7 @@ export default function cityReducer(
     case constants.SET_CITIES:
       return {
         ...state,
+        count: payload.length,
         loading: false,
         cities: payload,
       };

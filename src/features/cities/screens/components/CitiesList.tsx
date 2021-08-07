@@ -39,8 +39,8 @@ const CitiesListContainer: FC<IProps> = ({
 
   const keyExtractor = useCallback((city: City) => String(city.id), []);
 
-  const renderItem = ({ item }: { item: City }) => {
-    const { id, name } = item;
+  const renderItem = ({ item: cityItem }: { item: City }) => {
+    const { id, name } = cityItem;
     return (
       <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity(id)}>
         <AppText primary medium size={4}>
