@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
   form: {
     backgroundColor: 'white',
     borderRadius: 10,
-    paddingVertical: 14,
+    paddingVertical: 20,
     paddingHorizontal: 20,
-    height: '72%',
   },
   item: {
     flexDirection: 'row',
@@ -15,7 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
     paddingHorizontal: 14,
-    marginVertical: 20,
+    marginTop: 20,
     borderColor: colors.input.border,
     borderWidth: 1,
     borderRadius: 4,
@@ -23,7 +22,8 @@ export const styles = StyleSheet.create({
   nealy: {
     paddingVertical: 14,
     paddingHorizontal: 20,
-    marginVertical: 14,
+    marginTop: 14,
+    marginBottom: 14,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

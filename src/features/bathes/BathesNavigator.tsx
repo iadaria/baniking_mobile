@@ -1,24 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
-import { BathesScreen, BathScreen } from './screens';
-import { DestinationMap } from './screens/DestinationMap';
 import { BathesFilterScreen } from './screens/BathesFilterScreen';
 import { BathesPhotosScreen } from './screens/BathesPhotosScreen';
+import { BathesScreen, BathScreen } from './screens';
+import { CityScreen } from '../cities/screens/CityScreen';
+import { DestinationMap } from './screens/DestinationMap';
 import { OrderCallScreen } from './screens/OrderCallScreen/OrderCallScreen';
-import { useSelector } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
-import CityScreen from '../cities/screens/CityScreen';
 
 const Bathes = createStackNavigator();
 
 export default function BathesNavigator() {
-  const { selectedCity } = useSelector(({ city }: IRootState) => city);
+  const { selectedCityId } = useSelector(({ persist }: IRootState) => persist);
 
-  const isCity = !!selectedCity;
+  const isCity = !!selectedCityId;
 
   return (
     <Bathes.Navigator
       initialRouteName={isCity ? 'BathesScreen' : 'CityScreen'}
+      //initialRouteName="CityScreen"
+      //initialRouteName="BathesScreen"
       headerMode="screen"
       screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />

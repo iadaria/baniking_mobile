@@ -7,7 +7,12 @@ export const SET_USER_EMAIL = 'persist/SET_USER_EMAIL';
 export const ASK_LOGOUT = 'persist/ASK_LOGOUT';
 export const SET_PINCODE = 'persist/SET_PINCODE';
 export const SET_ACCOUNT_TYPE = 'persist/SET_ACCOUNT_TYPE';
+
 // Social provider
 export const ADD_SOCIAL_ACCOUNT = 'persist/ADD_SOCIAL_ACCOUNT';
+
 // Image
 export const PERSIST_IMAGE = 'persist/PERSIST_IMAGE';
+
+// Cities
+export const SELECT_CITY = 'persist/SELECT_CITY';

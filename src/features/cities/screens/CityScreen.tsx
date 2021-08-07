@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
+import { useSelector } from 'react-redux';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
+import { IRootState } from '~/src/app/store/rootReducer';
 import { MenuItem, PageIcon } from '~/src/assets';
 import { styles as s } from './styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { selectCity } from '../store/cityActions';
 
-export default function CityScreen() {
+export function CityScreen() {
+  const [showCities, setShowCities] = useState(false);
+
   const { selectedCity } = useSelector(({ city }: IRootState) => city);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!selectCity) {
-      dispatch(selectCity(0));
-    }
-  }, [dispatch]);
+  function handleOpenCities() {
+    setShowCities(!showCities);
+  }
+
+  const deg = showCities ? 90 : 0;
+  const formStyle: ViewStyle = showCities
+    ? { ...s.form, height: '72%' }
+    : s.form;
 
   return (
     <Block margin={6} full>
@@ -27,19 +30,19 @@ export default function CityScreen() {
         Город
       </AppText>
       {/* Form */}
-      <View style={s.form}>
+      <View style={formStyle}>
         <AppText primary medium>
           Выберите город из списка
         </AppText>
 
-        <TouchableOpacity style={s.item}>
+        <TouchableOpacity style={s.item} onPress={handleOpenCities}>
           <AppText primary semibold size={4}>
             {selectedCity?.name}
           </AppText>
-          <MenuItem />
+          <MenuItem style={{ transform: [{ rotate: `${deg}deg` }] }} />
         </TouchableOpacity>
 
-        <CitiesList />
+        {showCities && <CitiesList closeList={() => setShowCities(false)} />}
 
         <AppButton margin={[2, 0, 0]}>
           <AppText medium center size={4}>

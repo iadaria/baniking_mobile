@@ -1,14 +1,20 @@
 import { City } from '~/src/app/models/city';
 import { IErrors } from '~/src/app/utils/error';
 import * as constants from './cityConstants';
+import { logline } from '~/src/app/utils/debug';
+
+const defaultCity: City = {
+  id: 0,
+  name: 'Москва',
+};
 
 export interface ICityState {
   loading: boolean;
   errors: IErrors | null;
 
   cities: City[];
-  selectedCityId: number | null;
-  selectedCity: City | null;
+  selectedCityId: number;
+  selectedCity: City;
 }
 
 const initState: ICityState = {
@@ -16,13 +22,8 @@ const initState: ICityState = {
   errors: null,
 
   cities: [],
-  /* selectedCityId: 0,
-  selectedCity: {
-    id: 0,
-    name: 'Москва',
-  }, */
-  selectedCityId: null,
-  selectedCity: null,
+  selectedCityId: 0,
+  selectedCity: defaultCity,
 };
 
 export default function cityReducer(
@@ -51,17 +52,18 @@ export default function cityReducer(
       };
 
     case constants.SELECT_CITY:
-      const selectedCity = { ...state.cities[payload] };
       return {
         ...state,
         selectedCityId: payload,
-        selectedCity,
+        selectedCity:
+          state.cities.find((city) => city.id === payload) || defaultCity,
       };
 
     case constants.UNSELECT_CITY:
       return {
         ...state,
-        selectedCityId: 0,
+        selectedCityId: payload,
+        selectedCity: defaultCity,
       };
 
     default:

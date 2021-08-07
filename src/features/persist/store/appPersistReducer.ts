@@ -12,6 +12,8 @@ export interface IPersistState {
   currentUser: Partial<IPersistUser> | null;
   image: IPersistImages;
   bathes: Bath[];
+  // City
+  selectedCityId: number | null;
 }
 
 const initialState: IPersistState = {
@@ -23,6 +25,8 @@ const initialState: IPersistState = {
     set: [],
   },
   bathes: [],
+  // City
+  selectedCityId: null,
 };
 
 export default function appPersistReducer(
@@ -80,6 +84,14 @@ export default function appPersistReducer(
           set: has ? [...set] : [...set, payload.id],
         },
       };
+
+    // Cities
+    case constants.SELECT_CITY:
+      return {
+        ...state,
+        selectedCityId: payload,
+      };
+
     // Common
     case constants.ASK_LOGOUT:
       return {

@@ -98,6 +98,10 @@ export const styles = StyleSheet.create({
     marginBottom: hp(3),
   },
   city: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    marginBottom: 15,
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },

@@ -37,3 +37,8 @@ export const persistImage = (payload: IPersistImage) => ({
   type: constants.PERSIST_IMAGE,
   payload,
 });
+
+export const persistCity = (payload: number) => ({
+  type: constants.SELECT_CITY,
+  payload,
+});

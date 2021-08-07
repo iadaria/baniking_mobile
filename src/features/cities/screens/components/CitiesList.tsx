@@ -3,27 +3,48 @@ import { connect } from 'react-redux';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { City } from '~/src/app/models/city';
-import { fetchCities as fetchCitiesAction } from '~/src/features/cities/store/cityActions';
+import {
+  fetchCities as fetchCitiesAction,
+  selectCity as selectCityAction,
+} from '~/src/features/cities/store/cityActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from '../styles';
+import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
 
 interface IProps {
+  closeList: () => void;
+  // state
   cities: City[];
   fetchCities: () => void;
+  persistCity: (cityId: number) => void;
+  selectCity: (cityId: number) => void;
 }
 
-const CitiesListContainer: FC<IProps> = ({ cities, fetchCities }) => {
+const CitiesListContainer: FC<IProps> = ({
+  closeList,
+  cities,
+  fetchCities,
+  persistCity,
+  selectCity,
+}) => {
   useEffect(() => {
     fetchCities();
   }, [fetchCities]);
 
+  function handleSelectCity(id: number) {
+    closeList();
+    persistCity(id);
+    selectCity(id);
+  }
+
   const keyExtractor = useCallback((city: City) => String(city.id), []);
 
   const renderItem = ({ item }: { item: City }) => {
+    const { id, name } = item;
     return (
-      <TouchableOpacity style={s.cityItem}>
+      <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity(id)}>
         <AppText primary medium size={4}>
-          {item.name}
+          {name}
         </AppText>
       </TouchableOpacity>
     );
@@ -45,6 +66,8 @@ const CitiesListConnected = connect(
   ({ city }: IRootState) => ({ cities: city.cities }),
   {
     fetchCities: fetchCitiesAction,
+    persistCity: persistCityAction,
+    selectCity: selectCityAction,
   },
 )(CitiesListContainer);
 
