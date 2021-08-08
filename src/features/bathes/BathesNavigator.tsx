@@ -18,8 +18,8 @@ export default function BathesNavigator() {
 
   return (
     <Bathes.Navigator
-      initialRouteName={isCity ? 'BathesScreen' : 'CityScreen'}
-      //initialRouteName="CityScreen"
+      //initialRouteName={isCity ? 'BathesScreen' : 'CityScreen'}
+      initialRouteName="CitiesScreen"
       //initialRouteName="BathesScreen"
       headerMode="screen"
       screenOptions={{ headerShown: false }}>

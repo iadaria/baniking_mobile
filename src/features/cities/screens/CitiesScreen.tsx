@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { useSelector } from 'react-redux';
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
@@ -15,7 +15,7 @@ export function CitiesScreen() {
 
   const deg = showCities ? 90 : 0;
   const formStyle: ViewStyle = showCities
-    ? { ...s.form, height: '72%' }
+    ? { ...s.form, height: '78%' }
     : s.form;
 
   return (
@@ -25,12 +25,14 @@ export function CitiesScreen() {
       <AppText margin={[4, 0]} h1>
         Город
       </AppText>
-      {/* Form */}
+
+      {/* Title */}
       <View style={formStyle}>
         <AppText primary medium>
           Выберите город из списка
         </AppText>
 
+        {/* Selected city name */}
         <TouchableOpacity
           style={s.item}
           onPress={() => setShowCities(!showCities)}>
@@ -40,6 +42,7 @@ export function CitiesScreen() {
           <MenuItem style={{ transform: [{ rotate: `${deg}deg` }] }} />
         </TouchableOpacity>
 
+        {/* Cities list */}
         {showCities && <CitiesList closeList={() => setShowCities(false)} />}
 
         <AppButton margin={[2, 0, 0]}>

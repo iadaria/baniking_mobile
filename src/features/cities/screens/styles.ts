@@ -35,6 +35,10 @@ export const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   citiesList: {
-    height: '68%',
+    height: '63%',
+  },
+  icon: {
+    position: 'absolute',
+    right: 10,
   },
 });

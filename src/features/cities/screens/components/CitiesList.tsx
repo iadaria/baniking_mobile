@@ -1,15 +1,17 @@
-import React, { useCallback, useEffect, FC } from 'react';
+import React, { useCallback, useEffect, FC, useState } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { City } from '~/src/app/models/city';
 import {
   fetchCities as fetchCitiesAction,
   selectCity as selectCityAction,
 } from '~/src/features/cities/store/cityActions';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { styles as s } from '../styles';
 import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { City } from '~/src/app/models/city';
+import { styles as s } from '../styles';
+import { useDebouncedCallback } from 'use-debounce/lib';
+import { CitySearcher } from './CitySearcher';
 
 interface IProps {
   closeList: () => void;
@@ -22,14 +24,38 @@ interface IProps {
 
 const CitiesListContainer: FC<IProps> = ({
   closeList,
-  cities,
+  cities: allCities,
   fetchCities,
   persistCity,
   selectCity,
 }) => {
+  const [cities, setCities] = useState(allCities);
+  const [searched, setSearched] = useState<string | undefined>();
+
   useEffect(() => {
     fetchCities();
   }, [fetchCities]);
+
+  const debouncedFilter = useDebouncedCallback(
+    (what?: string) => {
+      if (what) {
+        const filteredCities = allCities.filter((c) => compare(c.name, what));
+        setCities(filteredCities);
+      } else {
+        setCities(allCities);
+      }
+    },
+    1000,
+    { maxWait: 2000 },
+  );
+
+  useEffect(() => {
+    debouncedFilter(searched);
+  }, [debouncedFilter, searched]);
+
+  function compare(where: string, what: string) {
+    return where.toLowerCase().includes(what.toLowerCase());
+  }
 
   function handleSelectCity(id: number) {
     closeList();
@@ -43,7 +69,7 @@ const CitiesListContainer: FC<IProps> = ({
     const { id, name } = cityItem;
     return (
       <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity(id)}>
-        <AppText primary medium size={4}>
+        <AppText primary size={4}>
           {name}
         </AppText>
       </TouchableOpacity>
@@ -51,14 +77,17 @@ const CitiesListContainer: FC<IProps> = ({
   };
 
   return (
-    <Block style={s.citiesList}>
-      <FlatList
-        data={cities}
-        showsVerticalScrollIndicator={true}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
-    </Block>
+    <>
+      <CitySearcher searched={searched} setSearched={setSearched} />
+      <Block style={s.citiesList}>
+        <FlatList
+          data={cities}
+          showsVerticalScrollIndicator={true}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+      </Block>
+    </>
   );
 };
 
