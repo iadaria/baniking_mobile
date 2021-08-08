@@ -12,7 +12,7 @@ interface IAction {
 }
 
 function* fetchCitiesSaga(_: IAction) {
-  logline('[fetchCitiesSaga]', ' *** YES *** ');
+  //logline('[fetchCitiesSaga]', ' *** YES *** ');
 
   const sortAsc = (a: City, b: City) =>
     a.name < b.name ? -1 : Number(a.name > b.name);
@@ -20,7 +20,6 @@ function* fetchCitiesSaga(_: IAction) {
   try {
     const result: unknown = yield call(methods.getCities, null, null);
     const cities = Object.values(result) as City[];
-    //log('[Cities]', cities);
     yield put(setCities(cities.sort(sortAsc)));
   } catch (e) {
     log('\n[fetchCitiesSaga/error]', e);

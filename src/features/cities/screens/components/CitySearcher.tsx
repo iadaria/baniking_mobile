@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { AppInput, Block } from '~/src/app/common/components/UI';
@@ -20,25 +20,22 @@ export function CitySearcher({ allCities, setCities }: IProps) {
         const filteredCities = allCities.filter((c) => compare(c.name, what));
         setCities(filteredCities);
       } else {
-        setCities(allCities);
+        setCities([...allCities]);
       }
     },
     1000,
     { maxWait: 2000 },
   );
 
-  useEffect(() => {
-    debouncedFilter(searched);
-  }, [debouncedFilter, searched]);
-
   function compare(where: string, what: string) {
     return where.toLowerCase().includes(what.toLowerCase());
   }
 
   function handleChangeText(text: string) {
-    let searchedText = text.trim();
-    if (searchedText.length > 0) {
-      setSearched(searchedText);
+    const entered = text.trim();
+    if (entered.length > 0) {
+      setSearched(entered);
+      debouncedFilter(entered);
     } else {
       clearSearch();
     }
@@ -46,6 +43,7 @@ export function CitySearcher({ allCities, setCities }: IProps) {
 
   function clearSearch() {
     setSearched(undefined);
+    debouncedFilter(undefined);
   }
 
   const Icon = searched ? SearchCancelIcon : SearchIcon;

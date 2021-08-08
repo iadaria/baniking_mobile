@@ -1,52 +1,81 @@
-import React, { useCallback, useEffect, FC, useState } from 'react';
+import React, { useCallback, useEffect, FC } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   fetchCities as fetchCitiesAction,
+  initFilteredCities as initFilteredCitiesAction,
+  nextPage as nextPageAction,
   selectCity as selectCityAction,
+  setFilteredCities as setFilteredCitiesAction,
 } from '~/src/features/cities/store/cityActions';
 import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { City } from '~/src/app/models/city';
 import { styles as s } from '../styles';
 import { CitySearcher } from './CitySearcher';
-import { logline } from '~/src/app/utils/debug';
+import { colors } from '~/src/app/common/constants';
 
 interface IProps {
   closeList: () => void;
   // state
-  cities: City[];
+  allCities: City[];
+  countAllCities: number;
+  filteredCities: City[];
   fetchCities: () => void;
   persistCity: (cityId: number) => void;
   selectCity: (cityId: number) => void;
+  // FlatList
+  start: number;
+  showCities: City[];
+  initFilteredCities: () => void;
+  setFilteredCities: (payload: City[]) => void;
+  nextPage: () => void;
 }
+
+//const COUNT_CITIES = 10;
 
 const CitiesListContainer: FC<IProps> = ({
   closeList,
-  cities: allCities,
+  // state
+  allCities,
+  countAllCities,
+  filteredCities,
   fetchCities,
   persistCity,
   selectCity,
+  // FlatList
+  start,
+  showCities,
+  initFilteredCities,
+  setFilteredCities,
+  nextPage,
 }) => {
-  const [cities, setCities] = useState(allCities);
 
-  //const [page, setPage] = useState(0);
-  //const [showCities, setShowCities] = useState<City[]>([]);
-
+  // init all cities
   useEffect(() => {
-    fetchCities();
-  }, [fetchCities]);
+    if (countAllCities <= 0) {
+      fetchCities();
+    }
+  }, [countAllCities, fetchCities]);
 
-  /*   useEffect(() => {
-      setPage(0);
-    }, [cities]);
-  
-    useEffect(() => {
-      const moreCities = [...cities, ...cities.slice(page, 8)];
-      setShowCities(moreCities);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); */
+  // init filtered cities
+  useEffect(() => {
+    if (countAllCities > 0) {
+      initFilteredCities();
+    }
+  }, [countAllCities, initFilteredCities]);
+
+  // init first 10 cities
+  useEffect(() => {
+    if (filteredCities.length > 0 && start === 0) {
+      nextPage();
+    }
+  }, [filteredCities, nextPage, start]);
+
+  function handleSetCities(newFilteredCities: City[]) {
+    setFilteredCities(newFilteredCities);
+  }
 
   function handleSelectCity(id: number) {
     closeList();
@@ -67,18 +96,24 @@ const CitiesListContainer: FC<IProps> = ({
     );
   };
 
+  const emptyList = (
+    <Block margin={[10, 0]} middle center>
+      <AppText color={colors.caption}>Город не найден</AppText>
+    </Block>
+  );
+
   return (
     <>
-      <CitySearcher allCities={allCities} setCities={setCities} />
+      <CitySearcher allCities={allCities} setCities={handleSetCities} />
       <Block style={s.citiesList}>
         <FlatList
-          data={cities}
-          //data={showCities}
+          data={showCities}
           showsVerticalScrollIndicator={true}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          //onEndReached={() => setPage((prev) => prev + 8)}
+          onEndReached={nextPage}
           onEndReachedThreshold={0.1}
+          ListEmptyComponent={emptyList}
         />
       </Block>
     </>
@@ -86,11 +121,21 @@ const CitiesListContainer: FC<IProps> = ({
 };
 
 const CitiesListConnected = connect(
-  ({ city }: IRootState) => ({ cities: city.cities }),
+  ({ city }: IRootState) => ({
+    allCities: city.cities,
+    countAllCities: city.count,
+    start: city.start,
+    filteredCities: city.filteredCities,
+    showCities: city.showCities,
+  }),
   {
     fetchCities: fetchCitiesAction,
     persistCity: persistCityAction,
     selectCity: selectCityAction,
+    // FlatList
+    nextPage: nextPageAction,
+    initFilteredCities: initFilteredCitiesAction,
+    setFilteredCities: setFilteredCitiesAction,
   },
 )(CitiesListContainer);
 
