@@ -15,19 +15,6 @@ export const setCities = (payload: City[]) => ({
   payload,
 });
 
-export const initFilteredCities = () => ({
-  type: constants.INIT_FILTERED_CITIES,
-});
-
-export const setFilteredCities = (payload: City[]) => ({
-  type: constants.SET_FILTERED_CITIES,
-  payload,
-});
-
-export const nextPage = () => ({
-  type: constants.NEXT_PAGE,
-});
-
 export const citiesFail = (payload: IErrors | null) => ({
   type: constants.CITIES_FAIL,
   payload,

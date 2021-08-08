@@ -20,7 +20,9 @@ function* fetchCitiesSaga(_: IAction) {
   try {
     const result: unknown = yield call(methods.getCities, null, null);
     const cities = Object.values(result) as City[];
-    yield put(setCities(cities.sort(sortAsc)));
+    const sortedCities = cities.sort(sortAsc);
+    log('[sortedCities]', sortedCities.slice(0, 8));
+    yield put(setCities(sortedCities));
   } catch (e) {
     log('\n[fetchCitiesSaga/error]', e);
 

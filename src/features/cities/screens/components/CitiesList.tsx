@@ -1,13 +1,10 @@
-import React, { useCallback, useEffect, FC } from 'react';
+import React, { useCallback, useEffect, FC, useState } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   fetchCities as fetchCitiesAction,
-  initFilteredCities as initFilteredCitiesAction,
-  nextPage as nextPageAction,
   selectCity as selectCityAction,
-  setFilteredCities as setFilteredCitiesAction,
 } from '~/src/features/cities/store/cityActions';
 import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -21,80 +18,54 @@ interface IProps {
   // state
   allCities: City[];
   countAllCities: number;
-  filteredCities: City[];
   fetchCities: () => void;
   persistCity: (cityId: number) => void;
   selectCity: (cityId: number) => void;
-  // FlatList
-  start: number;
-  showCities: City[];
-  initFilteredCities: () => void;
-  setFilteredCities: (payload: City[]) => void;
-  nextPage: () => void;
 }
-
-//const COUNT_CITIES = 10;
 
 const CitiesListContainer: FC<IProps> = ({
   closeList,
   // state
   allCities,
   countAllCities,
-  filteredCities,
   fetchCities,
   persistCity,
   selectCity,
-  // FlatList
-  start,
-  showCities,
-  initFilteredCities,
-  setFilteredCities,
-  nextPage,
 }) => {
+  const [showCities, setShowCities] = useState<City[]>([]);
 
   // init all cities
   useEffect(() => {
     if (countAllCities <= 0) {
       fetchCities();
+    } else {
+      setShowCities(allCities);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countAllCities, fetchCities]);
-
-  // init filtered cities
-  useEffect(() => {
-    if (countAllCities > 0) {
-      initFilteredCities();
-    }
-  }, [countAllCities, initFilteredCities]);
-
-  // init first 10 cities
-  useEffect(() => {
-    if (filteredCities.length > 0 && start === 0) {
-      nextPage();
-    }
-  }, [filteredCities, nextPage, start]);
-
-  function handleSetCities(newFilteredCities: City[]) {
-    setFilteredCities(newFilteredCities);
-  }
-
-  function handleSelectCity(id: number) {
-    closeList();
-    persistCity(id);
-    selectCity(id);
-  }
 
   const keyExtractor = useCallback((city: City) => String(city.id), []);
 
-  const renderItem = ({ item: cityItem }: { item: City }) => {
-    const { id, name } = cityItem;
-    return (
-      <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity(id)}>
-        <AppText primary size={4}>
-          {name}
-        </AppText>
-      </TouchableOpacity>
-    );
-  };
+  const renderItem = useCallback(
+    ({ item: cityItem }: { item: City }) => {
+      const { id, name } = cityItem;
+
+      function handleSelectCity() {
+        closeList();
+        persistCity(id);
+        selectCity(id);
+      }
+
+      return (
+        <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity()}>
+          <AppText primary size={4}>
+            {name}
+          </AppText>
+        </TouchableOpacity>
+      );
+    },
+    [closeList, persistCity, selectCity],
+  );
 
   const emptyList = (
     <Block margin={[10, 0]} middle center>
@@ -104,14 +75,22 @@ const CitiesListContainer: FC<IProps> = ({
 
   return (
     <>
-      <CitySearcher allCities={allCities} setCities={handleSetCities} />
+      <CitySearcher allCities={allCities} setCities={setShowCities} />
       <Block style={s.citiesList}>
         <FlatList
           data={showCities}
+          initialNumToRender={8}
+          windowSize={5}
+          maxToRenderPerBatch={5}
+          updateCellsBatchingPeriod={30}
+          getItemLayout={(data, index) => ({
+            length: 45,
+            offset: 45 * index,
+            index,
+          })}
           showsVerticalScrollIndicator={true}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          onEndReached={nextPage}
           onEndReachedThreshold={0.1}
           ListEmptyComponent={emptyList}
         />
@@ -124,18 +103,12 @@ const CitiesListConnected = connect(
   ({ city }: IRootState) => ({
     allCities: city.cities,
     countAllCities: city.count,
-    start: city.start,
-    filteredCities: city.filteredCities,
-    showCities: city.showCities,
+    s,
   }),
   {
     fetchCities: fetchCitiesAction,
     persistCity: persistCityAction,
     selectCity: selectCityAction,
-    // FlatList
-    nextPage: nextPageAction,
-    initFilteredCities: initFilteredCitiesAction,
-    setFilteredCities: setFilteredCitiesAction,
   },
 )(CitiesListContainer);
 
