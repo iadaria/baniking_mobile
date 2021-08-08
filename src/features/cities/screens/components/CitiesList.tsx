@@ -10,8 +10,8 @@ import { persistCity as persistCityAction } from '~/src/features/persist/store/a
 import { IRootState } from '~/src/app/store/rootReducer';
 import { City } from '~/src/app/models/city';
 import { styles as s } from '../styles';
-import { useDebouncedCallback } from 'use-debounce/lib';
 import { CitySearcher } from './CitySearcher';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   closeList: () => void;
@@ -30,32 +30,23 @@ const CitiesListContainer: FC<IProps> = ({
   selectCity,
 }) => {
   const [cities, setCities] = useState(allCities);
-  const [searched, setSearched] = useState<string | undefined>();
+
+  //const [page, setPage] = useState(0);
+  //const [showCities, setShowCities] = useState<City[]>([]);
 
   useEffect(() => {
     fetchCities();
   }, [fetchCities]);
 
-  const debouncedFilter = useDebouncedCallback(
-    (what?: string) => {
-      if (what) {
-        const filteredCities = allCities.filter((c) => compare(c.name, what));
-        setCities(filteredCities);
-      } else {
-        setCities(allCities);
-      }
-    },
-    1000,
-    { maxWait: 2000 },
-  );
-
-  useEffect(() => {
-    debouncedFilter(searched);
-  }, [debouncedFilter, searched]);
-
-  function compare(where: string, what: string) {
-    return where.toLowerCase().includes(what.toLowerCase());
-  }
+  /*   useEffect(() => {
+      setPage(0);
+    }, [cities]);
+  
+    useEffect(() => {
+      const moreCities = [...cities, ...cities.slice(page, 8)];
+      setShowCities(moreCities);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); */
 
   function handleSelectCity(id: number) {
     closeList();
@@ -78,13 +69,16 @@ const CitiesListContainer: FC<IProps> = ({
 
   return (
     <>
-      <CitySearcher searched={searched} setSearched={setSearched} />
+      <CitySearcher allCities={allCities} setCities={setCities} />
       <Block style={s.citiesList}>
         <FlatList
           data={cities}
+          //data={showCities}
           showsVerticalScrollIndicator={true}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
+          //onEndReached={() => setPage((prev) => prev + 8)}
+          onEndReachedThreshold={0.1}
         />
       </Block>
     </>
