@@ -24,6 +24,9 @@ import cityReducer, {
 import { PersistConfig, persistReducer } from 'redux-persist';
 import { PersistPartial } from 'redux-persist/lib/persistReducer';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import permissionReducer, {
+  IPermissionState,
+} from './permission/permissionReducer';
 
 const persistConfig: PersistConfig<T> = {
   key: 'persist',
@@ -34,6 +37,7 @@ const persistConfig: PersistConfig<T> = {
 
 export interface IRootState {
   auth: IAuthState;
+  permission: IPermissionState;
   system: ISystemState;
   modal: IModalState;
   profile: IProfileState;
@@ -45,6 +49,7 @@ export interface IRootState {
 
 const rootReducer = combineReducers<IRootState>({
   auth: authReducer,
+  permission: permissionReducer,
   system: systemReducer,
   modal: modalReducer,
   profile: profileReducer,

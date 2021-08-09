@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 //import { ILocation } from '~/src/app/models/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { ILocation } from '~/src/app/models/user';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { logline } from '~/src/app/utils/debug';
 import { setAuthUserData } from '~/src/features/auth/store/authActions';
@@ -13,8 +12,8 @@ interface IProps {
   // setUserLocation: (location: ILocation) => void;
 }
 
-const TEST_LATITUDE = 55.8263; // TEST NEED DEL
-const TEST_LONGITUDE = 37.3263; // TEST NEED DEL
+//const TEST_LATITUDE = 55.8263; // TEST NEED DEL
+//const TEST_LONGITUDE = 37.3263; // TEST NEED DEL
 
 export function useGeolocation({
   permission /* , setUserLocation  */,
@@ -28,7 +27,7 @@ export function useGeolocation({
   /** Функция подписная с обновлением для определения текущего местоположения */
   const requestFineLocation = useCallback(() => {
     if (permission) {
-      // __DEV__ && console.log('!!! detect geolocation');
+      // logline('!!! detect geolocation');
       return Geolocation.watchPosition(
         (position: Geolocation.GeoPosition) => {
           const {
@@ -47,9 +46,7 @@ export function useGeolocation({
             dispatch(
               setAuthUserData({
                 location: {
-                  //latitude: TEST_LATITUDE, //position.coords.latitude,
                   latitude: position.coords.latitude,
-                  //longitude: TEST_LONGITUDE, //position.coords.longitude,
                   longitude: position.coords.longitude,
                 },
               }),
@@ -58,17 +55,17 @@ export function useGeolocation({
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
-          logline(error.code, error.message);
+          logline('[useGeolocaton] ', `${error.code} ${error.message}`);
         },
         { enableHighAccuracy: true },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, permission]);
 
   /** Функция ЕДИНОРАЗОВАЯ для определения текущего местоположения */
   const requestFineLocationNow = useCallback(() => {
     if (permission) {
-      // __DEV__ && console.log('!!! detect geolocation');
       return Geolocation.getCurrentPosition(
         (position: Geolocation.GeoPosition) => {
           logline('[requestFineLocation/position] now', position);
@@ -83,7 +80,7 @@ export function useGeolocation({
         },
         (error: Geolocation.GeoError) => {
           // See error code charts below.
-          __DEV__ && console.log(error.code, error.message);
+          logline('[useGeolocaton] ', `${error.code} ${error.message}`);
         },
         { enableHighAccuracy: true },
       );
@@ -92,8 +89,6 @@ export function useGeolocation({
 
   /** Определеляем текущее местоположение пользователя */
   useEffect(() => {
-    //__DEV__ && console.log('\n[useGoelocation/useEffect/requestFineLocation]', permission);
-    //locationWatchId.current = requestFineLocation();
     requestFineLocationNow();
     return function () {
       if (locationWatchId?.current) {
@@ -102,8 +97,3 @@ export function useGeolocation({
     };
   }, [permission, requestFineLocation, requestFineLocationNow]);
 }
-
-/* setUserLocation({
-  latitude: position.coords.latitude,
-  longitude: position.coords.longitude,
-}); */

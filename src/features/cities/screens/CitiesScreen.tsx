@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
-import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
+import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
+import { DetectLocation } from './components/DetectLocation';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { MenuItem, PageIcon } from '~/src/assets';
 import { styles as s } from './styles';
@@ -45,11 +46,7 @@ export function CitiesScreen() {
         {/* Cities list */}
         {showCities && <CitiesList closeList={() => setShowCities(false)} />}
 
-        <AppButton margin={[2, 0, 0]}>
-          <AppText medium center size={4}>
-            Определить мое местоположение
-          </AppText>
-        </AppButton>
+        <DetectLocation />
       </View>
 
       <TouchableOpacity style={s.nealy}>

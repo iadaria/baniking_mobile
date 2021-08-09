@@ -1,5 +1,14 @@
 import { Platform } from 'react-native';
-import { check, PERMISSIONS, RESULTS, request, requestNotifications, Permission } from 'react-native-permissions';
+import {
+  check,
+  PERMISSIONS,
+  RESULTS,
+  request,
+  requestNotifications,
+  Permission,
+} from 'react-native-permissions';
+import { Permit } from '../../store/permission/permissionReducer';
+import { logline } from '../../utils/debug';
 
 const PLATFORM_PHOTO_PERMISSIONS = {
   ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
@@ -29,10 +38,10 @@ const PERMISSION_TYPE = {
 };
 
 class AppPermission {
-  checkPermission = async (type: any): Promise<[boolean, string]> => {
-    __DEV__ && console.log('[AppPermission/checkPermission] type', type);
+  checkPermission = async (type: any): Promise<[boolean, Permit]> => {
+    logline('\n**[AppPermission/checkPermission] type', type);
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
-    __DEV__ && console.log('[AppPermission/checkPermission] permissions', permissions);
+    logline('[AppPermission/checkPermission] permissions', permissions);
 
     if (!permissions) {
       return [true, ''];
@@ -40,21 +49,23 @@ class AppPermission {
 
     try {
       const result = await check(permissions);
-      __DEV__ && console.log('[AppPermission/checkPermission] result', result);
+      logline('[AppPermission/checkPermission] result', result);
       if (result === RESULTS.GRANTED) {
-        return [true, ''];
+        return [true, result];
       }
       return this.requestPermission(permissions);
     } catch (error) {
-      __DEV__ && console.log('[AppPermission/checkPermission] error', error);
+      logline('[AppPermission/checkPermission] error', error);
       return [false, ''];
     }
   };
 
-  checkPermissionWithoutRequest = async (type: any): Promise<[boolean, string]> => {
-    __DEV__ && console.log('[AppPermission/checkPermission] type', type);
+  checkPermissionWithoutRequest = async (
+    type: any,
+  ): Promise<[boolean, string]> => {
+    logline('[AppPermission/checkPermission] type', type);
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
-    __DEV__ && console.log('[AppPermission/checkPermission] permissions', permissions);
+    logline('[AppPermission/checkPermission] permissions', permissions);
 
     if (!permissions) {
       return [true, ''];
@@ -62,26 +73,28 @@ class AppPermission {
 
     try {
       const result = await check(permissions);
-      __DEV__ && console.log('[AppPermission/checkPermission] result', result);
+      logline('[AppPermission/checkPermission] result', result);
       if (result === RESULTS.GRANTED) {
         return [true, ''];
       }
       return [false, result];
     } catch (error) {
-      __DEV__ && console.log('[AppPermission/checkPermission] error', error);
+      logline('[AppPermission/checkPermission] error', error);
       return [false, ''];
     }
   };
 
-  requestPermission = async (permissions: Permission): Promise<[boolean, string]> => {
-    __DEV__ && console.log('[AppPermission/requestPersmission] permission', permissions);
+  requestPermission = async (
+    permissions: Permission,
+  ): Promise<[boolean, Permit]> => {
+    logline('\n***[AppPermission/requestPersmission] permission', permissions);
     try {
       const result = await request(permissions);
-      __DEV__ && console.log('[AppPermission/requestPersmission] result', result);
+      logline('[AppPermission/requestPersmission] result', result);
       return [result === RESULTS.GRANTED, result];
       // return result === RESULTS.GRANTED;
     } catch (error) {
-      __DEV__ && console.log('[AppPermission/requestPersmission] error', error);
+      logline('[AppPermission/requestPersmission] error', error);
       return [false, ''];
     }
   };
@@ -91,8 +104,15 @@ class AppPermission {
       return true;
     }
 
-    const { status, settings } = await requestNotifications(['alert', 'sound', 'badge']);
-    __DEV__ && console.log('[AppPermission/requestNotifyPermission] status/settings', status, settings);
+    const { status, settings } = await requestNotifications([
+      'alert',
+      'sound',
+      'badge',
+    ]);
+    logline(
+      '[AppPermission/requestNotifyPermission] status/settings',
+      `${{ status }} ${{ settings }}`,
+    );
     return status === RESULTS.GRANTED;
   };
 }

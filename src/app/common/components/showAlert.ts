@@ -1,4 +1,5 @@
 import { Alert, AlertButton } from 'react-native';
+import { logline } from '../../utils/debug';
 
 export const showAlert = (
   title: string,
@@ -20,7 +21,7 @@ export const showAlert = (
     buttons.push({
       text: 'Отмена',
       onPress: () => {
-        __DEV__ && console.log('Cancel Pressed');
+        logline('', 'Cancel Pressed');
       },
       style: 'cancel',
     });

@@ -87,6 +87,7 @@ export function BathesScreenContainer({
   setFilter,
   navigation,
 }: IProps) {
+  
   const [yForModal, setYForModal] = useState(wp(4));
   const [searchName, setSearchName] = useState<string | undefined>();
   const [localPermission, setLocalPermission] = useState(false);

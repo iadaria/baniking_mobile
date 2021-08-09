@@ -1,5 +1,5 @@
 import * as constants from './authConstants';
-import { IUserAuth, Role } from '~/src/app/models/user';
+import { IUserAuth, Role, ILocation } from '~/src/app/models/user';
 import { IErrors } from '~/src/app/utils/error';
 import { initInputs } from '~/src/app/utils/validate';
 import {
@@ -19,6 +19,7 @@ export interface IAuthState {
   loading: boolean;
   errors: IErrors | null;
   inputs: IInputs;
+  geolocation?: ILocation;
 }
 
 interface IInputs {
@@ -44,6 +45,11 @@ export default function authReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IAuthState {
   switch (type) {
+    case constants.SET_GEOLOCATION:
+      return {
+        ...state,
+        geolocation: payload,
+      };
     //case constants.LOGIN_PHONE:
     case constants.EMAIL_REGISTER:
     case constants.RESTORE_PASSWORD:

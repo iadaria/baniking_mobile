@@ -35,3 +35,5 @@ export const CHECK_AUTH = 'auth/CHECK_AUTH';
 export const REQUEST_AUTH = 'auth/REQUEST_AUTH';
 export const REQUEST_SUCCESS = 'auth/REQUEST_SUCCESS';
 export const REQUEST_FAIL = 'auth/REQUEST_FAIL';
+// location
+export const SET_GEOLOCATION = 'auth/SET_GEOLOCATION';

@@ -67,7 +67,7 @@ export enum Role {
   Manager,
 }
 
-export interface IUserAuth {
+export type IUserAuth = {
   phone: string;
   name: string;
   email?: string;
@@ -77,9 +77,9 @@ export interface IUserAuth {
   uid: string;
   avatar: string;
   location: ILocation | null;
-}
+};
 
-export interface ILocation {
+export type ILocation = {
   latitude: number;
   longitude: number;
-}
+};
