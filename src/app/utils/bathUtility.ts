@@ -121,11 +121,11 @@ export const cacheImages = async (
     if (indexOf === -1) {
       try {
         const response: Response = await cacheImage(images[i], size);
-        //__DEV__ && console.log('[bathUtility/persistImage]', JSON.stringify(response, null, 4));
-        //__DEV__ && console.log('[bathUtility/persistImage]', response.name);
+        //logline('[bathUtility/persistImage]', JSON.stringify(response, null, 4));
+        //logline('[bathUtility/persistImage]', response.name);
         cachedImages.push({ id: fileName, path: response.uri });
       } catch (error) {
-        __DEV__ && console.log('[bathUtility/persistImage/error]', error);
+        logline('[bathUtility/persistImage/error]', error);
       }
     }
   }
@@ -160,7 +160,7 @@ export async function getDirections(
       return [legs[0].distance.value, overview_polyline.points];
     }
   } catch (error) {
-    __DEV__ && console.log('[getDirectionsSaga]', error);
+    logline('[getDirectionsSaga]', error);
   }
   return [0, ''];
 }
@@ -183,7 +183,7 @@ export async function getPoints(
       return overview_polyline.points;
     }
   } catch (error) {
-    __DEV__ && console.log('[getDirectionsSaga]', error);
+    logline('[getDirectionsSaga]', error);
   }
   return null;
 }
@@ -202,7 +202,7 @@ export async function getDistance(
       return distance.value;
     }
   } catch (error) {
-    __DEV__ && console.log('[getDirectionsSaga]', error);
+    logline('[getDirectionsSaga]', error);
   }
   return null;
 }

@@ -27,6 +27,7 @@ import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import permissionReducer, {
   IPermissionState,
 } from './permission/permissionReducer';
+import mapReducer, { IMapState } from '~/src/features/map/store/mapReducer';
 
 const persistConfig: PersistConfig<T> = {
   key: 'persist',
@@ -44,6 +45,7 @@ export interface IRootState {
   settings: ISettingsState;
   bath: IBathState;
   city: ICityState;
+  map: IMapState;
   persist: IPersistState & PersistPartial;
 }
 
@@ -56,6 +58,7 @@ const rootReducer = combineReducers<IRootState>({
   settings: settingsReducer,
   bath: bathReducer,
   city: cityReducer,
+  map: mapReducer,
   persist: persistReducer(persistConfig, appPersistReducer),
 });
 

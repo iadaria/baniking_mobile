@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Geolocation from 'react-native-geolocation-service';
+import { RESULTS } from 'react-native-permissions';
 import {
   AppPermission,
   PERMISSION_TYPE,
 } from '~/src/app/common/components/AppPersmission';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { setPermissionLocation as setPermissionLocationAction } from '../../../../app/store/permission/permissionActions';
+import { setPermissionLocation as setPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
 import { setGeoLocation as setGeoLocationAction } from '~/src/features/auth/store/authActions';
 import { ILocation } from '~/src/app/models/user';
+import { showAlert } from '~/src/app/common/components/showAlert';
 import { Permit } from '~/src/app/store/permission/permissionReducer';
 import { logline } from '~/src/app/utils/debug';
-import { showAlert } from '../../../../app/common/components/showAlert';
-import { RESULTS } from 'react-native-permissions';
 
 const PERMISSION = PERMISSION_TYPE.location;
 
@@ -47,25 +47,6 @@ function DetectLocationContainer({
       AppPermission.checkPermission(PERMISSION).then(setPermissionLocation);
     }
   }, [granted, permit, setPermissionLocation]);
-
-  /** Функция подписная с обновлением для определения текущего местоположения */
-  const requestFineLocation = useCallback(() => {
-    if (granted) {
-      logline('', '!!! detect geolocation');
-      return Geolocation.watchPosition(
-        (position: Geolocation.GeoPosition) => {
-          setGeoLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error: Geolocation.GeoError) => {
-          logline('[useGeolocaton] ', `${error.code} ${error.message}`);
-        },
-        { enableHighAccuracy: true },
-      );
-    }
-  }, [granted, setGeoLocation]);
 
   /** Функция ЕДИНОРАЗОВАЯ для определения текущего местоположения */
   const requestFineLocationNow = useCallback(() => {

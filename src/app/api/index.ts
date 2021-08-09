@@ -7,6 +7,8 @@ import {
   IDistanceParams,
 } from '../models/bath';
 import { log } from '../utils/debug';
+import { ILocation } from '~/src/app/models/user';
+import { DetectCityParams } from '../models/map';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
@@ -106,6 +108,12 @@ export const methods = {
   getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
   getCities: request('get', '/cities', privFetch),
   // google
+  getCity: request(
+    'get',
+    (params: DetectCityParams) =>
+      `https://maps.googleapis.com/maps/api/geocode/json${objToUrl(params)}`,
+    pubFetch,
+  ),
   getPlaceId: request(
     'get',
     (placeParams: IGooglePlaceParams) =>

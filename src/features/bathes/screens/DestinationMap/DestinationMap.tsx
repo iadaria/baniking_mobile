@@ -4,7 +4,6 @@ import MapView, { Polyline as MapPolyline, Marker } from 'react-native-maps';
 import PolyLine from '@mapbox/polyline';
 import NoPermissionPart from './NoPermissionPart';
 import { View } from 'react-native';
-//import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import usePermission from '~/src/app/hooks/usePermission';
 import { useGeolocation } from '../../hooks/useGeolocation';
 import { PERMISSION_TYPE } from '~/src/app/common/components/AppPersmission';
@@ -16,7 +15,7 @@ import { getPoints } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
 import { MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
-import { windowWidth } from '../../../../app/common/constants/platform';
+import { logline } from '~/src/app/utils/debug';
 
 export interface IProps {
   route: Route<string, object | undefined>;
@@ -53,7 +52,7 @@ export function DestinationMap({ route }: IProps) {
 
   useEffect(() => {
     return () => {
-      __DEV__ && console.log('[OrderCallForm/useEffect/timeIds change]', timeIds);
+      logline('[OrderCallForm/useEffect/timeIds change]', timeIds);
       timeIds.forEach((timeId: NodeJS.Timeout) => clearTimeout(timeId));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,7 +86,7 @@ export function DestinationMap({ route }: IProps) {
           // setPoints(result);
         })
         .catch((error) => {
-          __DEV__ && console.log('[DestingationMap/getPoitns/error]', error);
+          logline('[DestingationMap/getPoitns/error]', error);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
