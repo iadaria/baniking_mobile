@@ -7,6 +7,7 @@ export const showAlert = (
   textOk?: string,
   okPress?: () => void,
   cancel?: boolean,
+  cancelPress?: () => void,
 ) => {
   const buttons: AlertButton[] = [
     {
@@ -17,14 +18,17 @@ export const showAlert = (
       style: 'default',
     },
   ];
+
   if (cancel) {
     buttons.push({
       text: 'Отмена',
       onPress: () => {
         logline('', 'Cancel Pressed');
+        cancelPress && cancelPress();
       },
       style: 'cancel',
     });
   }
+
   return Alert.alert(title, message, buttons, { cancelable: !!cancel });
 };
