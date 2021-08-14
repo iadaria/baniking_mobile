@@ -13,7 +13,7 @@ export interface IPersistState {
   image: IPersistImages;
   bathes: Bath[];
   // City
-  selectedCityId: number | null;
+  selectedCityName: string | null;
 }
 
 const initialState: IPersistState = {
@@ -25,8 +25,8 @@ const initialState: IPersistState = {
     set: [],
   },
   bathes: [],
-  // City
-  selectedCityId: null,
+  // city
+  selectedCityName: null,
 };
 
 export default function appPersistReducer(
@@ -74,7 +74,6 @@ export default function appPersistReducer(
 
     // Images
     case constants.PERSIST_IMAGE:
-      // __DEV__ && console.log('[appPersistReducer]', state.image);
       const { images, set } = state.image as IPersistImages;
       const has = [...set].includes(payload.id);
       return {
@@ -89,7 +88,7 @@ export default function appPersistReducer(
     case constants.SELECT_CITY:
       return {
         ...state,
-        selectedCityId: payload,
+        selectedCityName: payload,
       };
 
     // Common

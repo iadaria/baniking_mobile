@@ -56,11 +56,13 @@ export default function cityReducer(
       };
 
     case constants.SELECT_CITY:
+      const selectedCity = state.cities.find(({ id, name }) =>
+        [id, name.toLowerCase()].includes(payload),
+      );
       return {
         ...state,
         selectedCityId: payload,
-        selectedCity:
-          state.cities.find((city) => city.id === payload) || defaultCity,
+        selectedCity: selectedCity || defaultCity,
       };
 
     case constants.UNSELECT_CITY:

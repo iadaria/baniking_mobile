@@ -1,22 +1,40 @@
 import * as constants from './mapConstants';
+import { City } from '~/src/app/models/city';
 import { logline } from '~/src/app/utils/debug';
+
+const defaultCity: City = {
+  id: 0,
+  name: 'Москва',
+};
 
 export interface IMapState {
   loading: boolean;
   error: boolean;
-
+  // city
+  citiesCount: number;
+  cities: [];
+  // detect
   detectedCity: string | null;
   lat: number | null;
   lng: number | null;
+  // select
+  selectedCityId: number;
+  selectedCity: City;
 }
 
 const initState: IMapState = {
   loading: false,
   error: false,
-  // data
+  // city
+  citiesCount: 0,
+  cities: [],
+  // detect
   detectedCity: null,
   lat: null,
   lng: null,
+  // select
+  selectedCityId: 0,
+  selectedCity: defaultCity,
 };
 
 export default function mapReducer(
@@ -48,11 +66,32 @@ export default function mapReducer(
       };
 
     case constants.SET_DETECTED_CITY:
+      const detectedCity =
+        state.cities.find((city) => city.name === payload) || defaultCity;
       return {
         ...state,
         loading: false,
         error: false,
+        // detect
         detectedCity: payload,
+        // select auto
+        selectedCityId: defaultCity.id,
+        selectedCity: detectedCity,
+      };
+
+    case constants.SELECT_CITY:
+      return {
+        ...state,
+        selectedCityId: payload,
+        selectedCity:
+          state.cities.find((city) => city.id === payload) || defaultCity,
+      };
+
+    case constants.UNSELECT_CITY:
+      return {
+        ...state,
+        selectedCityId: payload,
+        selectedCity: defaultCity,
       };
 
     default:

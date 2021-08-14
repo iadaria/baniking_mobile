@@ -1,13 +1,16 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
-import { GOOGLE_API } from 'react-native-dotenv';
-import { mapFail, mapRequest, setDetectedCity } from '../mapActions';
+import { store } from '~/src/app/store';
+import { mapFail, mapRequest } from '../mapActions';
+import { selectCity } from '~/src/features/cities/store/cityActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { methods } from '~/src/app/api';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IMapState } from '../mapReducer';
+import { GOOGLE_API } from 'react-native-dotenv';
 import { DETECT_CITY } from '../mapConstants';
 import { log, logline } from '~/src/app/utils/debug';
+import { persistCity } from '~/src/features/persist/store/appPersistActions';
 
 export type DetectCityParams = {
   latlng: string;
@@ -27,6 +30,11 @@ interface IResult {
   }[];
 }
 
+function _selectCity(city: string) {
+  store.dispatch(selectCity(city));
+  store.dispatch(persistCity(city));
+}
+
 function* detectCitySaga(_: IAction) {
   logline('[detectCitySage]', '***');
   try {
@@ -44,19 +52,18 @@ function* detectCitySaga(_: IAction) {
 
     const city = r.results[0].address_components[0].short_name;
 
-    const setCity = () => put(setDetectedCity(city));
     // ask user
     yield showAlert(
       'Определение местоположения',
       `Ваш город ${city}?`,
       'OK',
-      setCity,
+      () => _selectCity(city.toLowerCase()),
     );
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(mapFail());
 
-    //log('[detectCitySaga/error]', e);
+    log('[detectCitySaga/error]', e);
     logline('[detectCitySaga/error]', [errors, message]);
 
     const errorMessage = allErrors

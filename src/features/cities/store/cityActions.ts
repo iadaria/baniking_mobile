@@ -20,7 +20,7 @@ export const citiesFail = (payload: IErrors | null) => ({
   payload,
 });
 
-export const selectCity = (payload: number) => ({
+export const selectCity = (payload: number | string) => ({
   type: constants.SELECT_CITY,
   payload,
 });

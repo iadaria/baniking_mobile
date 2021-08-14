@@ -26,3 +26,12 @@ export const setGeoLocation = (payload: Location) => ({
   type: constants.SET_GEOLOCATION,
   payload,
 });
+
+export const selectCity = (payload: number) => ({
+  type: constants.SELECT_CITY,
+  payload,
+});
+
+export const unselectCity = () => ({
+  type: constants.UNSELECT_CITY,
+});
