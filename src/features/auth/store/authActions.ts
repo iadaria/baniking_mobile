@@ -1,4 +1,4 @@
-import { ICredential, SocialProvider, ILocation } from '~/src/app/models/user';
+import { ICredential, SocialProvider } from '~/src/app/models/user';
 import { IUserAuth } from '~/src/app/models/user';
 import * as constants from './authConstants';
 import { IErrors } from '~/src/app/utils/error';
@@ -14,11 +14,6 @@ import { LoginPhonePayload } from '~/src/features/auth/store/saga/loginPhoneSaga
 
 export const checkAuth = () => ({
   type: constants.CHECK_AUTH,
-});
-
-export const setGeoLocation = (payload: ILocation) => ({
-  type: constants.SET_GEOLOCATION,
-  payload,
 });
 
 // Register
