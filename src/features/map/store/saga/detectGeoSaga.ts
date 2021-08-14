@@ -7,6 +7,7 @@ import { IPermissionState } from '~/src/app/store/permission/permissionReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { log, logline } from '~/src/app/utils/debug';
 import { getErrorStrings } from '~/src/app/utils/error';
+import { mapRequest } from '../mapActions';
 
 interface IAction {
   type: string;
@@ -24,7 +25,7 @@ function* detectGeoSaga(_: IAction) {
     );
     const [granted, permit] = location;
     if (granted) {
-      const set
+      yield put(mapRequest());
       yield Geolocation.getCurrentPosition()
       const r: IResult = yield methods.name(paylaod, params);
     }

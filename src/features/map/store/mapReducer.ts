@@ -23,8 +23,7 @@ export default function mapReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IMapState {
   switch (type) {
-    case constants.DETECT_CITY:
-    case constants.DETECT_GEO_LOCATION:
+    case constants.MAP_REQUEST:
       return {
         ...state,
         loading: true,

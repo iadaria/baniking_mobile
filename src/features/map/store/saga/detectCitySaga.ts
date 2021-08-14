@@ -1,6 +1,6 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { GOOGLE_API } from 'react-native-dotenv';
-import { mapFail, setDetectedCity } from '../mapActions';
+import { mapFail, mapRequest, setDetectedCity } from '../mapActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { methods } from '~/src/app/api';
@@ -38,6 +38,7 @@ function* detectCitySaga(_: IAction) {
       language: 'ru',
       result_type: 'locality',
     };
+    yield put(mapRequest());
     const r: IResult = yield methods.detectCityByLocation(null, params);
     logline('[detectCitySaga] result', r);
 
@@ -52,11 +53,10 @@ function* detectCitySaga(_: IAction) {
       setCity,
     );
   } catch (e) {
-    log('[detectCitySaga/error]', e);
-
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(mapFail());
 
+    //log('[detectCitySaga/error]', e);
     logline('[detectCitySaga/error]', [errors, message]);
 
     const errorMessage = allErrors
