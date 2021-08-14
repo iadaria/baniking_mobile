@@ -1,6 +1,12 @@
 import * as constants from './permissionConstants';
 import { Permit } from './permissionReducer';
 
+export function checkPermissionLocation() {
+  return {
+    type: constants.CHECK_PERMISSION_LOCATION,
+  };
+}
+
 export function denyPermissionLocation() {
   return {
     type: constants.DENY_LOCATION_PERMISSION,

@@ -1,30 +1,22 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-//import Geolocation from 'react-native-geolocation-service';
 import { RESULTS } from 'react-native-permissions';
-import {
-  AppPermission,
-  PERMISSION_TYPE,
-} from '~/src/app/common/components/AppPersmission';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { setPermissionLocation as setPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { Permit } from '~/src/app/store/permission/permissionReducer';
 import { detectGeo as detectGeoAction } from '~/src/features/map/store/mapActions';
-import { logline } from '~/src/app/utils/debug';
-
-const PERMISSION = PERMISSION_TYPE.location;
+import { checkPermissionLocation as checkPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
+import { Permit } from '~/src/app/store/permission/permissionReducer';
+import { IRootState } from '~/src/app/store/rootReducer';
 
 interface IProps {
   permissionLocation: [boolean, Permit];
-  setPermissionLocation: (payload: [boolean, Permit]) => void;
+  checkPermissionLocation: () => void;
   detectGeo: () => void;
 }
 
 function DetectLocationContainer({
   permissionLocation,
-  setPermissionLocation,
+  checkPermissionLocation,
   detectGeo,
 }: IProps) {
   const [granted, permit] = permissionLocation;
@@ -37,28 +29,9 @@ function DetectLocationContainer({
       );
     }
     if (!granted) {
-      AppPermission.checkPermission(PERMISSION).then(setPermissionLocation);
+      checkPermissionLocation();
     }
-  }, [granted, permit, setPermissionLocation]);
-
-  /** Функция ЕДИНОРАЗОВАЯ для определения текущего местоположения */
-  /* const requestFineLocationNow = useCallback(() => {
-    if (granted) {
-      return Geolocation.getCurrentPosition(
-        (position: Geolocation.GeoPosition) => {
-          logline('[requestFineLocation/position] now', position);
-          setGeoLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error: Geolocation.GeoError) => {
-          logline('[useGeolocaton] ', `${error.code} ${error.message}`);
-        },
-        { enableHighAccuracy: true },
-      );
-    }
-  }, [granted, setGeoLocation]); */
+  }, [checkPermissionLocation, granted, permit]);
 
   return (
     <AppButton margin={[2, 0, 0]} onPress={detectGeo}>
@@ -74,8 +47,8 @@ const DetectLocationConnected = connect(
     permissionLocation: permission.location,
   }),
   {
-    setPermissionLocation: setPermissionLocationAction,
     detectGeo: detectGeoAction,
+    checkPermissionLocation: checkPermissionLocationAction,
   },
 )(DetectLocationContainer);
 

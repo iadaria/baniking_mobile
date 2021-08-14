@@ -39,14 +39,12 @@ export default function mapReducer(
       };
 
     case constants.SET_GEOLOCATION:
-      logline('[mapReducer] setGeo from saga', payload);
-      const { lat, lng } = payload;
       return {
         ...state,
         loading: false,
         error: false,
-        lat,
-        lng,
+        lat: payload.lat,
+        lng: payload.lng,
       };
 
     case constants.SET_DETECTED_CITY:
