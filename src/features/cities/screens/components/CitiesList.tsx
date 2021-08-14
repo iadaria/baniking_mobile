@@ -19,7 +19,7 @@ interface IProps {
   allCities: City[];
   countAllCities: number;
   fetchCities: () => void;
-  persistCity: (cityId: number) => void;
+  persistCity: (cityName: string) => void;
   selectCity: (cityId: number) => void;
 }
 
@@ -52,7 +52,7 @@ const CitiesListContainer: FC<IProps> = ({
 
       function handleSelectCity() {
         closeList();
-        persistCity(id);
+        persistCity(name);
         selectCity(id);
       }
 

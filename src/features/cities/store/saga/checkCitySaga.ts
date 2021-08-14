@@ -10,16 +10,15 @@ import { log, logline } from '~/src/app/utils/debug';
 function* checkCitySaga() {
   try {
     // Detect selected city
-    const { selectedId, cities } = yield select(
+    const { selectedCityName, cities } = yield select(
       ({ persist, city }: IRootState) => ({
-        selectedId: persist.selectedCityId,
+        selectedName: persist.selectedCityName,
         cities: city.cities,
       }),
     );
-    const selectedCity = cities.find((c: City) => c.id === selectedId);
-    logline('\n[checkCitySaga]', { count: cities.length, selectedCity });
-    if (typeof selectedCity !== 'undefined') {
-      yield put(selectCity(selectedId));
+    logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
+    if (selectedCityName) {
+      yield put(selectCity(selectedCityName));
     }
   } catch (e) {
     log('\n[checkCitiesSaga/error]', e);

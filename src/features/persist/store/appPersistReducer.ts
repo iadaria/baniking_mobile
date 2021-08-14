@@ -97,6 +97,7 @@ export default function appPersistReducer(
         ...initialState,
         image: state.image,
         bathes: state.bathes,
+        selectedCityName: state.selectedCityName,
       };
 
     default:

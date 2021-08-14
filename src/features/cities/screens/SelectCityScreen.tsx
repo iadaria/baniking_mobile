@@ -9,7 +9,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { MenuItem, PageIcon } from '~/src/assets';
 import { styles as s } from './styles';
 
-export function CitiesScreen() {
+export function SelectCityScreen() {
   const [showCities, setShowCities] = useState(false);
 
   const { selectedCity } = useSelector(({ city }: IRootState) => city);
