@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { HOST_API } from 'react-native-dotenv';
+import { DetectCityParams } from '~/src/features/map/store/saga/detectCitySaga';
 import {
   BathParams,
   IGooglePlaceParams,
@@ -7,8 +8,6 @@ import {
   IDistanceParams,
 } from '../models/bath';
 import { log } from '../utils/debug';
-import { ILocation } from '~/src/app/models/user';
-import { DetectCityParams } from '../models/map';
 
 type Methods = 'put' | 'send' | 'get' | 'post';
 
@@ -108,7 +107,7 @@ export const methods = {
   getBath: request('get', (bathId: number) => `/baths/${bathId}`, privFetch),
   getCities: request('get', '/cities', privFetch),
   // google
-  getCity: request(
+  detectCityByLocation: request(
     'get',
     (params: DetectCityParams) =>
       `https://maps.googleapis.com/maps/api/geocode/json${objToUrl(params)}`,

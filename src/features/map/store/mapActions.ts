@@ -1,3 +1,4 @@
+import { Location } from '~/src/app/models/map';
 import * as constants from './mapConstants';
 
 export const detectCity = () => ({
@@ -11,4 +12,9 @@ export const setDetectedCity = (payload: string) => ({
 
 export const mapFail = () => ({
   type: constants.MAP_FAIL,
+});
+
+export const setGeoLocation = (payload: Location) => ({
+  type: constants.SET_GEOLOCATION,
+  payload,
 });

@@ -1,1 +1,2 @@
-export { default as getGeolocationSaga } from './getGeolocationSaga';
+export { default as detectCitySaga } from './detectCitySaga';
+export { default as detectGeoSaga } from './detectGeoSaga';

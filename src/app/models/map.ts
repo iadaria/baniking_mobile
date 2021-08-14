@@ -1,12 +1,4 @@
-export type DetectCityParams = {
-  latlng: string;
-  sensor: boolean;
-  key: string;
-  language: 'ru';
-  result_type: 'locality';
-};
-
-export type ILocation = {
+export type Location = {
   latitude: number;
   longitude: number;
 };

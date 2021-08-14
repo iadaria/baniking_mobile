@@ -12,6 +12,7 @@ export interface IMapState {
 const initState: IMapState = {
   loading: false,
   error: false,
+  // data
   detectedCity: null,
   lat: null,
   lng: null,
@@ -23,6 +24,7 @@ export default function mapReducer(
 ): IMapState {
   switch (type) {
     case constants.DETECT_CITY:
+    case constants.DETECT_GEO_LOCATION:
       return {
         ...state,
         loading: true,
@@ -34,6 +36,13 @@ export default function mapReducer(
         ...state,
         loading: false,
         error: true,
+      };
+
+    case constants.SET_GEOLOCATION:
+      return {
+        ...state,
+        lat: state.lat,
+        lng: state.lng,
       };
 
     case constants.SET_DETECTED_CITY:
