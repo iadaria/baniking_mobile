@@ -13,6 +13,10 @@ export const detectCity = () => ({
   type: constants.DETECT_CITY,
 });
 
+export const detectGeo = () => ({
+  type: constants.DETECT_GEO_LOCATION,
+});
+
 export const setDetectedCity = (payload: string) => ({
   type: constants.SET_DETECTED_CITY,
   payload,

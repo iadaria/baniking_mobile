@@ -1,4 +1,5 @@
 import * as constants from './mapConstants';
+import { logline } from '~/src/app/utils/debug';
 
 export interface IMapState {
   loading: boolean;
@@ -38,10 +39,14 @@ export default function mapReducer(
       };
 
     case constants.SET_GEOLOCATION:
+      logline('[mapReducer] setGeo from saga', payload);
+      const { lat, lng } = payload;
       return {
         ...state,
-        lat: state.lat,
-        lng: state.lng,
+        loading: false,
+        error: false,
+        lat,
+        lng,
       };
 
     case constants.SET_DETECTED_CITY:

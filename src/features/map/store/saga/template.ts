@@ -19,11 +19,10 @@ function* $Saga(_: IAction) {
     const { } = yield select(({ }: IRootState) => );
     const r: IResult = yield methods.name(paylaod, params)
   } catch (e) {
-    log('[$Saga/error]', e);
-
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(Fail());
 
+    //log('[$Saga/error]', e);
     logline('[$Saga/error]', [errors, message]);
 
     const errorMessage = allErrors
