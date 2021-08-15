@@ -27,6 +27,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   cityItem: {
     paddingVertical: 12,

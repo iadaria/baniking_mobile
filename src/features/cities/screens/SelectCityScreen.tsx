@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { checkCity } from '../store/cityActions';
+import { checkCity as checkCityAction } from '../store/cityActions';
 import { DetectLocation } from './components/DetectLocation';
 import { MenuItem } from '~/src/assets';
 import { styles as s } from './styles';
+import Nearest from './components/Nearest';
+import { City } from '~/src/app/models/city';
 
-export function SelectCityScreen() {
+interface IProps {
+  selectedCity: City;
+  persistCityName: string | null;
+  checkCity: () => void;
+}
+
+function SelectCityScreenContainer({
+  selectedCity,
+  persistCityName,
+  checkCity,
+}: IProps) {
   const [showCities, setShowCities] = useState(false);
-  const { selectedCity } = useSelector(({ city }: IRootState) => city);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkCity());
-  }, [dispatch]);
+    if (selectedCity.name !== persistCityName) {
+      checkCity();
+    }
+  }, [checkCity, persistCityName, selectedCity.name]);
 
   const deg = showCities ? 90 : 0;
   const formStyle: ViewStyle = showCities
@@ -54,12 +66,19 @@ export function SelectCityScreen() {
         <DetectLocation />
       </View>
 
-      {/*  <TouchableOpacity style={s.nealy}>
-        <AppText primary medium>
-          Показать все бани рядом со мной
-        </AppText>
-        <PageIcon />
-      </TouchableOpacity> */}
+      <Nearest />
     </Block>
   );
 }
+
+const SelectCityScreenConnected = connect(
+  ({ city, persist }: IRootState) => ({
+    selectedCity: city.selectedCity,
+    persistCityName: persist.selectedCityName,
+  }),
+  {
+    checkCity: checkCityAction,
+  },
+)(SelectCityScreenContainer);
+
+export { SelectCityScreenConnected as SelectCityScreen };

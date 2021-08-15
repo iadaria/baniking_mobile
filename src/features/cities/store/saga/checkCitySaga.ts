@@ -45,10 +45,3 @@ function* checkCitySaga(_: IAction) {
 export default function* listener() {
   yield takeLatest(CHECK_CITY, checkCitySaga);
 }
-
-/* const { selectedCityName, cities } = yield select(
-  ({ persist, city }: IRootState) => ({
-    selectedCityName: persist.selectedCityName?.toLocaleLowerCase(),
-    cities: city.cities,
-  }),
-); */

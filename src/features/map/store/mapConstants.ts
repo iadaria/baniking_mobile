@@ -8,3 +8,4 @@ export const DETECT_CITY = 'map/DETECT_CITY';
 // common
 // location
 export const SET_GEOLOCATION = 'map/SET_GEOLOCATION';
+export const CLEAR_GEOLOCATION = 'map/CLEAR_GEOLOCATION';

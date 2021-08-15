@@ -8,6 +8,7 @@ import {
   clearBathes,
   setBathParam,
 } from '~/src/features/bathes/store/bathActions';
+import { clearGeoLocation } from '~/src/features/map/store/mapActions';
 
 interface IAction {
   type: string;
@@ -34,6 +35,7 @@ function* selectCitySaga({ payload }: IAction) {
   }
 
   yield put(clearBathes());
+  yield put(clearGeoLocation());
   yield put(setBathParam({ field: 'city_id', value: selectedCityId }));
 
   logline('\n\n[selectCitySaga]', payload);

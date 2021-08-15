@@ -21,3 +21,7 @@ export const setGeoLocation = (payload: Location) => ({
   type: constants.SET_GEOLOCATION,
   payload,
 });
+
+export const clearGeoLocation = () => ({
+  type: constants.CLEAR_GEOLOCATION,
+});

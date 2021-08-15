@@ -44,6 +44,12 @@ export default function mapReducer(
         error: false,
         location: payload,
       };
+    case constants.CLEAR_GEOLOCATION:
+      logline('CLEAN_GEOLOCATION', '');
+      return {
+        ...state,
+        location: null,
+      };
 
     default:
       return state;
