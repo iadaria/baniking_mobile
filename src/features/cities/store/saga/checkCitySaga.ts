@@ -22,7 +22,7 @@ function* checkCitySaga(_: IAction) {
       const result: unknown = yield call(methods.getCities, null, null);
       const cities = Object.values(result) as City[];
       yield put(setCities(cities));
-      yield put(selectCity(selectedCityName));
+      yield put(selectCity(selectedCityName.toLowerCase()));
 
       logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
     }

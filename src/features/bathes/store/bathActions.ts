@@ -89,17 +89,6 @@ export const bathesFail = (payload: IErrors | null) => ({
   payload,
 });
 
-// using
-export const selectCity = (paylaod: number) => ({
-  type: constants.SELECT_CITY,
-  paylaod,
-});
-
-// using
-export const unselectCity = () => ({
-  type: constants.UNSELECT_CITY,
-});
-
 /************************************** */
 
 export const getBathes = () => ({

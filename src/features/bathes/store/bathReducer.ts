@@ -50,9 +50,6 @@ export interface IBathState {
   // Maps
   mapIds: number[];
   maps: IMap[];
-  // Cities
-  selectedCityId: number | null;
-  selectedCity: City | null;
 
   inputs: IInputs;
 }
@@ -91,9 +88,6 @@ const initialState: IBathState = {
   // maps
   mapIds: [],
   maps: [],
-  // cities
-  selectedCityId: null,
-  selectedCity: null,
 
   inputs: {
     orderCall: defaultOrderCallInputs,

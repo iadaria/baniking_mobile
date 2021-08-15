@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
 import {
@@ -27,24 +27,22 @@ function DetectLocationContainer({
   detectGeo,
   detectCity,
 }: IProps) {
-  const [granted, permit] = permissionLocation;
+  const [granted] = permissionLocation;
 
   useEffect(() => {
     checkPermissionLocation();
-  }, [checkPermissionLocation, granted, permit]);
+  }, [checkPermissionLocation]);
 
   useEffect(() => {
     if (granted) {
       detectGeo();
     }
-  }, [detectGeo, granted, permit]);
+  }, [detectGeo, granted]);
 
-  function handleDetectLocation() {
-    detectCity();
-  }
+  //function handleDetectCity() { }
 
   return (
-    <AppButton margin={[2, 0, 0]} onPress={handleDetectLocation}>
+    <AppButton margin={[2, 0, 0]} onPress={detectCity}>
       <AppText medium center size={4}>
         Определить мое местоположение
       </AppText>
@@ -66,3 +64,13 @@ const DetectLocationConnected = connect(
 )(DetectLocationContainer);
 
 export { DetectLocationConnected as DetectLocation };
+
+/*   useEffect(() => {
+    if (granted) {
+      detectGeo();
+    }
+  }, [detectGeo, granted, permit]);
+
+  function handleDetectLocation() {
+    detectCity();
+  } */

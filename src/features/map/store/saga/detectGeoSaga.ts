@@ -5,8 +5,8 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { mapFail, mapRequest, setGeoLocation } from '../mapActions';
 import { store } from '~/src/app/store';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { IPermissionState } from '~/src/app/store/permission/permissionReducer';
+//import { IRootState } from '~/src/app/store/rootReducer';
+//import { IPermissionState } from '~/src/app/store/permission/permissionReducer';
 import { DETECT_GEO_LOCATION } from '../mapConstants';
 import { log, logline } from '~/src/app/utils/debug';
 
@@ -25,13 +25,11 @@ function* detectGeoSaga(_: IAction) {
     yield put(mapRequest());
     yield Geolocation.getCurrentPosition(
       (position: Geolocation.GeoPosition) => {
-        store.dispatch(
-          setGeoLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          }),
-        );
-        logline('[detectGeoSage] setLocation', position.coords);
+        const { latitude: lat, longitude: lng } = position.coords;
+        if (lat && lng) {
+          logline('[detectGeoSage] setLocation', position.coords);
+          store.dispatch(setGeoLocation({ lat, lng }));
+        }
       },
       (error: Geolocation.GeoError) => {
         logline(
@@ -39,7 +37,7 @@ function* detectGeoSaga(_: IAction) {
           `${error.code} ${error.message}`,
         );
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+      { enableHighAccuracy: true },
     );
     //  }
   } catch (e) {

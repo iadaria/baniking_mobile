@@ -1,6 +1,6 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { store } from '~/src/app/store';
-import { mapFail, mapRequest } from '../mapActions';
+import { detectGeo, mapFail, mapRequest } from '../mapActions';
 import { selectCity } from '~/src/features/cities/store/cityActions';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
@@ -38,28 +38,31 @@ function _selectCity(city: string) {
 function* detectCitySaga(_: IAction) {
   logline('\n\n[detectCitySage]', '***');
   try {
-    const { lat, lng } = yield select(({ map }: IRootState) => map.location);
-    const params: DetectCityParams = {
-      latlng: `${lat},${lng}`,
-      sensor: false,
-      key: GOOGLE_API,
-      language: 'ru',
-      result_type: 'locality',
-    };
-    yield put(mapRequest());
-    const r: IResult = yield methods.detectCityByLocation(null, params);
-    logline('[detectCitySaga] result', r);
-
-    const city = r.results[0].address_components[0].short_name;
-
-    // ask user
-    yield showAlert(
-      'Определение местоположения',
-      `Ваш город ${city}?`,
-      'OK',
-      () => _selectCity(city.toLowerCase().trim()),
-      () => { },
-    );
+    const { location }: IMapState = yield select(({ map }: IRootState) => map);
+    if (location) {
+      const { lat, lng } = location;
+      const params: DetectCityParams = {
+        latlng: `${lat},${lng}`,
+        sensor: false,
+        key: GOOGLE_API,
+        language: 'ru',
+        result_type: 'locality',
+      };
+      yield put(mapRequest());
+      const r: IResult = yield methods.detectCityByLocation(null, params);
+      //logline('[detectCitySaga] result', r);
+      const city = r.results[0].address_components[0].short_name;
+      // ask user
+      yield showAlert(
+        'Определение местоположения',
+        `Ваш город ${city}?`,
+        'OK',
+        () => _selectCity(city.toLowerCase().trim()),
+        () => { },
+      );
+    } else {
+      store.dispatch(detectGeo());
+    }
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(mapFail());
