@@ -25,11 +25,11 @@ interface IAction {
 
 const PERMISSION = PERMISSION_TYPE.location;
 
-const changePermission = async () => {
+/* const changePermission = async () => {
   store.dispatch(clearPermissionLocation());
   await Linking.openSettings();
 };
-
+ */
 function* checkLocationPermitSaga(_: IAction) {
   logline('\n\n[checkLocationPermitSaga]', '***');
 
@@ -45,14 +45,14 @@ function* checkLocationPermitSaga(_: IAction) {
         'Местоположение',
         'Вы заблокировали возможность определения местоположения',
         'Изменить доступ',
-        async () => await changePermission(),
-        () => { },
+        //async () => await changePermission(),
+        //() => { },
       );
     } else if (!granted) {
       logline('checkPermission again', '');
       const result: [boolean, Permit] = yield AppPermission.checkPermission(
         PERMISSION,
-      ); //.then(setPermission);
+      );
       yield put(setPermissionLocation(result));
     }
   } catch (e) {

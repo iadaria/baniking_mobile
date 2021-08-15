@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
 import {
@@ -8,9 +8,10 @@ import {
 import { checkPermissionLocation as checkPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { Permit } from '~/src/app/store/permission/permissionReducer';
-import { logline } from '~/src/app/utils/debug';
+import { Location } from '~/src/app/models/map';
 
 interface IProps {
+  location: Location | null;
   permissionLocation: [boolean, Permit];
   checkPermissionLocation: () => void;
   detectGeo: () => void;
@@ -18,20 +19,20 @@ interface IProps {
 }
 
 function DetectLocationContainer({
+  location,
   permissionLocation,
   checkPermissionLocation,
   detectGeo,
   detectCity,
 }: IProps) {
+  const [needCity, setNeedCity] = useState(false);
   const [granted] = permissionLocation;
 
   useEffect(() => {
-    logline('granted changed +++++', granted);
-  }, [granted]);
-
-  useEffect(() => {
-    checkPermissionLocation();
-  }, [checkPermissionLocation]);
+    if (!granted) {
+      checkPermissionLocation();
+    }
+  }, [checkPermissionLocation, granted]);
 
   useEffect(() => {
     if (granted) {
@@ -39,29 +40,28 @@ function DetectLocationContainer({
     }
   }, [detectGeo, granted]);
 
-  function handleDetectCity() {
-    if (granted) {
+  useEffect(() => {
+    if (needCity && location) {
       detectCity();
-    } else {
-      checkPermissionLocation();
+      setNeedCity(false);
     }
-  }
+  }, [needCity, location, detectCity]);
+
+  const handleDetectCity = () => setNeedCity(true);
 
   return (
-    <>
-      <AppButton margin={[2, 0, 0]} onPress={handleDetectCity}>
-        <AppText medium center size={4}>
-          Определить мое местоположение
-        </AppText>
-      </AppButton>
-      {/* <OpenSettingsButton>Open Settings</OpenSettingsButton> */}
-    </>
+    <AppButton margin={[2, 0, 0]} onPress={handleDetectCity}>
+      <AppText medium center size={4}>
+        Определить мое местоположение
+      </AppText>
+    </AppButton>
   );
 }
 
 const DetectLocationConnected = connect(
-  ({ permission }: IRootState) => ({
+  ({ permission, map }: IRootState) => ({
     permissionLocation: permission.location,
+    location: map.location,
   }),
   {
     detectGeo: detectGeoAction,
