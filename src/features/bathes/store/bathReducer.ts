@@ -33,6 +33,7 @@ export interface IBathState {
   // Srot
   canLoadMoreBathes: boolean;
   sort: BathSort;
+  isNear: boolean;
   retainState: boolean;
   // Filter
   paramsFilter: BathFilterParams;
@@ -75,6 +76,7 @@ const initialState: IBathState = {
   canLoadMoreBathes: false,
   params: { page: 1 },
   sort: BathSort.None,
+  isNear: false,
   // Filter
   retainState: false,
   paramsFilter: { types: [], zones: [], services: [], steamRooms: [] },
@@ -222,10 +224,22 @@ export default function bathReducer(
         filterErrors: payload,
       };
 
-    case constants.ACCEPT_FILTER:
+    case constants.ACCEPT_FILTER: // using
       return {
         ...state,
         params: { ...state.params, ...state.paramsCheck },
+      };
+
+    case constants.SET_NEAR: // using
+      return {
+        ...state,
+        isNear: true,
+      };
+
+    case constants.NOT_NEAR: // using
+      return {
+        ...state,
+        isNear: false,
       };
     // *******************************************
 

@@ -15,15 +15,17 @@ interface IAction {
 function* checkCitySaga(_: IAction) {
   //logline('\n\n[checkCitiesSaga]', ' *** CHECK CITIES YES *** ');
   try {
-    const { selectedCityName } = yield select(
-      ({ persist }: IRootState) => persist,
+    const { persistCityName, selectedCity } = yield select(
+      ({ persist, city }: IRootState) => ({
+        persistCityName: persist.selectedCityName,
+        selectedCity: city.selectedCity,
+      }),
     );
-    if (selectedCityName) {
+    if (!!persistCityName && persistCityName !== selectedCity.name) {
       const result: unknown = yield call(methods.getCities, null, null);
       const cities = Object.values(result) as City[];
       yield put(setCities(cities));
-      yield put(selectCity(selectedCityName.toLowerCase()));
-
+      yield put(selectCity(persistCityName.toLowerCase()));
       //logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
     }
   } catch (e) {

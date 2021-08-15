@@ -88,6 +88,14 @@ export const bathesFail = (payload: IErrors | null) => ({
   type: constants.BATHES_FAIL,
   payload,
 });
+// using
+export const setNear = () => ({
+  type: constants.SET_NEAR,
+});
+// using
+export const notNear = () => ({
+  type: constants.NOT_NEAR,
+});
 
 /************************************** */
 

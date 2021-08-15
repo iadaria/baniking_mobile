@@ -6,9 +6,9 @@ import { persistCity } from '~/src/features/persist/store/appPersistActions';
 import { City } from '~/src/app/models/city';
 import {
   clearBathes,
+  notNear,
   setBathParam,
 } from '~/src/features/bathes/store/bathActions';
-import { clearGeoLocation } from '~/src/features/map/store/mapActions';
 
 interface IAction {
   type: string;
@@ -35,7 +35,7 @@ function* selectCitySaga({ payload }: IAction) {
   }
 
   yield put(clearBathes());
-  yield put(clearGeoLocation());
+  yield put(notNear());
   yield put(setBathParam({ field: 'city_id', value: selectedCityId }));
 
   logline('\n\n[selectCitySaga]', payload);

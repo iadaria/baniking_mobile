@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
@@ -8,28 +8,21 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { checkCity as checkCityAction } from '../store/cityActions';
 import { DetectLocation } from './components/DetectLocation';
 import { MenuItem } from '~/src/assets';
-import { styles as s } from './styles';
-import Nearest from './components/Nearest';
+import { Nearest } from './components/Nearest';
 import { City } from '~/src/app/models/city';
+import { styles as s } from './styles';
 
 interface IProps {
   selectedCity: City;
-  persistCityName: string | null;
   checkCity: () => void;
 }
 
-function SelectCityScreenContainer({
-  selectedCity,
-  persistCityName,
-  checkCity,
-}: IProps) {
+function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
   const [showCities, setShowCities] = useState(false);
 
   useEffect(() => {
-    if (selectedCity.name !== persistCityName) {
-      checkCity();
-    }
-  }, [checkCity, persistCityName, selectedCity.name]);
+    checkCity();
+  }, [checkCity]);
 
   const deg = showCities ? 90 : 0;
   const formStyle: ViewStyle = showCities
@@ -72,9 +65,8 @@ function SelectCityScreenContainer({
 }
 
 const SelectCityScreenConnected = connect(
-  ({ city, persist }: IRootState) => ({
+  ({ city }: IRootState) => ({
     selectedCity: city.selectedCity,
-    persistCityName: persist.selectedCityName,
   }),
   {
     checkCity: checkCityAction,

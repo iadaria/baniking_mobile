@@ -22,6 +22,8 @@ export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 export const SET_PARAMS = 'bath/SET_PARAMS';
 export const NEXT_PAGE = 'bath/NEXT_PAGE';
 export const SET_BATH_PARAM = 'bath/SET_BATH_PARAM';
+export const SET_NEAR = 'bath/SET_NEAR';
+export const NOT_NEAR = 'bath/NOT_NEAR';
 
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';
