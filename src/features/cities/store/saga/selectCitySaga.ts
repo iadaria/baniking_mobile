@@ -1,6 +1,6 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { logline } from '~/src/app/utils/debug';
+import { log, logline } from '~/src/app/utils/debug';
 import { SELECT_CITY } from '../cityConstants';
 import { persistCity } from '~/src/features/persist/store/appPersistActions';
 import { City } from '~/src/app/models/city';
@@ -30,8 +30,15 @@ function* selectCitySaga({ payload }: IAction) {
     [id, name.toLowerCase()].includes(payload),
   );
 
+  log('[selectCitySaga]', {
+    payload,
+    persistCityName,
+    selectedCityId,
+    selectedCityName,
+  });
+
   if (selectedCityName !== persistCityName) {
-    yield put(persistCity(selectedCityName));
+    yield put(persistCity(selectedCityName.toLowerCase()));
   }
 
   yield put(clearBathes());
