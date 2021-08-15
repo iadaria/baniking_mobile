@@ -15,30 +15,33 @@ interface IAction {
 }
 
 function* detectGeoSaga(_: IAction) {
+  logline('\n\n[detectGeoSage]', '***');
   try {
-    const { location }: IPermissionState = yield select(
+    /* const { location }: IPermissionState = yield select(
       ({ permission }: IRootState) => permission,
     );
-    const [granted] = location;
-    if (granted) {
-      yield put(mapRequest());
-      yield Geolocation.getCurrentPosition(
-        (position: Geolocation.GeoPosition) =>
-          store.dispatch(
-            setGeoLocation({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            }),
-          ),
-        (error: Geolocation.GeoError) => {
-          logline(
-            '[detectGeoSaga/getCurrentPosition] ',
-            `${error.code} ${error.message}`,
-          );
-        },
-        { enableHighAccuracy: true },
-      );
-    }
+    const [granted] = location; */
+    //if (granted) {
+    yield put(mapRequest());
+    yield Geolocation.getCurrentPosition(
+      (position: Geolocation.GeoPosition) => {
+        store.dispatch(
+          setGeoLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }),
+        );
+        logline('[detectGeoSage] setLocation', position.coords);
+      },
+      (error: Geolocation.GeoError) => {
+        logline(
+          '[detectGeoSaga/getCurrentPosition] ',
+          `${error.code} ${error.message}`,
+        );
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    );
+    //  }
   } catch (e) {
     log('[detectGeoSaga/error]', e);
 

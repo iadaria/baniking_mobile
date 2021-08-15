@@ -1,27 +1,33 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { citiesFail, selectCity } from '../cityActions';
+import { citiesFail, selectCity, setCities } from '../cityActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
-import { City } from '~/src/app/models/city';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CHECK_CITY } from '../cityConstants';
 import { log, logline } from '~/src/app/utils/debug';
+import { methods } from '~/src/app/api';
+import { City } from '~/src/app/models/city';
 
-function* checkCitySaga() {
+interface IAction {
+  type: string;
+}
+
+function* checkCitySaga(_: IAction) {
+  //logline('\n\n[checkCitiesSaga]', ' *** CHECK CITIES YES *** ');
   try {
-    // Detect selected city
-    const { selectedCityName, cities } = yield select(
-      ({ persist, city }: IRootState) => ({
-        selectedName: persist.selectedCityName,
-        cities: city.cities,
-      }),
+    const { selectedCityName } = yield select(
+      ({ persist }: IRootState) => persist,
     );
-    logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
     if (selectedCityName) {
+      const result: unknown = yield call(methods.getCities, null, null);
+      const cities = Object.values(result) as City[];
+      yield put(setCities(cities));
       yield put(selectCity(selectedCityName));
+
+      logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
     }
   } catch (e) {
-    log('\n[checkCitiesSaga/error]', e);
+    log('[checkCitiesSaga/error]', e);
 
     let [errors, message, allErrors] = getErrorStrings(e);
     yield put(citiesFail(errors));
@@ -39,3 +45,10 @@ function* checkCitySaga() {
 export default function* listener() {
   yield takeLatest(CHECK_CITY, checkCitySaga);
 }
+
+/* const { selectedCityName, cities } = yield select(
+  ({ persist, city }: IRootState) => ({
+    selectedCityName: persist.selectedCityName?.toLocaleLowerCase(),
+    cities: city.cities,
+  }),
+); */

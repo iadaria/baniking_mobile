@@ -36,11 +36,11 @@ function _selectCity(city: string) {
 }
 
 function* detectCitySaga(_: IAction) {
-  logline('[detectCitySage]', '***');
+  logline('\n\n[detectCitySage]', '***');
   try {
-    const { lat, lng }: IMapState = yield select(({ map }: IRootState) => map);
+    const { lat, lng } = yield select(({ map }: IRootState) => map.location);
     const params: DetectCityParams = {
-      latlng: `${lat}:${lng}`,
+      latlng: `${lat},${lng}`,
       sensor: false,
       key: GOOGLE_API,
       language: 'ru',
@@ -57,7 +57,8 @@ function* detectCitySaga(_: IAction) {
       'Определение местоположения',
       `Ваш город ${city}?`,
       'OK',
-      () => _selectCity(city.toLowerCase()),
+      () => _selectCity(city.toLowerCase().trim()),
+      () => { },
     );
   } catch (e) {
     let [errors, message, allErrors] = getErrorStrings(e);

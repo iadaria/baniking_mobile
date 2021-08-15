@@ -1,6 +1,6 @@
 import { IPersistUser } from '~/src/app/models/user';
 import * as constants from './appPersistConstants';
-import { refreshAccounts } from '../../../app/utils/auth';
+import { refreshAccounts } from '~/src/app/utils/auth';
 import { IPersistImages } from '~/src/app/models/persist';
 import { Bath } from '~/src/app/models/bath';
 

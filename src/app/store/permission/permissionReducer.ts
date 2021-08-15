@@ -38,7 +38,7 @@ export default function permissionReducer(
       };
        */
     case constants.SET_LOCATION_PERMISSION:
-      logline('[Reducer]', payload);
+      //logline('[Reducer]', payload);
       return {
         ...state,
         location: payload,

@@ -1,6 +1,7 @@
 import * as constants from './mapConstants';
 import { City } from '~/src/app/models/city';
 import { logline } from '~/src/app/utils/debug';
+import { Location } from '~/src/app/models/map';
 
 const defaultCity: City = {
   id: 0,
@@ -15,8 +16,7 @@ export interface IMapState {
   cities: [];
   // detect
   detectedCity: string | null;
-  lat: number | null;
-  lng: number | null;
+  location: Location | null;
   // select
   selectedCityId: number;
   selectedCity: City;
@@ -30,8 +30,8 @@ const initState: IMapState = {
   cities: [],
   // detect
   detectedCity: null,
-  lat: null,
-  lng: null,
+
+  location: null,
   // select
   selectedCityId: 0,
   selectedCity: defaultCity,
@@ -57,12 +57,12 @@ export default function mapReducer(
       };
 
     case constants.SET_GEOLOCATION:
+      logline('SET_GEOLOCATION', payload);
       return {
         ...state,
         loading: false,
         error: false,
-        lat: payload.lat,
-        lng: payload.lng,
+        location: payload,
       };
 
     case constants.SET_DETECTED_CITY:

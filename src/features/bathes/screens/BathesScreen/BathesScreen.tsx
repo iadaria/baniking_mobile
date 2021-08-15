@@ -14,7 +14,7 @@ import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
 import { FilterButton } from './components/FilterButton';
-import { City } from './components/City';
+import { SelectedCity } from './components/SelectedCity';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
@@ -63,7 +63,7 @@ export function BathesScreenContainer({
         <Header />
       </Block>
 
-      <City />
+      <SelectedCity />
 
       <AppText margin={[0, 0, 2, 4]} h1>
         Каталог бань

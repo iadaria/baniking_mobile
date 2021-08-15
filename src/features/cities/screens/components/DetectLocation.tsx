@@ -1,40 +1,50 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RESULTS } from 'react-native-permissions';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
-import { showAlert } from '~/src/app/common/components/showAlert';
-import { detectGeo as detectGeoAction } from '~/src/features/map/store/mapActions';
+import {
+  detectGeo as detectGeoAction,
+  detectCity as detectCityAction,
+} from '~/src/features/map/store/mapActions';
 import { checkPermissionLocation as checkPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
 import { Permit } from '~/src/app/store/permission/permissionReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
+import { Location } from '~/src/app/models/map';
+import { fetchCities as fetchCitiesAction } from '../../store/cityActions';
 
 interface IProps {
   permissionLocation: [boolean, Permit];
+  location: Location | null;
   checkPermissionLocation: () => void;
   detectGeo: () => void;
+  detectCity: () => void;
+  fetchCities: () => void;
 }
 
 function DetectLocationContainer({
+  location,
   permissionLocation,
   checkPermissionLocation,
   detectGeo,
+  detectCity,
 }: IProps) {
   const [granted, permit] = permissionLocation;
 
   useEffect(() => {
-    if (!granted && permit === RESULTS.BLOCKED) {
-      showAlert(
-        'Местоположение',
-        'Вы заблокировали возможность определения местоположения',
-      );
-    }
-    if (!granted) {
-      checkPermissionLocation();
-    }
+    checkPermissionLocation();
   }, [checkPermissionLocation, granted, permit]);
 
+  useEffect(() => {
+    if (granted) {
+      detectGeo();
+    }
+  }, [detectGeo, granted, permit]);
+
+  function handleDetectLocation() {
+    detectCity();
+  }
+
   return (
-    <AppButton margin={[2, 0, 0]} onPress={detectGeo}>
+    <AppButton margin={[2, 0, 0]} onPress={handleDetectLocation}>
       <AppText medium center size={4}>
         Определить мое местоположение
       </AppText>
@@ -43,11 +53,14 @@ function DetectLocationContainer({
 }
 
 const DetectLocationConnected = connect(
-  ({ permission }: IRootState) => ({
+  ({ permission, map }: IRootState) => ({
     permissionLocation: permission.location,
+    location: map.location,
   }),
   {
+    fetchCities: fetchCitiesAction,
     detectGeo: detectGeoAction,
+    detectCity: detectCityAction,
     checkPermissionLocation: checkPermissionLocationAction,
   },
 )(DetectLocationContainer);
