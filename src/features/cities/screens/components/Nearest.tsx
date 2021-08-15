@@ -11,7 +11,7 @@ import { styles as s } from '../styles';
 
 interface IProps {
   isNear: boolean;
-  isCityId: boolean;
+  isCityId?: boolean;
   setNear: () => void;
   location: Location | null;
 }
@@ -20,18 +20,19 @@ function NearestContainer({ location, isNear, isCityId, setNear }: IProps) {
   const { lat, lng } = location || {};
 
   const isnotNear = !isNear;
+  const hasLocation = location !== null;
 
   useDebounced({
     param: { field: 'latitude', value: lat },
     deps: [lat, isNear],
-    shouldExecute: location !== null,
+    shouldExecute: hasLocation,
     isDelete: isnotNear,
   });
 
   useDebounced({
     param: { field: 'longitude', value: lng },
     deps: [lng, isNear],
-    shouldExecute: location !== null,
+    shouldExecute: hasLocation,
     isDelete: isnotNear,
   });
 
@@ -54,7 +55,7 @@ function NearestContainer({ location, isNear, isCityId, setNear }: IProps) {
 const NearestConnected = connect(
   ({ bath, map }: IRootState) => ({
     isNear: bath.isNear,
-    isCityId: bath.params.city_id,
+    isCityId: !!bath.params.city_id,
     location: map.location,
   }),
   {
