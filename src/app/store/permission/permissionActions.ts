@@ -7,18 +7,6 @@ export function checkPermissionLocation() {
   };
 }
 
-export function denyPermissionLocation() {
-  return {
-    type: constants.DENY_LOCATION_PERMISSION,
-  };
-}
-
-export function acceptPermissionLocation() {
-  return {
-    type: constants.ACCEPT_LOCATION_PERMISSION,
-  };
-}
-
 export function setPermissionLocation(payload: [boolean, Permit]) {
   return {
     type: constants.SET_LOCATION_PERMISSION,
@@ -26,8 +14,8 @@ export function setPermissionLocation(payload: [boolean, Permit]) {
   };
 }
 
-export function askPermissionLocation() {
+export function clearPermissionLocation() {
   return {
-    type: constants.ASK_LOCATION_PERMISSION,
+    type: constants.CLEAR_PERMISSION_LOCATION,
   };
 }

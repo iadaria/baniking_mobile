@@ -42,14 +42,6 @@ export function BathesScreenContainer({
     fetchBathes();
   }, [fetchBathes, params]);
 
-  /*   useEffect(
-      () =>
-        navigation.addListener('focus', () =>
-          logline('[BathesScreen]', '\nfocused\n'),
-        ),
-      [navigation],
-    ); */
-
   // change params
   function handleLoadMore() {
     if (canLoadMoreBathes) {

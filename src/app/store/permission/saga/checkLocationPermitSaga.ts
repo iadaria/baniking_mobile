@@ -1,4 +1,5 @@
-import { select, takeEvery } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
+import { Linking } from 'react-native';
 import { RESULTS } from 'react-native-permissions';
 import { store } from '~/src/app/store';
 import {
@@ -9,7 +10,10 @@ import {
   Permit,
   IPermissionState,
 } from '~/src/app/store/permission/permissionReducer';
-import { setPermissionLocation } from '../permissionActions';
+import {
+  setPermissionLocation,
+  clearPermissionLocation,
+} from '../permissionActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { CHECK_PERMISSION_LOCATION } from '../permissionConstants';
 import { log, logline } from '~/src/app/utils/debug';
@@ -21,8 +25,10 @@ interface IAction {
 
 const PERMISSION = PERMISSION_TYPE.location;
 
-const setPermission = (permition: [boolean, Permit]) =>
-  store.dispatch(setPermissionLocation(permition));
+const changePermission = async () => {
+  store.dispatch(clearPermissionLocation());
+  await Linking.openSettings();
+};
 
 function* checkLocationPermitSaga(_: IAction) {
   logline('\n\n[checkLocationPermitSaga]', '***');
@@ -34,13 +40,20 @@ function* checkLocationPermitSaga(_: IAction) {
     const [granted, permit] = location;
 
     if (!granted && permit === RESULTS.BLOCKED) {
+      logline('showAlert', '+++');
       showAlert(
         'Местоположение',
         'Вы заблокировали возможность определения местоположения',
+        'Изменить доступ',
+        async () => await changePermission(),
+        () => { },
       );
-    }
-    if (!granted) {
-      yield AppPermission.checkPermission(PERMISSION).then(setPermission);
+    } else if (!granted) {
+      logline('checkPermission again', '');
+      const result: [boolean, Permit] = yield AppPermission.checkPermission(
+        PERMISSION,
+      ); //.then(setPermission);
+      yield put(setPermissionLocation(result));
     }
   } catch (e) {
     log('[checkLocationPermitSaga/error]', e);

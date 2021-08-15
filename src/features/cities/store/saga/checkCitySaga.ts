@@ -24,7 +24,7 @@ function* checkCitySaga(_: IAction) {
       yield put(setCities(cities));
       yield put(selectCity(selectedCityName.toLowerCase()));
 
-      logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
+      //logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
     }
   } catch (e) {
     log('[checkCitiesSaga/error]', e);

@@ -1,4 +1,3 @@
-import { RESULTS } from 'react-native-permissions';
 import { logline } from '../../utils/debug';
 import * as constants from './permissionConstants';
 
@@ -13,14 +12,10 @@ export type Permit =
 export type TPermission = [boolean, ''];
 
 export interface IPermissionState {
-  locationGranted: boolean;
-  locationPermit: Permit;
   location: [boolean, Permit];
 }
 
 const initialState: IPermissionState = {
-  locationGranted: false,
-  locationPermit: '',
   location: [false, ''],
 };
 
@@ -29,31 +24,19 @@ export default function permissionReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IPermissionState {
   switch (type) {
-    /* case constants.SET_LOCATION_PERMISSION:
-      const [granted, permit] = payload;
-      return {
-        ...state,
-        locationGranted: granted,
-        locationPermit: permit,
-      };
-       */
     case constants.SET_LOCATION_PERMISSION:
-      //logline('[Reducer]', payload);
-      return {
-        ...state,
-        location: payload,
-      };
-    /* case constants.DENY_LOCATION_PERMISSION:
+      logline('SET_LOCATION_PERMISSION', payload);
       return {
         ...state,
         location: payload,
       };
 
-    case constants.ACCEPT_LOCATION_PERMISSION:
+    case constants.CLEAR_PERMISSION_LOCATION:
+      logline('CLEAR_PERMISSION_LOCATION', '');
       return {
         ...state,
-        location: true,
-      }; */
+        location: [false, ''],
+      };
 
     default:
       return state;

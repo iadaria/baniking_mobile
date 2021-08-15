@@ -22,7 +22,7 @@ export default function BathesNavigator() {
     <Bathes.Navigator
       //initialRouteName={isCity ? 'BathesScreen' : 'CityScreen'}
       initialRouteName="CitiesScreen"
-      //initialRouteName="BathesScreen"
+      //nitialRouteName="BathesScreen"
       headerMode="screen"
       screenOptions={{ headerShown: false }}>
       <Bathes.Screen name="BathesScreen" component={BathesScreen} />

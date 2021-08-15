@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppButton, AppText } from '~/src/app/common/components/UI';
 import {
@@ -6,28 +6,28 @@ import {
   detectCity as detectCityAction,
 } from '~/src/features/map/store/mapActions';
 import { checkPermissionLocation as checkPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
-import { Permit } from '~/src/app/store/permission/permissionReducer';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { Location } from '~/src/app/models/map';
-import { fetchCities as fetchCitiesAction } from '../../store/cityActions';
+import { Permit } from '~/src/app/store/permission/permissionReducer';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   permissionLocation: [boolean, Permit];
-  location: Location | null;
   checkPermissionLocation: () => void;
   detectGeo: () => void;
   detectCity: () => void;
-  fetchCities: () => void;
 }
 
 function DetectLocationContainer({
-  location,
   permissionLocation,
   checkPermissionLocation,
   detectGeo,
   detectCity,
 }: IProps) {
   const [granted] = permissionLocation;
+
+  useEffect(() => {
+    logline('granted changed +++++', granted);
+  }, [granted]);
 
   useEffect(() => {
     checkPermissionLocation();
@@ -39,24 +39,31 @@ function DetectLocationContainer({
     }
   }, [detectGeo, granted]);
 
-  //function handleDetectCity() { }
+  function handleDetectCity() {
+    if (granted) {
+      detectCity();
+    } else {
+      checkPermissionLocation();
+    }
+  }
 
   return (
-    <AppButton margin={[2, 0, 0]} onPress={detectCity}>
-      <AppText medium center size={4}>
-        Определить мое местоположение
-      </AppText>
-    </AppButton>
+    <>
+      <AppButton margin={[2, 0, 0]} onPress={handleDetectCity}>
+        <AppText medium center size={4}>
+          Определить мое местоположение
+        </AppText>
+      </AppButton>
+      {/* <OpenSettingsButton>Open Settings</OpenSettingsButton> */}
+    </>
   );
 }
 
 const DetectLocationConnected = connect(
-  ({ permission, map }: IRootState) => ({
+  ({ permission }: IRootState) => ({
     permissionLocation: permission.location,
-    location: map.location,
   }),
   {
-    fetchCities: fetchCitiesAction,
     detectGeo: detectGeoAction,
     detectCity: detectCityAction,
     checkPermissionLocation: checkPermissionLocationAction,
@@ -64,13 +71,3 @@ const DetectLocationConnected = connect(
 )(DetectLocationContainer);
 
 export { DetectLocationConnected as DetectLocation };
-
-/*   useEffect(() => {
-    if (granted) {
-      detectGeo();
-    }
-  }, [detectGeo, granted, permit]);
-
-  function handleDetectLocation() {
-    detectCity();
-  } */

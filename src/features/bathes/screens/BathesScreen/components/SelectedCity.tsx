@@ -9,7 +9,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { LocationIcon } from '~/src/assets';
 import { styles as s } from '../styles';
 
-export function SelectedCityContainer() {
+export function SelectedCity() {
   const { loading, selectedCity } = useSelector(({ city }: IRootState) => city);
   const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import Geolocation from 'react-native-geolocation-service';
 
 import { showAlert } from '~/src/app/common/components/showAlert';
