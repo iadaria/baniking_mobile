@@ -1,13 +1,10 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import Geolocation from 'react-native-geolocation-service';
-
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { mapFail, mapRequest, setGeoLocation } from '../mapActions';
-import { store } from '~/src/app/store';
 import { DETECT_GEO_LOCATION } from '../mapConstants';
 import { log, logline } from '~/src/app/utils/debug';
-import { Location } from '~/src/app/models/map';
 
 interface IAction {
   type: string;
@@ -16,20 +13,10 @@ interface IAction {
 type GeoPosition = Geolocation.GeoPosition;
 
 function getCurrentPosition() {
-  return new Promise((resolve) => {
-    Geolocation.getCurrentPosition(
-      resolve,
-      /* (position: GeoPosition) => {
-        resolve(position);
-      }, */
-      (error: Geolocation.GeoError) => {
-        logline(
-          '[detectGeoSaga/getCurrentPosition] ',
-          `${error.code} ${error.message}`,
-        );
-      },
-      { enableHighAccuracy: true },
-    );
+  return new Promise((resolve, error) => {
+    Geolocation.getCurrentPosition(resolve, error, {
+      enableHighAccuracy: true,
+    });
   });
 }
 

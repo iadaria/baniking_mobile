@@ -15,7 +15,6 @@ export interface ICityState {
   count: number;
   cities: City[];
   // select
-  selectedBy: 'user' | 'auto';
   selectedCityId: number;
   selectedCity: City;
 }
@@ -27,7 +26,6 @@ const initState: ICityState = {
   count: 0,
   cities: [],
   // select
-  selectedBy: 'auto',
   selectedCityId: 0,
   selectedCity: defaultCity,
 };
@@ -66,7 +64,6 @@ export default function cityReducer(
       );
       return {
         ...state,
-        selectedBy: 'user',
         selectedCityId: selectedCity?.id || 0,
         selectedCity: selectedCity || defaultCity,
       };

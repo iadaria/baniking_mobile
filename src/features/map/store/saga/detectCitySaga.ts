@@ -10,7 +10,6 @@ import { IMapState } from '../mapReducer';
 import { GOOGLE_API } from 'react-native-dotenv';
 import { DETECT_CITY } from '../mapConstants';
 import { log, logline } from '~/src/app/utils/debug';
-import { persistCity } from '~/src/features/persist/store/appPersistActions';
 
 export type DetectCityParams = {
   latlng: string;
@@ -28,11 +27,6 @@ interface IResult {
   results: {
     address_components: { long_name: string; short_name: string }[];
   }[];
-}
-
-function _selectCity(city: string) {
-  store.dispatch(selectCity(city));
-  store.dispatch(persistCity(city));
 }
 
 function* detectCitySaga(_: IAction) {
@@ -57,7 +51,7 @@ function* detectCitySaga(_: IAction) {
         'Определение местоположения',
         `Ваш город ${city}?`,
         'OK',
-        () => _selectCity(city.toLowerCase().trim()),
+        () => store.dispatch(selectCity(city.toLowerCase().trim())),
         () => { },
       );
     } else {

@@ -6,7 +6,6 @@ import {
   fetchCities as fetchCitiesAction,
   selectCity as selectCityAction,
 } from '~/src/features/cities/store/cityActions';
-import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { City } from '~/src/app/models/city';
 import { styles as s } from '../styles';
@@ -19,7 +18,6 @@ interface IProps {
   allCities: City[];
   countAllCities: number;
   fetchCities: () => void;
-  persistCity: (cityName: string) => void;
   selectCity: (cityId: number) => void;
 }
 
@@ -29,7 +27,6 @@ const CitiesListContainer: FC<IProps> = ({
   allCities,
   countAllCities,
   fetchCities,
-  persistCity,
   selectCity,
 }) => {
   const [showCities, setShowCities] = useState<City[]>([]);
@@ -52,7 +49,6 @@ const CitiesListContainer: FC<IProps> = ({
 
       function handleSelectCity() {
         closeList();
-        persistCity(name);
         selectCity(id);
       }
 
@@ -64,7 +60,7 @@ const CitiesListContainer: FC<IProps> = ({
         </TouchableOpacity>
       );
     },
-    [closeList, persistCity, selectCity],
+    [closeList, selectCity],
   );
 
   const emptyList = (
@@ -107,7 +103,6 @@ const CitiesListConnected = connect(
   }),
   {
     fetchCities: fetchCitiesAction,
-    persistCity: persistCityAction,
     selectCity: selectCityAction,
   },
 )(CitiesListContainer);

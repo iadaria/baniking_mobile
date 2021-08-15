@@ -16,8 +16,7 @@ import {
 } from '../contracts/orderCallInputs';
 import { initInputs } from '~/src/app/utils/validate';
 import { bathSortParams } from '~/src/app/models/bath';
-import { calcFilterCount } from '../../../app/utils/bathUtility';
-import { City } from '~/src/app/models/city';
+import { calcFilterCount } from '~/src/app/utils/bathUtility';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
