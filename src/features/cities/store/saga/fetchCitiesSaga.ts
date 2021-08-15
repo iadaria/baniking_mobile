@@ -12,12 +12,12 @@ interface IAction {
 }
 
 function* fetchCitiesSagaTest(_: IAction) {
-  logline('\n\n[fetchCitiesSaga]', ' *** FETCH CITIES YES *** ');
+  //logline('\n\n[fetchCitiesSaga]', ' *** FETCH CITIES YES *** ');
 
   try {
     const result: unknown = yield call(methods.getCities, null, null);
     const cities = Object.values(result) as City[];
-    logline('[fetchCitiesSaga] result count', cities.length);
+    //ogline('[fetchCitiesSaga] result count', cities.length);
     //log('[sortedCities]', cities.slice(0, 8));
     yield put(setCities(cities));
   } catch (e) {

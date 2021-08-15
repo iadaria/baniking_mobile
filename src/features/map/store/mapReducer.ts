@@ -1,6 +1,6 @@
 import * as constants from './mapConstants';
 import { Location } from '~/src/app/models/map';
-import { log } from '~/src/app/utils/debug';
+import { log, logline } from '~/src/app/utils/debug';
 
 
 export interface IMapState {
@@ -37,14 +37,13 @@ export default function mapReducer(
       };
 
     case constants.SET_GEOLOCATION:
-      const newReducer = {
+      logline('SET_GEOLOCATION', payload);
+      return {
         ...state,
         loading: false,
         error: false,
         location: payload,
       };
-      log('SET_GEOLOCATION', { newReducer });
-      return newReducer;
 
     default:
       return state;

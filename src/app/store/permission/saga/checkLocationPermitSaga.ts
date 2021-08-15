@@ -31,7 +31,7 @@ const PERMISSION = PERMISSION_TYPE.location;
 };
  */
 function* checkLocationPermitSaga(_: IAction) {
-  logline('\n\n[checkLocationPermitSaga]', '***');
+  //logline('\n\n[checkLocationPermitSaga]', '***');
 
   try {
     const { location }: IPermissionState = yield select(
