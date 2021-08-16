@@ -21,8 +21,9 @@ import { styles as s } from './styles';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
+  filterLoading: boolean;
   navigation: StackNavigationProp<ParamListBase>;
-  paramsCheck: BathParams;
+  paramsCheck: Partial<BathParams>;
   filters: BathTouchParams;
   getBathTouchParams: () => void;
   checkInit: () => void;
@@ -31,6 +32,7 @@ interface IProps {
 }
 
 function BathesFilterScreenContainer({
+  filterLoading,
   paramsCheck,
   filters,
   getBathTouchParams,
@@ -38,14 +40,14 @@ function BathesFilterScreenContainer({
   checkClean,
   checkFilter,
 }: IProps) {
-  const [create, setCreate] = useState(false);
 
   const { types, services, zones, steamRooms } = filters;
 
   // Получаем параметры для фильтрации
   useEffect(() => {
     checkInit();
-  }, [checkInit]);
+    return () => checkClean();
+  }, [checkClean, checkInit]);
 
   useEffect(() => {
     getBathTouchParams();
@@ -57,12 +59,11 @@ function BathesFilterScreenContainer({
 
   function handleCheckClean() {
     checkClean();
-    setCreate(!create);
   }
 
   return (
     <>
-      <ScrollView key={+create} style={s.sv}>
+      <ScrollView style={s.sv}>
         <Header iconKind="backward" />
         <Title onPress={handleCheckClean} />
         <Pricer />
@@ -85,6 +86,7 @@ const BathesFilterScreenConnected = connect(
   ({ filter }: IRootState) => ({
     paramsCheck: filter.paramsCheck,
     filters: filter.paramsTouch,
+    filterLoading: filter.filterLoading,
   }),
   {
     getBathTouchParams: getBathTouchParamsAction,

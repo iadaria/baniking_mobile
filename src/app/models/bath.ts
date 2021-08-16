@@ -52,6 +52,18 @@ export const BathSortParams = [null, { sort_field: '' }];
  * @param {BathSortType} sort_type {BathSortType}
  * @param {number} rating {number}
  */
+
+export const additionFilters = [
+  'rating_from',
+  'rating_to',
+  'price_from',
+  'price_to',
+  'types',
+  'steam_rooms_ids',
+  'services_ids',
+  'zones_ids',
+];
+
 export interface IBathParams {
   search_query: string;
   sort_field: BathSortField;

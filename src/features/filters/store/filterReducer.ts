@@ -6,6 +6,8 @@ import {
   FILTER_KEYS,
   BathTouchParams,
   BathParam,
+  AdditionFilters,
+  additionFilters,
 } from '~/src/app/models/bath';
 import * as constants from './filterConstants';
 import { bathSortParams } from '~/src/app/models/bath';
@@ -18,11 +20,12 @@ export interface IFilterState {
   errors: IErrors | null;
   // Filter
   params: BathParams;
+  paramsTouchCount: number;
   canLoadMoreBathes: boolean;
   sort: BathSort;
   isNear?: boolean;
   // Filter
-  paramsTouch: BathTouchParams;
+  paramsTouch: Partial<BathTouchParams>;
   paramsCheck: BathParams;
   filtered: boolean;
   filterLoading: boolean;
@@ -37,11 +40,13 @@ const initialState: IFilterState = {
   errors: null,
   // Sort
   canLoadMoreBathes: false,
+  paramsTouchCount: 0,
   params: { page: 1 },
   sort: BathSort.None,
   isNear: false,
   // Filter
-  paramsTouch: { types: [], zones: [], services: [], steamRooms: [] },
+  //paramsTouch: { types: [], zones: [], services: [], steamRooms: [] },
+  paramsTouch: {},
   paramsCheck: { page: 0 },
   filtered: false,
   filterLoading: false,
@@ -142,9 +147,16 @@ export default function filterReducer(
       };
 
     case constants.ACCEPT_FILTER: // using
+      const cleanedParams: BathParams = { ...state.params, page: 0 };
+      additionFilters.forEach((field: string) => {
+        if (cleanedParams.hasOwnProperty(field)) {
+          delete cleanedParams[field];
+        }
+      });
       return {
         ...state,
-        params: { ...state.params, ...state.paramsCheck },
+        paramsTouchCount: state.filterCount,
+        params: { ...cleanedParams, ...state.paramsCheck },
       };
 
     case constants.NOT_NEAR: // using
@@ -156,7 +168,7 @@ export default function filterReducer(
     case constants.CHECK_INIT: // using
       return {
         ...state,
-        paramsCheck: { ...state.params, ...state.paramsCheck },
+        paramsCheck: { ...state.paramsCheck, ...state.params },
       };
 
     case constants.CHECK_FILTER: // using
@@ -167,9 +179,17 @@ export default function filterReducer(
       };
 
     case constants.CHECK_CLEAN: // using
+      const checkCleanted: BathParams = { ...state.params, page: 0 };
+      additionFilters.forEach((field: string) => {
+        if (checkCleanted.hasOwnProperty(field)) {
+          delete checkCleanted[field];
+        }
+      });
+
       return {
         ...state,
-        paramsCheck: state.params,
+        filterCount: 0,
+        paramsCheck: checkCleanted,
       };
 
     default:

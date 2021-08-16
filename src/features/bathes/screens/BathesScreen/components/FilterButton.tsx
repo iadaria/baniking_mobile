@@ -9,9 +9,9 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from '../styles';
 
 export function FilterButton() {
-  const { filterCount } = useSelector((state: IRootState) => state.filter);
+  const { paramsTouchCount } = useSelector((state: IRootState) => state.filter);
 
-  const isFiltered = filterCount > 0;
+  const isFiltered = paramsTouchCount > 0;
 
   return (
     <TouchableOpacity
@@ -21,7 +21,7 @@ export function FilterButton() {
       {isFiltered && (
         <Block style={s.badge} middle center>
           <AppText bold center size={2.8}>
-            {filterCount}
+            {paramsTouchCount}
           </AppText>
         </Block>
       )}

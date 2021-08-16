@@ -3,6 +3,7 @@ export const CHECK_INIT = 'filter/CHECK_INIT';
 export const CHECK_CLEAN = 'filter/CHECK_CLEAN';
 export const CHECK_FILTER = 'filter/CHECK_FILTER';
 export const CHECK_FILTER_FAIL = 'filter/CHECK_FILTER_FAIL';
+//export const CHECK_FLUR = 'filter/CHECK_BLUR';
 export const SET_CHECK_COUNT = 'filter/SET_CHECK_COUNT';
 
 // filteres Filter

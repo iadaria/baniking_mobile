@@ -1,38 +1,37 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from '../styles';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { compareObj } from '~/src/app/utils/common';
-import { IBathParams } from '~/src/app/models/bath';
+import { BathParams, IBathParams } from '~/src/app/models/bath';
 
 interface IProps {
   title: string;
-  items: string[];
   field: keyof IBathParams;
+  items?: string[];
+  paramsCheck: BathParams;
 }
 
-export function Filters({ title, items, field }: IProps) {
-  const { paramsCheck } = useSelector((state: IRootState) => state.filter);
-  const [selected, setSelected] = useState<number[]>([]);
-
+function FiltersContainer({ title, items, field, paramsCheck }: IProps) {
+  const [selected, setSelected] = useState<number[]>(paramsCheck[field]);
   useDebounced({
     param: { prop: 'paramsCheck', field, value: selected },
     deps: [selected],
     shouldExecute: !compareObj(paramsCheck[field], selected),
-    isDelete: selected.length <= 0,
+    isDelete: selected && selected?.length <= 0,
   });
 
   function handleSelect(id: number) {
     const ns = !isSelected(id)
-      ? [...selected, id]
-      : selected.filter((i) => i !== id);
+      ? [...(selected || []), id]
+      : selected?.filter((i) => i !== id);
     setSelected(ns);
   }
 
-  const isSelected = (key: number) => selected.includes(key);
+  const isSelected = (key: number) => selected?.includes(key);
 
   const item = (id: number, name: string) => {
     const itemStyle = isSelected(id) ? s.elementSelected : s.element;
@@ -46,7 +45,7 @@ export function Filters({ title, items, field }: IProps) {
     );
   };
 
-  const elements = items.map((service: string, index: number) =>
+  const elements = items?.map((service: string, index: number) =>
     item(index, service),
   );
 
@@ -61,5 +60,14 @@ export function Filters({ title, items, field }: IProps) {
     </>
   );
 
-  return items.length ? component : null;
+  return items?.length ? component : null;
 }
+
+const FiltersConnected = connect(
+  ({ filter }: IRootState) => ({
+    paramsCheck: filter.paramsCheck,
+  }),
+  {},
+)(FiltersContainer);
+
+export { FiltersConnected as Filters };

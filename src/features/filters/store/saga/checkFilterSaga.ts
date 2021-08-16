@@ -10,6 +10,7 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { log, logline } from '~/src/app/utils/debug';
 import { CHECK_FILTER } from '../filterConstants';
+import { IFilterState } from '../filterReducer';
 
 interface IAction {
   type: string;
@@ -22,12 +23,13 @@ interface IResult {
 
 function* checkFilterSaga(_: IAction) {
   try {
-    const { paramsCheck } = yield select(({ bath }: IRootState) => bath);
+    const { paramsCheck }: IFilterState = yield select(
+      (state: IRootState) => state.filter,
+    );
     logline('\n\n***[checkFilterSaga] paramsCheck', paramsCheck);
 
     const { count }: IResult = yield call(methods.getBathes, null, paramsCheck);
     yield put(setCheckCount(count));
-
   } catch (e) {
     log('[checkFilterSaga/error]', e);
 
