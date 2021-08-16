@@ -1,4 +1,6 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { FETCH_CITIES } from './../cityConstants';
+import { fetchCities } from './../cityActions';
+import { call, delay, fork, join, put, select, take, takeLatest } from 'redux-saga/effects';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { citiesFail, selectCity, setCities } from '../cityActions';
 import { showAlert } from '~/src/app/common/components/showAlert';
@@ -7,6 +9,8 @@ import { CHECK_CITY } from '../cityConstants';
 import { log, logline } from '~/src/app/utils/debug';
 import { methods } from '~/src/app/api';
 import { City } from '~/src/app/models/city';
+import store from '~/src/app/store';
+import fetchCitiesSaga from './fetchCitiesSaga';
 
 interface IAction {
   type: string;
@@ -18,9 +22,21 @@ const isFirstOrDifferent = (persistName: string | null, selected?: City) =>
   persistName !== selected?.name || !selected;
 
 
+function* fetchCitisSync() {
+  try {
+    const result: unknown = yield call(methods.getCities, null, null);
+    const cities = Object.values(result) as City[];
+    yield put(setCities(cities));
+  } catch (e) {
+    logline('error', e);
+  }
+}
+
 function* checkCitySaga(_: IAction) {
   //logline('\n\n[checkCitiesSaga]', ' *** CHECK CITIES YES *** ');
   try {
+    yield call(fetchCitisSync)
+
     const state: IRootState = yield select((state) => state);
     const { selectedCityName: persistName } = state.persist;
     const { selectedCity } = state.city;
@@ -29,9 +45,6 @@ function* checkCitySaga(_: IAction) {
       isNotEmpty(persistName) &&
       isFirstOrDifferent(persistName, selectedCity)
     ) {
-      const result: unknown = yield call(methods.getCities, null, null);
-      const cities = Object.values(result) as City[];
-      yield put(setCities(cities));
       // select city
       yield put(selectCity(persistName!));
     }
