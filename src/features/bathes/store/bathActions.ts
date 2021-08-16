@@ -96,6 +96,11 @@ export const setNear = () => ({
 export const notNear = () => ({
   type: constants.NOT_NEAR,
 });
+// using
+export const changeNear = (payload: boolean) => ({
+  type: constants.CHANGE_NEAR,
+  payload,
+});
 
 /************************************** */
 

@@ -2,49 +2,24 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { AppText } from '~/src/app/common/components/UI';
-import { useDebounced } from '~/src/features/bathes/hooks/useDebounced';
-import { setNear as setNearAction } from '~/src/features/bathes/store/bathActions';
-import { Location } from '~/src/app/models/map';
-import { IRootState } from '~/src/app/store/rootReducer';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { PageIcon } from '~/src/assets';
 import { styles as s } from '../styles';
+import { routes } from '~/src/navigation/helpers/routes';
+import { changeNear as changeNearAction } from '~/src/features/bathes/store/bathActions';
 
 interface IProps {
-  isNear: boolean;
-  isCityId?: boolean;
-  setNear: () => void;
-  location: Location | null;
+  changeNear: (isNeedNear: boolean) => void;
 }
 
-function NearestContainer({ location, isNear, isCityId, setNear }: IProps) {
-  const { lat, lng } = location || {};
-
-  const isnotNear = !isNear;
-  const hasLocation = location !== null;
-
-  useDebounced({
-    param: { field: 'latitude', value: lat },
-    deps: [lat, isNear],
-    shouldExecute: hasLocation,
-    isDelete: isnotNear,
-  });
-
-  useDebounced({
-    param: { field: 'longitude', value: lng },
-    deps: [lng, isNear],
-    shouldExecute: hasLocation,
-    isDelete: isnotNear,
-  });
-
-  useDebounced({
-    param: { field: 'city_id', value: undefined },
-    deps: [isNear, isCityId],
-    shouldExecute: isNear && isCityId,
-    isDelete: isNear,
-  });
+function NearestContainer({ changeNear }: IProps) {
+  function handleSetNear() {
+    changeNear(true);
+    RootNavigation.goBackOrToScreen(routes.bathesTab.BathesScreen);
+  }
 
   return (
-    <TouchableOpacity style={s.nealy} onPress={setNear}>
+    <TouchableOpacity style={s.nealy} onPress={handleSetNear}>
       <AppText primary medium>
         Показать все бани рядом со мной
       </AppText>
@@ -52,15 +27,8 @@ function NearestContainer({ location, isNear, isCityId, setNear }: IProps) {
     </TouchableOpacity>
   );
 }
-const NearestConnected = connect(
-  ({ bath, map }: IRootState) => ({
-    isNear: bath.isNear,
-    isCityId: !!bath.params.city_id,
-    location: map.location,
-  }),
-  {
-    setNear: setNearAction,
-  },
-)(NearestContainer);
+export const NearestConnected = connect(() => ({}), {
+  changeNear: changeNearAction,
+})(NearestContainer);
 
 export { NearestConnected as Nearest };

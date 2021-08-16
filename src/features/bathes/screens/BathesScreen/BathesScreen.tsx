@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import {
   fetchBathes as fetchBathesAction,
@@ -18,7 +16,6 @@ import { SelectedCity } from './components/SelectedCity';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
-  navigation: StackNavigationProp<ParamListBase>;
   loading: boolean;
   bathes: Bath[];
   params: BathParams;
@@ -29,7 +26,6 @@ interface IProps {
 }
 
 export function BathesScreenContainer({
-  navigation,
   loading,
   bathes,
   params,

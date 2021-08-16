@@ -24,6 +24,7 @@ export const NEXT_PAGE = 'bath/NEXT_PAGE';
 export const SET_BATH_PARAM = 'bath/SET_BATH_PARAM';
 export const SET_NEAR = 'bath/SET_NEAR';
 export const NOT_NEAR = 'bath/NOT_NEAR';
+export const CHANGE_NEAR = 'bath/CHANGE_NEAR';
 
 export const SET_FILTER = 'bath/SET_FILTER';
 export const RETAIN_STATE = 'bath/RETAIN_STATE';

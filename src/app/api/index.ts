@@ -43,16 +43,16 @@ function arrayToQuery(name_array: string, array: any[]) {
 export const objToUrl = (obj: TObjToUrl) => {
   const result = obj
     ? `?${Object.keys(obj)
-        //.map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
-        .map((key) =>
-          Array.isArray(obj[key])
-            ? arrayToQuery(key, obj[key] as any[])
-            : `${key}=${obj[key]}`,
-        )
-        .join('&')}`
+      //.map((key) => `${key}=${Array.isArray(obj[key]) ? `"${String(obj[key])}"` : obj[key]}`)
+      .map((key) =>
+        Array.isArray(obj[key])
+          ? arrayToQuery(key, obj[key] as any[])
+          : `${key}=${obj[key]}`,
+      )
+      .join('&')}`
     : '';
 
-  log('[api/index(objToUrl)]\n', result);
+  //log('\n[api/index(objToUrl)]\n', result);
   return result;
 };
 

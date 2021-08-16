@@ -15,6 +15,10 @@ interface IAction {
   payload: string | number;
 }
 
+function isTheSame(one: string, two: string) {
+  return one.toLowerCase() === two.toLowerCase();
+}
+
 function* selectCitySaga({ payload }: IAction) {
   const { persistCityName, cities } = yield select(
     ({ persist, city }: IRootState) => ({
@@ -37,13 +41,13 @@ function* selectCitySaga({ payload }: IAction) {
     selectedCityName,
   });
 
-  if (selectedCityName !== persistCityName) {
+  if (!isTheSame(selectedCityName, persistCityName)) {
+    logline('[selectCitySaga]', 'UPDATE!!');
     yield put(persistCity(selectedCityName.toLowerCase()));
+    yield put(clearBathes());
+    yield put(notNear());
+    yield put(setBathParam({ field: 'city_id', value: selectedCityId }));
   }
-
-  yield put(clearBathes());
-  yield put(notNear());
-  yield put(setBathParam({ field: 'city_id', value: selectedCityId }));
 
   logline('\n\n[selectCitySaga]', payload);
 }

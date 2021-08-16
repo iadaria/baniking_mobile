@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { BathParam } from '~/src/app/models/bath';
+import { logline } from '~/src/app/utils/debug';
 import { clearBathes, setBathParam } from '../store/bathActions';
 
 interface IProps {
@@ -32,11 +33,15 @@ export function useDebounced({
   );
 
   useEffect(() => {
+    logline('[shouldExecute]', shouldExecute);
     if (!shouldExecute) return;
     // Удаляем свойство из параметров
     const value = isDelete ? undefined : param.value;
     // Присваиваем измененные параметры
-    debouncedRequest({ ...param, value });
+    const newParams = { ...param, value };
+    logline('[useDebounced] params', param);
+    logline('[useDebounced] new_params', newParams);
+    debouncedRequest(newParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedRequest, ...deps]);
 }

@@ -17,6 +17,7 @@ import {
 import { initInputs } from '~/src/app/utils/validate';
 import { bathSortParams } from '~/src/app/models/bath';
 import { calcFilterCount } from '~/src/app/utils/bathUtility';
+import { logline } from '~/src/app/utils/debug';
 
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
@@ -33,7 +34,7 @@ export interface IBathState {
   // Srot
   canLoadMoreBathes: boolean;
   sort: BathSort;
-  isNear: boolean;
+  isNear?: boolean;
   retainState: boolean;
   // Filter
   paramsFilter: BathFilterParams;
@@ -102,6 +103,7 @@ export default function bathReducer(
   switch (type) {
     // Params
     case constants.SET_PARAMS: // using
+      logline('SET_PARAMS', payload);
       return {
         ...state,
         params: payload,
@@ -167,6 +169,7 @@ export default function bathReducer(
       };
 
     case constants.SET_BATH_PARAM: // using
+      logline('SET_PARAMS', payload);
       const { prop = 'params', field, value } = payload as BathParam;
       const newBathParams = {
         ...state[prop],
@@ -183,6 +186,7 @@ export default function bathReducer(
       };
 
     case constants.SET_BATH_PARAMS_FILTERING: // using
+      logline('SET_PARAMS', payload);
       return {
         ...state,
         paramsFilter: payload,
