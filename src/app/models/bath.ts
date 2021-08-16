@@ -103,7 +103,7 @@ export const countingParams = [
   'zones_ids',
 ];
 
-export type BathFilterParams = {
+export type BathTouchParams = {
   types: BathType[];
   zones: string[];
   services: string[];

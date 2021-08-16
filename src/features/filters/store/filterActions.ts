@@ -2,7 +2,7 @@ import * as constants from './filterConstants';
 import {
   BathSort,
   BathParams,
-  BathFilterParams,
+  BathTouchParams,
   BathParam,
 } from '~/src/app/models/bath';
 import { IErrors } from '~/src/app/utils/error';
@@ -24,14 +24,14 @@ export const setBathParam = (payload: BathParam) => ({
 });
 
 // using
-export const getBathFilterParams = () => ({
+export const getBathTouchParams = () => ({
   type: constants.GET_BATH_PARAMS_FILTERING,
 });
 
 // using
-export const setBathFilterParams = (paramsFilter: BathFilterParams) => ({
+export const setBathTouchParams = (paramsTouch: BathTouchParams) => ({
   type: constants.SET_BATH_PARAMS_FILTERING,
-  payload: paramsFilter,
+  payload: paramsTouch,
 });
 
 // using

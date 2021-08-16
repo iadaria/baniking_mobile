@@ -4,7 +4,7 @@ import {
   BathParams,
   BathSort,
   FILTER_KEYS,
-  BathFilterParams,
+  BathTouchParams,
   BathParam,
 } from '~/src/app/models/bath';
 import * as constants from './filterConstants';
@@ -22,7 +22,7 @@ export interface IFilterState {
   sort: BathSort;
   isNear?: boolean;
   // Filter
-  paramsFilter: BathFilterParams;
+  paramsTouch: BathTouchParams;
   paramsCheck: BathParams;
   filtered: boolean;
   filterLoading: boolean;
@@ -41,7 +41,7 @@ const initialState: IFilterState = {
   sort: BathSort.None,
   isNear: false,
   // Filter
-  paramsFilter: { types: [], zones: [], services: [], steamRooms: [] },
+  paramsTouch: { types: [], zones: [], services: [], steamRooms: [] },
   paramsCheck: { page: 0 },
   filtered: false,
   filterLoading: false,
@@ -92,7 +92,7 @@ export default function filterReducer(
       logline('SET_PARAMS_PARAMS_FILTERING', payload);
       return {
         ...state,
-        paramsFilter: payload,
+        paramsTouch: payload,
       };
 
     case constants.SET_SORT: // using

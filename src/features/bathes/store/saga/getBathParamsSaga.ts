@@ -3,7 +3,7 @@ import { methods } from '~/src/app/api';
 import { BathType } from '~/src/app/models/bath';
 import { logline } from '~/src/app/utils/debug';
 import { objectToArray } from '~/src/app/utils/common';
-import { setBathFilterParams } from '~/src/features/filters/store/filterActions';
+import { setBathTouchParams } from '~/src/features/filters/store/filterActions';
 import { GET_BATH_PARAMS_FILTERING } from '~/src/features/filters/store/filterConstants';
 
 export interface IResponse {
@@ -16,10 +16,10 @@ export interface IResponse {
 function* getBathParamsSaga() {
   try {
     const params: IResponse = yield call(methods.getBathParams, null, null);
-    //log('paramsFilter', params);
+    //log('paramsTouch', params);
     const { types, zones, services, steamRooms } = params;
     yield put(
-      setBathFilterParams({
+      setBathTouchParams({
         types,
         zones: objectToArray(zones),
         services: objectToArray(services),
@@ -45,7 +45,7 @@ export default function* listener() {
     return;
   } */
 /*
-const paramsFilter: BathFilterParams = {
+const paramsTouch: BathTouchParams = {
   types: params.types,
   zones: new Map(Object.entries(params.zones) || {}),
   zones: params.zones,

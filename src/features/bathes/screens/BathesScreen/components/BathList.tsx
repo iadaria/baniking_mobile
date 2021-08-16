@@ -4,9 +4,9 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from 'react-redux';
 import { Block } from '~/src/app/common/components/UI';
 import { isIos } from '~/src/app/common/constants';
-import { Bath, BathFilterParams, BathParams } from '~/src/app/models/bath';
+import { Bath, BathTouchParams, BathParams } from '~/src/app/models/bath';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { setBathFilterParams, setParams } from '~/src/features/filters/store/filterActions';
+import { setBathTouchParams, setParams } from '~/src/features/filters/store/filterActions';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import AppListIndicator from '../AppListIndicator';
@@ -64,13 +64,13 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
       city_id: selectedCity?.id,
     };
     dispatch(setParams(params));
-    /* const filterParams: BathFilterParams = {
+    /* const filterParams: BathTouchParams = {
       types: [],
       zones: [],
       services: [],
       steamRooms: [],
     };
-    dispatch(setBathFilterParams(filterParams)); */
+    dispatch(setBathTouchParams(filterParams)); */
   }
 
   let emptyComponent = null;

@@ -6,12 +6,12 @@ import { ParamListBase } from '@react-navigation/native';
 import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import {
-  getBathFilterParams as getBathFilterParamsAction,
+  getBathTouchParams as getBathTouchParamsAction,
   checkInit as checkInitAction,
   checkClean as checkCleanAction,
   checkFilter as checkFilterAction,
 } from '~/src/features/filters/store/filterActions';
-import { BathFilterParams, BathParams } from '~/src/app/models/bath';
+import { BathTouchParams, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
 import { Pricer } from './components/Pricer';
 import { Filters } from './components/Filters';
@@ -23,8 +23,8 @@ import { logline } from '~/src/app/utils/debug';
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
   paramsCheck: BathParams;
-  filters: BathFilterParams;
-  getBathFilterParams: () => void;
+  filters: BathTouchParams;
+  getBathTouchParams: () => void;
   checkInit: () => void;
   checkClean: () => void;
   checkFilter: () => void;
@@ -33,7 +33,7 @@ interface IProps {
 function BathesFilterScreenContainer({
   paramsCheck,
   filters,
-  getBathFilterParams,
+  getBathTouchParams,
   checkInit,
   checkClean,
   checkFilter,
@@ -48,8 +48,8 @@ function BathesFilterScreenContainer({
   }, [checkInit]);
 
   useEffect(() => {
-    getBathFilterParams();
-  }, [getBathFilterParams]);
+    getBathTouchParams();
+  }, [getBathTouchParams]);
 
   useEffect(() => {
     checkFilter();
@@ -84,10 +84,10 @@ function BathesFilterScreenContainer({
 const BathesFilterScreenConnected = connect(
   ({ filter }: IRootState) => ({
     paramsCheck: filter.paramsCheck,
-    filters: filter.paramsFilter,
+    filters: filter.paramsTouch,
   }),
   {
-    getBathFilterParams: getBathFilterParamsAction,
+    getBathTouchParams: getBathTouchParamsAction,
     checkInit: checkInitAction,
     checkFilter: checkFilterAction,
     checkClean: checkCleanAction,
