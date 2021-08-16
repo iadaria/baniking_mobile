@@ -4,12 +4,12 @@ import { log, logline } from '~/src/app/utils/debug';
 import { SELECT_CITY } from '../cityConstants';
 import { persistCity } from '~/src/features/persist/store/appPersistActions';
 import { City } from '~/src/app/models/city';
+import { clearBathes } from '~/src/features/bathes/store/bathActions';
+import { setSelectedCity } from '../cityActions';
 import {
-  clearBathes,
   notNear,
   setBathParam,
-} from '~/src/features/bathes/store/bathActions';
-import { setSelectedCity } from '../cityActions';
+} from '~/src/features/filters/store/filterActions';
 
 interface IAction {
   type: string;

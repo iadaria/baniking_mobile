@@ -7,6 +7,7 @@ import { methods } from '~/src/app/api';
 import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { addBathes, bathesFail, setBathesCount } from '../bathActions';
+import { IFilterState } from '~/src/features/filters/store/filterReducer';
 
 interface IAction {
   type: string;
@@ -19,12 +20,14 @@ interface IResult {
 
 function* fetchBathesSaga(_: IAction) {
   try {
-    const { params } = yield select(({ bath }: IRootState) => bath);
-    logline('***[fetchBathesSaga] params', params);
+    const { params }: IFilterState = yield select(
+      (state: IRootState) => state.filter,
+    );
 
     const result: IResult = yield call(methods.getBathes, null, params, null);
 
     const { count, baths } = result;
+    logline('***[fetchBathesSaga] params ' + count, params);
     yield put(addBathes(baths));
     yield put(setBathesCount(count));
   } catch (e) {

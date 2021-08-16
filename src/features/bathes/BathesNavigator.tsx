@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
-import { BathesFilterScreen } from './screens/BathesFilterScreen';
+import { BathesFilterScreen } from '../filters/screens/BathesFilterScreen';
 import { BathesPhotosScreen } from './screens/BathesPhotosScreen';
 import { BathesScreen, BathScreen } from './screens';
 import { SelectCityScreen } from '../cities/screens/SelectCityScreen';

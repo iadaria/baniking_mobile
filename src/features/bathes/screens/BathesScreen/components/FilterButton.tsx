@@ -9,7 +9,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from '../styles';
 
 export function FilterButton() {
-  const { filterCount } = useSelector(({ bath }: IRootState) => bath);
+  const { filterCount } = useSelector((state: IRootState) => state.filter);
 
   const isFiltered = filterCount > 0;
 

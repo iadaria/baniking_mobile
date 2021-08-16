@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import {
-  fetchBathes as fetchBathesAction,
-  nextPage as nextPageAction,
-} from '~/src/features/bathes/store/bathActions';
+import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { Bath, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
@@ -13,6 +10,7 @@ import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
 import { FilterButton } from './components/FilterButton';
 import { SelectedCity } from './components/SelectedCity';
+import { nextPage as nextPageAction } from '~/src/features/filters/store/filterActions';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
@@ -33,7 +31,6 @@ export function BathesScreenContainer({
   fetchBathes,
   nextPage,
 }: IProps) {
-
   useEffect(() => {
     fetchBathes();
   }, [fetchBathes, params]);
@@ -70,10 +67,10 @@ export function BathesScreenContainer({
 }
 
 const BathesScreenConnected = connect(
-  ({ bath }: IRootState) => ({
+  ({ bath, filter }: IRootState) => ({
     loading: bath.loading,
     bathes: bath.bathes,
-    params: bath.params,
+    params: filter.params,
     canLoadMoreBathes: bath.canLoadMoreBathes,
   }),
   {

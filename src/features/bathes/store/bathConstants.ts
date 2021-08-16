@@ -18,28 +18,6 @@ export const ADD_BATH_DETAILED = 'bath/ADD_BATH_DETAILED';
 export const CLEAR_SELECTED_BATH = 'bath/CLEAR_SELECTED_BATH';
 export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';
 
-// Bathes Filter
-export const SET_PARAMS = 'bath/SET_PARAMS';
-export const NEXT_PAGE = 'bath/NEXT_PAGE';
-export const SET_BATH_PARAM = 'bath/SET_BATH_PARAM';
-export const SET_NEAR = 'bath/SET_NEAR';
-export const NOT_NEAR = 'bath/NOT_NEAR';
-export const CHANGE_NEAR = 'bath/CHANGE_NEAR';
-
-export const SET_FILTER = 'bath/SET_FILTER';
-export const RETAIN_STATE = 'bath/RETAIN_STATE';
-export const SET_SORT = 'bath/SET_SORT';
-export const GET_BATH_PARAMS_FILTERING = 'bath/GET_BATH_PARAMS_FILTERING';
-export const SET_BATH_PARAMS_FILTERING = 'bath/SET_BATH_PARAMS_FILTERING';
-export const ACCEPT_FILTER = 'bath/ACCEPT_FILTER';
-
-// Check filter
-export const CHECK_INIT = 'bath/CHECK_INIT';
-export const CHECK_CLEAN = 'bath/CHECK_CLEAN';
-export const CHECK_FILTER = 'bath/CHECK_FILTER';
-export const CHECK_FILTER_FAIL = 'bath/CHECK_FILTER_FAIL';
-export const SET_CHECK_COUNT = 'bath/SET_CHECK_COUNT';
-
 // Maps
 export const FETCH_MAPS = 'bath/FETCH_MAPS';
 export const SET_MAPS = 'bath/SET_MAPS';

@@ -1,7 +1,8 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { acceptFilter as acceptFilterAction } from '~/src/features/bathes/store/bathActions';
+import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
+import { acceptFilter as acceptFilterAction } from '~/src/features/filters/store/filterActions';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
@@ -11,16 +12,19 @@ interface IProps {
   filterLoading: boolean;
   totalCheckedBathes: number;
   acceptFilter: () => void;
+  clearBathes: () => void;
 }
 
 function AcceptButtonContainer({
   filterLoading,
   totalCheckedBathes,
   acceptFilter,
+  clearBathes,
 }: IProps) {
   function handleAcceptFilter() {
-    acceptFilter();
     RootNavigation.goBackOrToScreen('BathesScreen');
+    clearBathes();
+    acceptFilter();
   }
 
   return (
@@ -48,12 +52,13 @@ function AcceptButtonContainer({
 }
 
 const AcceptButtonConnected = connect(
-  ({ bath }: IRootState) => ({
-    filterLoading: bath.filterLoading,
-    totalCheckedBathes: bath.totalCheckedBathes,
+  ({ filter }: IRootState) => ({
+    filterLoading: filter.filterLoading,
+    totalCheckedBathes: filter.totalCheckedBathes,
   }),
   {
     acceptFilter: acceptFilterAction,
+    clearBathes: clearBathesAction,
   },
 )(AcceptButtonContainer);
 

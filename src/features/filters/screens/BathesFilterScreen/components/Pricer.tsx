@@ -10,7 +10,7 @@ import { styles as s } from '../styles';
 
 export function Pricer() {
   const { price_from = 1, price_to = 10000 } = useSelector(
-    ({ bath }: IRootState) => bath.paramsCheck,
+    (state: IRootState) => state.filter.paramsCheck,
   );
   const [lowPrice, setLowPrice] = useState(price_from);
   const [middleLowPrice, setMiddleLowPrice] = useState('1');

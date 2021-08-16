@@ -6,6 +6,7 @@ import * as map from '~/src/features/map/store/saga';
 import * as permission from '~/src/app/store/permission/saga';
 import * as preferences from '~/src/features/persist/store/saga';
 import * as profile from '~/src/features/profiles/store/saga';
+import * as filter from '~/src/features/filters/store/saga';
 import * as settings from '~/src/features/settings/store/saga';
 import { REHYDRATE } from 'redux-persist/lib/constants';
 
@@ -30,6 +31,7 @@ export default function* rootSaga() {
       city,
       map,
       preferences,
+      filter,
       permission,
     ),
   );

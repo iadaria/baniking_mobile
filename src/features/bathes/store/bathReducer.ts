@@ -1,24 +1,11 @@
 import { IErrors } from '~/src/app/utils/error';
-import {
-  Bath,
-  BathParams,
-  BathSort,
-  FILTER_KEYS,
-  BathFilterParams,
-  IMap,
-  IBathDetailed,
-  BathParam,
-} from '~/src/app/models/bath';
+import { Bath, IMap, IBathDetailed } from '~/src/app/models/bath';
 import * as constants from './bathConstants';
 import {
   defaultOrderCallInputs,
   IOrderCallInputs,
 } from '../contracts/orderCallInputs';
 import { initInputs } from '~/src/app/utils/validate';
-import { bathSortParams } from '~/src/app/models/bath';
-import { calcFilterCount } from '~/src/app/utils/bathUtility';
-import { logline } from '~/src/app/utils/debug';
-
 // https://scotch.io/tutorials/implementing-an-infinite-scroll-list-in-react-native
 export interface IBathState {
   // Common
@@ -26,25 +13,12 @@ export interface IBathState {
   loadingSelectBath: boolean;
   errors: IErrors | null;
   // Bathes
-  params: BathParams;
   totalBathes: number;
   bathes: Bath[];
   bathIds: number[];
   oldBathes: Bath[];
-  // Srot
-  canLoadMoreBathes: boolean;
-  sort: BathSort;
-  isNear?: boolean;
-  retainState: boolean;
-  // Filter
-  paramsFilter: BathFilterParams;
-  paramsCheck: BathParams;
-  filtered: boolean;
-  filterLoading: boolean;
-  filterErrors: IErrors | null;
-  filterCount: number;
-  totalCheckedBathes: number;
   // Bathes detailded
+  canLoadMoreBathes: boolean;
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
   selectedBath: IBathDetailed | null;
@@ -65,6 +39,7 @@ const initialState: IBathState = {
   loadingSelectBath: false,
   errors: null,
   // bathes
+  canLoadMoreBathes: true,
   totalBathes: 0,
   bathes: [],
   bathIds: [],
@@ -73,20 +48,6 @@ const initialState: IBathState = {
   bathesDetailed: [],
   bathesDetailedIds: [],
   selectedBath: null,
-  // Sort
-  canLoadMoreBathes: false,
-  params: { page: 1 },
-  sort: BathSort.None,
-  isNear: false,
-  // Filter
-  retainState: false,
-  paramsFilter: { types: [], zones: [], services: [], steamRooms: [] },
-  paramsCheck: { page: 0 },
-  filtered: false,
-  filterLoading: false,
-  filterErrors: null,
-  filterCount: 0,
-  totalCheckedBathes: 0,
   // maps
   mapIds: [],
   maps: [],
@@ -102,22 +63,6 @@ export default function bathReducer(
 ): IBathState {
   switch (type) {
     // Params
-    case constants.SET_PARAMS: // using
-      logline('SET_PARAMS', payload);
-      return {
-        ...state,
-        params: payload,
-      };
-
-    case constants.NEXT_PAGE: // using
-      return {
-        ...state,
-        params: {
-          ...state.params,
-          page: state.params.page + 1,
-        },
-      };
-
     case constants.SET_BATHES_COUNT: // using
       return {
         ...state,
@@ -152,99 +97,6 @@ export default function bathReducer(
         oldBathes: state.bathes,
       };
 
-    case constants.SET_SORT: // using
-      const sortParams = {
-        ...state.params,
-        ...bathSortParams[payload],
-        page: 1,
-      };
-      if (payload === BathSort.None) {
-        delete sortParams.sort_field;
-        delete sortParams.sort_type;
-      }
-      return {
-        ...state,
-        sort: payload,
-        params: sortParams,
-      };
-
-    case constants.SET_BATH_PARAM: // using
-      logline('SET_PARAMS', payload);
-      const { prop = 'params', field, value } = payload as BathParam;
-      const newBathParams = {
-        ...state[prop],
-        [field]: value,
-        page: 1,
-      };
-      if (!value) {
-        delete newBathParams[field];
-      }
-      return {
-        ...state,
-        [prop]: newBathParams,
-        filterCount: calcFilterCount(newBathParams),
-      };
-
-    case constants.SET_BATH_PARAMS_FILTERING: // using
-      logline('SET_PARAMS', payload);
-      return {
-        ...state,
-        paramsFilter: payload,
-      };
-
-    /** Check filter */
-
-    case constants.CHECK_INIT: // using
-      return {
-        ...state,
-        paramsCheck: { ...state.params, ...state.paramsCheck },
-      };
-
-    case constants.CHECK_CLEAN: // using
-      return {
-        ...state,
-        paramsCheck: state.params,
-      };
-
-    case constants.CHECK_FILTER: // using
-      return {
-        ...state,
-        filterLoading: true,
-        filterErrors: null,
-      };
-
-    case constants.SET_CHECK_COUNT: // using
-      return {
-        ...state,
-        filterLoading: false,
-        filterErrors: null,
-        totalCheckedBathes: payload,
-      };
-
-    case constants.CHECK_FILTER_FAIL: // using
-      return {
-        ...state,
-        filterLoading: false,
-        filterErrors: payload,
-      };
-
-    case constants.ACCEPT_FILTER: // using
-      return {
-        ...state,
-        params: { ...state.params, ...state.paramsCheck },
-      };
-
-    case constants.SET_NEAR: // using
-      return {
-        ...state,
-        isNear: true,
-      };
-
-    case constants.NOT_NEAR: // using
-      return {
-        ...state,
-        isNear: false,
-      };
     // *******************************************
 
     // Bath
@@ -253,12 +105,6 @@ export default function bathReducer(
         ...state,
         loadingSelectBath: true,
         errors: null,
-      };
-
-    case constants.RETAIN_STATE:
-      return {
-        ...state,
-        retainState: true,
       };
 
     case constants.SELECT_BATH:
@@ -288,30 +134,6 @@ export default function bathReducer(
         inputs: {
           orderCall: { ...initInputs(state.inputs.orderCall, payload) },
         },
-      };
-
-    case constants.SET_FILTER:
-      return {
-        ...state,
-        retainState: false,
-        filtered: Object.keys(payload.params).some((key: string) =>
-          FILTER_KEYS.includes(key),
-        ),
-        params: { ...payload.params, page: 0 },
-      };
-    // Bathes
-    case constants.SET_BATHES:
-      const newBathes: Bath[] = payload.bathes.filter(
-        (bath: Bath) => !state.bathIds.includes(bath.id),
-      );
-      const newBathIds = newBathes.map((bath: Bath) => bath.id);
-      return {
-        ...state,
-        loading: false,
-        errors: null,
-        bathIds: [...state.bathIds, ...newBathIds],
-        bathes: [...state.bathes, ...newBathes],
-        params: { ...state.params, page: payload.page },
       };
 
     case constants.REUSE_BATHES:

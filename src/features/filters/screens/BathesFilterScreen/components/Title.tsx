@@ -7,7 +7,7 @@ import { CloseFilerIcon } from '~/src/assets';
 import { styles as s } from '../styles';
 
 export function Title({ onPress }: { onPress: () => void }) {
-  const { filterCount } = useSelector(({ bath }: IRootState) => bath);
+  const { filterCount } = useSelector((state: IRootState) => state.filter);
   return (
     <Block center row space="between">
       <AppText h1>Выбрано фильтров</AppText>

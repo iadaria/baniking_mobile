@@ -73,6 +73,7 @@ export default function cityReducer(
         );
         return {
           ...state,
+          selectedCity: state.selectedCity !== selectedCity : see
           selectedCityId: selectedCity?.id,
           selectedCity: selectedCity,
         }; */

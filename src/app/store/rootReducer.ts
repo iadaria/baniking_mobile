@@ -1,3 +1,4 @@
+import filterReducer, { IFilterState } from './../../features/filters/store/filterReducer';
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
 // import storage from 'redux-persist/es/storage';
@@ -43,6 +44,7 @@ export interface IRootState {
   modal: IModalState;
   profile: IProfileState;
   settings: ISettingsState;
+  filter: IFilterState;
   bath: IBathState;
   city: ICityState;
   map: IMapState;
@@ -56,6 +58,7 @@ const rootReducer = combineReducers<IRootState>({
   modal: modalReducer,
   profile: profileReducer,
   settings: settingsReducer,
+  filter: filterReducer,
   bath: bathReducer,
   city: cityReducer,
   map: mapReducer,

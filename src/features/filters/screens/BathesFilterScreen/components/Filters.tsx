@@ -15,7 +15,7 @@ interface IProps {
 }
 
 export function Filters({ title, items, field }: IProps) {
-  const paramsCheck = useSelector(({ bath }: IRootState) => bath.paramsCheck);
+  const { paramsCheck } = useSelector((state: IRootState) => state.filter);
   const [selected, setSelected] = useState<number[]>([]);
 
   useDebounced({

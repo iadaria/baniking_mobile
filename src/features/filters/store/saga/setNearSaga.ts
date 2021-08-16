@@ -4,9 +4,10 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { logline } from '~/src/app/utils/debug';
 import { BathParams } from '~/src/app/models/bath';
-import { setParams, clearBathes, bathesFail } from '../bathActions';
+import { clearBathes, bathesFail } from '../../../bathes/store/bathActions';
 import { Location } from '~/src/app/models/map';
-import { CHANGE_NEAR } from '../bathConstants';
+import { CHANGE_NEAR } from '../filterConstants';
+import { setParams } from '../filterActions';
 
 interface IAction {
   type: string;
@@ -23,8 +24,8 @@ function* setNearSaga({ payload }: IAction) {
     const needNear = payload;
     const { location, params, city_id } = yield select((state: IRootState) => ({
       location: state.map.location,
-      params: state.bath.params,
-      city_id: state.city.selectedCity.id,
+      params: state.filter.params,
+      city_id: state.city.selectedCity?.id,
     }));
     let newParams: BathParams = { ...params };
     // Detect location

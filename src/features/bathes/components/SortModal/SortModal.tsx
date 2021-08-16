@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
-import { clearBathes, setSort } from '../../store/bathActions';
+import { clearBathes } from '../../store/bathActions';
 import { BathSort } from '~/src/app/models/bath';
 import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
 import { ListIcon } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from './styles';
+import { setSort } from '~/src/features/filters/store/filterActions';
 
 interface ISortItem {
   title: string;
@@ -33,7 +34,7 @@ export interface ISortModal {
 }
 
 export default function SortModal({ y }: ISortModal) {
-  const { sort } = useSelector(({ bath }: IRootState) => bath);
+  const { sort } = useSelector(({ filter }: IRootState) => filter);
   const [currentSort, setCurrentSort] = useState<BathSort>(sort);
   const dispatch = useDispatch();
 

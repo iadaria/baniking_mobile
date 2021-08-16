@@ -5,10 +5,12 @@ import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
 import { styles as s } from '../styles';
-import { useDebounced } from '../../../hooks/useDebounced';
+import { useDebounced } from '../../../../filters/hooks/useDebounced';
 
 export function Searcher() {
-  const { search_query } = useSelector(({ bath }: IRootState) => bath.params);
+  const { search_query } = useSelector(
+    ({ filter }: IRootState) => filter.params,
+  );
   const [searched, setSearched] = useState<string | undefined>(search_query);
 
   useDebounced({

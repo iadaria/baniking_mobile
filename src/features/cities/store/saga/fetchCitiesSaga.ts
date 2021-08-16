@@ -11,7 +11,7 @@ interface IAction {
   type: string;
 }
 
-function* fetchCitiesSagaTest(_: IAction) {
+export function* fetchCitiesSaga(_: IAction) {
   logline('\n\n[fetchCitiesSaga]', ' *** FETCH CITIES YES *** ');
 
   try {
@@ -37,5 +37,5 @@ function* fetchCitiesSagaTest(_: IAction) {
 }
 
 export default function* listener() {
-  yield takeEvery(FETCH_CITIES, fetchCitiesSagaTest);
+  yield takeEvery(FETCH_CITIES, fetchCitiesSaga);
 }

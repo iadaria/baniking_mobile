@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
-import { setBathFilterParams } from '../bathActions';
 import { BathType } from '~/src/app/models/bath';
-import { GET_BATH_PARAMS_FILTERING } from '../bathConstants';
 import { logline } from '~/src/app/utils/debug';
 import { objectToArray } from '~/src/app/utils/common';
+import { setBathFilterParams } from '~/src/features/filters/store/filterActions';
+import { GET_BATH_PARAMS_FILTERING } from '~/src/features/filters/store/filterConstants';
 
 export interface IResponse {
   types: BathType[];

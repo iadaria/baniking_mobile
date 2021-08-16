@@ -10,7 +10,7 @@ import {
   checkInit as checkInitAction,
   checkClean as checkCleanAction,
   checkFilter as checkFilterAction,
-} from '~/src/features/bathes/store/bathActions';
+} from '~/src/features/filters/store/filterActions';
 import { BathFilterParams, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
 import { Pricer } from './components/Pricer';
@@ -18,6 +18,7 @@ import { Filters } from './components/Filters';
 import { Title } from './components/Title';
 import { AcceptButton } from './components/AcceptButton';
 import { styles as s } from './styles';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -44,8 +45,11 @@ function BathesFilterScreenContainer({
   // Получаем параметры для фильтрации
   useEffect(() => {
     checkInit();
+  }, [checkInit]);
+
+  useEffect(() => {
     getBathFilterParams();
-  }, [checkInit, getBathFilterParams]);
+  }, [getBathFilterParams]);
 
   useEffect(() => {
     checkFilter();
@@ -78,9 +82,9 @@ function BathesFilterScreenContainer({
 }
 
 const BathesFilterScreenConnected = connect(
-  ({ bath }: IRootState) => ({
-    paramsCheck: bath.paramsCheck,
-    filters: bath.paramsFilter,
+  ({ filter }: IRootState) => ({
+    paramsCheck: filter.paramsCheck,
+    filters: filter.paramsFilter,
   }),
   {
     getBathFilterParams: getBathFilterParamsAction,
