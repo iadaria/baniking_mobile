@@ -26,7 +26,7 @@ const initialState: IPersistState = {
   },
   bathes: [],
   // city
-  selectedCityName: null,
+  selectedCityName: 'москва',
 };
 
 export default function appPersistReducer(

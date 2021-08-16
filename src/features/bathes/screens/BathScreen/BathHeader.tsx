@@ -81,9 +81,9 @@ export default function BathHeader({
         start={{ x: 0.1, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}>
-        <Header iconKind="backward" />
         {/* <AppHeader navigation={navigation} onPress={() => { } /* dispatch(nonTransparentHeader()) */}
         <Block padding={[sizes.offset.base * multiplier, sizes.offset.base, 0]}>
+          <Header iconKind="backward" />
           <AppText h1>Баня</AppText>
           <AppText
             margin={[6 * multiplier, 0, 0]}

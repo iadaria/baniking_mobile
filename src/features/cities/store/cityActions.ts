@@ -25,6 +25,11 @@ export const selectCity = (payload: number | string) => ({
   payload,
 });
 
+export const setSelectedCity = (payload: City) => ({
+  type: constants.SET_SELECTED_CITY,
+  payload,
+})
+
 export const unselectCity = () => ({
   type: constants.UNSELECT_CITY,
 });

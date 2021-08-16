@@ -3,20 +3,13 @@ import { logline } from '~/src/app/utils/debug';
 import { IErrors } from '~/src/app/utils/error';
 import * as constants from './cityConstants';
 
-const defaultCity: City = {
-  id: 0,
-  name: 'Москва',
-};
-
 export interface ICityState {
   loading: boolean;
   errors: IErrors | null;
 
   count: number;
   cities: City[];
-  // select
-  selectedCityId: number;
-  selectedCity: City;
+  selectedCity?: City;
 }
 
 const initState: ICityState = {
@@ -25,9 +18,6 @@ const initState: ICityState = {
 
   count: 0,
   cities: [],
-  // select
-  selectedCityId: 0,
-  selectedCity: defaultCity,
 };
 
 export default function cityReducer(
@@ -48,7 +38,9 @@ export default function cityReducer(
         ...state,
         count: payload.length,
         loading: false,
-        cities: payload.sort(sortAsc),
+        cities: payload
+          .map((city: City) => ({ ...city, name: city.name.toLowerCase() }))
+          .sort(sortAsc),
       };
 
     case constants.CITIES_FAIL:
@@ -58,24 +50,29 @@ export default function cityReducer(
         errors: payload,
       };
 
-    case constants.SELECT_CITY:
-      const selectedCity = state.cities.find(({ id, name }) =>
-        [id, name.toLowerCase()].includes(payload),
-      );
+    case constants.SET_SELECTED_CITY:
       return {
         ...state,
-        selectedCityId: selectedCity?.id || 0,
-        selectedCity: selectedCity || defaultCity,
+        selectedCity: payload,
       };
 
     case constants.UNSELECT_CITY:
       return {
         ...state,
-        selectedCityId: payload,
-        selectedCity: defaultCity,
+        //selectedCityId: payload,
+        selectedCity: undefined,
       };
 
     default:
       return state;
   }
 }
+/* case constants.SELECT_CITY:
+        const selectedCity = state.cities.find(({ id, name }) =>
+          [id, name].includes(payload),
+        );
+        return {
+          ...state,
+          selectedCityId: selectedCity?.id,
+          selectedCity: selectedCity,
+        }; */

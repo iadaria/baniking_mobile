@@ -11,6 +11,7 @@ import { MenuItem } from '~/src/assets';
 import { Nearest } from './components/Nearest';
 import { City } from '~/src/app/models/city';
 import { styles as s } from './styles';
+import { capitalizeFirstLetter } from '~/src/app/utils/string';
 
 interface IProps {
   selectedCity: City;
@@ -28,6 +29,10 @@ function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
   const formStyle: ViewStyle = showCities
     ? { ...s.form, height: '78%' }
     : s.form;
+
+  const showSelectedCity = selectedCity
+    ? capitalizeFirstLetter(selectedCity.name)
+    : '';
 
   return (
     <Block margin={6} full>
@@ -48,7 +53,7 @@ function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
           style={s.item}
           onPress={() => setShowCities(!showCities)}>
           <AppText primary semibold size={4}>
-            {selectedCity?.name}
+            {showSelectedCity}
           </AppText>
           <MenuItem style={{ transform: [{ rotate: `${deg}deg` }] }} />
         </TouchableOpacity>

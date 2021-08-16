@@ -12,21 +12,28 @@ interface IAction {
   type: string;
 }
 
+const isNotEmpty = (value: string | null) => !!value;
+
+const isFirstOrDifferent = (persistName: string | null, selected?: City) =>
+  persistName !== selected?.name || !selected;
+
+
 function* checkCitySaga(_: IAction) {
   //logline('\n\n[checkCitiesSaga]', ' *** CHECK CITIES YES *** ');
   try {
-    const { persistCityName, selectedCity } = yield select(
-      ({ persist, city }: IRootState) => ({
-        persistCityName: persist.selectedCityName,
-        selectedCity: city.selectedCity,
-      }),
-    );
-    if (!!persistCityName && persistCityName !== selectedCity.name) {
+    const state: IRootState = yield select((state) => state);
+    const { selectedCityName: persistName } = state.persist;
+    const { selectedCity } = state.city;
+
+    if (
+      isNotEmpty(persistName) &&
+      isFirstOrDifferent(persistName, selectedCity)
+    ) {
       const result: unknown = yield call(methods.getCities, null, null);
       const cities = Object.values(result) as City[];
       yield put(setCities(cities));
-      yield put(selectCity(persistCityName.toLowerCase()));
-      //logline('\n[checkCitySaga]', { count: cities.length, selectedCityName });
+      // select city
+      yield put(selectCity(persistName!));
     }
   } catch (e) {
     log('[checkCitiesSaga/error]', e);

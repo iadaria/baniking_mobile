@@ -9,47 +9,36 @@ import {
   notNear,
   setBathParam,
 } from '~/src/features/bathes/store/bathActions';
+import { setSelectedCity } from '../cityActions';
 
 interface IAction {
   type: string;
   payload: string | number;
 }
 
-function isTheSame(one: string, two: string) {
-  return one.toLowerCase() === two.toLowerCase();
-}
-
 function* selectCitySaga({ payload }: IAction) {
-  const { persistCityName, cities } = yield select(
-    ({ persist, city }: IRootState) => ({
-      persistCityName: persist.selectedCityName,
-      cities: city.cities,
-    }),
-  );
+  const state: IRootState = yield select((state) => state);
+  const { selectedCityName: persistName } = state.persist;
+  const { cities } = state.city;
 
-  const {
-    id: selectedCityId,
-    name: selectedCityName,
-  }: City = cities.find(({ id, name }: City) =>
-    [id, name.toLowerCase()].includes(payload),
+  const finedCity: City | undefined = cities.find(({ id, name }: City) =>
+    [id, name].includes(payload),
   );
 
   log('[selectCitySaga]', {
     payload,
-    persistCityName,
-    selectedCityId,
-    selectedCityName,
+    persistName,
+    finedCity,
   });
 
-  if (!isTheSame(selectedCityName, persistCityName)) {
+  if (finedCity && finedCity.name !== persistCity.name) {
     logline('[selectCitySaga]', 'UPDATE!!');
-    yield put(persistCity(selectedCityName.toLowerCase()));
+    yield put(persistCity(finedCity.name));
     yield put(clearBathes());
     yield put(notNear());
-    yield put(setBathParam({ field: 'city_id', value: selectedCityId }));
+    yield put(setSelectedCity(finedCity));
+    yield put(setBathParam({ field: 'city_id', value: finedCity.id }));
   }
-
-  logline('\n\n[selectCitySaga]', payload);
 }
 
 export default function* listener() {

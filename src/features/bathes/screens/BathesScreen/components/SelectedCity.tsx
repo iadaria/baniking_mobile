@@ -8,6 +8,7 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { LocationIcon } from '~/src/assets';
 import { styles as s } from '../styles';
+import { capitalizeFirstLetter } from '~/src/app/utils/string';
 
 export function SelectedCity() {
   const { loading, selectedCity } = useSelector(({ city }: IRootState) => city);
@@ -21,12 +22,16 @@ export function SelectedCity() {
     return null;
   }
 
+  const showName = selectedCity
+    ? capitalizeFirstLetter(selectedCity.name)
+    : 'Выберите город';
+
   return (
     <TouchableOpacity
       style={s.city}
       onPress={() => RootNavigation.navigate(routes.bathesTab.CitiesScreen)}>
       <LocationIcon />
-      <AppText padding={[3]}>{selectedCity?.name}</AppText>
+      <AppText padding={[3]}>{showName}</AppText>
     </TouchableOpacity>
   );
 }

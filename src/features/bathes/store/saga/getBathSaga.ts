@@ -57,7 +57,7 @@ function* getBathSaga({ payload }: IAction) {
     };
     //__DEV__ && console.log('[getBathSaga/bathDetailed]', JSON.stringify(bathDetailed, null, 4));
     yield put(selectBath(bathDetailed));
-    yield fork(cacheImageBathSaga, bathDetailed);
+    //yield fork(cacheImageBathSaga, bathDetailed);
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage = allErrors ? allErrors : message;

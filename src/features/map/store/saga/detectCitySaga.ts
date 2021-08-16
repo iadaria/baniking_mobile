@@ -29,8 +29,6 @@ interface IResult {
   }[];
 }
 
-const _selectCity = (city: string) => store.dispatch(selectCity(city));
-
 function* detectCitySaga(_: IAction) {
   logline('\n\n[detectCitySage]', '***');
   try {
@@ -53,7 +51,9 @@ function* detectCitySaga(_: IAction) {
         'Определение местоположения',
         `Ваш город ${city}?`,
         'OK',
-        () => _selectCity(city.toLowerCase()),
+        () => {
+          store.dispatch(selectCity(city));
+        },
         () => { },
       );
     } else {

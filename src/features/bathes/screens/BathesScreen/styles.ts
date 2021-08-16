@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     // marginLeft: wp(5),
     // paddingLeft: wp(5),
-    opacity: 0.8,
+    //opacity: 0.8,
     zIndex: 1,
   },
   gradient: {

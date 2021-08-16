@@ -21,11 +21,11 @@ function getCurrentPosition() {
 }
 
 function* detectGeoSaga(_: IAction) {
-  logline('\n\n[detectGeoSage]', '***');
+  //logline('\n\n[detectGeoSage]', '***');
   try {
     yield put(mapRequest());
     const position: GeoPosition = yield getCurrentPosition();
-    logline('[detectGeoSaga] position', position);
+    //logline('[detectGeoSaga] position', position);
     if (position) {
       const { latitude: lat, longitude: lng } = position.coords;
       yield put(setGeoLocation({ lat, lng }));
