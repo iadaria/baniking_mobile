@@ -45,7 +45,7 @@ function* detectCitySaga(_: IAction) {
       yield put(mapRequest());
       const r: IResult = yield methods.detectCityByLocation(null, params);
       //logline('[detectCitySaga] result', r);
-      const city = r.results[0].address_components[0].short_name;
+      const city = r.results[0].address_components[0].short_name.toLowerCase().trim();
       // ask user
       yield showAlert(
         'Определение местоположения',

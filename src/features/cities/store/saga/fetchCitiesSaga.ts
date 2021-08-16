@@ -12,7 +12,7 @@ interface IAction {
 }
 
 function* fetchCitiesSagaTest(_: IAction) {
-  //logline('\n\n[fetchCitiesSaga]', ' *** FETCH CITIES YES *** ');
+  logline('\n\n[fetchCitiesSaga]', ' *** FETCH CITIES YES *** ');
 
   try {
     const result: unknown = yield call(methods.getCities, null, null);
