@@ -1,5 +1,5 @@
 import * as constants from './baseFilterConstants';
-import { BathMainParams, BathSort } from '~/src/app/models/filter';
+import { BathMainParams } from '~/src/app/models/filter';
 
 /* export const changeParam = (payload: BathMainParam) => ({
   type: constants.CHANGE_PARAM,
@@ -13,9 +13,4 @@ export const changeParams = (payload: BathMainParams) => ({
 
 export const nextPage = () => ({
   type: constants.NEXT_PAGE,
-});
-
-export const setSort = (payload: BathSort) => ({
-  type: constants.SET_SORT,
-  payload,
 });

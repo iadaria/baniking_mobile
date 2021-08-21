@@ -52,7 +52,6 @@ export default function baseFilterReducer(
 
     case constants.CHANGE_PARAMS:
       logline('[base] CHANGE_PARAMS', { payload });
-      const sort: BathSort = bathSortParams.indexOf(payload.params);
       const { params, isDelete }: BathMainParams = payload;
       let changedParams = { ...state.params, ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];
@@ -61,18 +60,10 @@ export default function baseFilterReducer(
           delete changedParams[f];
         }
       });
-      logline('[base] CHANGE_PARAMS', { changed: changedParams });
       return {
         ...state,
-        sort,
+        sort: bathSortParams.indexOf(params),
         params: changedParams,
-      };
-    // SOrt
-    case constants.SET_SORT:
-      logline('[base] SET_SORT', payload);
-      return {
-        ...state,
-        sort: payload,
       };
 
     default:
