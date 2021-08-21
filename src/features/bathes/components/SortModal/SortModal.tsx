@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,8 @@ interface ISortItem {
   onItemPress: () => void;
 }
 
+const TIMEOUT = 0;
+
 const SortItem: FC<ISortItem> = ({ title, activeStyle, onItemPress }) => {
   return (
     <TouchableOpacity style={[s.item, activeStyle]} onPress={onItemPress}>
@@ -39,15 +41,13 @@ export default function SortModal({ y }: ISortModal) {
   const [currentSort, setCurrentSort] = useState<BathSort>(sort);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    logline('[SortModal]', { sort, currentSort });
-  }, [sort, currentSort]);
-
   useDebounced({
-    params: bathSortParams[currentSort],
+    params: bathSortParams[currentSort!],
     deps: [currentSort, sort],
     shouldExecute: sort !== currentSort,
+    timeout: TIMEOUT,
     isClearBathes: true,
+    unmount: () => dispatch(closeModal()),
   });
 
   let _y = !y || y < 100 ? 130 : y;
@@ -57,9 +57,8 @@ export default function SortModal({ y }: ISortModal) {
 
   const itemColor = (as: BathSort) => (currentSort === as ? s.activeStyle : {});
 
-  function handleItemPress(_sort: BathSort) {
-    setCurrentSort(_sort);
-    dispatch(closeModal());
+  function handleItemPress(bs: BathSort) {
+    setCurrentSort(bs);
   }
 
   return (

@@ -10,16 +10,20 @@ interface IProps {
   params: Partial<IBathMainParams>;
   deps: any[];
   shouldExecute?: boolean;
+  timeout?: number;
   isClearBathes?: boolean;
   isDelete?: boolean;
+  unmount?: () => void;
 }
 
 export function useDebounced({
   params,
   deps,
   shouldExecute = true,
+  timeout = 2000,
   isClearBathes = false,
   isDelete = false,
+  unmount = () => {},
 }: IProps) {
   const dispatch = useDispatch();
 
@@ -31,7 +35,7 @@ export function useDebounced({
       }
       dispatch(changeParams(p));
     },
-    2000,
+    timeout,
     { maxWait: 3000 },
   );
 
@@ -44,6 +48,7 @@ export function useDebounced({
     logline('[useDebounced] params', params);
     // Присваиваем измененные параметры
     debouncedRequest({ params, isDelete });
+    return unmount;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedRequest, ...deps]);
 }
