@@ -63,7 +63,7 @@ const LoginFormContainer = ({
       {/* Telephone Input */}
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>
-          Телеофон
+          Телефон
         </AppText>
       </Block>
       <Input

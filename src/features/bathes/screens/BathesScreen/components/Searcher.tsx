@@ -4,19 +4,20 @@ import { useSelector } from 'react-redux';
 import { Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { SearchCancelIcon, SearchIcon } from '~/src/assets';
+import { useDebounced } from '~/src/features/filters/hooks/useDebounced';
 import { styles as s } from '../styles';
-import { useDebounced } from '../../../../filters/hooks/useDebounced';
 
 export function Searcher() {
   const { search_query } = useSelector(
-    ({ filter }: IRootState) => filter.params,
+    ({ baseFilter }: IRootState) => baseFilter.params,
   );
   const [searched, setSearched] = useState<string | undefined>(search_query);
 
   useDebounced({
-    param: { field: 'search_query', value: searched },
+    params: { search_query: searched },
     deps: [search_query, searched],
     shouldExecute: searched !== search_query,
+    isDelete: !searched,
   });
 
   function handleChangeText(text: string) {

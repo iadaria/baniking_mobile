@@ -18,7 +18,7 @@ export interface IBathState {
   bathIds: number[];
   oldBathes: Bath[];
   // Bathes detailded
-  canLoadMoreBathes: boolean;
+  canLoadMore: boolean;
   bathesDetailed: IBathDetailed[];
   bathesDetailedIds: number[];
   selectedBath: IBathDetailed | null;
@@ -39,7 +39,7 @@ const initialState: IBathState = {
   loadingSelectBath: false,
   errors: null,
   // bathes
-  canLoadMoreBathes: true,
+  canLoadMore: true,
   totalBathes: 0,
   bathes: [],
   bathIds: [],
@@ -63,15 +63,15 @@ export default function bathReducer(
 ): IBathState {
   switch (type) {
     // Params
-    case constants.SET_BATHES_COUNT: // using
+    /* case constants.SET_BATHES_COUNT:
       return {
         ...state,
         totalBathes: payload,
         canLoadMoreBathes: payload > state.bathIds.length,
-      };
+      }; */
 
     case constants.ADD_BATHES: // using
-      const addingBathes: Bath[] = payload.filter(
+      const addingBathes: Bath[] = payload.bathes.filter(
         (bath: Bath) => !state.bathIds.includes(bath.id),
       );
       const addingBathIds = addingBathes.map((bath: Bath) => bath.id);
@@ -79,6 +79,8 @@ export default function bathReducer(
         ...state,
         loading: false,
         errors: null,
+        totalBathes: payload.count,
+        canLoadMore: payload.count > state.bathIds.length,
         bathIds: [...state.bathIds, ...addingBathIds],
         bathes: [...state.bathes, ...addingBathes],
       };

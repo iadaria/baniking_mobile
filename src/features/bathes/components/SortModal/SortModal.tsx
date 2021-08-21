@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import ModalWrapper from '~/src/app/common/modals/ModalWrapper';
 import { closeModal } from '~/src/app/common/modals/modalReducer';
-import { clearBathes } from '../../store/bathActions';
 import { BathSort } from '~/src/app/models/bath';
+import { useDebounced } from '~/src/features/filters/hooks/useDebounced';
+import { bathSortParams } from '~/src/app/models/filter';
 import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
-import { ListIcon } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
+import { ListIcon } from '~/src/assets';
 import { styles as s } from './styles';
-import { setSort } from '~/src/features/filters/store/filterActions';
+import { logline } from '~/src/app/utils/debug';
 
 interface ISortItem {
   title: string;
@@ -34,17 +35,20 @@ export interface ISortModal {
 }
 
 export default function SortModal({ y }: ISortModal) {
-  const { sort } = useSelector(({ filter }: IRootState) => filter);
+  const { sort } = useSelector(({ baseFilter }: IRootState) => baseFilter);
   const [currentSort, setCurrentSort] = useState<BathSort>(sort);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (sort !== currentSort) {
-      dispatch(clearBathes());
-      dispatch(setSort(currentSort));
-      dispatch(closeModal());
-    }
-  }, [currentSort, dispatch, sort]);
+    logline('[SortModal]', { sort, currentSort });
+  }, [sort, currentSort]);
+
+  useDebounced({
+    params: bathSortParams[currentSort],
+    deps: [currentSort, sort],
+    shouldExecute: sort !== currentSort,
+    isClearBathes: true,
+  });
 
   let _y = !y || y < 100 ? 130 : y;
   _y = isIos ? _y + statusBarHeight : y;
@@ -53,12 +57,9 @@ export default function SortModal({ y }: ISortModal) {
 
   const itemColor = (as: BathSort) => (currentSort === as ? s.activeStyle : {});
 
-  function handleItemPress(bs: BathSort) {
-    if (sort === bs) {
-      dispatch(closeModal());
-      return;
-    }
-    setCurrentSort(bs);
+  function handleItemPress(_sort: BathSort) {
+    setCurrentSort(_sort);
+    dispatch(closeModal());
   }
 
   return (

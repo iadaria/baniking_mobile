@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { Bath, BathParams } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
-import { BathesList } from './components/BathList';
+//import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
 import { FilterButton } from './components/FilterButton';
-import { SelectedCity } from './components/SelectedCity';
-import { nextPage as nextPageAction } from '~/src/features/filters/store/filterActions';
-import { logline } from '~/src/app/utils/debug';
+//import { SelectedCity } from './components/SelectedCity';
+import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
+import { Button } from 'react-native';
+import { nextPage as nextPageAction } from '~/src/features/filters/base/store/baseFilterActions';
+
 
 interface IProps {
   loading: boolean;
@@ -19,13 +20,12 @@ interface IProps {
   params: BathParams;
   canLoadMoreBathes: boolean;
   fetchBathes: () => void;
-  fetchCities: () => void;
   nextPage: () => void;
 }
 
 export function BathesScreenContainer({
-  loading,
-  bathes,
+  //loading,
+  //bathes,
   params,
   canLoadMoreBathes,
   fetchBathes,
@@ -35,7 +35,6 @@ export function BathesScreenContainer({
     fetchBathes();
   }, [fetchBathes, params]);
 
-  // change params
   function handleLoadMore() {
     if (canLoadMoreBathes) {
       nextPage();
@@ -48,7 +47,7 @@ export function BathesScreenContainer({
         <Header />
       </Block>
 
-      <SelectedCity />
+      {/*  <SelectedCity /> */}
 
       <AppText margin={[0, 0, 2, 4]} h1>
         Каталог бань
@@ -56,22 +55,24 @@ export function BathesScreenContainer({
 
       <Block padding={[0, 0, 0, 4]} center row>
         <Searcher />
-        <FilterButton />
+        {/* <FilterButton /> */}
       </Block>
 
       <Sorter />
 
-      <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
+      <Block margin={1} />
+      <Button title="Load more" onPress={handleLoadMore} />
+      {/* <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} /> */}
     </Block>
   );
 }
 
 const BathesScreenConnected = connect(
-  ({ bath, filter }: IRootState) => ({
+  ({ bath, baseFilter }: IRootState) => ({
     loading: bath.loading,
     bathes: bath.bathes,
-    params: filter.params,
-    canLoadMoreBathes: bath.canLoadMoreBathes,
+    params: baseFilter.params,
+    canLoadMoreBathes: bath.canLoadMore,
   }),
   {
     fetchBathes: fetchBathesAction,

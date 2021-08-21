@@ -1,48 +1,49 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce/lib';
-import { BathParam } from '~/src/app/models/bath';
-import { logline } from '~/src/app/utils/debug';
-import { setBathParam } from '../store/filterActions';
 import { clearBathes } from '../../bathes/store/bathActions';
+import { BathMainParams, IBathMainParams } from '~/src/app/models/filter';
+import { changeParams } from '../base/store/baseFilterActions';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
-  param: BathParam;
+  params: Partial<IBathMainParams>;
   deps: any[];
   shouldExecute?: boolean;
+  isClearBathes?: boolean;
   isDelete?: boolean;
 }
 
 export function useDebounced({
-  param,
+  params,
   deps,
   shouldExecute = true,
+  isClearBathes = false,
   isDelete = false,
 }: IProps) {
   const dispatch = useDispatch();
 
   // Выполняем запрос с задержкой после запроса
   const debouncedRequest = useDebouncedCallback(
-    (p: BathParam) => {
-      if (!param.prop) {
+    (p: BathMainParams) => {
+      if (!isClearBathes) {
         dispatch(clearBathes());
       }
-      dispatch(setBathParam(p));
+      dispatch(changeParams(p));
     },
     2000,
     { maxWait: 3000 },
   );
 
   useEffect(() => {
-    logline('[shouldExecute]', shouldExecute);
-    if (!shouldExecute) return;
+    logline('\n[shouldExecute]', shouldExecute);
+    if (!shouldExecute) {
+      return;
+    }
     // Удаляем свойство из параметров
-    const value = isDelete ? undefined : param.value;
+    logline('[useDebounced] params', params);
     // Присваиваем измененные параметры
-    const newParams = { ...param, value };
-    logline('[useDebounced] params', param);
-    logline('[useDebounced] new_params', newParams);
-    debouncedRequest(newParams);
+    debouncedRequest({ params, isDelete });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedRequest, ...deps]);
 }

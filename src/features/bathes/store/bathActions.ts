@@ -4,24 +4,20 @@ import { IErrors } from '~/src/app/utils/error';
 import { IBathDetailed } from '~/src/app/models/bath';
 import { IOrderCall } from '~/src/app/models/bath';
 
-// using
-export const addBathes = (payload: Bath[]) => ({
+export const addBathes = (payload: { bathes: Bath[]; count: number }) => ({
   type: constants.ADD_BATHES,
   payload,
 });
 
-// using
 export const fetchBathes = () => ({
   type: constants.FETCH_BATHES,
 });
 
-// using
-export const setBathesCount = (payload: number) => ({
+/* export const setBathesCount = (payload: number) => ({
   type: constants.SET_BATHES_COUNT,
   payload,
 });
-
-// using
+ */
 export const bathesFail = (payload: IErrors | null) => ({
   type: constants.BATHES_FAIL,
   payload,

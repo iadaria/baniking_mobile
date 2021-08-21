@@ -6,7 +6,7 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { PageIcon } from '~/src/assets';
 import { styles as s } from '../styles';
 import { routes } from '~/src/navigation/helpers/routes';
-import { changeNear as changeNearAction } from '~/src/features/bathes/store/bathActions';
+import { changeNear as changeNearAction } from '~/src/features/filters/store/filterActions';
 
 interface IProps {
   changeNear: (isNeedNear: boolean) => void;

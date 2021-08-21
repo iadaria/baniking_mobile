@@ -6,12 +6,12 @@ import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { checkCity as checkCityAction } from '../store/cityActions';
-import { DetectLocation } from './components/DetectLocation';
 import { MenuItem } from '~/src/assets';
 import { Nearest } from './components/Nearest';
 import { City } from '~/src/app/models/city';
 import { styles as s } from './styles';
 import { capitalizeFirstLetter } from '~/src/app/utils/string';
+import { DetectLocation } from './components/DetectLocation';
 
 interface IProps {
   selectedCity: City;
@@ -64,7 +64,7 @@ function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
         <DetectLocation />
       </View>
 
-      <Nearest />
+      {/* <Nearest /> */}
     </Block>
   );
 }

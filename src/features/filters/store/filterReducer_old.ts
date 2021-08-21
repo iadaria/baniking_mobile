@@ -6,7 +6,6 @@ import {
   FILTER_KEYS,
   BathTouchParams,
   BathParam,
-  AdditionFilters,
   additionFilters,
 } from '~/src/app/models/bath';
 import * as constants from './filterConstants';

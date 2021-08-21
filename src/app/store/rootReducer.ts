@@ -1,4 +1,3 @@
-import filterReducer, { IFilterState } from './../../features/filters/store/filterReducer';
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
 // import storage from 'redux-persist/es/storage';
@@ -29,6 +28,9 @@ import permissionReducer, {
   IPermissionState,
 } from './permission/permissionReducer';
 import mapReducer, { IMapState } from '~/src/features/map/store/mapReducer';
+import baseFilterReducer, {
+  IBaseFilterState,
+} from '~/src/features/filters/base/store/baseFilterReducer';
 
 const persistConfig: PersistConfig<T> = {
   key: 'persist',
@@ -44,7 +46,7 @@ export interface IRootState {
   modal: IModalState;
   profile: IProfileState;
   settings: ISettingsState;
-  filter: IFilterState;
+  baseFilter: IBaseFilterState;
   bath: IBathState;
   city: ICityState;
   map: IMapState;
@@ -58,7 +60,7 @@ const rootReducer = combineReducers<IRootState>({
   modal: modalReducer,
   profile: profileReducer,
   settings: settingsReducer,
-  filter: filterReducer,
+  baseFilter: baseFilterReducer,
   bath: bathReducer,
   city: cityReducer,
   map: mapReducer,
