@@ -1,7 +1,7 @@
-import { City } from '~/src/app/models/city';
-import { logline } from '~/src/app/utils/debug';
-import { IErrors } from '~/src/app/utils/error';
 import * as constants from './cityConstants';
+import { City } from '~/src/app/models/city';
+import { IErrors } from '~/src/app/utils/error';
+import { logline } from '~/src/app/utils/debug';
 
 export interface ICityState {
   loading: boolean;
@@ -31,6 +31,13 @@ export default function cityReducer(
         loading: true,
       };
 
+    case constants.CITIES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: payload,
+      };
+
     case constants.SET_CITIES:
       const sortAsc = (a: City, b: City) =>
         a.name < b.name ? -1 : Number(a.name > b.name);
@@ -43,14 +50,17 @@ export default function cityReducer(
           .sort(sortAsc),
       };
 
-    case constants.CITIES_FAIL:
+    case constants.SELECT_CITY:
+      logline('[SELECT_CITY]', payload);
+      const selectedCity = state.cities.find(({ id, name }) =>
+        [id, name].includes(payload),
+      );
       return {
         ...state,
-        loading: false,
-        errors: payload,
+        selectedCity,
       };
 
-    case constants.SET_SELECTED_CITY:
+    /*     case constants.SET_SELECTED_CITY:
       return {
         ...state,
         selectedCity: payload,
@@ -59,21 +69,10 @@ export default function cityReducer(
     case constants.UNSELECT_CITY:
       return {
         ...state,
-        //selectedCityId: payload,
         selectedCity: undefined,
-      };
+      }; */
 
     default:
       return state;
   }
 }
-/* case constants.SELECT_CITY:
-        const selectedCity = state.cities.find(({ id, name }) =>
-          [id, name].includes(payload),
-        );
-        return {
-          ...state,
-          selectedCity: state.selectedCity !== selectedCity : see
-          selectedCityId: selectedCity?.id,
-          selectedCity: selectedCity,
-        }; */

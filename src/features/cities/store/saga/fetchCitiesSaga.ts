@@ -17,7 +17,7 @@ export function* fetchCitiesSaga(_: IAction) {
   try {
     const result: unknown = yield call(methods.getCities, null, null);
     const cities = Object.values(result) as City[];
-    //ogline('[fetchCitiesSaga] result count', cities.length);
+    logline('[fetchCitiesSaga] result count', cities.length);
     //log('[sortedCities]', cities.slice(0, 8));
     yield put(setCities(cities));
   } catch (e) {

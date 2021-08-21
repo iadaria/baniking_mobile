@@ -7,12 +7,11 @@ import { Header } from '~/src/app/common/components/Header';
 //import { BathesList } from './components/BathList';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
-import { FilterButton } from './components/FilterButton';
-//import { SelectedCity } from './components/SelectedCity';
+//import { FilterButton } from './components/FilterButton';
+import { SelectedCity } from './components/SelectedCity';
 import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { Button } from 'react-native';
 import { nextPage as nextPageAction } from '~/src/features/filters/base/store/baseFilterActions';
-
 
 interface IProps {
   loading: boolean;
@@ -47,7 +46,7 @@ export function BathesScreenContainer({
         <Header />
       </Block>
 
-      {/*  <SelectedCity /> */}
+      <SelectedCity />
 
       <AppText margin={[0, 0, 2, 4]} h1>
         Каталог бань

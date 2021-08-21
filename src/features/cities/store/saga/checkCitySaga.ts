@@ -12,21 +12,22 @@ interface IAction {
   type: string;
 }
 
-const isFirstOrDifferent = (persistName: string | null, selected?: City) =>
-  persistName !== selected?.name || !selected;
+/* const isFirstOrDifferent = (persistName: string | null, selected?: City) =>
+  persistName !== selected?.name || !selected; */
 
 function* checkCitySaga(_: IAction) {
-  //logline('\n\n[checkCitiesSaga]', ' *** CHECK CITIES YES *** ');
+  logline('[checkCitySaga]', '***');
   try {
-    yield call(fetchCitiesSaga, { type: '' });
+    const { city, persist }: IRootState = yield select((state) => state);
+    const { selectedCity, count } = city;
 
-    const state: IRootState = yield select((state) => state);
-    const { selectedCityName: persistName } = state.persist;
-    const { selectedCity, cities } = state.city;
+    if (count <= 0) {
+      yield call(fetchCitiesSaga, { type: '' });
+    }
 
-    //logline('sldkjf', cities.length)
+    const { selectedCityName: persistName } = persist;
 
-    if (persistName && isFirstOrDifferent(persistName, selectedCity)) {
+    if (persistName && !selectedCity) {
       yield put(selectCity(persistName!));
     }
   } catch (e) {
@@ -37,9 +38,7 @@ function* checkCitySaga(_: IAction) {
 
     logline('[checkCitiesSaga/error]', [errors, message]);
 
-    const errorMessage = allErrors
-      ? allErrors
-      : 'Ошибка при получении данных о городах';
+    const errorMessage = allErrors ? allErrors : 'Ошибка при выборе города';
 
     yield showAlert('Ошибка', errorMessage);
   }

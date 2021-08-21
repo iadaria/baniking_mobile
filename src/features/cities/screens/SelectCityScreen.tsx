@@ -5,25 +5,30 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { checkCity as checkCityAction } from '../store/cityActions';
 import { MenuItem } from '~/src/assets';
-import { Nearest } from './components/Nearest';
+//import { Nearest } from './components/Nearest';
 import { City } from '~/src/app/models/city';
 import { styles as s } from './styles';
 import { capitalizeFirstLetter } from '~/src/app/utils/string';
 import { DetectLocation } from './components/DetectLocation';
 
 interface IProps {
-  selectedCity: City;
-  checkCity: () => void;
+  persistCityName: string | null;
+  selectedCity?: City;
 }
 
-function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
+function SelectCityScreenContainer({ persistCityName, selectedCity }: IProps) {
   const [showCities, setShowCities] = useState(false);
 
+  const checkCity = useCallback(() => {
+    if (persistCityName) {
+
+    }
+  }, []);
+
   useEffect(() => {
-    checkCity();
-  }, [checkCity]);
+
+  }, []);
 
   const deg = showCities ? 90 : 0;
   const formStyle: ViewStyle = showCities
@@ -70,11 +75,11 @@ function SelectCityScreenContainer({ selectedCity, checkCity }: IProps) {
 }
 
 const SelectCityScreenConnected = connect(
-  ({ city }: IRootState) => ({
+  ({ city, persist }: IRootState) => ({
+    persistCityName: persist.selectedCityName,
     selectedCity: city.selectedCity,
   }),
   {
-    checkCity: checkCityAction,
   },
 )(SelectCityScreenContainer);
 

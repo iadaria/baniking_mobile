@@ -1,10 +1,6 @@
-import { City } from '~/src/app/models/city';
 import * as constants from './cityConstants';
+import { City } from '~/src/app/models/city';
 import { IErrors } from '~/src/app/utils/error';
-
-export const checkCity = () => ({
-  type: constants.CHECK_CITY,
-});
 
 export const fetchCities = () => ({
   type: constants.FETCH_CITIES,
@@ -25,6 +21,11 @@ export const selectCity = (payload: number | string) => ({
   payload,
 });
 
+export const checkCity = () => ({
+  type: constants.CHECK_CITY,
+});
+
+/*
 export const setSelectedCity = (payload: City) => ({
   type: constants.SET_SELECTED_CITY,
   payload,
@@ -33,3 +34,5 @@ export const setSelectedCity = (payload: City) => ({
 export const unselectCity = () => ({
   type: constants.UNSELECT_CITY,
 });
+
+*/

@@ -1,30 +1,32 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { AppText } from '~/src/app/common/components/UI';
 import { routes } from '~/src/navigation/helpers/routes';
-import { checkCity } from '~/src/features/cities/store/cityActions';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { LocationIcon } from '~/src/assets';
-import { styles as s } from '../styles';
 import { capitalizeFirstLetter } from '~/src/app/utils/string';
+import { LocationIcon } from '~/src/assets';
+import { City } from '~/src/app/models/city';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { styles as s } from '../styles';
+import { checkCity as checkCityAction } from '~/src/features/cities/store/cityActions';
 
-export function SelectedCity() {
-  const { loading, selectedCity } = useSelector(({ city }: IRootState) => city);
-  const dispatch = useDispatch();
+interface IProps {
+  loading: boolean;
+  city?: City;
+  checkCity: () => void;
+}
 
+function SelectedCityContainer({ loading, city, checkCity }: IProps) {
   useEffect(() => {
-    dispatch(checkCity());
-  }, [dispatch]);
+    checkCity();
+  }, [checkCity]);
 
   if (loading) {
     return null;
   }
 
-  const showName = selectedCity
-    ? capitalizeFirstLetter(selectedCity.name)
-    : 'Выберите город';
+  const showName = city ? capitalizeFirstLetter(city?.name) : 'Выберите город';
 
   return (
     <TouchableOpacity
@@ -35,3 +37,15 @@ export function SelectedCity() {
     </TouchableOpacity>
   );
 }
+
+const SelectedCityConnected = connect(
+  ({ city }: IRootState) => ({
+    loading: city.loading,
+    city: city.selectedCity,
+  }),
+  {
+    checkCity: checkCityAction,
+  },
+)(SelectedCityContainer);
+
+export { SelectedCityConnected as SelectedCity };

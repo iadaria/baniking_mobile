@@ -12,7 +12,6 @@ import { isIos, statusBarHeight } from '~/src/app/common/constants/platform';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { ListIcon } from '~/src/assets';
 import { styles as s } from './styles';
-import { logline } from '~/src/app/utils/debug';
 
 interface ISortItem {
   title: string;
@@ -57,10 +56,6 @@ export default function SortModal({ y }: ISortModal) {
 
   const itemColor = (as: BathSort) => (currentSort === as ? s.activeStyle : {});
 
-  function handleItemPress(bs: BathSort) {
-    setCurrentSort(bs);
-  }
-
   return (
     <ModalWrapper>
       <TouchableOpacity onPress={() => dispatch(closeModal())}>
@@ -77,7 +72,7 @@ export default function SortModal({ y }: ISortModal) {
           <SortItem
             title="По возрастанию цены"
             activeStyle={itemColor(BathSort.PriceAsc)}
-            onItemPress={() => handleItemPress(BathSort.PriceAsc)}
+            onItemPress={() => setCurrentSort(BathSort.PriceAsc)}
           />
 
           <Divider style={s.divider} />
@@ -85,7 +80,7 @@ export default function SortModal({ y }: ISortModal) {
           <SortItem
             title="По убыванию цены"
             activeStyle={itemColor(BathSort.PriceDesc)}
-            onItemPress={() => handleItemPress(BathSort.PriceDesc)}
+            onItemPress={() => setCurrentSort(BathSort.PriceDesc)}
           />
 
           <Divider style={s.divider} />
@@ -93,7 +88,7 @@ export default function SortModal({ y }: ISortModal) {
           <SortItem
             title="По рейтингу"
             activeStyle={itemColor(BathSort.RatingDesc)}
-            onItemPress={() => handleItemPress(BathSort.RatingDesc)}
+            onItemPress={() => setCurrentSort(BathSort.RatingDesc)}
           />
 
           <Divider style={s.divider} />
@@ -101,7 +96,7 @@ export default function SortModal({ y }: ISortModal) {
           <SortItem
             title="Без сортировки"
             activeStyle={[itemColor(BathSort.None), s.end]}
-            onItemPress={() => handleItemPress(BathSort.None)}
+            onItemPress={() => setCurrentSort(BathSort.None)}
           />
         </Block>
       </TouchableOpacity>
