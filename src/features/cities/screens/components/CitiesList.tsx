@@ -8,10 +8,10 @@ import {
 } from '~/src/features/cities/store/cityActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { City } from '~/src/app/models/city';
-import { styles as s } from '../styles';
 import { CitySearcher } from './CitySearcher';
+import { upFirstLetter } from '~/src/app/utils/string';
 import { colors } from '~/src/app/common/constants';
-import { capitalizeFirstLetter } from '~/src/app/utils/string';
+import { styles as s } from '../styles';
 
 interface IProps {
   closeList: () => void;
@@ -54,7 +54,7 @@ const CitiesListContainer: FC<IProps> = ({
       return (
         <TouchableOpacity style={s.cityItem} onPress={() => handleSelectCity()}>
           <AppText primary size={4}>
-            {capitalizeFirstLetter(name)}
+            {upFirstLetter(name)}
           </AppText>
         </TouchableOpacity>
       );

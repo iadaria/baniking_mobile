@@ -22,12 +22,13 @@ export interface IBathMainParams {
   sort_field: BathSortField;
   sort_type: BathSortType;
   city_id: number;
+  latitude: number | null;
+  longitude: number | null;
 }
 
-export interface IBathLocationParams {
+export interface IBathGeoParams {
   latitude: number;
   longitude: number;
-  //city_id: number;
 }
 
 export interface IBathExtraParams {
@@ -43,19 +44,20 @@ export interface IBathExtraParams {
 
 export type FieldMain = keyof IBathMainParams;
 
-export type BathBaseParams = { page: number } & Partial<IBathBaseParams>;
-
-//export type BathExtraParams = { page: number } & Partial<IBathExtraParams>;
-//export type BathLocationParams = { page: number } & Partial<IBathCityParams>;
-
-export type BathParams = BathMainParams;
-
 export type BathMainParams = {
+  prop: 'params' | 'extraParams' | 'geoParams';
   params: Partial<IBathMainParams>;
   isDelete?: boolean;
 };
 
-export type BathParam = BathMainParam | BathExtraParam | BathLocatonParam;
+//export type BathBaseParams = { page: number } & Partial<IBathBaseParams>;
+
+//export type BathExtraParams = { page: number } & Partial<IBathExtraParams>;
+//export type BathLocationParams = { page: number } & Partial<IBathCityParams>;
+
+//export type BathParams = BathMainParams;
+
+/* export type BathParam = BathMainParam | BathExtraParam | BathLocatonParam;
 
 export type BathMainParam = {
   field: keyof IBathMainParams;
@@ -67,10 +69,10 @@ export type BathExtraParam = {
   value: string | number | number[] | undefined;
 };
 export type BathLocatonParam = {
-  field: keyof IBathLocationParams;
+  field: keyof IBathGeoParams;
   value: string | number | number[] | undefined;
 };
-
+ */
 // Raring
 
 export type Rating = 0 | 1 | 2 | 3 | 4 | 5;

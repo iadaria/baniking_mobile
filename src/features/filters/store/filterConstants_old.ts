@@ -10,9 +10,6 @@ export const SET_CHECK_COUNT = 'filter/SET_CHECK_COUNT';
 export const SET_PARAMS = 'filter/SET_PARAMS';
 export const NEXT_PAGE = 'filter/NEXT_PAGE';
 export const SET_BATH_PARAM = 'filter/SET_BATH_PARAM';
-export const SET_NEAR = 'filter/SET_NEAR';
-export const NOT_NEAR = 'filter/NOT_NEAR';
-export const CHANGE_NEAR = 'filter/CHANGE_NEAR';
 
 export const SET_FILTER = 'filter/SET_FILTER';
 export const RETAIN_STATE = 'filter/RETAIN_STATE';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import { AppText } from '~/src/app/common/components/UI';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import { capitalizeFirstLetter } from '~/src/app/utils/string';
+import { upFirstLetter } from '~/src/app/utils/string';
 import { City } from '~/src/app/models/city';
 import { checkCity as checkCityAction } from '~/src/features/cities/store/cityActions';
 import { useDebounced } from '~/src/features/filters/hooks/useDebounced';
@@ -27,7 +27,7 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
     params: { city_id: city?.id },
     deps: [city],
     shouldExecute: !!city,
-    isClearBathes: true,
+    timeout: 0,
     isDelete: !city,
   });
 
@@ -35,7 +35,7 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
     return null;
   }
 
-  const showName = city ? capitalizeFirstLetter(city?.name) : 'Выберите город';
+  const showName = city ? upFirstLetter(city?.name) : 'Выберите город';
 
   return (
     <TouchableOpacity

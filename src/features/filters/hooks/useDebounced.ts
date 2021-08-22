@@ -8,30 +8,32 @@ import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   //type Partial<T> = { [P in keyof T]?: T[P] | undefined;
+  prop?: 'params' | 'extraParams' | 'geoParams';
   params: Partial<IBathMainParams>;
   deps: any[];
   shouldExecute?: boolean;
   timeout?: number;
-  isClearBathes?: boolean;
   isDelete?: boolean;
   unmount?: () => void;
 }
 
 export function useDebounced({
+  prop = 'params',
   params,
   deps,
   shouldExecute = true,
   timeout = 2000,
-  isClearBathes = false,
   isDelete = false,
   unmount = () => {},
 }: IProps) {
   const dispatch = useDispatch();
 
+  const isBase = prop === 'params';
+
   // Выполняем запрос с задержкой после запроса
   const debouncedRequest = useDebouncedCallback(
     (p: BathMainParams) => {
-      if (!isClearBathes) {
+      if (isBase) {
         dispatch(clearBathes());
       }
       dispatch(changeParams(p));
@@ -48,7 +50,7 @@ export function useDebounced({
     // Удаляем свойство из параметров
     logline('[useDebounced] params', params);
     // Присваиваем измененные параметры
-    debouncedRequest({ params, isDelete });
+    debouncedRequest({ prop, params, isDelete });
     return unmount;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedRequest, ...deps]);

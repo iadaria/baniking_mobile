@@ -10,6 +10,7 @@ import { IMapState } from '../mapReducer';
 import { GOOGLE_API } from 'react-native-dotenv';
 import { DETECT_CITY } from '../mapConstants';
 import { log, logline } from '~/src/app/utils/debug';
+import { upFirstLetter } from '~/src/app/utils/string';
 
 export type DetectCityParams = {
   latlng: string;
@@ -45,16 +46,18 @@ function* detectCitySaga(_: IAction) {
       yield put(mapRequest());
       const r: IResult = yield methods.detectCityByLocation(null, params);
       //logline('[detectCitySaga] result', r);
-      const city = r.results[0].address_components[0].short_name.toLowerCase().trim();
+      const city = r.results[0].address_components[0].short_name
+        .toLowerCase()
+        .trim();
       // ask user
       yield showAlert(
         'Определение местоположения',
-        `Ваш город ${city}?`,
+        `Ваш город ${upFirstLetter(city)}?`,
         'OK',
         () => {
           store.dispatch(selectCity(city));
         },
-        () => { },
+        () => {},
       );
     } else {
       store.dispatch(detectGeo());

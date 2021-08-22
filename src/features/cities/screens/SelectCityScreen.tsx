@@ -4,8 +4,8 @@ import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
-//import { Nearest } from './components/Nearest';
-import { capitalizeFirstLetter } from '~/src/app/utils/string';
+import { Nearest } from './components/Nearest';
+import { upFirstLetter } from '~/src/app/utils/string';
 import { DetectLocation } from './components/DetectLocation';
 import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -21,6 +21,7 @@ interface IProps {
 
 function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
   const [isExpand, setExpand] = useState(false);
+
   const { name: cityName } = selectedCity || {};
   useEffect(() => {
     return () => {
@@ -34,7 +35,7 @@ function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
   const closeList = () => setExpand(false);
   const switchList = () => setExpand(!isExpand);
 
-  const showCity = selectedCity ? capitalizeFirstLetter(selectedCity.name) : '';
+  const showCity = selectedCity ? upFirstLetter(selectedCity.name) : '';
 
   const citiesList = isExpand ? <CitiesList closeList={closeList} /> : null;
 
@@ -65,7 +66,7 @@ function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
         <DetectLocation />
       </View>
 
-      {/* <Nearest /> */}
+      <Nearest />
     </Block>
   );
 }

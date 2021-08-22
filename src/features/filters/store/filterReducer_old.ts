@@ -22,7 +22,6 @@ export interface IFilterState {
   paramsTouchCount: number;
   canLoadMoreBathes: boolean;
   sort: BathSort;
-  isNear?: boolean;
   // Filter
   paramsTouch: Partial<BathTouchParams>;
   paramsCheck: BathParams;
@@ -115,12 +114,6 @@ export default function filterReducer(
         params: sortParams,
       };
 
-    case constants.SET_NEAR: // using
-      return {
-        ...state,
-        isNear: true,
-      };
-
     case constants.SET_FILTER:
       return {
         ...state,
@@ -156,12 +149,6 @@ export default function filterReducer(
         ...state,
         paramsTouchCount: state.filterCount,
         params: { ...cleanedParams, ...state.paramsCheck },
-      };
-
-    case constants.NOT_NEAR: // using
-      return {
-        ...state,
-        isNear: false,
       };
 
     case constants.CHECK_INIT: // using

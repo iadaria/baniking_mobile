@@ -45,7 +45,6 @@ export default function SortModal({ y }: ISortModal) {
     deps: [currentSort, sort],
     shouldExecute: sort !== currentSort,
     timeout: TIMEOUT,
-    isClearBathes: true,
     unmount: () => dispatch(closeModal()),
   });
 

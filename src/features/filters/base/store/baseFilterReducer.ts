@@ -3,7 +3,7 @@ import {
   bathSortParams,
   IBathBaseParams,
   IBathExtraParams,
-  IBathLocationParams,
+  IBathGeoParams,
 } from '~/src/app/models/filter';
 import { FieldMain } from '~/src/app/models/filter';
 import * as constants from './baseFilterConstants';
@@ -14,7 +14,7 @@ export interface IBaseFilterState {
   sort: BathSort;
   params: Partial<IBathBaseParams> & { page: number };
   extraParams?: Partial<IBathExtraParams>;
-  locationParams?: Partial<IBathLocationParams>;
+  geoParams?: Partial<IBathGeoParams>;
 }
 
 const initState: IBaseFilterState = {
@@ -37,21 +37,11 @@ export default function baseFilterReducer(
         },
       };
     // Filter
-    /*     case constants.CHANGE_PARAM:
-      logline('[base] CHANGE_PARAM', payload);
-      const { field, value }: BathMainParam = payload;
-      let mainParams = { ...state.params, [field]: value, page: 1 };
-      if (!value) {
-        delete mainParams[field];
-      }
-      return {
-        ...state,
-        params: mainParams,
-      }; */
-
     case constants.CHANGE_PARAMS:
+      const { prop, params, isDelete }: BathMainParams = payload;
       logline('[baseFilter/CHANGE_PARAMS]', { payload }, '\n');
-      const { params, isDelete }: BathMainParams = payload;
+
+      const sort = bathSortParams.indexOf(params);
       let changedParams = { ...state.params, ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];
       fields.forEach((f) => {
@@ -61,8 +51,8 @@ export default function baseFilterReducer(
       });
       return {
         ...state,
-        sort: bathSortParams.indexOf(params),
-        params: changedParams,
+        sort: sort !== -1 ? sort : state.sort,
+        [prop]: changedParams,
       };
 
     default:

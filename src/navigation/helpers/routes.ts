@@ -23,7 +23,7 @@ export const routes = {
     CabinetScreen: 'CabinetScreen',
   },
   bathesTab: {
-    BathesScreen: 'BathesScreen',
+    Bathes: 'BathesScreen',
     BathScreen: 'BathScreen',
     DestinationMap: 'DestinationMap',
     BathesFilterScreen: 'BathesFilterScreen',

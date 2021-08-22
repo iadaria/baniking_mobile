@@ -56,20 +56,6 @@ export const acceptFilter = () => ({
   type: constants.ACCEPT_FILTER,
 });
 
-// using
-export const setNear = () => ({
-  type: constants.SET_NEAR,
-});
-// using
-export const notNear = () => ({
-  type: constants.NOT_NEAR,
-});
-// using
-export const changeNear = (payload: boolean) => ({
-  type: constants.CHANGE_NEAR,
-  payload,
-});
-
 export const checkFilterFail = (payload: IErrors | null) => ({
   type: constants.CHECK_FILTER_FAIL,
   payload,
@@ -89,4 +75,3 @@ export const setSort = (payload: BathSort) => ({
 export const checkClean = () => ({
   type: constants.CHECK_CLEAN,
 });
-
