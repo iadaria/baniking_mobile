@@ -21,13 +21,13 @@ interface IProps {
 
 function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
   const [isExpand, setExpand] = useState(false);
-
+  const { name: cityName } = selectedCity || {};
   useEffect(() => {
     return () => {
       logline('[SelectCityScreen]', 'unmount');
-      persistCity(selectedCity!.name);
+      cityName && persistCity(cityName);
     };
-  }, [persistCity, selectedCity]);
+  }, [persistCity, cityName]);
 
   const deg = isExpand ? 90 : 0;
   const formStyle: ViewStyle = isExpand ? { ...s.form, height: '78%' } : s.form;

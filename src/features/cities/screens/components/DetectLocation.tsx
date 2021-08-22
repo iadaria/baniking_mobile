@@ -28,18 +28,21 @@ function DetectLocationContainer({
   const [needCity, setNeedCity] = useState(false);
   const [granted] = permissionLocation;
 
+  // Если из state получили что нет прав - запрашиваем снова
   useEffect(() => {
     if (!granted) {
       checkPermissionLocation();
     }
   }, [checkPermissionLocation, granted]);
 
+  // Если зи state получили что есть права - запрашиваем geo
   useEffect(() => {
     if (granted) {
       detectGeo();
     }
   }, [detectGeo, granted]);
 
+  //  Если пользователь хочет найти бани рядом
   useEffect(() => {
     if (needCity && location) {
       detectCity();

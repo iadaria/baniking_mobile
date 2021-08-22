@@ -1,4 +1,3 @@
-import { compareObj } from '~/src/app/utils/common';
 import {
   BathSort,
   bathSortParams,
