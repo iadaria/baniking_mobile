@@ -7,6 +7,7 @@ import { changeParams } from '../base/store/baseFilterActions';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
+  //type Partial<T> = { [P in keyof T]?: T[P] | undefined;
   params: Partial<IBathMainParams>;
   deps: any[];
   shouldExecute?: boolean;

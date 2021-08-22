@@ -29,7 +29,7 @@ export const routes = {
     BathesFilterScreen: 'BathesFilterScreen',
     BathesPhotosScreen: 'BathesPhotosScreen',
     OrderCallScreen: 'OrderCallScreen',
-    CitiesScreen: 'CitiesScreen',
+    SelectCity: 'SelectCityScreen',
   },
   settingsTab: {
     // BaseSettingsScreen: 'BaseSettingsScreen',

@@ -5,15 +5,11 @@ import { showAlert } from '~/src/app/common/components/showAlert';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { CHECK_CITY } from '../cityConstants';
 import { log, logline } from '~/src/app/utils/debug';
-import { City } from '~/src/app/models/city';
 import { fetchCitiesSaga } from './fetchCitiesSaga';
 
 interface IAction {
   type: string;
 }
-
-/* const isFirstOrDifferent = (persistName: string | null, selected?: City) =>
-  persistName !== selected?.name || !selected; */
 
 function* checkCitySaga(_: IAction) {
   logline('[checkCitySaga]', '***');

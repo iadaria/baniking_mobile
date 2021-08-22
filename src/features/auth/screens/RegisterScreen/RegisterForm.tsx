@@ -117,8 +117,8 @@ export default function RegisterForm({
         style={{ borderRadius: 10 /* , paddingLeft: wp(28)  */ }}
         id="email"
         placeholder="Введите email"
+        keyboardType="email-address"
         center
-        email
         maxLength={50}
       />
       {/* Phone */}

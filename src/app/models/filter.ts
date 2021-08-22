@@ -21,12 +21,13 @@ export interface IBathMainParams {
   search_query: string;
   sort_field: BathSortField;
   sort_type: BathSortType;
+  city_id: number;
 }
 
 export interface IBathLocationParams {
   latitude: number;
   longitude: number;
-  city_id: number;
+  //city_id: number;
 }
 
 export interface IBathExtraParams {

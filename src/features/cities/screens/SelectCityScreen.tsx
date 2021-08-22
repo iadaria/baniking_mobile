@@ -4,40 +4,39 @@ import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { BackButton } from '~/src/app/common/components/BackButton';
 import { CitiesList } from './components/CitiesList';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { MenuItem } from '~/src/assets';
 //import { Nearest } from './components/Nearest';
-import { City } from '~/src/app/models/city';
-import { styles as s } from './styles';
 import { capitalizeFirstLetter } from '~/src/app/utils/string';
 import { DetectLocation } from './components/DetectLocation';
+import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { City } from '~/src/app/models/city';
+import { MenuItem } from '~/src/assets';
+import { styles as s } from './styles';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
-  persistCityName: string | null;
   selectedCity?: City;
+  persistCity: (cityName: string) => void;
 }
 
-function SelectCityScreenContainer({ persistCityName, selectedCity }: IProps) {
-  const [showCities, setShowCities] = useState(false);
-
-  const checkCity = useCallback(() => {
-    if (persistCityName) {
-
-    }
-  }, []);
+function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
+  const [isExpand, setExpand] = useState(false);
 
   useEffect(() => {
+    return () => {
+      logline('[SelectCityScreen]', 'unmount');
+      persistCity(selectedCity!.name);
+    };
+  }, [persistCity, selectedCity]);
 
-  }, []);
+  const deg = isExpand ? 90 : 0;
+  const formStyle: ViewStyle = isExpand ? { ...s.form, height: '78%' } : s.form;
+  const closeList = () => setExpand(false);
+  const switchList = () => setExpand(!isExpand);
 
-  const deg = showCities ? 90 : 0;
-  const formStyle: ViewStyle = showCities
-    ? { ...s.form, height: '78%' }
-    : s.form;
+  const showCity = selectedCity ? capitalizeFirstLetter(selectedCity.name) : '';
 
-  const showSelectedCity = selectedCity
-    ? capitalizeFirstLetter(selectedCity.name)
-    : '';
+  const citiesList = isExpand ? <CitiesList closeList={closeList} /> : null;
 
   return (
     <Block margin={6} full>
@@ -54,17 +53,14 @@ function SelectCityScreenContainer({ persistCityName, selectedCity }: IProps) {
         </AppText>
 
         {/* Selected city name */}
-        <TouchableOpacity
-          style={s.item}
-          onPress={() => setShowCities(!showCities)}>
+        <TouchableOpacity style={s.item} onPress={switchList}>
           <AppText primary semibold size={4}>
-            {showSelectedCity}
+            {showCity}
           </AppText>
           <MenuItem style={{ transform: [{ rotate: `${deg}deg` }] }} />
         </TouchableOpacity>
 
-        {/* Cities list */}
-        {showCities && <CitiesList closeList={() => setShowCities(false)} />}
+        {citiesList}
 
         <DetectLocation />
       </View>
@@ -75,11 +71,11 @@ function SelectCityScreenContainer({ persistCityName, selectedCity }: IProps) {
 }
 
 const SelectCityScreenConnected = connect(
-  ({ city, persist }: IRootState) => ({
-    persistCityName: persist.selectedCityName,
+  ({ city }: IRootState) => ({
     selectedCity: city.selectedCity,
   }),
   {
+    persistCity: persistCityAction,
   },
 )(SelectCityScreenContainer);
 

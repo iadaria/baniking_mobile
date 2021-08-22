@@ -51,7 +51,7 @@ export default function baseFilterReducer(
       }; */
 
     case constants.CHANGE_PARAMS:
-      logline('[base] CHANGE_PARAMS', { payload });
+      logline('[baseFilter/CHANGE_PARAMS]', { payload }, '\n');
       const { params, isDelete }: BathMainParams = payload;
       let changedParams = { ...state.params, ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];

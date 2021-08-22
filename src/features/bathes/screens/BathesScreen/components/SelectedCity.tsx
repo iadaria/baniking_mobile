@@ -2,14 +2,15 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import { AppText } from '~/src/app/common/components/UI';
-import { routes } from '~/src/navigation/helpers/routes';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { capitalizeFirstLetter } from '~/src/app/utils/string';
-import { LocationIcon } from '~/src/assets';
 import { City } from '~/src/app/models/city';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { styles as s } from '../styles';
 import { checkCity as checkCityAction } from '~/src/features/cities/store/cityActions';
+import { useDebounced } from '~/src/features/filters/hooks/useDebounced';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { routes } from '~/src/navigation/helpers/routes';
+import { LocationIcon } from '~/src/assets';
+import { styles as s } from '../styles';
 
 interface IProps {
   loading: boolean;
@@ -22,6 +23,14 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
     checkCity();
   }, [checkCity]);
 
+  useDebounced({
+    params: { city_id: city?.id },
+    deps: [city],
+    shouldExecute: !!city,
+    isClearBathes: true,
+    isDelete: !city,
+  });
+
   if (loading) {
     return null;
   }
@@ -31,7 +40,7 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
   return (
     <TouchableOpacity
       style={s.city}
-      onPress={() => RootNavigation.navigate(routes.bathesTab.CitiesScreen)}>
+      onPress={() => RootNavigation.navigate(routes.bathesTab.SelectCity)}>
       <LocationIcon />
       <AppText padding={[3]}>{showName}</AppText>
     </TouchableOpacity>

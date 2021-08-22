@@ -3,6 +3,7 @@ import * as constants from './appPersistConstants';
 import { refreshAccounts } from '~/src/app/utils/auth';
 import { IPersistImages } from '~/src/app/models/persist';
 import { Bath } from '~/src/app/models/bath';
+import { logline } from '~/src/app/utils/debug';
 
 // TOOD SET USER PROVIDER DATE
 
@@ -86,6 +87,7 @@ export default function appPersistReducer(
 
     // Cities
     case constants.SELECT_CITY:
+      logline('[persist/SELECT_CITY]', { payload });
       return {
         ...state,
         selectedCityName: payload,

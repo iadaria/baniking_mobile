@@ -51,7 +51,7 @@ export default function cityReducer(
       };
 
     case constants.SELECT_CITY:
-      logline('[SELECT_CITY]', payload);
+      logline('[city/SELECT_CITY]', payload, '\n');
       const selectedCity = state.cities.find(({ id, name }) =>
         [id, name].includes(payload),
       );

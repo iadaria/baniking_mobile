@@ -16,17 +16,15 @@ import { capitalizeFirstLetter } from '~/src/app/utils/string';
 interface IProps {
   closeList: () => void;
   // state
-  allCities: City[];
-  countAllCities: number;
+  cities: City[];
+  // actions
   fetchCities: () => void;
   selectCity: (cityId: number) => void;
 }
 
 const CitiesListContainer: FC<IProps> = ({
   closeList,
-  // state
-  allCities,
-  countAllCities,
+  cities,
   fetchCities,
   selectCity,
 }) => {
@@ -34,13 +32,13 @@ const CitiesListContainer: FC<IProps> = ({
 
   // init all cities
   useEffect(() => {
-    if (countAllCities <= 0) {
+    if (!cities.length) {
       fetchCities();
     } else {
-      setShowCities(allCities);
+      setShowCities(cities);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countAllCities, fetchCities]);
+  }, [cities, fetchCities]);
 
   const keyExtractor = useCallback((city: City) => String(city.id), []);
 
@@ -72,7 +70,7 @@ const CitiesListContainer: FC<IProps> = ({
 
   return (
     <>
-      <CitySearcher allCities={allCities} setCities={setShowCities} />
+      <CitySearcher allCities={cities} setCities={setShowCities} />
       <Block style={s.citiesList}>
         <FlatList
           data={showCities}
@@ -98,9 +96,7 @@ const CitiesListContainer: FC<IProps> = ({
 
 const CitiesListConnected = connect(
   ({ city }: IRootState) => ({
-    allCities: city.cities,
-    countAllCities: city.count,
-    s,
+    cities: city.cities,
   }),
   {
     fetchCities: fetchCitiesAction,
