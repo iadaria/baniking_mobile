@@ -2,30 +2,37 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
-import { acceptFilter as acceptFilterAction } from '~/src/features/filters/store/filterActions';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { styles as s } from '../styles';
 
 interface IProps {
-  filterLoading: boolean;
-  totalCheckedBathes: number;
-  acceptFilter: () => void;
+  loading: boolean;
+  count: number;
+  //acceptFilter: () => void;
   clearBathes: () => void;
 }
 
 function AcceptButtonContainer({
-  filterLoading,
-  totalCheckedBathes,
-  acceptFilter,
+  loading,
+  count,
+  //acceptFilter,
   clearBathes,
 }: IProps) {
   function handleAcceptFilter() {
     RootNavigation.goBackOrToScreen('BathesScreen');
     clearBathes();
-    acceptFilter();
+    //acceptFilter();
   }
+
+  let status;
+  status = loading && <ActivityIndicator size="small" color="white" />;
+  status = !loading && (
+    <AppText semibold header>
+      {count}
+    </AppText>
+  );
 
   return (
     <AppButton
@@ -36,13 +43,7 @@ function AcceptButtonContainer({
         {'Показать '}
       </AppText>
       <Block middle center>
-        {filterLoading ? (
-          <ActivityIndicator size="small" color="white" />
-        ) : (
-          <AppText semibold header>
-            {totalCheckedBathes}
-          </AppText>
-        )}
+        {status}
       </Block>
       <AppText padding={1.5} center semibold header>
         {' предложения'}
@@ -53,11 +54,11 @@ function AcceptButtonContainer({
 
 const AcceptButtonConnected = connect(
   ({ filter }: IRootState) => ({
-    filterLoading: filter.filterLoading,
-    totalCheckedBathes: filter.totalCheckedBathes,
+    loading: filter.extraLoading,
+    count: filter.extraCount,
   }),
   {
-    acceptFilter: acceptFilterAction,
+    //acceptFilter: acceptFilterAction,
     clearBathes: clearBathesAction,
   },
 )(AcceptButtonContainer);
