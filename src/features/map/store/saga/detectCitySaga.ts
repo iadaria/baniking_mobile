@@ -30,10 +30,6 @@ interface IResult {
   }[];
 }
 
-const _selectCity = (cityName: string) => {
-  store.dispatch(selectCity(cityName));
-};
-
 function* detectCitySaga(_: IAction) {
   logline('\n\n[detectCitySage]', '***');
   try {

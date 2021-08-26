@@ -3,7 +3,7 @@ import {
   bathSortParams,
   IBathBaseParams,
   IBathExtraParams,
-  IBathGeoParams,
+  TouchParams,
 } from '~/src/app/models/filter';
 import { FieldMain } from '~/src/app/models/filter';
 import * as constants from './filterConstants';
@@ -13,13 +13,16 @@ import { logline } from '~/src/app/utils/debug';
 export interface IFilterState {
   sort: BathSort;
   params: Partial<IBathBaseParams> & { page: number };
+  // extra
+  touchParams: Partial<TouchParams>;
   extraParams?: Partial<IBathExtraParams>;
-  geoParams?: Partial<IBathGeoParams>;
 }
 
 const initState: IFilterState = {
   sort: BathSort.None,
   params: { page: 1 },
+  // extra
+  touchParams: {},
 };
 
 export default function filterReducer(
@@ -56,6 +59,12 @@ export default function filterReducer(
         ...state,
         sort: sort !== -1 ? sort : state.sort,
         [prop]: changedParams,
+      };
+
+    case constants.SET_TOUCH_PARAMS:
+      return {
+        ...state,
+        touchParams: payload,
       };
 
     default:

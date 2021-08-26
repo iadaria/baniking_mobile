@@ -1,10 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
+import { objectToArray } from '~/src/app/utils/common';
+import { setTouchParams } from '../flterActions';
 import { methods } from '~/src/app/api';
 import { BathType } from '~/src/app/models/bath';
+import { FETCH_TOUCH_PARAMS } from '../filterConstants';
 import { logline } from '~/src/app/utils/debug';
-import { objectToArray } from '~/src/app/utils/common';
-import { setBathTouchParams } from '~/src/features/filters/store/filterActions';
-import { GET_BATH_PARAMS_FILTERING } from '~/src/features/filters/store/filterConstants';
 
 export interface IResponse {
   types: BathType[];
@@ -13,13 +13,13 @@ export interface IResponse {
   steamRooms: string[];
 }
 
-function* getBathParamsSaga() {
+function* fetchTouchParamsSaga() {
   try {
     const params: IResponse = yield call(methods.getBathParams, null, null);
     //log('paramsTouch', params);
     const { types, zones, services, steamRooms } = params;
     yield put(
-      setBathTouchParams({
+      setTouchParams({
         types,
         zones: objectToArray(zones),
         services: objectToArray(services),
@@ -32,7 +32,7 @@ function* getBathParamsSaga() {
 }
 
 export default function* listener() {
-  yield takeEvery(GET_BATH_PARAMS_FILTERING, getBathParamsSaga);
+  yield takeEvery(FETCH_TOUCH_PARAMS, fetchTouchParamsSaga);
 }
 
 // var countParams = 0;

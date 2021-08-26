@@ -24,9 +24,9 @@ export const routes = {
   },
   bathesTab: {
     Bathes: 'BathesScreen',
+    BathesFilter: 'BathesFilterScreen',
     BathScreen: 'BathScreen',
     DestinationMap: 'DestinationMap',
-    BathesFilterScreen: 'BathesFilterScreen',
     BathesPhotosScreen: 'BathesPhotosScreen',
     OrderCallScreen: 'OrderCallScreen',
     SelectCity: 'SelectCityScreen',

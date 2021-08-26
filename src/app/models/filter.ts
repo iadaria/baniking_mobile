@@ -26,11 +26,6 @@ export interface IBathMainParams {
   longitude: number | null;
 }
 
-export interface IBathGeoParams {
-  latitude: number;
-  longitude: number;
-}
-
 export interface IBathExtraParams {
   rating_from: Rating;
   rating_to: Rating;
@@ -45,34 +40,11 @@ export interface IBathExtraParams {
 export type FieldMain = keyof IBathMainParams | keyof IBathExtraParams;
 
 export type BathMainParams = {
-  prop: 'params' | 'extraParams' | 'geoParams';
+  prop: 'params' | 'extraParams';
   params: Partial<IBathMainParams> | Partial<IBathExtraParams>;
   isDelete?: boolean;
 };
 
-//export type BathBaseParams = { page: number } & Partial<IBathBaseParams>;
-
-//export type BathExtraParams = { page: number } & Partial<IBathExtraParams>;
-//export type BathLocationParams = { page: number } & Partial<IBathCityParams>;
-
-//export type BathParams = BathMainParams;
-
-/* export type BathParam = BathMainParam | BathExtraParam | BathLocatonParam;
-
-export type BathMainParam = {
-  field: keyof IBathMainParams;
-  value: string | number | number[] | undefined;
-};
-
-export type BathExtraParam = {
-  field: keyof IBathExtraParams;
-  value: string | number | number[] | undefined;
-};
-export type BathLocatonParam = {
-  field: keyof IBathGeoParams;
-  value: string | number | number[] | undefined;
-};
- */
 // Raring
 
 export type Rating = 0 | 1 | 2 | 3 | 4 | 5;
@@ -114,3 +86,10 @@ export const bathSortParams: BathSortParams[] = [
   { sort_field: BathSortField.Rating, sort_type: BathSortType.Desc },
   { sort_field: undefined, sort_type: undefined },
 ];
+
+export type TouchParams = {
+  types: BathType[];
+  zones: string[];
+  services: string[];
+  steamRooms: string[];
+};

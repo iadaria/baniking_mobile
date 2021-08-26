@@ -12,6 +12,7 @@ import { SelectedCity } from './components/SelectedCity';
 import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { Button } from 'react-native';
 import { nextPage as nextPageAction } from '~/src/features/filters/store/flterActions';
+import { FilterButton } from './components/FilterButton';
 
 interface IProps {
   loading: boolean;
@@ -54,7 +55,7 @@ export function BathesScreenContainer({
 
       <Block padding={[0, 0, 0, 4]} center row>
         <Searcher />
-        {/* <FilterButton /> */}
+        <FilterButton />
       </Block>
 
       <Sorter />
