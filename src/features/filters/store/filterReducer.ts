@@ -41,7 +41,10 @@ export default function filterReducer(
       const { prop, params, isDelete }: BathMainParams = payload;
       logline('[filter/CHANGE_PARAMS]', { payload }, '\n');
 
-      const sort = bathSortParams.indexOf(params);
+      let sort = -1;
+      if (params.hasOwnProperty('sort_field')) {
+        sort = bathSortParams.indexOf(params);
+      }
       let changedParams = { ...state.params, ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];
       fields.forEach((f) => {

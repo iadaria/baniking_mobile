@@ -1,4 +1,4 @@
-import { put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { store } from '~/src/app/store';
 import { detectGeo, mapFail, mapRequest } from '../mapActions';
 import { selectCity } from '~/src/features/cities/store/cityActions';
@@ -30,6 +30,10 @@ interface IResult {
   }[];
 }
 
+const _selectCity = (cityName: string) => {
+  store.dispatch(selectCity(cityName));
+};
+
 function* detectCitySaga(_: IAction) {
   logline('\n\n[detectCitySage]', '***');
   try {
@@ -53,8 +57,8 @@ function* detectCitySaga(_: IAction) {
         'Определение местоположения',
         `Ваш город ${upFirstLetter(city)}?`,
         'OK',
-        () => {
-          store.dispatch(selectCity(city));
+        yield () => {
+          put(store.dispatch(selectCity(city)));
         },
         () => {},
       );

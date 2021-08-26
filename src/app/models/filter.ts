@@ -42,7 +42,7 @@ export interface IBathExtraParams {
   zones_ids: number[];
 }
 
-export type FieldMain = keyof IBathMainParams;
+export type FieldMain = keyof IBathMainParams | keyof IBathExtraParams;
 
 export type BathMainParams = {
   prop: 'params' | 'extraParams' | 'geoParams';
