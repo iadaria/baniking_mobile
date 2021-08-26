@@ -46,7 +46,7 @@ function NearestContainer({ maploc, filterloc }: IProps) {
 }
 
 export const NearestConnected = connect(
-  ({ map, baseFilter: { params } }: IRootState) => ({
+  ({ map, filter: { params } }: IRootState) => ({
     maploc: map.location,
     filterloc: params[lat]
       ? { [lat]: params[lat]!, [lng]: params[lng]! }

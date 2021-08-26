@@ -11,7 +11,7 @@ import { Searcher } from './components/Searcher';
 import { SelectedCity } from './components/SelectedCity';
 import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { Button } from 'react-native';
-import { nextPage as nextPageAction } from '~/src/features/filters/base/store/baseFilterActions';
+import { nextPage as nextPageAction } from '~/src/features/filters/store/flterActions';
 
 interface IProps {
   loading: boolean;
@@ -67,10 +67,10 @@ export function BathesScreenContainer({
 }
 
 const BathesScreenConnected = connect(
-  ({ bath, baseFilter }: IRootState) => ({
+  ({ bath, filter }: IRootState) => ({
     loading: bath.loading,
     bathes: bath.bathes,
-    params: baseFilter.params,
+    params: filter.params,
     canLoadMoreBathes: bath.canLoadMore,
   }),
   {

@@ -28,9 +28,9 @@ import permissionReducer, {
   IPermissionState,
 } from './permission/permissionReducer';
 import mapReducer, { IMapState } from '~/src/features/map/store/mapReducer';
-import baseFilterReducer, {
-  IBaseFilterState,
-} from '~/src/features/filters/base/store/baseFilterReducer';
+import filterReducer, {
+  IFilterState,
+} from '~/src/features/filters/store/filterReducer';
 
 const persistConfig: PersistConfig<T> = {
   key: 'persist',
@@ -46,7 +46,7 @@ export interface IRootState {
   modal: IModalState;
   profile: IProfileState;
   settings: ISettingsState;
-  baseFilter: IBaseFilterState;
+  filter: IFilterState;
   bath: IBathState;
   city: ICityState;
   map: IMapState;
@@ -60,7 +60,7 @@ const rootReducer = combineReducers<IRootState>({
   modal: modalReducer,
   profile: profileReducer,
   settings: settingsReducer,
-  baseFilter: baseFilterReducer,
+  filter: filterReducer,
   bath: bathReducer,
   city: cityReducer,
   map: mapReducer,

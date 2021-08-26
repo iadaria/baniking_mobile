@@ -6,26 +6,26 @@ import {
   IBathGeoParams,
 } from '~/src/app/models/filter';
 import { FieldMain } from '~/src/app/models/filter';
-import * as constants from './baseFilterConstants';
+import * as constants from './filterConstants';
 import { BathMainParams } from '~/src/app/models/filter';
 import { logline } from '~/src/app/utils/debug';
 
-export interface IBaseFilterState {
+export interface IFilterState {
   sort: BathSort;
   params: Partial<IBathBaseParams> & { page: number };
   extraParams?: Partial<IBathExtraParams>;
   geoParams?: Partial<IBathGeoParams>;
 }
 
-const initState: IBaseFilterState = {
+const initState: IFilterState = {
   sort: BathSort.None,
   params: { page: 1 },
 };
 
-export default function baseFilterReducer(
+export default function filterReducer(
   state = initState,
   { type, payload }: any = { type: '', payload: undefined },
-): IBaseFilterState {
+): IFilterState {
   switch (type) {
     // Load more
     case constants.NEXT_PAGE:
@@ -39,7 +39,7 @@ export default function baseFilterReducer(
     // Filter
     case constants.CHANGE_PARAMS:
       const { prop, params, isDelete }: BathMainParams = payload;
-      logline('[baseFilter/CHANGE_PARAMS]', { payload }, '\n');
+      logline('[filter/CHANGE_PARAMS]', { payload }, '\n');
 
       const sort = bathSortParams.indexOf(params);
       let changedParams = { ...state.params, ...params, page: 1 };

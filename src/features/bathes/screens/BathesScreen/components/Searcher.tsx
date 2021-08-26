@@ -9,7 +9,7 @@ import { styles as s } from '../styles';
 
 export function Searcher() {
   const { search_query } = useSelector(
-    ({ baseFilter }: IRootState) => baseFilter.params,
+    ({ filter }: IRootState) => filter.params,
   );
   const [searched, setSearched] = useState<string | undefined>(search_query);
 

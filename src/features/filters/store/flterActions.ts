@@ -1,4 +1,4 @@
-import * as constants from './baseFilterConstants';
+import * as constants from './filterConstants';
 import { BathMainParams } from '~/src/app/models/filter';
 
 export const changeParams = (payload: BathMainParams) => ({

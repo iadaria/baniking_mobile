@@ -5,7 +5,7 @@ import { getErrorStrings } from '~/src/app/utils/error';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { methods } from '~/src/app/api';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBaseFilterState } from '~/src/features/filters/base/store/baseFilterReducer';
+import { IFilterState } from '~/src/features/filters/store/filterReducer';
 import { FETCH_BATHES } from '../bathConstants';
 import { log, logline } from '~/src/app/utils/debug';
 
@@ -20,8 +20,8 @@ interface IResult {
 
 function* fetchBathesSaga(_: IAction) {
   try {
-    const { params }: IBaseFilterState = yield select(
-      (state: IRootState) => state.baseFilter,
+    const { params }: IFilterState = yield select(
+      (state: IRootState) => state.filter,
     );
     const result: IResult = yield call(methods.getBathes, null, params, null);
 

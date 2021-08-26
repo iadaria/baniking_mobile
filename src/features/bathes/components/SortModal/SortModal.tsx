@@ -36,7 +36,7 @@ export interface ISortModal {
 }
 
 export default function SortModal({ y }: ISortModal) {
-  const { sort } = useSelector(({ baseFilter }: IRootState) => baseFilter);
+  const { sort } = useSelector(({ filter }: IRootState) => filter);
   const [currentSort, setCurrentSort] = useState<BathSort>(sort);
   const dispatch = useDispatch();
 

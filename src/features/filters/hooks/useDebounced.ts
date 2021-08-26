@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { clearBathes } from '../../bathes/store/bathActions';
 import { BathMainParams, IBathMainParams } from '~/src/app/models/filter';
-import { changeParams } from '../base/store/baseFilterActions';
+import { changeParams } from '../store/flterActions';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
