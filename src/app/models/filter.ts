@@ -46,7 +46,7 @@ export type FieldMain = keyof IBathMainParams;
 
 export type BathMainParams = {
   prop: 'params' | 'extraParams' | 'geoParams';
-  params: Partial<IBathMainParams>;
+  params: Partial<IBathMainParams> | Partial<IBathExtraParams>;
   isDelete?: boolean;
 };
 

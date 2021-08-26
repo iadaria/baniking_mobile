@@ -12,18 +12,18 @@ import { City } from '~/src/app/models/city';
 import { MenuItem } from '~/src/assets';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { logline } from '~/src/app/utils/debug';
-import { styles as s } from './styles';
 import { useDebounced } from '../../filters/hooks/useDebounced';
+import { styles as s } from './styles';
 
 interface IProps {
-  city_id?: City['id'];
   selectedCity?: City;
+  filterCityId?: City['id'];
   persistCity: (cityName: string) => void;
 }
 
 function SelectCityScreenContainer({
-  city_id,
   selectedCity,
+  filterCityId,
   persistCity,
 }: IProps) {
   const [isExpand, setExpand] = useState(false);
@@ -42,11 +42,12 @@ function SelectCityScreenContainer({
   const switchList = () => setExpand(!isExpand);
 
   const showCity = selectedCity ? upFirstLetter(selectedCity.name) : '';
+  const isNewCity = !!selectedCity && selectedCity.id !== filterCityId;
 
   useDebounced({
     params: { city_id: selectedCity?.id },
     deps: [selectedCity],
-    shouldExecute: !!selectedCity,
+    shouldExecute: isNewCity,
     timeout: 0,
     isDelete: !selectedCity,
   });
@@ -88,7 +89,7 @@ function SelectCityScreenContainer({
 const SelectCityScreenConnected = connect(
   ({ city, filter }: IRootState) => ({
     selectedCity: city.selectedCity,
-    city_id: filter.params.city_id,
+    filterCityId: filter.params.city_id,
   }),
   {
     persistCity: persistCityAction,

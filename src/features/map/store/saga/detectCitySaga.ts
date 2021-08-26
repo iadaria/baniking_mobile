@@ -9,8 +9,8 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { IMapState } from '../mapReducer';
 import { GOOGLE_API } from 'react-native-dotenv';
 import { DETECT_CITY } from '../mapConstants';
-import { log, logline } from '~/src/app/utils/debug';
 import { upFirstLetter } from '~/src/app/utils/string';
+import { log, logline } from '~/src/app/utils/debug';
 
 export type DetectCityParams = {
   latlng: string;
@@ -45,7 +45,6 @@ function* detectCitySaga(_: IAction) {
       };
       yield put(mapRequest());
       const r: IResult = yield methods.detectCityByLocation(null, params);
-      //logline('[detectCitySaga] result', r);
       const city = r.results[0].address_components[0].short_name
         .toLowerCase()
         .trim();

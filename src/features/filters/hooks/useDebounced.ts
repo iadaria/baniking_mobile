@@ -2,14 +2,18 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { clearBathes } from '../../bathes/store/bathActions';
-import { BathMainParams, IBathMainParams } from '~/src/app/models/filter';
+import {
+  BathMainParams,
+  IBathExtraParams,
+  IBathMainParams,
+} from '~/src/app/models/filter';
 import { changeParams } from '../store/flterActions';
 import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   //type Partial<T> = { [P in keyof T]?: T[P] | undefined;
   prop?: 'params' | 'extraParams' | 'geoParams';
-  params: Partial<IBathMainParams>;
+  params: Partial<IBathMainParams> | Partial<IBathExtraParams>;
   deps: any[];
   shouldExecute?: boolean;
   timeout?: number;

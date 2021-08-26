@@ -12,7 +12,6 @@ import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { LocationIcon } from '~/src/assets';
 import { styles as s } from '../styles';
 import { useIsFocused } from '@react-navigation/native';
-import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   loading: boolean;
@@ -27,14 +26,12 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    logline('[SelectedCity', { isFocused });
-  }, [isFocused]);
+  const isNewCity = !!city && isFocused;
 
   useDebounced({
     params: { city_id: city?.id },
     deps: [city],
-    shouldExecute: !!city && isFocused,
+    shouldExecute: isNewCity,
     timeout: 0,
     isDelete: !city,
   });
