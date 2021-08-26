@@ -43,7 +43,7 @@ export function useDebounced({
   );
 
   useEffect(() => {
-    logline('[shouldExecute]', shouldExecute);
+    logline('\n[shouldExecute]', shouldExecute);
     if (!shouldExecute) {
       return;
     }

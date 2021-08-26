@@ -8,18 +8,24 @@ import { Nearest } from './components/Nearest';
 import { upFirstLetter } from '~/src/app/utils/string';
 import { DetectLocation } from './components/DetectLocation';
 import { persistCity as persistCityAction } from '~/src/features/persist/store/appPersistActions';
-import { IRootState } from '~/src/app/store/rootReducer';
 import { City } from '~/src/app/models/city';
 import { MenuItem } from '~/src/assets';
-import { styles as s } from './styles';
+import { IRootState } from '~/src/app/store/rootReducer';
 import { logline } from '~/src/app/utils/debug';
+import { styles as s } from './styles';
+import { useDebounced } from '../../filters/hooks/useDebounced';
 
 interface IProps {
+  city_id?: City['id'];
   selectedCity?: City;
   persistCity: (cityName: string) => void;
 }
 
-function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
+function SelectCityScreenContainer({
+  city_id,
+  selectedCity,
+  persistCity,
+}: IProps) {
   const [isExpand, setExpand] = useState(false);
 
   const { name: cityName } = selectedCity || {};
@@ -36,6 +42,14 @@ function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
   const switchList = () => setExpand(!isExpand);
 
   const showCity = selectedCity ? upFirstLetter(selectedCity.name) : '';
+
+  useDebounced({
+    params: { city_id: selectedCity?.id },
+    deps: [selectedCity],
+    shouldExecute: !!selectedCity,
+    timeout: 0,
+    isDelete: !selectedCity,
+  });
 
   const citiesList = isExpand ? <CitiesList closeList={closeList} /> : null;
 
@@ -72,8 +86,9 @@ function SelectCityScreenContainer({ selectedCity, persistCity }: IProps) {
 }
 
 const SelectCityScreenConnected = connect(
-  ({ city }: IRootState) => ({
+  ({ city, filter }: IRootState) => ({
     selectedCity: city.selectedCity,
+    city_id: filter.params.city_id,
   }),
   {
     persistCity: persistCityAction,
