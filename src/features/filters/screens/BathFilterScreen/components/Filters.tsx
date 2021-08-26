@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { Text, TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
-import { IRootState } from '~/src/app/store/rootReducer';
-import { styles as s } from '../styles';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { compareObj } from '~/src/app/utils/common';
-import { BathParams, IBathParams } from '~/src/app/models/bath';
+import { IBathParams } from '~/src/app/models/bath';
+import { IBathExtraParams } from '~/src/app/models/filter';
+import { IRootState } from '~/src/app/store/rootReducer';
+import { styles as s } from '../styles';
 
 interface IProps {
   title: string;
   field: keyof IBathParams;
   items?: string[];
-  paramsCheck: BathParams;
+  extraParams?: Partial<IBathExtraParams>;
 }
 
-function FiltersContainer({ title, items, field, paramsCheck }: IProps) {
-  const [selected, setSelected] = useState<number[]>(paramsCheck[field]);
+function FiltersContainer({ title, items, field, extraParams }: IProps) {
+  const [selected, setSelected] = useState<number[]>(extraParams[field]);
   useDebounced({
-    param: { prop: 'paramsCheck', field, value: selected },
+    prop: 'extraParams',
+    params: { [field]: selected },
     deps: [selected],
-    shouldExecute: !compareObj(paramsCheck[field], selected),
+    shouldExecute: !compareObj(extraParams[field], selected),
     isDelete: selected && selected?.length <= 0,
   });
 
@@ -65,7 +67,7 @@ function FiltersContainer({ title, items, field, paramsCheck }: IProps) {
 
 const FiltersConnected = connect(
   ({ filter }: IRootState) => ({
-    paramsCheck: filter.paramsCheck,
+    extraParams: filter.extraParams,
   }),
   {},
 )(FiltersContainer);

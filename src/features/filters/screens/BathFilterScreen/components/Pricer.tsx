@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
@@ -7,29 +7,46 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { RightButton } from './RightButton';
 import { styles as s } from '../styles';
+import { logline } from '~/src/app/utils/debug';
 
-export function Pricer() {
-  const { price_from = 1, price_to = 10000 } = useSelector(
-    (state: IRootState) => state.filter.paramsCheck,
-  );
-  const [lowPrice, setLowPrice] = useState(price_from);
-  const [middleLowPrice, setMiddleLowPrice] = useState('1');
+const MIN_PRICE = 1;
+const MAX_PRICE = 10000;
 
-  const [highPrice, setHighPrice] = useState(price_to);
-  const [middleHighPrice, setMiddleHighPrice] = useState('10000');
+interface IProps {
+  price_from?: number;
+  price_to?: number;
+}
+
+function PricerContainer({ price_from, price_to }: IProps) {
+  /*   const { price_from = pfrom || 1, price_to = pto || 10000 } =
+      useSelector((state: IRootState) => state.filter.extraParams) || {}; */
+  const [lowPrice, setLowPrice] = useState(price_from || MIN_PRICE);
+  const [middleLowPrice, setMiddleLowPrice] = useState(MIN_PRICE.toString());
+
+  const [highPrice, setHighPrice] = useState(price_to || MAX_PRICE);
+  const [middleHighPrice, setMiddleHighPrice] = useState(MAX_PRICE.toString());
+
+  const isInitFrom = lowPrice === MIN_PRICE && !price_from;
+  const isInitTo = highPrice === MAX_PRICE && !price_to;
+
+  useEffect(() => {
+    logline('***[Pricer]', { price_from });
+  }, [price_from]);
 
   useDebounced({
-    param: { prop: 'paramsCheck', field: 'price_from', value: lowPrice },
+    prop: 'extraParams',
+    params: { price_from: lowPrice },
     deps: [price_from, lowPrice],
-    shouldExecute: price_from !== lowPrice,
-    isDelete: lowPrice === 1,
+    shouldExecute: price_from !== lowPrice && !isInitFrom,
+    isDelete: lowPrice === MIN_PRICE,
   });
 
   useDebounced({
-    param: { prop: 'paramsCheck', field: 'price_to', value: highPrice },
+    prop: 'extraParams',
+    params: { price_to: highPrice },
     deps: [price_to, highPrice],
-    shouldExecute: price_to !== highPrice,
-    isDelete: highPrice === 10000,
+    shouldExecute: price_to !== highPrice && !isInitTo,
+    isDelete: highPrice === MAX_PRICE,
   });
 
   const changeText = (
@@ -123,3 +140,13 @@ export function Pricer() {
     </>
   );
 }
+
+const PricerConnected = connect(
+  ({ filter }: IRootState) => ({
+    price_from: filter.extraParams?.price_from,
+    price_to: filter.extraParams?.price_to,
+  }),
+  {},
+)(PricerContainer);
+
+export { PricerConnected as Pricer };

@@ -1,8 +1,9 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
+import { ActivityIndicator } from 'react-native';
 import { AppButton, AppText, Block } from '~/src/app/common/components/UI';
+import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
+import { acceptExtraParams as acceptExtraParamsAction } from '../../../store/flterActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { styles as s } from '../styles';
@@ -10,20 +11,20 @@ import { styles as s } from '../styles';
 interface IProps {
   loading: boolean;
   count: number;
-  //acceptFilter: () => void;
+  acceptExtraParams: () => void;
   clearBathes: () => void;
 }
 
 function AcceptButtonContainer({
   loading,
   count,
-  //acceptFilter,
+  acceptExtraParams,
   clearBathes,
 }: IProps) {
   function handleAcceptFilter() {
     RootNavigation.goBackOrToScreen('BathesScreen');
     clearBathes();
-    //acceptFilter();
+    acceptExtraParams();
   }
 
   let status;
@@ -58,7 +59,7 @@ const AcceptButtonConnected = connect(
     count: filter.extraCount,
   }),
   {
-    //acceptFilter: acceptFilterAction,
+    acceptExtraParams: acceptExtraParamsAction,
     clearBathes: clearBathesAction,
   },
 )(AcceptButtonContainer);

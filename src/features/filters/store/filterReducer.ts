@@ -1,3 +1,4 @@
+import { compareObj } from '~/src/app/utils/common';
 import {
   BathSort,
   bathSortParams,
@@ -13,16 +14,26 @@ import { logline } from '~/src/app/utils/debug';
 export interface IFilterState {
   sort: BathSort;
   params: Partial<IBathBaseParams> & { page: number };
-  // extra
+  backupParams?: Partial<IBathBaseParams> & { page: number };
+  // toching params
+  touchedCount: number;
   touchParams: Partial<TouchParams>;
+  // extra
+  extraLoading: boolean;
+  extraCount: number;
   extraParams?: Partial<IBathExtraParams>;
+  isExtra: boolean;
 }
 
 const initState: IFilterState = {
   sort: BathSort.None,
   params: { page: 1 },
   // extra
+  touchedCount: 0,
   touchParams: {},
+  extraLoading: false,
+  extraCount: 0,
+  isExtra: false,
 };
 
 export default function filterReducer(
@@ -48,7 +59,7 @@ export default function filterReducer(
       if (params.hasOwnProperty('sort_field')) {
         sort = bathSortParams.indexOf(params);
       }
-      let changedParams = { ...state.params, ...params, page: 1 };
+      let changedParams = { ...state[prop], ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];
       fields.forEach((f) => {
         if (!params[f] || isDelete) {
@@ -61,10 +72,55 @@ export default function filterReducer(
         [prop]: changedParams,
       };
 
+    // Touching
     case constants.SET_TOUCH_PARAMS:
       return {
         ...state,
         touchParams: payload,
+      };
+
+    // Extra
+    case constants.CHECK_EXTRA_FILTER:
+      return {
+        ...state,
+        extraLoading: true,
+      };
+
+    case constants.SET_CHECKED_COUNT:
+      return {
+        ...state,
+        extraLoading: false,
+        extraCount: payload,
+      };
+
+    case constants.CHECK_EXTRA_FILTER_FAIL:
+      return {
+        ...state,
+        extraLoading: false,
+      };
+
+    case constants.ACCEPT_EXTRA_PARAMS:
+      return {
+        ...state,
+        backupParams: state.params,
+        params: { ...state.params, ...state.extraParams },
+        isExtra: true,
+      };
+
+    case constants.ROLLBACK_EXTRA_PARAMS:
+      const rolledParams = state.isExtra ? state.backupParams! : state.params;
+      return {
+        ...state,
+        params: { ...rolledParams, page: 1 },
+        extraParams: undefined,
+        backupParams: undefined,
+        isExtra: false,
+      };
+
+    case constants.CLEAN_EXTRA_PARAMS:
+      return {
+        ...state,
+        extraParams: undefined,
       };
 
     default:

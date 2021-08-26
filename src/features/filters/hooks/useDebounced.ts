@@ -12,7 +12,7 @@ import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   //type Partial<T> = { [P in keyof T]?: T[P] | undefined;
-  prop?: 'params' | 'extraParams' | 'geoParams';
+  prop?: 'params' | 'extraParams';
   params: Partial<IBathMainParams> | Partial<IBathExtraParams>;
   deps: any[];
   shouldExecute?: boolean;

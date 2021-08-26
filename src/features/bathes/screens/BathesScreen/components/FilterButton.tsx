@@ -17,7 +17,7 @@ export function FilterButton() {
   return (
     <TouchableOpacity
       style={[s.filter /*  isFiltered && { backgroundColor: 'white' } */]}
-      onPress={() => RNav.navigate(routes.bathesTab.BathFilter)}>
+      onPress={() => RNav.navigate(routes.bathesTab.BathesFilter)}>
       <FilterIcon />
       {/*  {isFiltered && (
         <Block style={s.badge} middle center>
