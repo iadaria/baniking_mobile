@@ -1,4 +1,4 @@
-import { compareObj } from '~/src/app/utils/common';
+import { calcFilterCount } from '~/src/app/utils/bathUtility';
 import {
   BathSort,
   bathSortParams,
@@ -18,6 +18,8 @@ export interface IFilterState {
   // toching params
   touchedCount: number;
   touchParams: Partial<TouchParams>;
+  // filter
+  filterCount: number;
   // extra
   extraLoading: boolean;
   extraCount: number;
@@ -28,9 +30,12 @@ export interface IFilterState {
 const initState: IFilterState = {
   sort: BathSort.None,
   params: { page: 1 },
-  // extra
+  // touching params
   touchedCount: 0,
   touchParams: {},
+  // filter
+  filterCount: 0,
+  // extra
   extraLoading: false,
   extraCount: 0,
   isExtra: false,
@@ -59,6 +64,7 @@ export default function filterReducer(
       if (params.hasOwnProperty('sort_field')) {
         sort = bathSortParams.indexOf(params);
       }
+
       let changedParams = { ...state[prop], ...params, page: 1 };
       const fields = Object.keys(params) as FieldMain[];
       fields.forEach((f) => {
@@ -66,10 +72,17 @@ export default function filterReducer(
           delete changedParams[f];
         }
       });
+
+      let filterCount = state.filterCount;
+      if (prop === 'extraParams') {
+        filterCount = calcFilterCount(changedParams);
+      }
+
       return {
         ...state,
         sort: sort !== -1 ? sort : state.sort,
         [prop]: changedParams,
+        filterCount,
       };
 
     // Touching
@@ -115,12 +128,14 @@ export default function filterReducer(
         extraParams: undefined,
         backupParams: undefined,
         isExtra: false,
+        filterCount: calcFilterCount(rolledParams),
       };
 
     case constants.CLEAN_EXTRA_PARAMS:
       return {
         ...state,
         extraParams: undefined,
+        filterCount: 0,
       };
 
     default:

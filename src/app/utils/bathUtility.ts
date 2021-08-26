@@ -6,7 +6,6 @@ import { bathOneImg, bathThreeImg, bathTwoImg } from '~/src/assets';
 import { methods } from '../api';
 import { sizes } from '../common/constants';
 import {
-  countingParams,
   IDirectionsResponse,
   IDistanceResponse,
   TPartDirectionsParams,
@@ -14,8 +13,9 @@ import {
 } from '../models/bath';
 import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
-import { ISchedule, BathParams } from '~/src/app/models/bath';
+import { ISchedule } from '~/src/app/models/bath';
 import { logline } from './debug';
+import { countingParams, IBathExtraParams } from '../models/filter';
 
 export function checkPhoto(photo: string): string | null {
   const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
@@ -45,7 +45,7 @@ export function unformateText(text: string) {
   return text.replace(/%/g, ' ').trim();
 }
 
-export function calcFilterCount(params: BathParams): number {
+export function calcFilterCount(params: IBathExtraParams): number {
   return Object.keys(params).reduce((sum, key) => {
     return countingParams.includes(key) ? sum + 1 : sum;
   }, 0);

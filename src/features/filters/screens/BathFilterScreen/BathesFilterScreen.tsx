@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
@@ -8,6 +8,7 @@ import { Filters } from './components/Filters';
 import { Title } from './components/Title';
 import { AcceptButton } from './components/AcceptButton';
 import {
+  //changeParams as changeParamsAction,
   checkFilter as checkFilterAction,
   cleanExtraParams as cleanExtraParamsAction,
   fetchTouchParams as fetchTouchParamsAction,
@@ -15,13 +16,21 @@ import {
 } from '../../store/flterActions';
 import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { IBathExtraParams, TouchParams } from '~/src/app/models/filter';
+import {
+  BathMainParams,
+  IBathBaseParams,
+  IBathExtraParams,
+  TouchParams,
+} from '~/src/app/models/filter';
 import { styles as s } from './styles';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
+  //params: Partial<IBathBaseParams> & { page: number };
   touchParams: Partial<TouchParams>;
   extraParams?: Partial<IBathExtraParams>;
   isExtra: boolean;
+  //changeParams: (payload: BathMainParams) => void;
   clearBathes: () => void;
   fetchTouchParams: () => void;
   checkFilter: () => void;
@@ -30,9 +39,11 @@ interface IProps {
 }
 
 function BathesFilterScreenContainer({
+  //params,
   touchParams,
   extraParams,
   isExtra,
+  //changeParams,
   clearBathes,
   fetchTouchParams,
   checkFilter,
@@ -41,6 +52,25 @@ function BathesFilterScreenContainer({
 }: IProps) {
   const [recreate, setRecreate] = useState(false);
   const { types, services, zones, steamRooms } = touchParams;
+
+  /*   const mount = useCallback(() => {
+      logline('[BathesFilterScreen]', 'mount');
+      if (isExtra) {
+        changeParams({ prop: 'extraParams', params });
+      }
+    }, [changeParams, isExtra, params]); */
+
+  const unmount = useCallback(() => {
+    logline('[BathesFilterScreen]', 'unmount');
+    if (!isExtra) {
+      cleanExtraParams();
+    }
+  }, [cleanExtraParams, isExtra]);
+
+  useEffect(() => {
+    //mount();
+    return () => unmount();
+  }, [unmount]);
 
   useEffect(() => {
     fetchTouchParams();
@@ -85,6 +115,7 @@ function BathesFilterScreenContainer({
 
 const BathesFilterScreenConnected = connect(
   ({ filter }: IRootState) => ({
+    //params: filter.params,
     touchParams: filter.touchParams,
     extraParams: filter.extraParams,
     isExtra: filter.isExtra,
@@ -95,6 +126,7 @@ const BathesFilterScreenConnected = connect(
     clearBathes: clearBathesAction,
     rollbackExtraParams: rollbackExtraParamsAction,
     cleanExtraParams: cleanExtraParamsAction,
+    //changeParams: changeParamsAction,
   },
 )(BathesFilterScreenContainer);
 

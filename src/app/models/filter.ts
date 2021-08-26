@@ -51,6 +51,13 @@ export type Rating = 0 | 1 | 2 | 3 | 4 | 5;
 
 // Sort
 
+export const countingParams = [
+  'types',
+  'steam_rooms_ids',
+  'services_ids',
+  'zones_ids',
+];
+
 export enum BathSortField {
   Price = 'price',
   Rating = 'rating',

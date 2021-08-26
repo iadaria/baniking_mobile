@@ -17,12 +17,13 @@ interface IProps {
 }
 
 function FiltersContainer({ title, items, field, extraParams }: IProps) {
-  const [selected, setSelected] = useState<number[]>(extraParams[field]);
+  const value = extraParams && extraParams[field];
+  const [selected, setSelected] = useState<number[]>(value);
   useDebounced({
     prop: 'extraParams',
     params: { [field]: selected },
     deps: [selected],
-    shouldExecute: !compareObj(extraParams[field], selected),
+    shouldExecute: !compareObj(value, selected),
     isDelete: selected && selected?.length <= 0,
   });
 

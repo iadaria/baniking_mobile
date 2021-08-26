@@ -108,13 +108,6 @@ export const defaultBathSort: BathParams = {
 
 // Filters
 
-export const countingParams = [
-  'types',
-  'steam_rooms_ids',
-  'services_ids',
-  'zones_ids',
-];
-
 export type BathTouchParams = {
   types: BathType[];
   zones: string[];
