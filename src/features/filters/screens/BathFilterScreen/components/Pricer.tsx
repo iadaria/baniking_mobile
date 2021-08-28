@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { AppInput, AppText, Block } from '~/src/app/common/components/UI';
 import RangeSlider from '~/src/app/common/components/UI/RangeSlider';
@@ -18,8 +18,6 @@ interface IProps {
 }
 
 function PricerContainer({ price_from, price_to }: IProps) {
-  /*   const { price_from = pfrom || 1, price_to = pto || 10000 } =
-      useSelector((state: IRootState) => state.filter.extraParams) || {}; */
   const [lowPrice, setLowPrice] = useState(price_from || MIN_PRICE);
   const [middleLowPrice, setMiddleLowPrice] = useState(MIN_PRICE.toString());
 
