@@ -5,8 +5,6 @@ import { Filters } from './Filters';
 import { Pricer } from './Pricer';
 import { Title } from './Title';
 import {
-  //checkFilter as checkFilterAction,
-  //fetchTouchParams as fetchTouchParamsAction,
   initExtraParams as initExtraParamsAction,
   cleanExtraParams as cleanExtraParamsAction,
   rollbackExtraParams as rollbackExtraParamsAction,
@@ -16,6 +14,7 @@ import { TouchParams } from '~/src/app/models/filter';
 import { IRootState } from '~/src/app/store/rootReducer';
 
 interface IProps {
+  update: () => void;
   touchParams: Partial<TouchParams>;
   isExtra: boolean;
   clearBathes: () => void;
@@ -25,6 +24,7 @@ interface IProps {
 }
 
 function AllFiltersContainer({
+  update,
   // state
   touchParams,
   isExtra,
@@ -48,9 +48,12 @@ function AllFiltersContainer({
     if (isExtra) {
       clearBathes();
       rollbackExtraParams();
+      //update();
     } else {
       cleanExtraParams();
+      //update();
     }
+    update();
   }
 
   if (!initialized) {

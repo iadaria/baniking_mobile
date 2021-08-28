@@ -120,11 +120,11 @@ export default function filterReducer(
           delete initExtraParams[key as keyof IBathBaseParams];
         }
       });
-      const isInitExtra = isEmptyObj(initExtraParams);
+      const isInitExtra = !isEmptyObj(initExtraParams);
       logline('[filter/INIT_EXTRA_PARAMS]', { initExtraParams }, '\n');
       return {
         ...state,
-        extraParams: isInitExtra ? undefined : initExtraParams,
+        extraParams: isInitExtra ? initExtraParams : undefined,
         filterCount: calcFilterCount(initExtraParams),
         isExtra: isInitExtra,
       };
