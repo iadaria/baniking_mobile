@@ -125,7 +125,7 @@ export default function filterReducer(
       return {
         ...state,
         extraParams: isInitExtra ? initExtraParams : undefined,
-        filterCount: calcFilterCount(initExtraParams),
+        //filterCount: calcFilterCount(initExtraParams),
         isExtra: isInitExtra,
       };
 
@@ -155,7 +155,7 @@ export default function filterReducer(
       return {
         ...state,
         extraParams: undefined,
-        filterCount: calcFilterCount(state.params),
+        filterCount: state.isExtra ? state.filterCount : 0,
       };
 
     default:

@@ -39,10 +39,13 @@ function AllFiltersContainer({
   const { types, services, zones, steamRooms } = touchParams;
 
   useEffect(() => {
-    initExtraParams();
+    isExtra && initExtraParams();
     setInitialized(true);
+  }, [initExtraParams, isExtra]);
+
+  useEffect(() => {
     return () => cleanExtraParams();
-  }, [initExtraParams, cleanExtraParams]);
+  }, [cleanExtraParams]);
 
   function handleClean() {
     if (isExtra) {
