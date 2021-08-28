@@ -86,6 +86,14 @@ export default function filterReducer(
         filterCount,
       };
 
+    case constants.CLEAN_PARAMS:
+      return {
+        ...state,
+        params: { page: 1, city_id: state.params.city_id },
+        filterCount: 0,
+        isExtra: false,
+      };
+
     // Touching
     case constants.SET_TOUCH_PARAMS:
       return {

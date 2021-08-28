@@ -11,6 +11,10 @@ export const nextPage = () => ({
   type: constants.NEXT_PAGE,
 });
 
+export const cleanParams = () => ({
+  type: constants.CLEAN_PARAMS,
+});
+
 export const fetchTouchParams = () => ({
   type: constants.FETCH_TOUCH_PARAMS,
 });

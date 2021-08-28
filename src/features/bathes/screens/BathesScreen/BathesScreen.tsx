@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
@@ -8,47 +8,20 @@ import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
 import { SelectedCity } from './components/SelectedCity';
 import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
-import { Button } from 'react-native';
-import { nextPage as nextPageAction } from '~/src/features/filters/store/flterActions';
 import { FilterButton } from './components/FilterButton';
 import { BathesList } from './components/BathesList';
-import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
 
 interface IProps {
   loading: boolean;
   bathes: Bath[];
   params: BathParams;
-  canLoadMoreBathes: boolean;
   fetchBathes: () => void;
-  nextPage: () => void;
 }
 
-export function BathesScreenContainer({
-  loading,
-  bathes,
-  params,
-  canLoadMoreBathes,
-  fetchBathes,
-  nextPage,
-}: IProps) {
-  //const [initialized, setInitialized] = useState(false);
-
+export function BathesScreenContainer({ params, fetchBathes }: IProps) {
   useEffect(() => {
     fetchBathes();
   }, [fetchBathes, params]);
-
-  function handleLoadMore() {
-    if (canLoadMoreBathes) {
-      nextPage();
-    }
-  }
-
-  //const init = () => setInitialized(true);
-
-  const indicator = <AppActivityIndicator />;
-  const bathesList = (
-    <BathesList bathes={bathes} loadMore={handleLoadMore} loading={loading} />
-  );
 
   return (
     <Block safe full padding={[0, 8, 0, 4]}>
@@ -68,10 +41,7 @@ export function BathesScreenContainer({
       </Block>
 
       <Sorter />
-      {bathesList}
-      {/*
-      <Block margin={1} />
-      <Button title="Load more" onPress={handleLoadMore} /> */}
+      <BathesList />
     </Block>
   );
 }
@@ -81,11 +51,9 @@ const BathesScreenConnected = connect(
     loading: bath.loading,
     bathes: bath.bathes,
     params: filter.params,
-    canLoadMoreBathes: bath.canLoadMore,
   }),
   {
     fetchBathes: fetchBathesAction,
-    nextPage: nextPageAction,
   },
 )(BathesScreenContainer);
 

@@ -1,29 +1,42 @@
 import React, { useCallback } from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { isIos } from '~/src/app/common/constants';
-import { Bath, BathParams } from '~/src/app/models/bath';
+import { Bath } from '~/src/app/models/bath';
 import { IRootState } from '~/src/app/store/rootReducer';
-import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import { routes } from '~/src/navigation/helpers/routes';
 import AppListIndicator from '../AppListIndicator';
 import BathItem from './BathItem';
 import NotFound from '../NotFound';
-import UpdateRequestButton from '../UpdateRequestButton';
+import { CleanButton } from './CleanButton';
+import {
+  cleanParams as cleanParamsAction,
+  nextPage as nextPageAction,
+} from '~/src/features/filters/store/flterActions';
+import { clearBathes as clearBathesAction } from '../../../store/bathActions';
+import { isIos } from '~/src/app/common/constants';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { routes } from '~/src/navigation/helpers/routes';
 
 interface IProps {
   loading: boolean;
   bathes: Bath[];
-  loadMore: () => void;
+  canLoadMore: boolean;
+  nextPage: () => void;
+  clearBathes: () => void;
+  cleanParams: () => void;
 }
 
-export function BathesList({ loading, bathes, loadMore }: IProps) {
+function BathesListContainer({
+  loading,
+  bathes,
+  canLoadMore,
+  nextPage,
+  clearBathes,
+  cleanParams,
+}: IProps) {
   const keyExtractor = useCallback(({ id }: Bath) => String(id), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
-  const { selectedCity } = useSelector((store: IRootState) => store.city);
-  const dispatch = useDispatch();
 
   const handleOpenBath = (bath: Bath, distance: number) => {
     RootNavigation.navigate(routes.bathesTab.BathScreen, {
@@ -38,7 +51,6 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
     ({ item, index }: { item: Bath; index: number }) => {
       const distance = 0;
       return (
-        //<TouchableOpacity onPress={() => { }}>
         <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
           <BathItem
             key={`item-${index}`}
@@ -52,38 +64,26 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
     [],
   );
 
-  let footerComponent = null;
-  if (loading) {
-    footerComponent = <AppListIndicator />;
+  function handleLoadMore() {
+    if (canLoadMore) {
+      nextPage();
+    }
   }
 
-  function clearParams() {
-    const params: BathParams = {
-      page: 1,
-      city_id: selectedCity?.id,
-    };
-    dispatch(setParams(params));
-    /* const filterParams: BathTouchParams = {
-      types: [],
-      zones: [],
-      services: [],
-      steamRooms: [],
-    };
-    dispatch(setBathTouchParams(filterParams)); */
+  function handleClean() {
+    clearBathes();
+    cleanParams();
   }
 
-  let emptyComponent = null;
-  if (!loading) {
-    emptyComponent = (
-      <>
-        <NotFound />
-        <UpdateRequestButton
-          title="Очистить фильтр"
-          handleLoadMore={clearParams}
-        />
-      </>
-    );
-  }
+  const indicator = <AppListIndicator />;
+  const clean = <CleanButton title="Очистить фильтр" clean={handleClean} />;
+  const footerComponent = !canLoadMore ? clean : loading ? indicator : null;
+  const emptyComponent = !loading ? (
+    <>
+      <NotFound />
+      {clean}
+    </>
+  ) : null;
 
   return (
     // Block need delete
@@ -96,10 +96,25 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         onEndReachedThreshold={0.1}
-        onEndReached={loadMore}
+        onEndReached={handleLoadMore}
         ListEmptyComponent={emptyComponent}
         ListFooterComponent={footerComponent}
       />
     </Block>
   );
 }
+
+const BathesListConnected = connect(
+  ({ bath }: IRootState) => ({
+    loading: bath.loading,
+    bathes: bath.bathes,
+    canLoadMore: bath.canLoadMore,
+  }),
+  {
+    nextPage: nextPageAction,
+    cleanParams: cleanParamsAction,
+    clearBathes: clearBathesAction,
+  },
+)(BathesListContainer);
+
+export { BathesListConnected as BathesList };
