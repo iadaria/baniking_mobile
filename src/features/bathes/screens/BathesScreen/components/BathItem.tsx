@@ -28,7 +28,7 @@ interface IProps {
 }
 
 export default function BathItem({ bath, distance }: IProps) {
-  const { name, address, cachedImage, short_description, rating, image } = bath;
+  const { name, address, cachedImage, short_description, rating, image, phone } = bath;
   //const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
   const [fadeOutOpacity] = useState(new Animated.Value(0.2));
@@ -93,7 +93,7 @@ export default function BathItem({ bath, distance }: IProps) {
             {kms && `   ${kms}  км`}
           </AppText>
         </AppText>
-        <AppText style={styles.phone}>0 000 000 00 00</AppText>
+        <AppText style={styles.phone}>{phone}</AppText>
       </LinearGradient>
       <Animated.Image
         style={[styles.temporaryImg, { opacity: fadeOutOpacity }]}

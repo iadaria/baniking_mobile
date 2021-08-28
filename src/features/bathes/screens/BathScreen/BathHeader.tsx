@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ImageBackground, TouchableOpacity } from 'react-native';
-import { ParamListBase } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import { Stars } from '~/src/app/common/components/Stars';
@@ -9,72 +7,40 @@ import { AppText, Block } from '~/src/app/common/components/UI';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
 import {
   getRandomBathImage,
-  isCachedImage,
+  //isCachedImage,
   isNonRating,
 } from '~/src/app/utils/bathUtility';
 import { styles } from './styles';
-import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
-import { routes } from '~/src/navigation/helpers/routes';
-import { MAX_DISTANCE } from '~/src/app/common/constants/common';
+//import { ICachedImage } from '~/src/app/models/persist';
 import { Header } from '~/src/app/common/components/Header';
-
-export interface IHeadBath {
-  name: string;
-  short_description: string;
-  address: string;
-  rating: number;
-  image: string;
-  latitude: number;
-  longitude: number;
-}
+import { useSelector } from 'react-redux';
+import { IBathState } from '../../store/bathReducer';
+import { MAX_DISTANCE } from '~/src/app/common/constants/common';
+import { routes } from '~/src/navigation/helpers/routes';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 
 interface IProps {
   distance?: number;
-  navigation: StackNavigationProp<ParamListBase>;
-  headBath: Partial<IHeadBath>;
-  persistImages: IPersistImages;
 }
 
-export default function BathHeader({
-  distance,
-  navigation,
-  headBath,
-  persistImages,
-}: IProps) {
+export function BathHeader({ distance }: IProps) {
   const [randomImg] = useState(getRandomBathImage());
-  const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
+  const bath = useSelector(({ selectedBath }: IBathState) => selectedBath);
+  //const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
-  const {
-    name,
-    rating,
-    short_description,
-    address,
-    image,
-    latitude,
-    longitude,
-  } = headBath || {};
-
-  // Получаем из кэша главное изображение для заголовка
-  useEffect(() => {
-    if (image && !cachedMainImage) {
-      const [isCached, indexOf] = isCachedImage(image, persistImages.set);
-      //__DEV__ && console.log('[BathHeader/useEffect/image]', image, indexOf);
-      if (isCached) {
-        setCachedMainImage({ uri: persistImages.images[indexOf].path });
-      }
-    }
-  }, [image, cachedMainImage, persistImages]);
 
   function handleOpenDestinationMap() {
-    navigation.navigate(routes.bathesTab.DestinationMap, {
-      latitude,
-      longitude,
+    RootNavigation.navigate(routes.bathesTab.DestinationMap, {
+      latitude: bath?.latitude,
+      longitude: bath?.longitude,
     });
   }
 
+  if (!bath) return null;
+
   return (
     <ImageBackground
-      source={cachedMainImage || randomImg}
+      source={bath.image || randomImg}
       style={styles.bathBackground}>
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25, 0.2)']}
@@ -91,13 +57,14 @@ export default function BathHeader({
             height={28 * multiplier}
             trajan
             h1>
-            {name}
+            {bath.name}
           </AppText>
           <AppText margin={[1, 0, 0]} secondary>
-            {short_description && `${short_description.substring(0, 45)} ...`}
+            {bath.short_description &&
+              `${bath.short_description.substring(0, 45)} ...`}
           </AppText>
-          {!isNonRating(rating || 0.0) ? (
-            <Stars rating={rating || 0.0} />
+          {!isNonRating(bath.rating || 0.0) ? (
+            <Stars rating={bath.rating || 0.0} />
           ) : (
             <Block style={{ height: wp(5) }} />
           )}
@@ -107,7 +74,7 @@ export default function BathHeader({
           padding={[0, sizes.offset.base]}
           center
           row>
-          <AppText tag>{address}</AppText>
+          <AppText tag>{bath.address}</AppText>
           <TouchableOpacity
             style={styles.route}
             activeOpacity={distance && distance < MAX_DISTANCE ? undefined : 1}

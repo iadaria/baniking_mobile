@@ -4,7 +4,6 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
 import { Bath } from '~/src/app/models/bath';
-import { IRootState } from '~/src/app/store/rootReducer';
 import AppListIndicator from '../AppListIndicator';
 import BathItem from './BathItem';
 import NotFound from '../NotFound';
@@ -13,10 +12,12 @@ import {
   cleanParams as cleanParamsAction,
   nextPage as nextPageAction,
 } from '~/src/features/filters/store/flterActions';
-import { clearBathes as clearBathesAction } from '../../../store/bathActions';
+import {
+  clearBathes as clearBathesAction,
+  selectBath,
+} from '~/src/features/bathes/store/bathActions';
+import { IRootState } from '~/src/app/store/rootReducer';
 import { isIos } from '~/src/app/common/constants';
-import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
-import { routes } from '~/src/navigation/helpers/routes';
 
 interface IProps {
   loading: boolean;
@@ -38,20 +39,12 @@ function BathesListContainer({
   const keyExtractor = useCallback(({ id }: Bath) => String(id), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
 
-  const handleOpenBath = (bath: Bath, distance: number) => {
-    RootNavigation.navigate(routes.bathesTab.BathScreen, {
-      id: bath.id,
-      latitude: bath.latitude,
-      longitude: bath.longitude,
-      distance: distance,
-    });
-  };
-
   const renderItem = useCallback(
     ({ item, index }: { item: Bath; index: number }) => {
       const distance = 0;
       return (
-        <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
+        // <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
+        <TouchableOpacity onPress={() => selectBath(item.id)}>
           <BathItem
             key={`item-${index}`}
             bath={item}

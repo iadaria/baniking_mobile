@@ -1,87 +1,54 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
 import { ActivityIndicator, Image } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { ICachedImage, IPersistImages } from '~/src/app/models/persist';
-import { isCachedImage } from '~/src/app/utils/bathUtility';
+import { ICachedImage } from '~/src/app/models/persist';
+//import { isCachedImage } from '~/src/app/utils/bathUtility';
 import { routes } from '~/src/navigation/helpers/routes';
 import { styles } from './styles';
-import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
+import * as RNav from '~/src/navigation/helpers/RootNavigation';
+//import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
 import { colors } from '~/src/app/common/constants';
 
 interface IProps {
   photos: string[] | undefined;
-  persistImages: IPersistImages;
-  navigation: StackNavigationProp<ParamListBase>;
 }
 
-export default function BathSlider({ photos, persistImages, navigation }: IProps) {
-  const [cachedPhotos, setCachedPhotos] = useState<ICachedImage[]>([]);
-
-  // Получаем из кэша фотки бани
-  useEffect(() => {
-    const countCached = cachedPhotos.length;
-    // Если фоток больше чем закэшированно
-    if (photos && photos.length > countCached) {
-      const newCachedPhotos: ICachedImage[] = [];
-      photos.forEach((photo: string) => {
-        const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
-        //__DEV__ && console.log('[BathScreen/useEffect/photos] isCached', isCached, photo, indexOf);
-        if (isCached) {
-          newCachedPhotos.push({ uri: persistImages.images[indexOf].path });
-        }
-      });
-      // Проверяем добавилось ли хоть одно изображение
-      if (newCachedPhotos.length > countCached) {
-        setCachedPhotos([...newCachedPhotos]);
-      }
-      /* __DEV__ &&
-        __DEV__ && console.log(
-          '[BathSlider/newCachedBathPhoto] photo-length/cached-length/new-length',
-          photos.length,
-          countCached,
-          newCachedPhotos.length,
-        ); */
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photos, /* cachedBathPhotos, */ persistImages]);
-
-  const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
+export default function BathSlider({ photos }: IProps) {
+  //const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
+  const keyExtractor = useCallback((_, index: number) => `item-${index}`, []);
   const renderItem = useCallback(
     ({ item, index }: { item: ICachedImage; index: number }) => {
       // Переходим на слайдер и скролим до выбранного фото
       function handlerShowPhotos() {
         //dispatch(nonTransparentHeader());
-        navigation.navigate(routes.bathesTab.BathesPhotosScreen, {
-          photos: [...cachedPhotos],
+        RNav.navigate(routes.bathesTab.BathesPhotosScreen, {
+          photos,
           currentIndex: index,
         });
       }
-      // __DEV__ && console.log('[BathSlider/renderItem]', item);
+      const indicator = (
+        <ActivityIndicator size="small" color={colors.secondary} />
+      );
       return (
         <TouchableOpacity onPress={handlerShowPhotos}>
-          <Image style={styles.photoListItem} source={item} resizeMethod="resize" />
+          <Image
+            onLoad={() => indicator}
+            style={styles.photoListItem}
+            source={item}
+            resizeMethod="resize"
+          />
         </TouchableOpacity>
       );
     },
-    [cachedPhotos, /* dispatch,  */ navigation],
+    [photos],
   );
-
-  if (photos && photos.length > cachedPhotos.length) {
-    return (
-      <Block margin={[4, 0]} center middle>
-        <ActivityIndicator size="small" color={colors.secondary} />
-      </Block>
-    );
-  }
 
   return (
     <FlatList
       contentContainerStyle={{ paddingBottom: 10, paddingTop: 8 }}
       style={styles.photoList}
-      data={cachedPhotos}
+      data={photos}
       horizontal
       renderItem={renderItem}
       keyExtractor={keyExtractor}
@@ -89,3 +56,30 @@ export default function BathSlider({ photos, persistImages, navigation }: IProps
     />
   );
 }
+
+// Получаем из кэша фотки бани
+// useEffect(() => {
+//   const countCached = cachedPhotos.length;
+//   // Если фоток больше чем закэшированно
+//   if (photos && photos.length > countCached) {
+//     const newCachedPhotos: ICachedImage[] = [];
+//     photos.forEach((photo: string) => {
+//       const [isCached, indexOf] = isCachedImage(photo, persistImages.set);
+//       // logline('[BathScreen/useEffect/photos] isCached', isCached, photo, indexOf);
+//       if (isCached) {
+//         newCachedPhotos.push({ uri: persistImages.images[indexOf].path });
+//       }
+//     });
+//     // Проверяем добавилось ли хоть одно изображение
+//     if (newCachedPhotos.length > countCached) {
+//       setCachedPhotos([...newCachedPhotos]);
+//     }
+//     /* logline(
+//         '[BathSlider/newCachedBathPhoto] photo-length/cached-length/new-length',
+//         photos.length,
+//         countCached,
+//         newCachedPhotos.length,
+//       ); */
+//   }
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, [photos, /* cachedBathPhotos, */ persistImages]);

@@ -114,3 +114,31 @@ export const EXTRA_KEYS = [
   'services_ids',
   'zones_ids',
 ];
+
+export const bathType = new Map([
+  ['Economy', 'Эконом'],
+  ['Comfort', 'Комфорт'],
+  ['Lux', 'Люкс'],
+  ['Premium', 'Премиум'],
+]);
+
+export const bathZones = [
+  'Душ',
+  'Купель',
+  'Баня',
+  'Русская на дровах',
+  'Инфакрасная',
+  'Финская на дровах',
+  'Арктическая сауна',
+];
+export const bathServices = [
+  'Бассейн с видом',
+  'Терраса',
+  'Патио',
+  'Кофемашина',
+];
+export const bathSteamRooms = [
+  'Финская сауна',
+  'Японская баня',
+  'Турецкая парная',
+];

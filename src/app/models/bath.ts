@@ -1,9 +1,12 @@
+import { BathType } from './filter';
+
 export type Bath = {
   id: number;
   name: string;
   type: BathType;
   short_description: string;
   rating: number;
+  phone: string;
   address: string;
   latitude: number;
   longitude: number;
@@ -13,167 +16,29 @@ export type Bath = {
   //placeId?: string; // need del
 };
 
-export type Rating = 0 | 1 | 2 | 3 | 4 | 5;
-
-export enum BathSortField {
-  Price = 'price',
-  Rating = 'rating',
-}
-
-export enum BathSortType {
-  Asc = 'asc',
-  Desc = 'desc',
-}
-
-export enum BathSort {
-  PriceAsc,
-  PriceDesc,
-  RatingDesc,
-  None,
-}
-
-export interface BathSortParams {
-  sort_field?: BathSortField;
-  sort_type?: BathSortType;
-}
-
-export const bathSortParams: BathSortParams[] = [
-  { sort_field: BathSortField.Price, sort_type: BathSortType.Asc },
-  { sort_field: BathSortField.Price, sort_type: BathSortType.Desc },
-  { sort_field: BathSortField.Rating, sort_type: BathSortType.Desc },
-  {},
-];
-
-export const BathSortParams = [null, { sort_field: '' }];
-/**
- * @interface IBathParams
- * @param {string} searc_query {string}
- * @param {BathSortField} sort_field {BathSortField}
- * @param {BathSortType} sort_type {BathSortType}
- * @param {number} rating {number}
- */
-
-export const additionFilters = [
-  'rating_from',
-  'rating_to',
-  'price_from',
-  'price_to',
-  'types',
-  'steam_rooms_ids',
-  'services_ids',
-  'zones_ids',
-];
-
-export interface IBathParams {
-  search_query: string;
-  sort_field: BathSortField;
-  sort_type: BathSortType;
-  rating_from: Rating;
-  rating_to: Rating;
-  price_from: number;
-  price_to: number;
-  types: BathType[];
-  steam_rooms_ids: number[];
-  services_ids: number[];
-  zones_ids: number[];
-  latitude: number;
-  longitude: number;
-  city_id: number;
-}
-
-export type BathParam = {
-  prop?: 'params' | 'paramsCheck';
-  field: keyof IBathParams;
-  value: string | number | number[] | undefined;
-};
-
-export type BathParams = { page: number } & Partial<IBathParams>;
-
-export const FILTER_KEYS = [
-  'search_query',
-  'rating',
-  'price_from',
-  'price_to',
-  'types',
-  'steam_rooms_ids',
-  'services_ids',
-  'zones_ids',
-];
-
-export const defaultBathSort: BathParams = {
-  sort_field: undefined,
-  sort_type: undefined,
-  page: 0,
-};
-
-// Filters
-
-export type BathTouchParams = {
-  types: BathType[];
-  zones: string[];
-  services: string[];
-  steamRooms: string[];
-  //zones: Map<string, string>;
-};
-
-export enum BathType {
-  Economy = 'Economy',
-  Comfort = 'Comfort',
-  Lux = 'Lux',
-  Premium = 'Premium',
-}
-
-export const bathType = new Map([
-  ['Economy', 'Эконом'],
-  ['Comfort', 'Комфорт'],
-  ['Lux', 'Люкс'],
-  ['Premium', 'Премиум'],
-]);
-
-export const bathZones = [
-  'Душ',
-  'Купель',
-  'Баня',
-  'Русская на дровах',
-  'Инфакрасная',
-  'Финская на дровах',
-  'Арктическая сауна',
-];
-export const bathServices = [
-  'Бассейн с видом',
-  'Терраса',
-  'Патио',
-  'Кофемашина',
-];
-export const bathSteamRooms = [
-  'Финская сауна',
-  'Японская баня',
-  'Турецкая парная',
-];
-
 export interface IBathDetailed extends Bath {
-  type: string;
-  views: number;
-  city_name: string;
-  has_laundry: boolean;
-  laundry_address: string | null;
-  has_parking: boolean;
-  parking_address: string | null;
-  has_hotel: boolean;
-  hotel_address: string | null;
-  description: string | null;
-  history: string | null;
-  features: string | null;
-  service: string | null;
-  traditions: string | null;
-  steam_room: string | null;
-  schedule: ISchedule;
-  zones: string[];
-  services: string[];
-  steam_rooms: string[];
-  propositions: IProposition[] | null;
-  photos: string[];
   bathers: IBather[];
+  city_name: string;
+  description: string | null;
+  features: string | null;
+  has_hotel: boolean;
+  has_laundry: boolean;
+  has_parking: boolean;
+  history: string | null;
+  hotel_address: string | null;
+  laundry_address: string | null;
+  parking_address: string | null;
+  photos: string[];
+  price: number | null;
+  propositions: IProposition[] | null;
+  schedule: ISchedule;
+  service: string | null;
+  services: string[];
+  steam_room: string | null;
+  steam_rooms: string[];
+  traditions: string | null;
+  views: number;
+  zones: string[];
 }
 
 export interface ISchedule {

@@ -1,15 +1,20 @@
-import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
+import { routes } from '~/src/navigation/helpers/routes';
+import { setSelectedBath } from '../bathActions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { showAlert } from '~/src/app/common/components/showAlert';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { getErrorStrings } from '~/src/app/utils/error';
-import { bathesFail, selectBath } from '../bathActions';
-import { GET_BATH } from '../bathConstants';
+import { bathesFail } from '../bathActions';
+import { SELECT_BATH } from '../bathConstants';
 import { IBathDetailed, IProposition, ISchedule } from '~/src/app/models/bath';
 import { methods } from '~/src/app/api';
 import { cacheImages } from '~/src/app/utils/bathUtility';
 import { persistImage } from '~/src/features/persist/store/appPersistActions';
 import { IBather } from '~/src/app/models/bath';
 import { IPersistImage } from '~/src/app/models/persist';
+import { IBathState } from '../bathReducer';
+import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { log } from '~/src/app/utils/debug';
 
 interface IAction {
   payload: number;
@@ -27,58 +32,43 @@ interface IResult {
   bathers: IBather[];
 }
 
-// var countBathRequest = 0;
+function* selectBathSaga({ payload: bathId }: IAction) {
+  log('\n\n***[selectBathSaga]', bathId);
 
-function* getBathSaga({ payload }: IAction) {
-  /* countBathRequest++;
-  if (countBathRequest > 3) {
-    __DEV__ && console.log('[getBathSaga] count > 3');
-    setTimeout(function () {
-      countBathRequest = 0;
-    }, 10000);
-    return;
-  } */
-
-  const bathId = payload;
-  __DEV__ && console.log('[getBathSaga]', bathId);
-
+  let gotBath;
   try {
-    const response: IResult = yield call(methods.getBath, null, bathId);
-    //__DEV__ && console.log('[getBathSaga]', JSON.stringify(response, null, 4));
-    const bathDetailed: IBathDetailed = {
-      ...response.bath,
-      schedule: response.schedule,
-      zones: [].concat(...response.zones),
-      photos: [].concat(...response.photos),
-      services: [].concat(...response.services),
-      steam_rooms: [].concat(...response.steam_rooms),
-      propositions: response.propositions,
-      bathers: response.bathers,
-    };
-    //__DEV__ && console.log('[getBathSaga/bathDetailed]', JSON.stringify(bathDetailed, null, 4));
-    yield put(selectBath(bathDetailed));
+    const bath: IBathState = yield select((state: IRootState) => state.bath);
+    const foundBath = bath.bathesDetailed.find((b) => b.id === bathId);
+
+    if (foundBath) {
+      log('[getBathSaga found]', { foundBath });
+      yield put(setSelectedBath(foundBath));
+      gotBath = foundBath;
+    } else {
+      const response: IResult = yield call(methods.getBath, null, bathId);
+      const bathDetailed: IBathDetailed = {
+        ...response.bath,
+        schedule: response.schedule,
+        zones: [].concat(...response.zones),
+        photos: [].concat(...response.photos),
+        services: [].concat(...response.services),
+        steam_rooms: [].concat(...response.steam_rooms),
+        propositions: response.propositions,
+        bathers: response.bathers,
+      };
+      gotBath = bathDetailed;
+    }
+    yield put(setSelectedBath(gotBath));
+    RootNavigation.navigate(routes.bathesTab.BathScreen);
     //yield fork(cacheImageBathSaga, bathDetailed);
   } catch (e) {
     const [errors, message, allErrors] = getErrorStrings(e);
-    let errorMessage = allErrors ? allErrors : message;
+    let errorMessage =
+      allErrors || message || 'Ошибка при получении инф. о бане';
 
-    if (errorMessage) {
-      yield put(bathesFail(errors));
-      yield showAlert('Ошибка', errorMessage);
-    }
+    yield put(bathesFail(errors));
 
-    if (!errorMessage) {
-      const connection = select(({ system }: IRootState) => system.connection);
-      if (!connection) {
-        errorMessage = 'Ошибка запроса при отсутствии сети';
-      }
-      if (connection) {
-        errorMessage = 'Ошибка при получении данных';
-      }
-
-      yield put(bathesFail(null));
-      yield showAlert('Ошибка', errorMessage);
-    }
+    yield showAlert('Ошибка', errorMessage);
   }
 }
 
@@ -121,5 +111,5 @@ function* cacheImageBathSaga(bathDetailed: IBathDetailed) {
 }
 
 export default function* listener() {
-  yield takeEvery(GET_BATH, getBathSaga);
+  yield takeEvery(SELECT_BATH, selectBathSaga);
 }

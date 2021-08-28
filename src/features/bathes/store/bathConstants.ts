@@ -12,8 +12,9 @@ export const UPDATE_BATH = 'bath/UPDATE_BATH';
 export const REUSE_BATHES = 'bath/REUSE_BATHES';
 
 // Bath
+export const SELECT_BATH = 'bath/SELECT_BATH'; // !
+export const SET_SELECTED_BATH = 'bath/SET_SELECTED_BATH'; // !
 export const GET_BATH = 'bath/GET_BATH';
-export const SELECT_BATH = 'bath/SELECT_BATH';
 export const ADD_BATH_DETAILED = 'bath/ADD_BATH_DETAILED';
 export const CLEAR_SELECTED_BATH = 'bath/CLEAR_SELECTED_BATH';
 export const GET_DIRECTIONS = 'bath/GET_DIRECTIONS';

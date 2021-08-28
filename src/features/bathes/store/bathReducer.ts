@@ -62,13 +62,7 @@ export default function bathReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): IBathState {
   switch (type) {
-    // Params
-    /* case constants.SET_BATHES_COUNT:
-      return {
-        ...state,
-        totalBathes: payload,
-        canLoadMoreBathes: payload > state.bathIds.length,
-      }; */
+    // **************** Bathes *****************
 
     case constants.ADD_BATHES: // using
       const addingBathes: Bath[] = payload.bathes.filter(
@@ -99,9 +93,8 @@ export default function bathReducer(
         oldBathes: state.bathes,
       };
 
-    // *******************************************
+    // **************** Bath *****************
 
-    // Bath
     case constants.GET_BATH:
       return {
         ...state,
@@ -109,19 +102,19 @@ export default function bathReducer(
         errors: null,
       };
 
-    case constants.SELECT_BATH:
-      const isNew = state.bathesDetailedIds.indexOf(payload.id) === -1;
+    case constants.SET_SELECTED_BATH:
+      const isNew = state.bathesDetailedIds.indexOf(payload) === -1;
       return {
         ...state,
-        loadingSelectBath: false,
         errors: null,
+        loadingSelectBath: false,
+        selectedBath: payload,
         bathesDetailedIds: isNew
-          ? [...state.bathesDetailedIds, payload.id]
+          ? [...state.bathesDetailedIds, payload]
           : [...state.bathesDetailedIds],
         bathesDetailed: isNew
           ? [...state.bathesDetailed, payload]
           : [...state.bathesDetailed],
-        selectedBath: payload,
       };
 
     case constants.CLEAR_SELECTED_BATH:

@@ -52,14 +52,18 @@ export const reuseBathes = () => ({
 });
 
 // Bath
-export const getBath = (bathId: number) => ({
+export const getBath = () => ({
   type: constants.GET_BATH,
-  payload: bathId,
 });
 
-export const selectBath = (bathDetailed: IBathDetailed) => ({
+export const setSelectedBath = (payload: IBathDetailed) => ({
+  type: constants.SET_SELECTED_BATH,
+  payload,
+});
+
+export const selectBath = (payload: number) => ({
   type: constants.SELECT_BATH,
-  payload: bathDetailed,
+  payload,
 });
 
 export const clearSelectedBath = () => ({
