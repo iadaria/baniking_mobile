@@ -25,10 +25,10 @@ export const routes = {
   bathesTab: {
     Bathes: 'BathesScreen',
     BathesFilter: 'BathesFilterScreen',
-    BathScreen: 'BathScreen',
+    Bath: 'BathScreen',
     DestinationMap: 'DestinationMap',
-    BathesPhotosScreen: 'BathesPhotosScreen',
-    OrderCallScreen: 'OrderCallScreen',
+    BathesPhotos: 'BathesPhotosScreen',
+    OrderCall: 'OrderCallScreen',
     SelectCity: 'SelectCityScreen',
   },
   settingsTab: {

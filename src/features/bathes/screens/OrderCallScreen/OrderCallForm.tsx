@@ -59,7 +59,7 @@ export default function OrderCallForm({
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else {
-        navigation.navigate(routes.bathesTab.BathScreen);
+        navigation.navigate(routes.bathesTab.Bath);
       }
     }
   };

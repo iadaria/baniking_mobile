@@ -59,9 +59,10 @@ function* selectBathSaga({ payload: bathId }: IAction) {
       gotBath = bathDetailed;
     }
     yield put(setSelectedBath(gotBath));
-    RootNavigation.navigate(routes.bathesTab.BathScreen);
+    RootNavigation.navigate(routes.bathesTab.Bath);
     //yield fork(cacheImageBathSaga, bathDetailed);
   } catch (e) {
+    log('[selectBathSaga] error', e);
     const [errors, message, allErrors] = getErrorStrings(e);
     let errorMessage =
       allErrors || message || 'Ошибка при получении инф. о бане';

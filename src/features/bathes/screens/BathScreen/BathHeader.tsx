@@ -13,19 +13,18 @@ import {
 import { styles } from './styles';
 //import { ICachedImage } from '~/src/app/models/persist';
 import { Header } from '~/src/app/common/components/Header';
-import { useSelector } from 'react-redux';
-import { IBathState } from '../../store/bathReducer';
 import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 import { routes } from '~/src/navigation/helpers/routes';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
+import { IBathDetailed } from '~/src/app/models/bath';
 
 interface IProps {
+  bath: IBathDetailed;
   distance?: number;
 }
 
-export function BathHeader({ distance }: IProps) {
+export function BathHeader({ bath, distance }: IProps) {
   const [randomImg] = useState(getRandomBathImage());
-  const bath = useSelector(({ selectedBath }: IBathState) => selectedBath);
   //const [cachedMainImage, setCachedMainImage] = useState<ICachedImage>();
   const kms = distance && distance > 0 ? (distance / 1000).toFixed(1) : null;
 
@@ -36,11 +35,9 @@ export function BathHeader({ distance }: IProps) {
     });
   }
 
-  if (!bath) return null;
-
   return (
     <ImageBackground
-      source={bath.image || randomImg}
+      source={{ uri: bath.image } || randomImg}
       style={styles.bathBackground}>
       <LinearGradient
         colors={[colors.primary, 'rgba(23,23,25, 0.2)']}

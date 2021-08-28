@@ -1,61 +1,33 @@
 import React from 'react';
 import { AppText } from '~/src/app/common/components/UI';
+import { IBathDetailed } from '~/src/app/models/bath';
 import InfoBlock from './InfoBlock';
 
-interface IInfoBath {
-  description: string | null;
-  history: string | null;
-  features: string | null;
-  service: string | null;
-  traditions: string | null;
-  steam_room: string | null;
-}
-
 interface IProps {
-  infoBath: Partial<IInfoBath>;
+  bath: IBathDetailed;
 }
 
-export default function BathInfo({
-  infoBath: { description, history, features, service, traditions, steam_room },
-}: IProps) {
-  const isInfo: boolean = !!description || !!history || !!service || !!traditions || !!steam_room;
-  let descriptionItem;
-  let historyItem;
-  let featuresItem;
-  let serviceItem;
-  let traditionsItem;
-  let steamRoomItem;
+export function BathInfo({ bath: b }: IProps) {
+  const isInfo: boolean =
+    !!b.description ||
+    !!b.history ||
+    !!b.service ||
+    !!b.traditions ||
+    !!b.steam_room;
 
-  if (description) {
-    descriptionItem = <InfoBlock title="Общее описание" text={description} />;
-  }
-  if (history) {
-    historyItem = <InfoBlock title="История" text={history} />;
-  }
-  if (features) {
-    featuresItem = <InfoBlock title="Особенности" text={features} />;
-  }
-  if (service) {
-    serviceItem = <InfoBlock title="Услуги" text={service} />;
-  }
-  if (traditions) {
-    traditionsItem = <InfoBlock title="Традиции" text={traditions} />;
-  }
-  if (steam_room) {
-    steamRoomItem = <InfoBlock title="Парная" text={steam_room} />;
-  }
+  if (!isInfo) return null;
 
-  return isInfo ? (
+  return (
     <>
       <AppText margin={[0.5, 0, 2]} golder>
         Дополнительная информация
       </AppText>
-      {descriptionItem}
-      {historyItem}
-      {featuresItem}
-      {serviceItem}
-      {traditionsItem}
-      {steamRoomItem}
+      <InfoBlock title="Общее описание" text={b.description} />;
+      <InfoBlock title="История" text={b.history} />;
+      <InfoBlock title="Особенности" text={b.features} />;
+      <InfoBlock title="Услуги" text={b.service} />;
+      <InfoBlock title="Традиции" text={b.traditions} />;
+      <InfoBlock title="Парная" text={b.steam_room} />;
     </>
-  ) : null;
+  );
 }

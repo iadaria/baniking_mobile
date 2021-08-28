@@ -14,7 +14,7 @@ import {
 } from '~/src/features/filters/store/flterActions';
 import {
   clearBathes as clearBathesAction,
-  selectBath,
+  selectBath as selectBathAction,
 } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { isIos } from '~/src/app/common/constants';
@@ -26,6 +26,7 @@ interface IProps {
   nextPage: () => void;
   clearBathes: () => void;
   cleanParams: () => void;
+  selectBath: (bathId: number) => void;
 }
 
 function BathesListContainer({
@@ -35,6 +36,7 @@ function BathesListContainer({
   nextPage,
   clearBathes,
   cleanParams,
+  selectBath,
 }: IProps) {
   const keyExtractor = useCallback(({ id }: Bath) => String(id), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
@@ -49,7 +51,7 @@ function BathesListContainer({
             key={`item-${index}`}
             bath={item}
             distance={distance}
-          //persistImage={persistImage}
+            //persistImage={persistImage}
           />
         </TouchableOpacity>
       );
@@ -107,6 +109,7 @@ const BathesListConnected = connect(
     nextPage: nextPageAction,
     cleanParams: cleanParamsAction,
     clearBathes: clearBathesAction,
+    selectBath: selectBathAction,
   },
 )(BathesListContainer);
 

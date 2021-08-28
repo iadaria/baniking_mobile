@@ -1,62 +1,52 @@
 import React from 'react';
 import { Block } from '~/src/app/common/components/UI';
 import { AppText } from '~/src/app/common/components/UI/AppText/AppText';
+import { IBathDetailed } from '~/src/app/models/bath';
 import { HotelIcon, LaundryIcon, ParkingIcon } from '~/src/assets';
 import { styles } from './styles';
 
-interface IInfastructureBath {
-  has_laundry: boolean;
-  laundry_address: string | null;
-  has_parking: boolean;
-  parking_address: string | null;
-  has_hotel: boolean;
-  hotel_address: string | null;
-}
-
 interface IProps {
-  infastructureBath: Partial<IInfastructureBath>;
+  bath: IBathDetailed;
 }
 
-export default function BathInfrastructure({
-  infastructureBath: { has_hotel, hotel_address, has_laundry, laundry_address, has_parking, parking_address },
-}: IProps) {
+export function BathInfrastructure({ bath }: IProps) {
   let hotel;
-  if (has_hotel) {
+  if (bath.has_hotel) {
     hotel = (
       <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Отель рядом
         </AppText>
         <AppText margin={[1, 3]} tag>
-          {hotel_address}
+          {bath.hotel_address}
         </AppText>
         <HotelIcon style={styles.infrastructureIcon} />
       </Block>
     );
   }
   let laundry;
-  if (has_laundry) {
+  if (bath.has_laundry) {
     laundry = (
       <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Прачечная
         </AppText>
         <AppText margin={[1, 3]} tag>
-          {laundry_address}
+          {bath.laundry_address}
         </AppText>
         <LaundryIcon style={styles.infrastructureIcon} />
       </Block>
     );
   }
   let parking;
-  if (has_parking) {
+  if (bath.has_parking) {
     parking = (
       <Block margin={[0.5, 0]} style={styles.infrastructure}>
         <AppText margin={[1, 3, 0]} golder>
           Парковка
         </AppText>
         <AppText margin={[1, 3]} tag>
-          {parking_address}
+          {bath.parking_address}
         </AppText>
         <ParkingIcon style={styles.infrastructureIcon} />
       </Block>

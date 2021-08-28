@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { ICachedImage } from '~/src/app/models/persist';
+//import { ICachedImage } from '~/src/app/models/persist';
 import { styles } from './styles';
 
 interface ITab {
@@ -14,7 +14,7 @@ const Tab = ({ isCurrentIndex }: ITab) => {
 };
 
 interface IProps {
-  data: ICachedImage[];
+  data: string[];
   scrollX: any;
   currentIndex: number;
   onItemPress?: (index: number) => void;
@@ -24,7 +24,7 @@ export default function Tabs({ data, scrollX, currentIndex }: IProps) {
   return (
     <Block style={styles.tabsContainer}>
       <View style={styles.tabs}>
-        {data.map((item: ICachedImage, index: number) => (
+        {data.map((item: string, index: number) => (
           <Tab key={`tab-${index}`} isCurrentIndex={index === currentIndex} />
         ))}
       </View>

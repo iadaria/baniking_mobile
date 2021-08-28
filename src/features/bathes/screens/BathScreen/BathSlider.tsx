@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { ActivityIndicator, Image } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { ICachedImage } from '~/src/app/models/persist';
+//import { ICachedImage } from '~/src/app/models/persist';
 //import { isCachedImage } from '~/src/app/utils/bathUtility';
 import { routes } from '~/src/navigation/helpers/routes';
 import { styles } from './styles';
@@ -11,18 +11,18 @@ import * as RNav from '~/src/navigation/helpers/RootNavigation';
 import { colors } from '~/src/app/common/constants';
 
 interface IProps {
-  photos: string[] | undefined;
+  photos: string[];
 }
 
 export default function BathSlider({ photos }: IProps) {
   //const keyExtractor = useCallback((item: ICachedImage) => item.uri, []);
   const keyExtractor = useCallback((_, index: number) => `item-${index}`, []);
   const renderItem = useCallback(
-    ({ item, index }: { item: ICachedImage; index: number }) => {
+    ({ item, index }: { item: string; index: number }) => {
       // Переходим на слайдер и скролим до выбранного фото
       function handlerShowPhotos() {
         //dispatch(nonTransparentHeader());
-        RNav.navigate(routes.bathesTab.BathesPhotosScreen, {
+        RNav.navigate(routes.bathesTab.BathesPhotos, {
           photos,
           currentIndex: index,
         });
@@ -35,7 +35,7 @@ export default function BathSlider({ photos }: IProps) {
           <Image
             onLoad={() => indicator}
             style={styles.photoListItem}
-            source={item}
+            source={{ uri: item }}
             resizeMethod="resize"
           />
         </TouchableOpacity>

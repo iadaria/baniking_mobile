@@ -23,17 +23,16 @@ export default function BathesNavigator() {
   return (
     <Bathes.Navigator
       //initialRouteName={isCity ? 'BathesScreen' : 'CityScreen'}
-      //initialRouteName={tab.BathesFilter}
-      //initialRouteName="BathesScreen"
+      //initialRouteName={tab.BathesPhotos}
       headerMode="screen"
       screenOptions={{ headerShown: false }}>
       <Bathes.Screen name={tab.Bathes} component={BathesScreen} />
       <Bathes.Screen name={tab.SelectCity} component={SelectCityScreen} />
       <Bathes.Screen name={tab.BathesFilter} component={BathesFilterScreen} />
-      <Bathes.Screen name="BathScreen" component={BathScreen} />
-      <Bathes.Screen name="OrderCallScreen" component={OrderCallScreen} />
-      <Bathes.Screen name="BathesPhotosScreen" component={BathesPhotosScreen} />
-      {/* <Bathes.Screen name="DestinationMap" component={DestinationMap} /> */}
+      <Bathes.Screen name={tab.Bath} component={BathScreen} />
+      <Bathes.Screen name={tab.OrderCall} component={OrderCallScreen} />
+      <Bathes.Screen name={tab.BathesPhotos} component={BathesPhotosScreen} />
+      {/* <Bathes.Screen name={DestinationMap} component={DestinationMap} /> */}
     </Bathes.Navigator>
   );
 }

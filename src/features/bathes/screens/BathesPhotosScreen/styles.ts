@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { windowWidth } from '~/src/app/common/constants';
+import { sizes, windowWidth } from '~/src/app/common/constants';
 import { isIos, screenHeight } from '~/src/app/common/constants/platform';
 
 export const styles = StyleSheet.create({
@@ -40,13 +40,16 @@ export const styles = StyleSheet.create({
     height: wp(1.05),
     marginHorizontal: 3,
     borderRadius: 6,
-    /* borderColor: 'green',
-    borderWidth: 1, */
   },
   tabs: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    //justifyContent: 'space-evenly',
+  },
+  backButton: {
+    position: 'absolute',
+    top: wp(10),
+    left: wp(sizes.offset.base),
+    zIndex: 1,
   },
 });

@@ -1,1 +1,1 @@
-export { default } from './BathInfo';
+export { BathInfo } from './BathInfo';

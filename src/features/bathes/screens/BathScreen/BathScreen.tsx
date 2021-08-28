@@ -19,13 +19,11 @@ import {
   IModalState,
   openModal as openModalAction,
 } from '~/src/app/common/modals/modalReducer';
-import { Bath, IBathDetailed, IBather } from '~/src/app/models/bath';
+import { IBathDetailed, IBather } from '~/src/app/models/bath';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
 import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
 import BathBathers from './BathBathers';
-import BathInfrastructure from './BathInfrastructure';
-import BathInfo from './BathInfo';
 import BathSchedule from './BathSchedule';
 import { routes } from '~/src/navigation/helpers/routes';
 import * as RNav from '~/src/navigation/helpers/RootNavigation';
@@ -39,6 +37,8 @@ import { sizes } from '~/src/app/common/constants';
 } from '~/src/app/utils/bathUtility'; */
 //import { logline } from '~/src/app/utils/debug';
 import { styles } from './styles';
+import { BathInfrastructure } from './BathInfrastructure';
+import { BathInfo } from './BathInfo';
 
 const BASE = sizes.offset.base;
 
@@ -123,32 +123,31 @@ const Bathers: React.FC<{ bathers: IBather[] }> = ({ bathers }) => {
       <AppText margin={[1, 0]} golder>
         Банщики
       </AppText>
-      <BathBathers bathers={bathers} persistImages={persistImages} />
+      <BathBathers bathers={bathers} />
     </Block>
   );
 };
 
 const OrderCall: React.FC<{ bath: IBathDetailed }> = ({ bath }) => {
-  return (<TouchableOpacity
-    style={styles.orderCall}
-    onPress={() => {
-      const orderCallProps = {
-        bathId: bath.id,
-        bathName: bath.name,
-        short_description: bath.short_description,
-        bathPhone: bath.phone,
-      };
-      RNav.navigate(
-        routes.bathesTab.OrderCallScreen,
-        orderCallProps,
-      );
-    }}>
-    <AppText primary medium>
-      Заказать звонок
-    </AppText>
-    <OrderCallIcon width={wp(10)} />
-  </TouchableOpacity>)
-}
+  return (
+    <TouchableOpacity
+      style={styles.orderCall}
+      onPress={() => {
+        const orderCallProps = {
+          bathId: bath.id,
+          bathName: bath.name,
+          short_description: bath.short_description,
+          bathPhone: bath.phone,
+        };
+        RNav.navigate(routes.bathesTab.OrderCall, orderCallProps);
+      }}>
+      <AppText primary medium>
+        Заказать звонок
+      </AppText>
+      <OrderCallIcon width={wp(10)} />
+    </TouchableOpacity>
+  );
+};
 
 interface IProps {
   loading: boolean;
@@ -175,12 +174,11 @@ function BathScreenContainer({
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-      <BathHeader distance={/* bathParams?.distance */ 0} />
+      <BathHeader bath={bath} distance={0} />
       <Block margin={[3, BASE, 1.2]}>
         <Phone phone={bath.phone} />
         <Price price={bath.price} />
         <BathSchedule schedule={bath.schedule} />
-        {/* Описание */}
         <Block margin={[2, 0, 0]}>
           <AppText height={18} tag light>
             {bath.description}
@@ -191,8 +189,7 @@ function BathScreenContainer({
       </Block>
 
       <Photos photos={bath.photos} />
-      <Bathers bathers={bath.bathers} />
-      {/* Адрес и инфраструктура */}
+      {/* <Bathers bathers={bath.bathers} /> */}
       <AppText margin={[1, BASE]} golder>
         Адрес и инфраструктура
       </AppText>
@@ -202,10 +199,10 @@ function BathScreenContainer({
         {bath.address}
       </AppText>
       <Block margin={[1, BASE, 10]}>
-        <BathInfrastructure infastructureBath={?} />
+        <BathInfrastructure bath={bath} />
         <Divider color="#242424" />
-        <BathInfo infoBath={?} />
-        <OrderCall bath={bath} />
+        <BathInfo bath={bath} />
+        {/* <OrderCall bath={bath} /> */}
       </Block>
     </ScrollView>
   );
