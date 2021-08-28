@@ -4,13 +4,12 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from 'react-redux';
 import { Block } from '~/src/app/common/components/UI';
 import { isIos } from '~/src/app/common/constants';
-import { Bath, BathTouchParams, BathParams } from '~/src/app/models/bath';
+import { Bath, BathParams } from '~/src/app/models/bath';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { setBathTouchParams, setParams } from '~/src/features/filters/store/filterActions';
 import * as RootNavigation from '~/src/navigation/helpers/RootNavigation';
 import { routes } from '~/src/navigation/helpers/routes';
 import AppListIndicator from '../AppListIndicator';
-import BathItem from '../BathItem';
+import BathItem from './BathItem';
 import NotFound from '../NotFound';
 import UpdateRequestButton from '../UpdateRequestButton';
 
@@ -91,11 +90,7 @@ export function BathesList({ loading, bathes, loadMore }: IProps) {
     <Block margin={[2, 0, 0, 0]} full>
       {/* <Button title="Load more" onPress={loadMore} /> */}
       <FlatList
-        //for test
-        style={[
-          iosStyle,
-          // { marginTop: 10, borderWidth: 1, borderColor: 'red' },
-        ]}
+        style={iosStyle}
         data={bathes}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}

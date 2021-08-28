@@ -12,7 +12,7 @@ import {
   isNonRating,
 } from '~/src/app/utils/bathUtility';
 import { KolosIcon } from '~/src/assets';
-import { styles } from './styles';
+import { styles } from '../styles';
 import { isAndroid } from '~/src/app/utils/system';
 import { IPersistImage } from '~/src/app/models/persist';
 /* import { getFileName, replaceExtension } from '~/src/app/utils/common';
@@ -33,29 +33,22 @@ export default function BathItem({ bath, distance }: IProps) {
   const { name, address, cachedImage, short_description, rating, image } = bath;
   //const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
-  //const [fadeInOpacity] = useState(new Animated.Value(1));
-  //const [fadeOutOpacity] = useState(new Animated.Value(0.2));
-  const [fadeOutOpacity] = useState(new Animated.Value(1));
+  const [fadeOutOpacity] = useState(new Animated.Value(0.2));
   const [randomImg] = useState(getRandomBathImage());
 
   useEffect(() => {
-    //const multiply = cachedImage ? 8 : 8;
-    const multiply = 8;
-    fadeInOpacity.setValue(0.7);
-    //fadeInOpacity.setValue(0);
-    fadeOutOpacity.setValue(0);
-    //fadeOutOpacity.setValue(0.7);
+    const multiply = cachedImage ? 8 : 8;
+    fadeInOpacity.setValue(0);
+    fadeOutOpacity.setValue(0.7);
 
     Animated.timing(fadeInOpacity, {
-      //toValue: 0.8,
       toValue: 1,
       duration: 500 * 1,
       useNativeDriver: true,
     }).start();
 
     Animated.timing(fadeOutOpacity, {
-      //toValue: 0, temporary
-      toValue: 0.8,
+      toValue: 0,
       duration: 500 * multiply,
       useNativeDriver: true,
     }).start();
@@ -69,17 +62,14 @@ export default function BathItem({ bath, distance }: IProps) {
   return (
     <AnimatedImage
       key={bath.id}
-      style={[
-        //{ backgroundColor: 'red' },
-        styles.backgroundImage,
-        androidStyle /* , { opacity: fadeInOpacity }, */,
-      ]}
+      style={[styles.backgroundImage, androidStyle, { opacity: fadeInOpacity }]}
       imageStyle={styles.imageStyle}
       //source={{ uri: thisCachedImage }}>
-      source={randomImg}>
+      source={{ uri: image }}>
+      {/* source={randomImg}> */}
       <LinearGradient
-        colors={[colors.primary, 'rgba(23,23,25,0.1)']}
-        start={{ x: 0.2, y: 0 }}
+        colors={[colors.primary, 'rgba(23,23,25,0.3)']}
+        start={{ x: 0, y: 0 }}
         end={{ x: 1.5, y: 0 }}
         style={styles.gradient}>
         <AppText
@@ -109,8 +99,8 @@ export default function BathItem({ bath, distance }: IProps) {
       </LinearGradient>
       <Animated.Image
         style={[styles.temporaryImg, { opacity: fadeOutOpacity }]}
-        //source={randomImg}
-        source={{ uri: image }}
+        source={randomImg}
+      //source={{ uri: image }}
       />
 
       <KolosIcon style={[styles.kolosIcon]} width={wp(3.5)} height={wp(3.5)} />

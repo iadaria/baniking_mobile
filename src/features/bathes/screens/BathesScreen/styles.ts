@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
     color: '#000',
-    // fontFamily: fonts.Gilroy.medium,
   },
   searchIconButton: {
     padding: wp(3.5),
@@ -67,15 +66,12 @@ export const styles = StyleSheet.create({
     minHeight: wp(38), //43
     marginTop: wp(3),
     justifyContent: 'center',
-    // marginLeft: wp(5),
-    // paddingLeft: wp(5),
-    //opacity: 0.8,
     zIndex: 1,
   },
   gradient: {
     flex: 1,
     paddingVertical: wp(2),
-    // justifyContent: 'center',
+    zIndex: 2,
   },
   imageStyle: {
     borderRadius: 7,

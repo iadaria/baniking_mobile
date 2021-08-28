@@ -14,6 +14,7 @@ import { styles as s } from '../styles';
 import { useIsFocused } from '@react-navigation/native';
 
 interface IProps {
+  //init: () => void;
   loading: boolean;
   city?: City;
   checkCity: () => void;
@@ -22,6 +23,7 @@ interface IProps {
 function SelectedCityContainer({ loading, city, checkCity }: IProps) {
   useEffect(() => {
     checkCity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkCity]);
 
   const isFocused = useIsFocused();
@@ -35,10 +37,6 @@ function SelectedCityContainer({ loading, city, checkCity }: IProps) {
     timeout: 0,
     isDelete: !city,
   });
-
-  if (loading) {
-    return null;
-  }
 
   const showName = city ? upFirstLetter(city?.name) : 'Выберите город';
 

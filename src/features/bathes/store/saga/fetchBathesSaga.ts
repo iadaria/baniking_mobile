@@ -28,7 +28,6 @@ function* fetchBathesSaga(_: IAction) {
     const { count, baths } = result;
     logline('\n\n***[fetchBathesSaga] params ' + count, params);
     yield put(addBathes({ bathes: baths, count }));
-    //yield put(setBathesCount(count));
   } catch (e) {
     log('[fetchBathesSaga/error]', e);
 
