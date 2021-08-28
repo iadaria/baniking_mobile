@@ -2,6 +2,7 @@ import { calcFilterCount } from '~/src/app/utils/bathUtility';
 import {
   BathSort,
   bathSortParams,
+  EXTRA_KEYS,
   IBathBaseParams,
   IBathExtraParams,
   TouchParams,
@@ -14,7 +15,6 @@ import { logline } from '~/src/app/utils/debug';
 export interface IFilterState {
   sort: BathSort;
   params: Partial<IBathBaseParams> & { page: number };
-  backupParams?: Partial<IBathBaseParams> & { page: number };
   // toching params
   touchedCount: number;
   touchParams: Partial<TouchParams>;
@@ -113,22 +113,27 @@ export default function filterReducer(
       };
 
     case constants.ACCEPT_EXTRA_PARAMS:
+      const extraForAccept = state?.extraParams;
       return {
         ...state,
-        backupParams: state.params,
         params: { ...state.params, ...state.extraParams },
+        filterCount: extraForAccept ? calcFilterCount(extraForAccept) : 0,
         isExtra: true,
       };
 
     case constants.ROLLBACK_EXTRA_PARAMS:
-      const rolledParams = state.isExtra ? state.backupParams! : state.params;
+      const baseParams = { ...state.params };
+      Object.keys(baseParams).map((key) => {
+        if (EXTRA_KEYS.includes(key)) {
+          delete baseParams[key as keyof IBathBaseParams];
+        }
+      });
       return {
         ...state,
-        params: { ...rolledParams, page: 1 },
+        params: { ...baseParams, page: 1 },
         extraParams: undefined,
-        backupParams: undefined,
         isExtra: false,
-        filterCount: calcFilterCount(rolledParams),
+        filterCount: 0,
       };
 
     case constants.CLEAN_EXTRA_PARAMS:
@@ -142,3 +147,29 @@ export default function filterReducer(
       return state;
   }
 }
+
+/**
+ * case constants.INIT_EXTRA_PARAMS:
+ * const extraParams = {... state.params }
+ * Object.keys(baseParams).map((key) => {
+        if (!EXTRA_KEYS.includes(key)) {
+          delete baseParams[key as keyof IBathBaseParams];
+        }
+      });
+ * return {
+   ...state,
+   extraParams,
+   filterCount: calcFilterCount(extraParams)
+ }
+ */
+/*
+case constants.ROLLBACK_EXTRA_PARAMS:
+  const rolledParams = state.isExtra ? state.backupParams! : state.params;
+  return {
+    ...state,
+    params: { ...rolledParams, page: 1 },
+    extraParams: undefined,
+    backupParams: undefined,
+    isExtra: false,
+    filterCount: calcFilterCount(rolledParams),
+  }; */

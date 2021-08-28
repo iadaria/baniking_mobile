@@ -22,9 +22,9 @@ function AcceptButtonContainer({
   clearBathes,
 }: IProps) {
   function handleAcceptFilter() {
-    RootNavigation.goBackOrToScreen('BathesScreen');
     clearBathes();
     acceptExtraParams();
+    RootNavigation.goBackOrToScreen('BathesScreen');
   }
 
   let status;

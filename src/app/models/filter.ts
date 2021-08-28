@@ -27,8 +27,8 @@ export interface IBathMainParams {
 }
 
 export interface IBathExtraParams {
-  rating_from: Rating;
-  rating_to: Rating;
+  //rating_from: Rating;
+  //rating_to: Rating;
   price_from: number;
   price_to: number;
   types: BathType[];
@@ -36,6 +36,8 @@ export interface IBathExtraParams {
   services_ids: number[];
   zones_ids: number[];
 }
+
+export type BathBaseParams = Partial<IBathBaseParams> & { page: number };
 
 export type FieldMain = keyof IBathMainParams | keyof IBathExtraParams;
 
@@ -100,3 +102,15 @@ export type TouchParams = {
   services: string[];
   steamRooms: string[];
 };
+
+export const EXTRA_KEYS = [
+  'search_query',
+  //'rating_from',
+  //'rating_to',
+  'price_from',
+  'price_to',
+  'types',
+  'steam_rooms_ids',
+  'services_ids',
+  'zones_ids',
+];

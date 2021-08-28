@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
@@ -16,12 +16,7 @@ import {
 } from '../../store/flterActions';
 import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
-import {
-  BathMainParams,
-  IBathBaseParams,
-  IBathExtraParams,
-  TouchParams,
-} from '~/src/app/models/filter';
+import { IBathExtraParams, TouchParams } from '~/src/app/models/filter';
 import { styles as s } from './styles';
 import { logline } from '~/src/app/utils/debug';
 
@@ -50,8 +45,8 @@ function BathesFilterScreenContainer({
   rollbackExtraParams,
   cleanExtraParams,
 }: IProps) {
-  const [recreate, setRecreate] = useState(false);
-  const { types, services, zones, steamRooms } = touchParams;
+  //const [recreate, setRecreate] = useState(false);
+  const { types /* services, zones, steamRooms */ } = touchParams;
 
   /*   const mount = useCallback(() => {
       logline('[BathesFilterScreen]', 'mount');
@@ -68,7 +63,6 @@ function BathesFilterScreenContainer({
   }, [cleanExtraParams, isExtra]);
 
   useEffect(() => {
-    //mount();
     return () => unmount();
   }, [unmount]);
 
@@ -84,16 +78,14 @@ function BathesFilterScreenContainer({
     if (isExtra) {
       clearBathes();
       rollbackExtraParams();
-    }
-    if (!isExtra) {
+    } else {
       cleanExtraParams();
     }
-    setRecreate(!recreate);
   }
 
   return (
     <>
-      <ScrollView key={+recreate} style={s.sv}>
+      <ScrollView /* key={+recreate} */ style={s.sv}>
         {/* <BackButton screen={routes.drawerNavigator.BathesTab} /> */}
         <Header iconKind="backward" />
         <Title onPress={handleClean} />
@@ -115,7 +107,7 @@ function BathesFilterScreenContainer({
 
 const BathesFilterScreenConnected = connect(
   ({ filter }: IRootState) => ({
-    //params: filter.params,
+    params: filter.params,
     touchParams: filter.touchParams,
     extraParams: filter.extraParams,
     isExtra: filter.isExtra,
