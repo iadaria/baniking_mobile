@@ -3,29 +3,25 @@ import { TouchableOpacity } from 'react-native';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { routes } from '~/src/navigation/helpers/routes';
 import { FilterIcon } from '~/src/assets';
-//import { useSelector } from 'react-redux';
 import * as RNav from '~/src/navigation/helpers/RootNavigation';
-//import { IRootState } from '~/src/app/store/rootReducer';
+import { useSelector } from 'react-redux';
+import { IRootState } from '~/src/app/store/rootReducer';
 import { styles as s } from '../styles';
 
 export function FilterButton() {
-  //const { paramsTouchCount } = useSelector((state: IRootState) => state.filter);
-
-  //const isFiltered = paramsTouchCount > 0;
-  const isFiltered = 0;
-
+  const { filterCount } = useSelector((state: IRootState) => state.filter);
   return (
     <TouchableOpacity
-      style={[s.filter /*  isFiltered && { backgroundColor: 'white' } */]}
+      style={[s.filter, !!filterCount && { backgroundColor: 'white' }]}
       onPress={() => RNav.navigate(routes.bathesTab.BathesFilter)}>
       <FilterIcon />
-      {/*  {isFiltered && (
+      {!!filterCount && (
         <Block style={s.badge} middle center>
           <AppText bold center size={2.8}>
-            {paramsTouchCount}
+            {filterCount}
           </AppText>
         </Block>
-      )} */}
+      )}
     </TouchableOpacity>
   );
 }

@@ -155,7 +155,7 @@ export default function filterReducer(
       return {
         ...state,
         extraParams: undefined,
-        filterCount: 0,
+        filterCount: calcFilterCount(state.params),
       };
 
     default:
