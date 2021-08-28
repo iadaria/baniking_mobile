@@ -97,6 +97,7 @@ function PricerContainer({ price_from, price_to }: IProps) {
         </AppText>
         <AppInput
           style={{ ...s.input, width: wp(25) }}
+          number
           value={middleLowPrice}
           onChangeText={(text: string) =>
             changeText(text, 1, setLowPrice, setMiddleLowPrice)
@@ -109,7 +110,6 @@ function PricerContainer({ price_from, price_to }: IProps) {
               }}
             />
           }
-          number
         />
         {/* Максимальная стоимость */}
         <AppText margin={[0, 2.5]} tag>

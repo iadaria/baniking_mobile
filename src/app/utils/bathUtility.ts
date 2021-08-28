@@ -15,7 +15,7 @@ import { IPersistImage } from '../models/persist';
 import { getFileName, replaceExtension } from './common';
 import { ISchedule } from '~/src/app/models/bath';
 import { logline } from './debug';
-import { countingParams, EXTRA_KEYS, IBathExtraParams } from '../models/filter';
+import { EXTRA_KEYS, IBathExtraParams } from '../models/filter';
 
 export function checkPhoto(photo: string): string | null {
   const formats = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
@@ -47,7 +47,11 @@ export function unformateText(text: string) {
 
 export function calcFilterCount(params: Partial<IBathExtraParams>): number {
   return Object.keys(params).reduce((sum, key) => {
-    return EXTRA_KEYS.includes(key) ? sum + 1 : sum;
+    if (EXTRA_KEYS.includes(key)) {
+      return Array.isArray(params[key]) ? sum + params[key].length : sum + 1;
+    }
+    return sum;
+    //return EXTRA_KEYS.includes(key) ? sum + 1 : sum;
   }, 0);
 }
 

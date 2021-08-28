@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IUiButton, IUiText } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { handleMargins, handlePaddings } from '~/src/app/utils/ui';
 
-interface IChild extends JSX.Element, IUiText {}
+interface IChild extends JSX.Element, IUiText { }
 
 export function AppButton(props: IUiButton) {
   const {
@@ -53,7 +53,7 @@ export function AppButton(props: IUiButton) {
       ref={newRef}
       disabled={disabled}
       style={[buttonStyles, style]}
-      activeOpacity={disabled ? 1 : opacity || 0.8}
+      activeOpacity={disabled ? 0 : opacity || 0.8}
       {...other}>
       {needRender ? renderChildren() : children}
     </TouchableOpacity>

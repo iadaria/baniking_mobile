@@ -70,15 +70,12 @@ export const styles = StyleSheet.create({
   },
   toggle: {
     position: 'absolute',
-    /* borderColor: 'red',
-    borderWidth: 1, */
     top: 0,
     bottom: 0,
     right: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: wp(6),
-    //height: hp(sizes.input.big.height * 0.9), */
   },
   slider: {
     /* borderWidth: 1,
@@ -87,14 +84,25 @@ export const styles = StyleSheet.create({
   block: {
     flexDirection: 'row',
   },
+  backForAcceptButton: {
+    position: 'absolute',
+    bottom: -wp(sizes.offset.base),
+    width: '100%',
+    height: 120,
+    backgroundColor: colors.primary,
+    opacity: 1,
+    zIndex: 1,
+  },
   filterButton: {
     position: 'absolute',
     bottom: -wp(sizes.offset.base),
     left: wp(sizes.offset.base),
     right: wp(sizes.offset.base),
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
+    zIndex: 2,
   },
 });
