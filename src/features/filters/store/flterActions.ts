@@ -34,6 +34,10 @@ export const checkFilterFail = (payload: IErrors | null) => ({
   payload,
 });
 
+export const initExtraParams = () => ({
+  type: constants.INIT_EXTRA_PARAMS,
+});
+
 export const acceptExtraParams = () => ({
   type: constants.ACCEPT_EXTRA_PARAMS,
 });

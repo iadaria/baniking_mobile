@@ -20,6 +20,7 @@ function FiltersContainer({ title, items, field, extraParams }: IProps) {
   const value = extraParams && extraParams[field];
   const [selected, setSelected] = useState<number[]>(value);
   useDebounced({
+    timeout: 500,
     prop: 'extraParams',
     params: { [field]: selected },
     deps: [selected],

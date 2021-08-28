@@ -11,6 +11,7 @@ import { FieldMain } from '~/src/app/models/filter';
 import * as constants from './filterConstants';
 import { BathMainParams } from '~/src/app/models/filter';
 import { logline } from '~/src/app/utils/debug';
+import { isEmptyObj } from '~/src/app/utils/common';
 
 export interface IFilterState {
   sort: BathSort;
@@ -112,12 +113,24 @@ export default function filterReducer(
         extraLoading: false,
       };
 
+    case constants.INIT_EXTRA_PARAMS:
+      const initExtraParams = { ...state.params };
+      Object.keys(state.params).map((key) => {
+        if (!EXTRA_KEYS.includes(key)) {
+          delete initExtraParams[key as keyof IBathBaseParams];
+        }
+      });
+      logline('[filter/INIT_EXTRA_PARAMS]', { initExtraParams }, '\n');
+      return {
+        ...state,
+        extraParams: isEmptyObj(initExtraParams) ? undefined : initExtraParams,
+        filterCount: calcFilterCount(initExtraParams),
+      };
+
     case constants.ACCEPT_EXTRA_PARAMS:
-      const extraForAccept = state?.extraParams;
       return {
         ...state,
         params: { ...state.params, ...state.extraParams },
-        filterCount: extraForAccept ? calcFilterCount(extraForAccept) : 0,
         isExtra: true,
       };
 
@@ -147,29 +160,3 @@ export default function filterReducer(
       return state;
   }
 }
-
-/**
- * case constants.INIT_EXTRA_PARAMS:
- * const extraParams = {... state.params }
- * Object.keys(baseParams).map((key) => {
-        if (!EXTRA_KEYS.includes(key)) {
-          delete baseParams[key as keyof IBathBaseParams];
-        }
-      });
- * return {
-   ...state,
-   extraParams,
-   filterCount: calcFilterCount(extraParams)
- }
- */
-/*
-case constants.ROLLBACK_EXTRA_PARAMS:
-  const rolledParams = state.isExtra ? state.backupParams! : state.params;
-  return {
-    ...state,
-    params: { ...rolledParams, page: 1 },
-    extraParams: undefined,
-    backupParams: undefined,
-    isExtra: false,
-    filterCount: calcFilterCount(rolledParams),
-  }; */

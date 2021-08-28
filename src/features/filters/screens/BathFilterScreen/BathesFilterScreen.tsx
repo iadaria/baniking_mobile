@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
@@ -8,63 +8,52 @@ import { Filters } from './components/Filters';
 import { Title } from './components/Title';
 import { AcceptButton } from './components/AcceptButton';
 import {
-  //changeParams as changeParamsAction,
   checkFilter as checkFilterAction,
-  cleanExtraParams as cleanExtraParamsAction,
   fetchTouchParams as fetchTouchParamsAction,
+  initExtraParams as initExtraParamsAction,
+  cleanExtraParams as cleanExtraParamsAction,
   rollbackExtraParams as rollbackExtraParamsAction,
 } from '../../store/flterActions';
 import { clearBathes as clearBathesAction } from '~/src/features/bathes/store/bathActions';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBathExtraParams, TouchParams } from '~/src/app/models/filter';
 import { styles as s } from './styles';
-import { logline } from '~/src/app/utils/debug';
+import { useState } from 'react';
+import AppActivityIndicator from '~/src/app/common/components/AppActivityIndicator';
 
 interface IProps {
-  //params: Partial<IBathBaseParams> & { page: number };
   touchParams: Partial<TouchParams>;
   extraParams?: Partial<IBathExtraParams>;
   isExtra: boolean;
-  //changeParams: (payload: BathMainParams) => void;
   clearBathes: () => void;
   fetchTouchParams: () => void;
   checkFilter: () => void;
+  initExtraParams: () => void;
   rollbackExtraParams: () => void;
   cleanExtraParams: () => void;
 }
 
 function BathesFilterScreenContainer({
-  //params,
+  // state
   touchParams,
   extraParams,
   isExtra,
-  //changeParams,
+  // actions
   clearBathes,
   fetchTouchParams,
   checkFilter,
+  initExtraParams,
   rollbackExtraParams,
   cleanExtraParams,
 }: IProps) {
-  //const [recreate, setRecreate] = useState(false);
-  const { types /* services, zones, steamRooms */ } = touchParams;
-
-  /*   const mount = useCallback(() => {
-      logline('[BathesFilterScreen]', 'mount');
-      if (isExtra) {
-        changeParams({ prop: 'extraParams', params });
-      }
-    }, [changeParams, isExtra, params]); */
-
-  const unmount = useCallback(() => {
-    logline('[BathesFilterScreen]', 'unmount');
-    if (!isExtra) {
-      cleanExtraParams();
-    }
-  }, [cleanExtraParams, isExtra]);
+  const [initialized, setInitialized] = useState(false);
+  const { types, services, zones, steamRooms } = touchParams;
 
   useEffect(() => {
-    return () => unmount();
-  }, [unmount]);
+    initExtraParams();
+    setInitialized(true);
+    return () => cleanExtraParams();
+  }, [initExtraParams, cleanExtraParams]);
 
   useEffect(() => {
     fetchTouchParams();
@@ -83,21 +72,24 @@ function BathesFilterScreenContainer({
     }
   }
 
+  let filters;
+  filters = !initialized && <AppActivityIndicator />;
+  filters = initialized && (
+    <>
+      <Title onPress={handleClean} />
+      <Pricer />
+      <Filters title="Уровни" items={types} field="types" />
+      <Filters title="Сервис" items={services} field="services_ids" />
+      <Filters title="Аквазоны" items={zones} field="zones_ids" />
+      <Filters title="Виды парной" items={steamRooms} field="steam_rooms_ids" />
+    </>
+  );
+
   return (
     <>
-      <ScrollView /* key={+recreate} */ style={s.sv}>
-        {/* <BackButton screen={routes.drawerNavigator.BathesTab} /> */}
+      <ScrollView style={s.sv}>
         <Header iconKind="backward" />
-        <Title onPress={handleClean} />
-        <Pricer />
-        <Filters title="Уровни" items={types} field="types" />
-        {/*<Filters title="Сервис" items={services} field="services_ids" />
-        <Filters title="Аквазоны" items={zones} field="zones_ids" />
-        <Filters
-          title="Виды парной"
-          items={steamRooms}
-          field="steam_rooms_ids"
-  />*/}
+        {filters}
         <Block margin={[10, 0]} />
       </ScrollView>
       <AcceptButton />
@@ -116,9 +108,9 @@ const BathesFilterScreenConnected = connect(
     fetchTouchParams: fetchTouchParamsAction,
     checkFilter: checkFilterAction,
     clearBathes: clearBathesAction,
+    initExtraParams: initExtraParamsAction,
     rollbackExtraParams: rollbackExtraParamsAction,
     cleanExtraParams: cleanExtraParamsAction,
-    //changeParams: changeParamsAction,
   },
 )(BathesFilterScreenContainer);
 
