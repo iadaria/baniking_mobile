@@ -1,9 +1,8 @@
 import React, { createRef, useCallback, useEffect, useState } from 'react';
 import MapView, { Polyline as MapPolyline, Marker } from 'react-native-maps';
 import PolyLine from '@mapbox/polyline';
-import NoPermissionPart from './NoPermissionPart';
 import { View } from 'react-native';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { IRootState } from '~/src/app/store/rootReducer';
 import { IBathDetailed, TPartDirectionsParams } from '~/src/app/models/bath';
 import { ILocation } from '~/src/app/models/user';
@@ -12,28 +11,14 @@ import { styles } from './styles';
 import { MarkerIconSvg } from '~/src/assets';
 import MapScreen from '../../components/MapScreen';
 import { logline } from '~/src/app/utils/debug';
-import { detectGeo as detectGeoAction } from '~/src/features/map/store/mapActions';
-import { checkPermissionLocation as checkPermissionLocationAction } from '~/src/app/store/permission/permissionActions';
 import { Location } from '~/src/app/models/map';
-import { Permit } from '~/src/app/store/permission/permissionReducer';
 
 export interface IProps {
   selectedBath: IBathDetailed | null;
   userLocation: Location | null;
-  permissionLocation: [boolean, Permit];
-  checkPermissionLocation: () => void;
-  detectGeo: () => void;
-  detectCity: () => void;
 }
 
-function DestinationMapContainer({
-  selectedBath,
-  userLocation,
-  permissionLocation,
-  checkPermissionLocation,
-  detectGeo,
-}: IProps) {
-  const [needGeo, setNeedGeo] = useState(false);
+function DestinationMapContainer({ selectedBath, userLocation }: IProps) {
   const [destinationCoords, setDestinationCoords] = useState<ILocation[]>([]);
   const map = createRef<MapView>();
   const timeIds: NodeJS.Timeout[] = [];
@@ -42,22 +27,6 @@ function DestinationMapContainer({
     latitude: selectedBath!.latitude,
     longitude: selectedBath!.longitude,
   };
-
-  const [granted] = permissionLocation;
-
-  // Если из state получили что нет прав - запрашиваем снова
-  useEffect(() => {
-    if (!granted) {
-      checkPermissionLocation();
-    }
-  }, [checkPermissionLocation, granted]);
-
-  // Если зи state получили что есть права - запрашиваем geo
-  useEffect(() => {
-    if (granted) {
-      detectGeo();
-    }
-  }, [detectGeo, granted]);
 
   const requestPoint = useCallback(() => {
     const { latitude: bathLatitude, longitude: bathLongitude } =
@@ -95,10 +64,12 @@ function DestinationMapContainer({
   }, [bathLocation, userLocation]);
 
   useEffect(() => {
+    logline('[DestingationMap]', 'requestPoint');
     if (bathLocation && userLocation) {
       requestPoint();
     }
-  }, [bathLocation, userLocation, requestPoint]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     let timeId: NodeJS.Timeout;
@@ -111,24 +82,12 @@ function DestinationMapContainer({
     return () => clearTimeout(timeId);
   }, [destinationCoords, map]);
 
-  if (!granted) {
-    return <NoPermissionPart setNeedCheck={() => setNeedGeo(true)} />;
-  }
-
-  // logline('[DestinationMap/userLocation]', location, localPermission);
   const onMapReady = () => {
     let timeId = setTimeout(() => {
       map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } });
     }, 500);
     timeIds.push(timeId);
   };
-
-  logline(
-    '[DestinationMap/] userLocation',
-    userLocation,
-    'bathLocation',
-    bathLocation,
-  );
 
   if (!userLocation || !bathLocation) {
     return null;
@@ -168,18 +127,20 @@ function DestinationMapContainer({
 }
 
 const DestinationMapConnected = connect(
-  ({ permission, map, bath }: IRootState) => ({
+  ({ map, bath }: IRootState) => ({
     selectedBath: bath.selectedBath,
-    permissionLocation: permission.location,
     userLocation: map.location,
   }),
-  {
-    detectGeo: detectGeoAction,
-    checkPermissionLocation: checkPermissionLocationAction,
-  },
+  {},
 )(DestinationMapContainer);
 
 export { DestinationMapConnected as DestinationMap };
+
+/*   if (!granted) {
+    return <NoPermissionPart setNeedCheck={() => setNeedGeo(true)} />;
+  } */
+
+// logline('[DestinationMap/userLocation]', location, localPermission);
 
 /*  const { location: userLocation } =
     useSelector(({ auth }: IRootState) => auth.currentUser) || {}; */

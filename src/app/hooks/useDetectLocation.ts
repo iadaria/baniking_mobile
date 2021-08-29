@@ -8,9 +8,9 @@ import { logline } from '~/src/app/utils/debug';
 export function useDetectLocation() {
   const { location } = useSelector(({ permission }: IRootState) => permission);
 
-  //logline('[useDetectLocation]', location);
+  logline('[useDetectLocation]', location);
 
-  const granted = location;
+  const [granted] = location;
   const dispatch = useDispatch();
 
   // Если из state получили что нет прав - запрашиваем снова

@@ -19,7 +19,7 @@ import {
   IModalState,
   openModal as openModalAction,
 } from '~/src/app/common/modals/modalReducer';
-import { IBathDetailed, IBather } from '~/src/app/models/bath';
+import { IBathDetailed, IBather, IMap } from '~/src/app/models/bath';
 import { IPersistImages } from '~/src/app/models/persist';
 import BathSlider from './BathSlider';
 import { formatPhoneNumber, numberWithSpaces } from '~/src/app/utils/system';
@@ -28,7 +28,7 @@ import BathSchedule from './BathSchedule';
 import { routes } from '~/src/navigation/helpers/routes';
 import * as RNav from '~/src/navigation/helpers/RootNavigation';
 import { OrderCallIcon } from '~/src/assets';
-import { sizes } from '~/src/app/common/constants';
+import { MAX_DISTANCE, sizes } from '~/src/app/common/constants';
 //import { MAX_DISTANCE } from '~/src/app/common/constants/common';
 /* import {
   //calculateDistance,
@@ -39,6 +39,9 @@ import { sizes } from '~/src/app/common/constants';
 import { styles } from './styles';
 import { BathInfrastructure } from './BathInfrastructure';
 import { BathInfo } from './BathInfo';
+import BathDestinationMap from './BathDestinationMap';
+import { Location } from '~/src/app/models/map';
+import { isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
 
 const BASE = sizes.offset.base;
 
@@ -149,18 +152,44 @@ const OrderCall: React.FC<{ bath: IBathDetailed }> = ({ bath }) => {
   );
 };
 
+const Map: React.FC<{
+  location: Location | null;
+  bath: IBathDetailed;
+  distance: number;
+}> = ({ location, bath, distance }) => {
+  if (
+    location?.lng &&
+    bath.latitude &&
+    bath.longitude &&
+    isLatitude(bath.latitude) &&
+    isLongitude(bath.longitude) &&
+    distance < MAX_DISTANCE
+  ) {
+    return (
+      <Block style={styles.bathMap}>
+        <BathDestinationMap latitude={location.lat} longitude={location.lng} />
+      </Block>
+    );
+  }
+  return null;
+};
+
 interface IProps {
   loading: boolean;
   selectedBath: IBathDetailed | null;
   persistImages: IPersistImages;
   clearSelectedBath: () => void;
   openModal: (payload: IModalState) => void;
+  maps: IMap[];
+  location: Location | null;
 }
 
 function BathScreenContainer({
   loading,
   selectedBath: bath,
   clearSelectedBath,
+  maps,
+  location,
 }: IProps) {
   useEffect(() => {
     return () => clearSelectedBath();
@@ -170,11 +199,11 @@ function BathScreenContainer({
     return <AppActivityIndicator />;
   }
 
-  let map = null;
+  const map = maps.find((m) => m.bathId === bath.id);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-      <BathHeader bath={bath} distance={0} />
+      <BathHeader bath={bath} distance={map?.distance || 0} />
       <Block margin={[3, BASE, 1.2]}>
         <Phone phone={bath.phone} />
         <Price price={bath.price} />
@@ -193,7 +222,7 @@ function BathScreenContainer({
       <AppText margin={[1, BASE]} golder>
         Адрес и инфраструктура
       </AppText>
-      {map}
+      <Map bath={bath} distance={map?.distance || 0} location={location} />
       <AppText style={styles.address} padding={[2.5, BASE * 1.3]} tag>
         <AppText golder tag>{`${bath.city_name}  `}</AppText>
         {bath.address}
@@ -209,10 +238,12 @@ function BathScreenContainer({
 }
 
 const BathScreenConnected = connect(
-  ({ bath, persist }: IRootState) => ({
+  ({ bath, persist, map }: IRootState) => ({
     loading: bath.loadingSelectBath,
     selectedBath: bath.selectedBath,
     persistImages: persist.image,
+    maps: bath.maps,
+    location: map.location,
   }),
   {
     getBath: getBathAction,
@@ -224,21 +255,6 @@ const BathScreenConnected = connect(
 )(BathScreenContainer);
 
 export { BathScreenConnected as BathScreen };
-
-/* if (
-  bath.latitude &&
-  bath.longitude &&
-  isLatitude(bath.latitude) &&
-  isLongitude(bath.longitude) &&
-  bathParams.distance < MAX_DISTANCE
-) {
-  map = (
-    <Block style={styles.bathMap}>
-      <BathDestinationMap latitude={latitude} longitude={longitude} />
-    </Block>
-  );
-}
-*/
 
 /* infastructureBath.has_hotel = true;
   infastructureBath.hotel_address = 'Metropliks, Chita address 25';
