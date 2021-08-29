@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export function BathInfo({ bath: b }: IProps) {
-  const isInfo: boolean =
+  const isInfo =
     !!b.description ||
     !!b.history ||
     !!b.service ||
@@ -22,12 +22,12 @@ export function BathInfo({ bath: b }: IProps) {
       <AppText margin={[0.5, 0, 2]} golder>
         Дополнительная информация
       </AppText>
-      <InfoBlock title="Общее описание" text={b.description} />;
-      <InfoBlock title="История" text={b.history} />;
-      <InfoBlock title="Особенности" text={b.features} />;
-      <InfoBlock title="Услуги" text={b.service} />;
-      <InfoBlock title="Традиции" text={b.traditions} />;
-      <InfoBlock title="Парная" text={b.steam_room} />;
+      <InfoBlock title="Общее описание" text={b.description} />
+      <InfoBlock title="История" text={b.history} />
+      <InfoBlock title="Особенности" text={b.features} />
+      <InfoBlock title="Услуги" text={b.service} />
+      <InfoBlock title="Традиции" text={b.traditions} />
+      <InfoBlock title="Парная" text={b.steam_room} />
     </>
   );
 }

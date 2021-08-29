@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import { ListIcon } from '~/src/assets';
-import { styles } from '../styles';
+import { styles as s } from '../styles';
 
 interface IProps {
   title: string;
@@ -15,14 +15,14 @@ export default function InfoBlock({ title, text }: IProps) {
   if (!text) return null;
 
   return !open ? (
-    <TouchableOpacity style={styles.infoRow} onPress={setOpen.bind(null, true)}>
+    <TouchableOpacity style={s.infoRow} onPress={setOpen.bind(null, true)}>
       <AppText>{title}</AppText>
       <ListIcon />
     </TouchableOpacity>
   ) : (
-    <Block style={styles.infoBlock}>
+    <Block style={s.infoBlock}>
       <TouchableOpacity
-        style={styles.infoBlockTitle}
+        style={s.infoBlockTitle}
         onPress={setOpen.bind(null, false)}>
         <AppText primary medium tag>
           {title}

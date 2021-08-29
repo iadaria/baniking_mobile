@@ -28,7 +28,15 @@ interface IProps {
 }
 
 export default function BathItem({ bath, distance }: IProps) {
-  const { name, address, cachedImage, short_description, rating, image, phone } = bath;
+  const {
+    name,
+    address,
+    cachedImage,
+    short_description,
+    rating,
+    image,
+    phone,
+  } = bath;
   //const [thisCachedImage, setThisCachedImage] = useState(cachedImage);
   const [fadeInOpacity] = useState(new Animated.Value(0));
   const [fadeOutOpacity] = useState(new Animated.Value(0.2));
@@ -41,13 +49,13 @@ export default function BathItem({ bath, distance }: IProps) {
 
     Animated.timing(fadeInOpacity, {
       toValue: 1,
-      duration: 500 * 1,
+      duration: 250 * 1,
       useNativeDriver: true,
     }).start();
 
     Animated.timing(fadeOutOpacity, {
       toValue: 0,
-      duration: 500 * multiply,
+      duration: 250 * multiply,
       useNativeDriver: true,
     }).start();
     // eslint-disable-next-line react-hooks/exhaustive-deps

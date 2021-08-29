@@ -189,7 +189,7 @@ function BathScreenContainer({
       </Block>
 
       <Photos photos={bath.photos} />
-      {/* <Bathers bathers={bath.bathers} /> */}
+      <Bathers bathers={bath.bathers} />
       <AppText margin={[1, BASE]} golder>
         Адрес и инфраструктура
       </AppText>
@@ -202,7 +202,7 @@ function BathScreenContainer({
         <BathInfrastructure bath={bath} />
         <Divider color="#242424" />
         <BathInfo bath={bath} />
-        {/* <OrderCall bath={bath} /> */}
+        <OrderCall bath={bath} />
       </Block>
     </ScrollView>
   );
