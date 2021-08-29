@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, fork, put, select, takeEvery } from 'redux-saga/effects';
 import { Bath } from '~/src/app/models/bath';
 import { addBathes, bathesFail } from '../bathActions';
 import { getErrorStrings } from '~/src/app/utils/error';
@@ -8,6 +8,7 @@ import { IRootState } from '~/src/app/store/rootReducer';
 import { IFilterState } from '~/src/features/filters/store/filterReducer';
 import { FETCH_BATHES } from '../bathConstants';
 import { log, logline } from '~/src/app/utils/debug';
+import { fetchMapsSaga } from './fetchMapsSaga';
 
 interface IAction {
   type: string;
@@ -28,6 +29,7 @@ function* fetchBathesSaga(_: IAction) {
     const { count, baths } = result;
     logline('\n\n***[fetchBathesSaga] params ' + count, params);
     yield put(addBathes({ bathes: baths, count }));
+    yield fork(fetchMapsSaga, { payload: baths });
   } catch (e) {
     log('[fetchBathesSaga/error]', e);
 

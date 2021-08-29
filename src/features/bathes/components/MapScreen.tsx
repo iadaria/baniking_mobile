@@ -15,7 +15,14 @@ interface IProps extends MapViewProps {
 
 export default React.forwardRef(
   (
-    { userLatitude, userLongitude, children, customMapStyle, style, ...otherProps }: IProps,
+    {
+      userLatitude,
+      userLongitude,
+      children,
+      customMapStyle,
+      style,
+      ...otherProps
+    }: IProps,
     ref: ForwardedRef<MapView>,
   ) => {
     return (

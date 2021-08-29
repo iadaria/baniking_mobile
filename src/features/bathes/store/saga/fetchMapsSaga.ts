@@ -1,3 +1,4 @@
+import { IRootState } from './../../../../app/store/rootReducer';
 import { GOOGLE_API } from 'react-native-dotenv';
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { methods } from '~/src/app/api';
@@ -7,10 +8,9 @@ import {
   IMap,
   TPartDistanceParams,
 } from '~/src/app/models/bath';
-import { IRootState } from '~/src/app/store/rootReducer';
 import { isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
 import { log, logline } from '~/src/app/utils/debug';
-import { IAuthState } from '~/src/features/auth/store/authReducer';
+import { IMapState } from '~/src/features/map/store/mapReducer';
 import { setMaps } from '../bathActions';
 import { FETCH_MAPS } from '../bathConstants';
 
@@ -23,16 +23,16 @@ export function* fetchMapsSaga({ payload: bathes }: IAction) {
   try {
     logline('', '\n****[fetchMapsSaga]');
 
-    const { currentUser }: IAuthState = yield select(
-      ({ auth }: IRootState) => auth,
+    const { location: userLocation }: IMapState = yield select(
+      ({ map }: IRootState) => map,
     );
-    const { location } = currentUser || {};
 
+    logline('n****[fetchMapsSaga]', userLocation);
     // logline('[fetchMapsSaga]', location);
 
-    if (location) {
-      if (!isLatitude(location.latitude) || !isLongitude(location.longitude)) {
-        logline('[fecthMapsSaga/not correct lat or long]', location);
+    if (userLocation) {
+      if (!isLatitude(userLocation.lat) || !isLongitude(userLocation.lng)) {
+        logline('[fecthMapsSaga/not correct lat or long]', userLocation);
         return;
       }
 
@@ -52,7 +52,7 @@ export function* fetchMapsSaga({ payload: bathes }: IAction) {
         }
 
         const placeParams: TPartDistanceParams = {
-          origins: `${location.latitude},${location.longitude}`,
+          origins: `${userLocation.lat},${userLocation.lng}`,
           destinations: `${latitude},${longitude}`,
           units: 'metric',
           key: GOOGLE_API,

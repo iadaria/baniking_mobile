@@ -20,7 +20,11 @@ export default function BathDestinationMap({ latitude, longitude }: IProps) {
   }, []);
 
   const onMapReady = () => {
-    timeId = setTimeout(() => map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }), 1000);
+    timeId = setTimeout(
+      () =>
+        map.current?.map.setNativeProps({ style: { flex: 1, marginLeft: 0 } }),
+      1000,
+    );
   };
 
   return (

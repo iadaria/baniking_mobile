@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { AppText, Block } from '~/src/app/common/components/UI';
 import { IRootState } from '~/src/app/store/rootReducer';
-import { Bath, BathParams } from '~/src/app/models/bath';
+import { Bath } from '~/src/app/models/bath';
 import { Header } from '~/src/app/common/components/Header';
 import { Sorter } from './components/Sorter';
 import { Searcher } from './components/Searcher';
@@ -10,11 +10,13 @@ import { SelectedCity } from './components/SelectedCity';
 import { fetchBathes as fetchBathesAction } from '~/src/features/bathes/store/bathActions';
 import { FilterButton } from './components/FilterButton';
 import { BathesList } from './components/BathesList';
+import { useDetectLocation } from '~/src/app/hooks/useDetectLocation';
+import { IBathBaseParams } from '~/src/app/models/filter';
 
 interface IProps {
   loading: boolean;
   bathes: Bath[];
-  params: BathParams;
+  params: Partial<IBathBaseParams> & { page: number };
   fetchBathes: () => void;
 }
 
@@ -22,6 +24,8 @@ export function BathesScreenContainer({ params, fetchBathes }: IProps) {
   useEffect(() => {
     fetchBathes();
   }, [fetchBathes, params]);
+
+  useDetectLocation();
 
   return (
     <Block safe full padding={[0, 8, 0, 4]}>

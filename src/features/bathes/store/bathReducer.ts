@@ -25,7 +25,7 @@ export interface IBathState {
   // Maps
   mapIds: number[];
   maps: IMap[];
-
+  // inputs
   inputs: IInputs;
 }
 
@@ -177,11 +177,11 @@ export default function bathReducer(
       };
 
     case constants.ADD_MAP:
-      const exists = state.mapIds.includes(payload.bathId);
+      const isExist = state.mapIds.includes(payload.bathId);
       return {
         ...state,
-        mapIds: !exists ? [...state.mapIds, payload.bathId] : state.mapIds,
-        maps: !exists ? [...state.maps, payload] : state.maps,
+        mapIds: !isExist ? [...state.mapIds, payload.bathId] : state.mapIds,
+        maps: !isExist ? [...state.maps, payload] : state.maps,
       };
 
     case constants.CLEAR_MAPS:
