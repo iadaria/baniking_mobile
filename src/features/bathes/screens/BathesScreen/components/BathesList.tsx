@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Block } from '~/src/app/common/components/UI';
-import { Bath } from '~/src/app/models/bath';
+import { Bath, IMap } from '~/src/app/models/bath';
 import AppListIndicator from '../AppListIndicator';
 import BathItem from './BathItem';
 import NotFound from '../NotFound';
@@ -27,6 +27,7 @@ interface IProps {
   clearBathes: () => void;
   cleanParams: () => void;
   selectBath: (bathId: number) => void;
+  maps: IMap[];
 }
 
 function BathesListContainer({
@@ -37,26 +38,28 @@ function BathesListContainer({
   clearBathes,
   cleanParams,
   selectBath,
+  maps,
 }: IProps) {
   const keyExtractor = useCallback(({ id }: Bath) => String(id), []);
   const iosStyle = isIos ? { paddingLeft: wp(5) } : {};
 
   const renderItem = useCallback(
     ({ item, index }: { item: Bath; index: number }) => {
-      const distance = 0;
+      const bathMap = maps.find((m) => m.bathId === item.id);
+      const distance = bathMap?.distance;
       return (
         // <TouchableOpacity onPress={handleOpenBath.bind(null, item, distance)}>
         <TouchableOpacity onPress={() => selectBath(item.id)}>
           <BathItem
             key={`item-${index}`}
             bath={item}
-            distance={distance}
+            distance={distance || 0}
             //persistImage={persistImage}
           />
         </TouchableOpacity>
       );
     },
-    [],
+    [maps, selectBath],
   );
 
   function handleLoadMore() {
@@ -100,10 +103,11 @@ function BathesListContainer({
 }
 
 const BathesListConnected = connect(
-  ({ bath }: IRootState) => ({
+  ({ bath, map }: IRootState) => ({
     loading: bath.loading,
     bathes: bath.bathes,
     canLoadMore: bath.canLoadMore,
+    maps: bath.maps,
   }),
   {
     nextPage: nextPageAction,
