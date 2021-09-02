@@ -10,7 +10,7 @@ import { Location } from '~/src/app/models/map';
 
 const lat = 'latitude';
 const lng = 'longitude';
-type Coords = { [lat]: number;[lng]: number };
+type Coords = { [lat]: number; [lng]: number };
 
 interface IProps {
   filterloc?: Coords;
@@ -24,6 +24,7 @@ function NearestContainer({ maploc, filterloc }: IProps) {
   const turnOffNearby = !!filterloc && !isNearby;
 
   useDebounced({
+    timeout: 0,
     params: { latitude: maploc?.lat, longitude: maploc?.lng },
     deps: [isNearby],
     shouldExecute: turnOnNearby || turnOffNearby,

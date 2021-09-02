@@ -33,10 +33,7 @@ interface IScreenOptionsProps {
 
 export default function DrawerNavigator({ navigation }: IScreenOptionsProps) {
   const { authenticated } = useSelector((state: IRootState) => state.auth);
-  const { isTransparent } = useSelector(
-    (state: IRootState) => state.system.header,
-  );
-  const multiMargin = isTransparent ? 4 : 1;
+  const multiMargin = 1;
 
   useEffect(() => {
     if (!authenticated) {

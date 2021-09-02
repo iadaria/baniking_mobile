@@ -9,18 +9,6 @@ export function setTitlePoints(points: number) {
   };
 }
 
-export function transparentHeader() {
-  return {
-    type: constants.TRANSPARENT_HEADER,
-  };
-}
-
-export function nonTransparentHeader() {
-  return {
-    type: constants.NON_TRANSPARENT_HEADER,
-  };
-}
-
 /** Network */
 
 export function updateStateConnection(state: boolean | null) {

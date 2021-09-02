@@ -8,7 +8,6 @@ interface IAction {
 export interface ISystemState {
   header: {
     points: number;
-    isTransparent: boolean;
   };
   connection: null | boolean;
 }
@@ -16,7 +15,6 @@ export interface ISystemState {
 const initialState: ISystemState = {
   header: {
     points: 0,
-    isTransparent: false,
   },
   connection: null,
 };
@@ -26,24 +24,6 @@ export default function systemReducer(
   { type, payload }: any = { type: '', payload: undefined },
 ): ISystemState {
   switch (type) {
-    case constants.TRANSPARENT_HEADER:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isTransparent: true,
-        },
-      };
-
-    case constants.NON_TRANSPARENT_HEADER:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          isTransparent: false,
-        },
-      };
-
     case constants.SET_TITLE_POINTS:
       return {
         ...state,

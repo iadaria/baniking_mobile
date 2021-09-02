@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IUiButton, IUiText } from '~/src/app/models/ui';
 import { colors, sizes } from '~/src/app/common/constants';
 import { handleMargins, handlePaddings } from '~/src/app/utils/ui';
 
-interface IChild extends JSX.Element, IUiText { }
+interface IChild extends JSX.Element, IUiText {}
 
 export function AppButton(props: IUiButton) {
   const {
@@ -28,7 +28,8 @@ export function AppButton(props: IUiButton) {
     styles.button,
     shadow && styles.shadow,
     color && styles[color as keyof typeof styles], // predefined styles colors for backgroundColor
-    color && !styles[color as keyof typeof styles] && { backgroundColor: color }, // custom backgroundColor
+    color &&
+      !styles[color as keyof typeof styles] && { backgroundColor: color }, // custom backgroundColor
     disabled && styles.disabled,
     margin && { ...handleMargins(margin) },
     padding && { ...handlePaddings(padding) },
@@ -64,11 +65,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: sizes.button.radius,
     padding: wp(sizes.button.padding),
-
-    // height: wp(sizes.offset.base) * 1.2,
-    // justifyContent: 'center',
     backgroundColor: colors.secondary,
-    // marginVertical: wp(sizes.padding) / 3,
   },
   shadow: {
     shadowColor: colors.black,

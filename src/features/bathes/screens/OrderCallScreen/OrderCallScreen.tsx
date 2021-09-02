@@ -27,6 +27,7 @@ import { IOrderCall } from '~/src/app/models/bath';
 import { routes } from '~/src/navigation/helpers/routes';
 import { bathOneImg, CloseWhiteIcon } from '~/src/assets';
 import { styles } from './styles';
+import { logline } from '~/src/app/utils/debug';
 
 interface IOrderCallParams {
   bathId: number;
@@ -41,8 +42,6 @@ interface IProps {
   currentProfile: IProfile | null;
   defaultOrderCallInputs: IOrderCallInputs;
   getProfile: () => void;
-  transparentHeader: () => void;
-  nonTransparentHeader: () => void;
   initOrderCallInputs: (orderCall: IOrderCall) => void;
   orderCall: (orderCallParams: IOrderCallParams) => void;
 }
@@ -52,7 +51,6 @@ function OrderCallScreenContainer({
   navigation,
   currentProfile,
   getProfile,
-  transparentHeader,
   initOrderCallInputs,
   defaultOrderCallInputs,
   orderCall,
@@ -64,14 +62,9 @@ function OrderCallScreenContainer({
     {}) as IOrderCallParams;
   const { bathId, bathName, short_description, bathPhone } = params;
 
-  useFocusEffect(() => {
-    transparentHeader();
-  });
-
   useEffect(() => {
     if (currentProfile) {
-      __DEV__ &&
-        console.log('[OrderCallScreen/useEffect] getProfileSettings()');
+      logline('[OrderCallScreen/useEffect] getProfileSettings()', '');
       initOrderCallInputs({
         name: currentProfile.name,
         phone: currentProfile.phone,
@@ -157,7 +150,6 @@ const OrderCallConnected = connect(
   {
     initOrderCallInputs: initOrderCallInputsAction,
     getProfile: getProfileSettingsAction,
-    transparentHeader: transparentHeaderAction,
     orderCall: orderCallAction,
   },
 )(OrderCallScreenContainer);

@@ -9,7 +9,6 @@ import AuthNavigator from '~/src/features/auth/AuthNavigator';
 interface IProps {
   authenticated: boolean;
   points: number;
-  isTransparent: boolean;
   getCabinetData: () => void;
 }
 
@@ -47,7 +46,6 @@ export default connect(
   ({ system, auth }: IRootState) => ({
     authenticated: auth.authenticated,
     points: system.header.points,
-    isTransparent: system.header.isTransparent,
   }),
   {
     getCabinetData: getCabinetDataAction,
