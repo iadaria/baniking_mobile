@@ -96,7 +96,7 @@ function BathesListContainer({
         onEndReachedThreshold={0.1}
         onEndReached={handleLoadMore}
         ListEmptyComponent={emptyComponent}
-        ListFooterComponent={footerComponent}
+        ListFooterComponent={!emptyComponent ? footerComponent : null}
       />
     </Block>
   );

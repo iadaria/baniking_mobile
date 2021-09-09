@@ -44,7 +44,12 @@ function* checkLocationPermitSaga(_: IAction) {
       showAlert(
         'Местоположение',
         'Вы заблокировали возможность определения местоположения',
-        'Изменить доступ',
+        //'Изменить доступ',
+        /* yield () => {
+          put(clearPermissionLocation());
+          Linking.openSettings();
+        },
+        () => {}, */
         //async () => await changePermission(),
         //() => { },
       );

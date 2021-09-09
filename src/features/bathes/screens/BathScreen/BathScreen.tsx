@@ -24,12 +24,6 @@ import { routes } from '~/src/navigation/helpers/routes';
 import * as RNav from '~/src/navigation/helpers/RootNavigation';
 import { OrderCallIcon } from '~/src/assets';
 import { MAX_DISTANCE, sizes } from '~/src/app/common/constants';
-//import { MAX_DISTANCE } from '~/src/app/common/constants/common';
-/* import {
-  //calculateDistance,
-  isLatitude,
-  isLongitude,
-} from '~/src/app/utils/bathUtility'; */
 import { styles } from './styles';
 import { BathInfrastructure } from './BathInfrastructure';
 import { BathInfo } from './BathInfo';
@@ -40,29 +34,33 @@ import { isLatitude, isLongitude } from '~/src/app/utils/bathUtility';
 const BASE = sizes.offset.base;
 
 const Phone: React.FC<{ phone: string | null }> = ({ phone }) => {
-  if (!phone) return null;
   function callPhone(_phone: string) {
     Linking.openURL(`tel:${_phone}`);
   }
-  return (
-    <TouchableOpacity
-      style={styles.goldBorder}
-      onPress={callPhone.bind(null, phone)}>
-      <AppText golder>Тест {formatPhoneNumber(phone)}</AppText>
-    </TouchableOpacity>
-  );
+  if (phone) {
+    return (
+      <TouchableOpacity
+        style={styles.goldBorder}
+        onPress={callPhone.bind(null, phone)}>
+        <AppText golder>Тест {formatPhoneNumber(phone)}</AppText>
+      </TouchableOpacity>
+    );
+  }
+  return null;
 };
 
 const Price: React.FC<{ price?: number | null }> = ({ price }) => {
-  if (!price) return null;
-  return (
-    <Block style={styles.goldBorder} center row>
-      <AppText medium>{`${numberWithSpaces(price || 0)} \u20BD`}</AppText>
-      <AppText golder medium tag>
-        {' / час'}
-      </AppText>
-    </Block>
-  );
+  if (price) {
+    return (
+      <Block style={styles.goldBorder} center row>
+        <AppText medium>{`${numberWithSpaces(price || 0)} \u20BD`}</AppText>
+        <AppText golder medium tag>
+          {' / час'}
+        </AppText>
+      </Block>
+    );
+  }
+  return null;
 };
 
 const Zones: React.FC<{ zones: string[] }> = ({ zones }) => {
@@ -151,17 +149,22 @@ const Map: React.FC<{
   bath: IBathDetailed;
   distance: number;
 }> = ({ location, bath, distance }) => {
+  const hasUserLocation = location?.lng && location?.lat;
+  const hasBathLocation = bath.latitude && bath.longitude;
+  const isCorrectLocation =
+    isLatitude(bath.latitude) && isLongitude(bath.longitude);
   if (
-    location?.lng &&
-    bath.latitude &&
-    bath.longitude &&
-    isLatitude(bath.latitude) &&
-    isLongitude(bath.longitude) &&
+    hasBathLocation &&
+    hasUserLocation &&
+    isCorrectLocation &&
     distance < MAX_DISTANCE
   ) {
     return (
       <Block style={styles.bathMap}>
-        <BathDestinationMap latitude={location.lat} longitude={location.lng} />
+        <BathDestinationMap
+          latitude={bath!.latitude}
+          longitude={bath!.longitude}
+        />
       </Block>
     );
   }

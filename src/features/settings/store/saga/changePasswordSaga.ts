@@ -28,14 +28,20 @@ function* changePasswordSaga({ payload }: IAction) {
 
     logline('', [errors, message, allErrors]);
 
-    if (errors && errors?.new_password_confirmation.includes('не совпадают')) {
+    const errorMessage = allErrors
+      ? allErrors
+      : 'Возникла ошибка при изменении пароля';
+
+    yield showAlert('Ошибка', errorMessage);
+
+    /* if (errors && errors?.new_password_confirmation?.includes('не совпадают')) {
       errors.new_password_confirmation =
         'Значение должно совпадать с новым паролем';
     }
 
     if (errors && errors.new_password) {
       delete errors.new_password;
-    }
+    } */
   }
 }
 

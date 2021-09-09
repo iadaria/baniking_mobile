@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, TextStyle } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 // import { IUiInput } from '~/src/app/models/ui';
 import { colors, fonts, sizes } from '~/src/app/common/constants';
 
@@ -12,13 +15,7 @@ interface IProps /*  extends IUiInput */ {
 export default function AppInputLabel(props: IProps) {
   const { label /* error, isFocused  */ } = props;
 
-  const labelStyle: StyleProp<TextStyle> = [
-    styles.label,
-    /* {
-      fontSize: !isFocused ? wp(sizes.font.label) : 14,
-      color: !isFocused ? '#aaa' : '#000',
-    }, */
-  ];
+  const labelStyle: StyleProp<TextStyle> = [styles.label];
 
   return (
     <View style={styles.labelWrapper}>
@@ -36,6 +33,8 @@ const styles = StyleSheet.create({
     zIndex: 2,
     backgroundColor: colors.white,
     paddingHorizontal: wp(sizes.input.labelPadding),
+    /*     borderColor: 'red',
+    borderWidth: 1, */
   },
   label: {
     fontFamily: fonts.Gilroy.semibold,

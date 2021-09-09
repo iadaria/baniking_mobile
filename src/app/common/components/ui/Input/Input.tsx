@@ -9,7 +9,7 @@ import {
   Keyboard,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
-import { colors } from '~/src/app/common/constants';
+import { colors, isAndroid } from '~/src/app/common/constants';
 import { IAppInputProps } from '~/src/app/models/ui';
 import { InputWrapper } from './InputWrapper';
 import { styles as s } from './styles';
@@ -117,7 +117,7 @@ export function Input<T>(props: IAppInputProps<T>): JSX.Element {
         mask={mask}
         textAlign={inputTextAlign}
         secureTextEntry={isSecure}
-        multiline={center}
+        multiline={isAndroid ? center : undefined}
         autoCompleteType="off"
         autoCapitalize="none"
         autoCorrect={false}

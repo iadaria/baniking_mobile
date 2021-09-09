@@ -11,7 +11,7 @@ import {
   TextInputChangeEventData,
 } from 'react-native';
 import TextInputMask from 'react-native-text-input-mask';
-import { colors } from '~/src/app/common/constants';
+import { colors, isAndroid } from '~/src/app/common/constants';
 import { IAppInputProps } from '~/src/app/models/ui';
 import { AppInputWrapper } from './AppInputWrapper';
 import { styles } from './styles';
@@ -107,10 +107,10 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
   const inputType = email
     ? 'email-address'
     : number
-      ? 'numeric'
-      : phone
-        ? 'phone-pad'
-        : 'default';
+    ? 'numeric'
+    : phone
+    ? 'phone-pad'
+    : 'default';
   const blockStyle: ViewStyle = {};
   style?.backgroundColor &&
     (blockStyle.backgroundColor = style?.backgroundColor);
@@ -176,7 +176,7 @@ export function AppInput<T>(props: IAppInputProps<T>): JSX.Element {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={center ? handleChange : undefined}
-        placeholder={center ? undefined : placeholder}
+        placeholder={center && isAndroid ? undefined : placeholder}
         placeholderTextColor="rgba(126, 126, 126, 0.3)"
         underlineColorAndroid="transparent"
         scrollEnabled={true}

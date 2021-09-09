@@ -73,7 +73,7 @@ const LoginFormContainer = ({
         mask="+7([000])[000]-[00]-[00]"
         center
         keyboardType="numeric"
-      //isScrollToFocused
+        //isScrollToFocused
       />
       <Block row middle center>
         <AppText primary semibold size={sizes.text.label}>

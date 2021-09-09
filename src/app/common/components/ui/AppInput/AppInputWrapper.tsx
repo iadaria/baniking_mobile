@@ -9,6 +9,7 @@ import { IAppInputStates } from './AppInput';
 import { StyleProp, ViewStyle } from 'react-native';
 import { styles } from './styles';
 import AppPlaceholder from './AppPlaceholder';
+import { isAndroid } from '~/src/app/utils/system';
 
 interface IProps<T> {
   states: IAppInputStates;
@@ -65,10 +66,12 @@ export const AppInputWrapper = <T extends {}>({
           toggleSecure={toggleSecure}
           setToggleSecure={setToggleSecure}
         />
-        <AppPlaceholder
-          showPlaceholder={showPlaceholder}
-          placeholder={placeholder}
-        />
+        {isAndroid && (
+          <AppPlaceholder
+            showPlaceholder={showPlaceholder}
+            placeholder={placeholder}
+          />
+        )}
       </Block>
       <AppInputError
         margin={[0, 0, sizes.input.top, 0]}

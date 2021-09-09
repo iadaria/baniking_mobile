@@ -17,6 +17,7 @@ export const styles = StyleSheet.create<IInputStyleProps>({
     color: colors.input.text,
     height: hp(sizes.input.big.height),
     paddingHorizontal: wp(sizes.input.paddingHorizontal),
+    //paddingTop: isAndroid ? 0 : wp(4),
     borderRadius: wp(2),
     borderWidth: 1,
     borderColor: colors.input.border,
