@@ -11,8 +11,8 @@ interface IAction {
 }
 
 type GeoPosition = Geolocation.GeoPosition;
-
 function getCurrentPosition() {
+  logline('\n!![detectGeoSaga] getCurrentPosition', '');
   return new Promise((resolve, error) => {
     Geolocation.getCurrentPosition(resolve, error, {
       enableHighAccuracy: true,
@@ -21,11 +21,12 @@ function getCurrentPosition() {
 }
 
 function* detectGeoSaga(_: IAction) {
-  //logline('\n\n[detectGeoSage]', '***');
+  logline('\n\n[detectGeoSage]', '***');
   try {
     yield put(mapRequest());
     const position: GeoPosition = yield getCurrentPosition();
-    //logline('[detectGeoSaga] position', position);
+    logline('\n!![detectGeoSaga] position', position);
+
     if (position) {
       const { latitude: lat, longitude: lng } = position.coords;
       yield put(setGeoLocation({ lat, lng }));

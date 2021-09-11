@@ -25,11 +25,6 @@ interface IAction {
 
 const PERMISSION = PERMISSION_TYPE.location;
 
-/* const changePermission = async () => {
-  store.dispatch(clearPermissionLocation());
-  await Linking.openSettings();
-};
- */
 function* checkLocationPermitSaga(_: IAction) {
   //logline('\n\n[checkLocationPermitSaga]', '***');
 
