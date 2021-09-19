@@ -25,6 +25,7 @@
     "other-clean": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-* && watchman watch-del-all",
     "remove-android-build": "rm -rf android/build",
     "brew": "brew update && brew upgrade",
+    "android-bundle": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
     "bundle-android-debug": "cd android && ./gradlew bundleDebug && cd ..",
     "bundle-android-release": "cd android && ./gradlew bundleRelease && cd ..",
     "android-build": "cd android && ./gradlew build && cd ..",
