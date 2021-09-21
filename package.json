@@ -25,6 +25,7 @@
     "other-clean": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-* && watchman watch-del-all",
     "remove-android-build": "rm -rf android/build",
     "brew": "brew update && brew upgrade",
+    "ios-bundle": "react-native bundle --entry-file='index.js' --bundle-output='ios/baniking_mobile/main.jsbundle' --dev=true --minify=false --platform='ios' --assets-dest='ios/baniking_mobile'",
     "android-bundle": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
     "bundle-android-debug": "cd android && ./gradlew bundleDebug && cd ..",
     "bundle-android-release": "cd android && ./gradlew bundleRelease && cd ..",
@@ -33,6 +34,7 @@
     "build-android-release": "cd android && ./gradlew assembleRelease && cd ../",
     "android-debug": "npx react-native run-android",
     "android-release": "npx react-native run-android --variant=release",
+    "ios-release": "npx react-native run-ios --configuration Release",
     "android-unistall": "adb uninstall \"com.baniking_mobile\""
   },
   "dependencies": {
