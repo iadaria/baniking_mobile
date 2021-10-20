@@ -1,8 +1,7 @@
 import React from 'react';
 import { ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from '~/src/app/common/components/Header';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import { MenuItem } from '~/src/assets';

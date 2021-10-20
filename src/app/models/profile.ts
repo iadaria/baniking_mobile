@@ -35,7 +35,11 @@ export interface IProfile {
 
 /***** Avatar ****/
 
-export type TAcceptTypeAvatar = 'image/png' | 'image/jpeg' | 'image/gif' | 'image/jpg';
+export type TAcceptTypeAvatar =
+  | 'image/png'
+  | 'image/jpeg'
+  | 'image/gif'
+  | 'image/jpg';
 
 export interface IUploadAvatar {
   file: string;
@@ -73,7 +77,7 @@ export const Levels: ILevel[] = [
     meetings: 10,
   },
   {
-    name: Level.Praetor,
+    name: Level.Emperor,
     discount: 35,
     meetings: 15,
   },

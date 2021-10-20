@@ -17,6 +17,7 @@ import { LoginPhonePayload } from '~/src/features/auth/store/saga/loginPhoneSaga
 import { AuthLogoLeft, AuthLogoRight, SwitcherIcon } from '~/src/assets';
 import { defaultLoginInputs } from '../contracts/loginInputs';
 import { colors, multiplier, sizes } from '~/src/app/common/constants';
+import { logline } from '~/src/app/utils/debug';
 
 interface IProps {
   navigation: StackNavigationProp<ParamListBase>;
@@ -35,6 +36,7 @@ const LoginFormContainer = ({
   const valuesRef = React.useRef<LoginPhonePayload>();
 
   const handleEmailLogin = async () => {
+    logline('LoginForm', 'login');
     if (valuesRef.current) {
       const device_name = await DeviceInfo.getDeviceName();
       const data = {

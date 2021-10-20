@@ -20,7 +20,7 @@ import { IErrors } from '~/src/app/utils/error';
 import { IAppCheckerProps } from '../UI/AppChecker';
 import { log, logline } from '~/src/app/utils/debug';
 
-interface IChild<T> extends JSX.Element, IAppInputProps<T> { }
+interface IChild<T> extends JSX.Element, IAppInputProps<T> {}
 
 interface IProps<T, V> {
   children?: ReactNode;
@@ -64,7 +64,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
   }, []);
 
   useEffect(() => {
-    //log(`[ValidateElements/${nameForm}/useEffect]`, inputs);
+    log(`[ValidateElements/${nameForm || ''}/useEffect]`, inputs);
 
     let _isErrors = false; // предположим - ошибок нет
     let whatError: string | null = null;
@@ -80,7 +80,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     let _allRequired = true; // предположим все требуемые поля заполнены
     Object.values(inputs).map(({ value, require }: IInput) => {
-      //if (require && !value) {
       if (require && String(value).length === 0) {
         // нашли незаполненное важное поле
         _allRequired = false;
@@ -90,10 +89,10 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
 
     !_isErrors && _allRequired && setIsErrors(false);
 
-    /* const cv =
+    const cv =
       `[ValidatedElements/searchErrors] isErrors = ${isErrors}/_isErrors = ${_isErrors} ('${whatError}')\n` +
       ` allRequire = ${_allRequired} --------- `;
-    logline('', cv); */
+    logline('', cv);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs, initialized]);
@@ -129,12 +128,14 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         scrollToFirstInvalidInput(firstInvalidCoordinate);
       }
     }
-    //logline('[ValidateElements/useEffect/errors] errors', { errors });
+    logline('[ValidateElements/useEffect/errors] errors', { errors });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  /* useEffect(() => {
-    logline(`[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`);
+  /*   useEffect(() => {
+    logline(
+      `[ValidateElements/useEffect/[scrollPosition]] = ${scrollPosition}`,
+    );
   }, [scrollPosition]); */
 
   function handleAllValidate(): T /* IInputs */ {
@@ -213,7 +214,7 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         _values = { ..._values, [key]: input.value };
       }
       valuesRef.current = _values;
-      // logline(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
+      //logline(`[ValidatedElements.tsx]/handleSubmit _values=${_values}`);
     }
   }
 
@@ -310,7 +311,6 @@ function ValidatedElements<T extends { [key: string]: IInput }, V>({
         const {
           id /* onFocus */,
           isScrollToFocused /* , equalTo, errorMessage  */,
-          defaultValue,
         }: IAppInputProps<T> = child.props;
         if (!id) {
           return child;

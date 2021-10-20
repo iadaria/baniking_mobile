@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import { AppText } from '~/src/app/common/components/UI';
 
 interface IProps {

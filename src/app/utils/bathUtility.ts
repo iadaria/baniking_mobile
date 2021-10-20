@@ -111,6 +111,17 @@ export const cacheAvatar = async (avatar: string): Promise<Response> => {
   return await ImageResizer.createResizedImage(avatar, 50, 50, 'PNG', 100);
 };
 
+export async function getQrImage(base64: string) {
+  const { uri }: Response = await ImageResizer.createResizedImage(
+    base64,
+    50,
+    50,
+    'PNG',
+    100,
+  );
+  return uri;
+}
+
 // Меняем размер если задан и кэшируем - по умолчаиню размер - это ширина экрана
 export const cacheImages = async (
   images: string[],

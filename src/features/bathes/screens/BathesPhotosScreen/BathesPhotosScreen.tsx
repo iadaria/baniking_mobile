@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { Animated, Image } from 'react-native';
+import { Animated, FlatList, Image } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import { styles } from './styles';
 import { Block } from '~/src/app/common/components/UI';
-import { FlatList } from 'react-native-gesture-handler';
 import { colors, isIos, windowWidth } from '~/src/app/common/constants';
 import { Route } from '@react-navigation/native';
 import Tabs from './Tabs';

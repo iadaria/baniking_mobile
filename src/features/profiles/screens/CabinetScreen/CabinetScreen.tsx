@@ -28,8 +28,13 @@ interface IProps {
 }
 
 function CabinetContainer({ loading, cabinetData, getCabinetData }: IProps) {
-  const { full_name, level, points, meetings_count, avatar, levels } =
-    cabinetData || {};
+  const {
+    full_name,
+    level,
+    /* points, /*  levels */
+    meetings_count,
+    avatar,
+  } = cabinetData || {};
 
   useEffect(() => {
     getCabinetData();

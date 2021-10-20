@@ -58,6 +58,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>172324154369646</string>
+  <key>FacebookAutoLogAppEventsEnabled</key>
+  <string>TRUE</string>
+  <key>FacebookAdvertiserIDCollectionEnabled</key>
+  <string>TRUE</string>
 	<key>FacebookDisplayName</key>
 	<string>baniking</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -82,13 +86,15 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSExceptionDomains</key>
-		<dict/>
-	</dict>
+  <key>NSAppTransportSecurity</key> 
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSAllowsArbitraryLoadsInWebContent</key>
+    <true/>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is requird to run the app.</string>
 	<key>NSContactsUsageDescription</key>

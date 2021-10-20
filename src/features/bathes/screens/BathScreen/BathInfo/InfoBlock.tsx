@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import { AppText, Block, Divider } from '~/src/app/common/components/UI';
 import { ListIcon } from '~/src/assets';
 import { styles as s } from '../styles';
